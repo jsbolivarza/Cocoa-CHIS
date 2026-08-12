@@ -93,6 +93,16 @@ const STR = {
 
   // Results tab headline cards
 
+  // Revenues tab: non-cocoa income screening questions
+  rev_sources_heading: { en: "Other income sources", fr: "Autres sources de revenus", es: "Otras fuentes de ingresos" },
+  rev_sources_help: { en: "Ask the household which of these they actually have, then tick only those. A section only appears once it is ticked, and an unticked section counts as zero. Anything already entered is kept if you untick it by mistake.", fr: "Demandez au ménage lesquelles de ces sources il possède réellement, puis cochez uniquement celles-là. Une section n'apparaît qu'une fois cochée, et une section non cochée compte pour zéro. Ce qui a déjà été saisi est conservé si vous décochez par erreur.", es: "Pregunte al hogar cuáles de estas fuentes tiene realmente y marque solo esas. Una sección solo aparece cuando está marcada, y una sección sin marcar cuenta como cero. Lo que ya se haya ingresado se conserva si desmarca por error." },
+  has_coffee: { en: "Sells coffee", fr: "Vend du café", es: "Vende café" },
+  has_other_cash_crops: { en: "Sells other cash crops", fr: "Vend d'autres cultures de rente", es: "Vende otros cultivos comerciales" },
+  has_staple_crops: { en: "Produces staple food crops", fr: "Produit des cultures vivrières de base", es: "Produce cultivos alimentarios básicos" },
+  has_other_food_crops: { en: "Produces other food crops", fr: "Produit d'autres cultures vivrières", es: "Produce otros cultivos alimentarios" },
+  has_livestock: { en: "Keeps livestock", fr: "Élève du bétail", es: "Cría ganado" },
+  has_other_income: { en: "Has other farm income", fr: "A d'autres revenus agricoles", es: "Tiene otros ingresos agrícolas" },
+
   col_respondent: { en: "Respondent", fr: "Répondant", es: "Encuestado" },
   col_updated: { en: "Last updated", fr: "Dernière mise à jour", es: "Última actualización" },
   unnamed_household: { en: "Unnamed household", fr: "Ménage sans nom", es: "Hogar sin nombre" },

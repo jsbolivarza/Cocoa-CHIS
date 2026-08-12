@@ -14,7 +14,11 @@ const STORAGE_KEY_LEGACY_V1 = "cocoa_capture_active_record_v1";
 function loadAllRecords() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) return JSON.parse(raw);
+    if (raw) {
+      const map = JSON.parse(raw);
+      Object.values(map).forEach(ensureRevenueFlags);
+      return map;
+    }
   } catch (e) {
     console.error("Local load failed", e);
   }
@@ -24,6 +28,7 @@ function loadAllRecords() {
     if (legacyRaw) {
       const legacyRecord = JSON.parse(legacyRaw);
       if (!legacyRecord.meta.id) legacyRecord.meta.id = generateRecordId();
+      ensureRevenueFlags(legacyRecord);
       const map = { [legacyRecord.meta.id]: legacyRecord };
       persistAllRecords(map);
       localStorage.removeItem(STORAGE_KEY_LEGACY_V1);

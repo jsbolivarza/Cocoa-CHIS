@@ -1,0 +1,7762 @@
+[
+  {
+    "meta": {
+      "id": "hh_ms1kfv21_26gegi",
+      "formatVersion": 2,
+      "language": "fr",
+      "createdAt": "2026-01-15T00:00:00.000Z",
+      "updatedAt": "2026-01-15T00:00:00.000Z",
+      "areaUnit": "acre",
+      "volumeUnit": "kg",
+      "currencyUnit": "XOF"
+    },
+    "consent": {
+      "respondentName": "Kouadio Kone",
+      "date": "2026-01-15",
+      "releaseFI": true,
+      "releaseCoop": true,
+      "releasePN": false,
+      "releaseBuyers": false,
+      "oralConsent": "",
+      "explanation": ""
+    },
+    "profile": {
+      "coopName": "SCOOPCA",
+      "floId": "7594",
+      "coachName": "Adjoua Christine",
+      "programme": "Living Income cocoa",
+      "producerName": "Kouadio Kone",
+      "producerCode": "SCO641",
+      "village": "Daloa",
+      "gps": "",
+      "cocoaAreaIms": 2,
+      "cocoaAreaImsMeasured": "estimated",
+      "cocoaVolumeProduced": 1358,
+      "totalFarmAreaIms": 5,
+      "totalFarmAreaImsMeasured": "estimated",
+      "cocoaVolumeSoldCoop": 1222,
+      "farmgatePriceMain": 51,
+      "fpDistributed": 2010,
+      "farmgatePriceMid": 45,
+      "otherDiffDistributed": 657,
+      "plots": [
+        {
+          "plotNo": 1,
+          "crop": "other_crop",
+          "otherCropName": "",
+          "area": 4,
+          "measured": "measured",
+          "landArrangement": "sharecropper_abunu",
+          "observation": "bad",
+          "treeAge": "22"
+        },
+        {
+          "plotNo": 2,
+          "crop": "other_crop",
+          "otherCropName": "",
+          "area": 2,
+          "measured": "estimated",
+          "landArrangement": "owner_sharecropper",
+          "observation": "good",
+          "treeAge": "8"
+        },
+        {
+          "plotNo": 3,
+          "crop": "cocoa",
+          "otherCropName": "",
+          "area": 2,
+          "measured": "measured",
+          "landArrangement": "owner_caretaker",
+          "observation": "bad",
+          "treeAge": "30"
+        }
+      ],
+      "fallowLand": 0,
+      "minorFoodCrops": "igname, arachide",
+      "livestockKept": "moutons",
+      "householdWorking": [
+        {
+          "idx": 1,
+          "name": "Kouadio Kone",
+          "relationship": "head",
+          "age": 29,
+          "gender": "gender_f",
+          "occupation": "fulltime_cocoa",
+          "otherOccupation": "",
+          "pctTime": 0.75
+        }
+      ],
+      "householdNotWorking": [
+        {
+          "idx": 1,
+          "name": "Yao",
+          "relationship": "child",
+          "age": 65,
+          "gender": "gender_f",
+          "occupation": "offfarm_paid",
+          "contributesIncome": "no"
+        },
+        {
+          "idx": 2,
+          "name": "Akoua",
+          "relationship": "cousin",
+          "age": 41,
+          "gender": "gender_m",
+          "occupation": "offfarm_paid",
+          "contributesIncome": "no"
+        },
+        {
+          "idx": 3,
+          "name": "Kouadio",
+          "relationship": "parent",
+          "age": 47,
+          "gender": "gender_f",
+          "occupation": "offfarm_paid",
+          "contributesIncome": "yes"
+        }
+      ]
+    },
+    "revenues": {
+      "has": {
+        "coffee": false,
+        "otherCashCrops": true,
+        "stapleCrops": true,
+        "otherFoodCrops": true,
+        "livestock": true,
+        "otherIncome": false
+      },
+      "cocoaSales": [
+        {
+          "month": "oct",
+          "volume": 140,
+          "price": 49
+        },
+        {
+          "month": "nov",
+          "volume": 48,
+          "price": 53
+        },
+        {
+          "month": "dec",
+          "volume": 85,
+          "price": 51
+        },
+        {
+          "month": "jan",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "feb",
+          "volume": 119,
+          "price": 50
+        },
+        {
+          "month": "mar",
+          "volume": 179,
+          "price": 48
+        },
+        {
+          "month": "apr",
+          "volume": 36,
+          "price": 52
+        },
+        {
+          "month": "may",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "jun",
+          "volume": 271,
+          "price": 51
+        },
+        {
+          "month": "jul",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "aug",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "sep",
+          "volume": 295,
+          "price": 50
+        }
+      ],
+      "cocoaOtherIncome": [
+        {
+          "type": "lirp_diff",
+          "amount": 744
+        }
+      ],
+      "coffeeSales": [
+        {
+          "month": "oct",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "nov",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "dec",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "jan",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "feb",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "mar",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "apr",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "may",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "jun",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "jul",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "aug",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "sep",
+          "volume": "",
+          "price": ""
+        }
+      ],
+      "coffeeOtherIncome": [
+        {
+          "type": "",
+          "amount": ""
+        }
+      ],
+      "otherCashCrops": [
+        {
+          "crop": "cashew",
+          "unit": "kilogram",
+          "q1": 1006,
+          "q2": 349,
+          "q3": 1854,
+          "q4": 1048,
+          "totalVolumeSold": 145,
+          "totalRevenueOverride": ""
+        }
+      ],
+      "stapleCrops": [
+        {
+          "crop": "cassava",
+          "unit": "bag",
+          "q1": 105,
+          "q2": 279,
+          "q3": 289,
+          "q4": 134,
+          "qtyConsumed": 6,
+          "qtySold": 6
+        }
+      ],
+      "otherFoodCrops": [
+        {
+          "crop": "okra",
+          "consumption": "covers_needs",
+          "sales": "surplus_sold",
+          "totalQtyProduced": 120,
+          "totalMarketValue": 41000
+        }
+      ],
+      "livestock": [
+        {
+          "product": "goat",
+          "consumption": "covers_needs",
+          "sales": "surplus_sold",
+          "totalQtyProduced": "",
+          "totalMarketValue": 2899
+        }
+      ],
+      "otherIncome": [
+        {
+          "product": "",
+          "unitOfSales": "",
+          "totalSales": "",
+          "avgPrice": "",
+          "revenueOverride": ""
+        }
+      ]
+    },
+    "costs": {
+      "agriInputs": [
+        {
+          "productType": "seedlings",
+          "unit": "bag",
+          "qty": 8,
+          "totalCost": 2521,
+          "usedForCocoa": "50_74",
+          "subsidyValue": ""
+        },
+        {
+          "productType": "fertilizer",
+          "unit": "liter",
+          "qty": 4,
+          "totalCost": 1416,
+          "usedForCocoa": "50_74",
+          "subsidyValue": ""
+        }
+      ],
+      "tools": [
+        {
+          "tool": "sécateur",
+          "lifespan": 1,
+          "quantity": 1,
+          "totalCost": 527,
+          "depreciatedCost": "",
+          "usedForCocoa": "none",
+          "subsidyValue": ""
+        }
+      ],
+      "otherCosts": [
+        {
+          "costType": "maintenance",
+          "details": "transport des fèves au dépôt",
+          "totalCost": 671,
+          "usedForCocoa": "100",
+          "subsidyValue": ""
+        }
+      ],
+      "sharecropPayments": [
+        {
+          "paymentType": "land_owner",
+          "cashOrKind": "in_kind",
+          "cocoaVolumeInKind": 83,
+          "costOrValue": 10970,
+          "cocoaShare": "25_49"
+        }
+      ]
+    },
+    "labour": [
+      {
+        "month": "oct",
+        "hhDays": 7,
+        "hhDaysCocoa": 6,
+        "hiredDays": 7,
+        "hiredDaysCocoa": 1,
+        "dailyWage": 114,
+        "otherService": "pruning",
+        "serviceUsedFor": "cocoa",
+        "serviceCost": 343,
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "nov",
+        "hhDays": 6,
+        "hhDaysCocoa": 4,
+        "hiredDays": 7,
+        "hiredDaysCocoa": 3,
+        "dailyWage": 97,
+        "otherService": "harvesting",
+        "serviceUsedFor": "cocoa",
+        "serviceCost": 331,
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "dec",
+        "hhDays": 21,
+        "hhDaysCocoa": 18,
+        "hiredDays": 4,
+        "hiredDaysCocoa": 1,
+        "dailyWage": 83,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "jan",
+        "hhDays": 10,
+        "hhDaysCocoa": 9,
+        "hiredDays": 1,
+        "hiredDaysCocoa": 1,
+        "dailyWage": 80,
+        "otherService": "pod_breaking",
+        "serviceUsedFor": "cocoa",
+        "serviceCost": 187,
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "feb",
+        "hhDays": 8,
+        "hhDaysCocoa": 5,
+        "hiredDays": 9,
+        "hiredDaysCocoa": 6,
+        "dailyWage": 73,
+        "otherService": "pruning",
+        "serviceUsedFor": "cocoa",
+        "serviceCost": 135,
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "mar",
+        "hhDays": 9,
+        "hhDaysCocoa": 6,
+        "hiredDays": 2,
+        "hiredDaysCocoa": 1,
+        "dailyWage": 98,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "apr",
+        "hhDays": "",
+        "hhDaysCocoa": "",
+        "hiredDays": "",
+        "hiredDaysCocoa": "",
+        "dailyWage": "",
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "may",
+        "hhDays": "",
+        "hhDaysCocoa": "",
+        "hiredDays": "",
+        "hiredDaysCocoa": "",
+        "dailyWage": "",
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "jun",
+        "hhDays": 10,
+        "hhDaysCocoa": 3,
+        "hiredDays": 4,
+        "hiredDaysCocoa": 2,
+        "dailyWage": 92,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "jul",
+        "hhDays": "",
+        "hhDaysCocoa": "",
+        "hiredDays": "",
+        "hiredDaysCocoa": "",
+        "dailyWage": "",
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "aug",
+        "hhDays": 21,
+        "hhDaysCocoa": 18,
+        "hiredDays": 9,
+        "hiredDaysCocoa": 6,
+        "dailyWage": 109,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "sep",
+        "hhDays": 11,
+        "hhDaysCocoa": 9,
+        "hiredDays": 3,
+        "hiredDaysCocoa": 3,
+        "dailyWage": 68,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      }
+    ],
+    "expenditures": {
+      "food": {
+        "q1": 1376,
+        "q2": 2275,
+        "q3": 2768,
+        "q4": 2899
+      },
+      "education": {
+        "q1": 4415,
+        "q2": 1495,
+        "q3": 961,
+        "q4": 670
+      },
+      "healthcare": {
+        "q1": 215,
+        "q2": 416,
+        "q3": 302,
+        "q4": 1138
+      },
+      "other": {
+        "q1": 961,
+        "q2": 855,
+        "q3": 127,
+        "q4": 991
+      }
+    }
+  },
+  {
+    "meta": {
+      "id": "hh_ms1kfv2f_yvuppb",
+      "formatVersion": 2,
+      "language": "fr",
+      "createdAt": "2026-03-18T00:00:00.000Z",
+      "updatedAt": "2026-03-18T00:00:00.000Z",
+      "areaUnit": "acre",
+      "volumeUnit": "kg",
+      "currencyUnit": "XOF"
+    },
+    "consent": {
+      "respondentName": "Kouadio Bamba",
+      "date": "2026-03-18",
+      "releaseFI": true,
+      "releaseCoop": true,
+      "releasePN": false,
+      "releaseBuyers": true,
+      "oralConsent": "",
+      "explanation": "consentement oral obtenu en présence du chef de village"
+    },
+    "profile": {
+      "coopName": "SCOOPCA",
+      "floId": "2158",
+      "coachName": "Adjoua Christine",
+      "programme": "Living Income cocoa",
+      "producerName": "Kouadio Bamba",
+      "producerCode": "SCO722",
+      "village": "Daloa",
+      "gps": "",
+      "cocoaAreaIms": 5,
+      "cocoaAreaImsMeasured": "estimated",
+      "cocoaVolumeProduced": 1650,
+      "totalFarmAreaIms": 9,
+      "totalFarmAreaImsMeasured": "estimated",
+      "cocoaVolumeSoldCoop": 1485,
+      "farmgatePriceMain": 41,
+      "fpDistributed": 4524,
+      "farmgatePriceMid": 49,
+      "otherDiffDistributed": 1880,
+      "plots": [
+        {
+          "plotNo": 1,
+          "crop": "cocoa_intercropped",
+          "otherCropName": "",
+          "area": 3,
+          "measured": "estimated",
+          "landArrangement": "owner_sharecropper",
+          "observation": "bad",
+          "treeAge": "12"
+        },
+        {
+          "plotNo": 2,
+          "crop": "cocoa",
+          "otherCropName": "",
+          "area": 2,
+          "measured": "measured",
+          "landArrangement": "owner_family",
+          "observation": "acceptable",
+          "treeAge": "3"
+        }
+      ],
+      "fallowLand": 0,
+      "minorFoodCrops": "riz, mais",
+      "livestockKept": "poules, canards",
+      "householdWorking": [
+        {
+          "idx": 1,
+          "name": "Kouadio Bamba",
+          "relationship": "head",
+          "age": 34,
+          "gender": "gender_f",
+          "occupation": "fulltime_cocoa_other",
+          "otherOccupation": "",
+          "pctTime": 0.75
+        }
+      ],
+      "householdNotWorking": []
+    },
+    "revenues": {
+      "has": {
+        "coffee": false,
+        "otherCashCrops": true,
+        "stapleCrops": true,
+        "otherFoodCrops": false,
+        "livestock": true,
+        "otherIncome": true
+      },
+      "cocoaSales": [
+        {
+          "month": "oct",
+          "volume": 287,
+          "price": 43
+        },
+        {
+          "month": "nov",
+          "volume": 162,
+          "price": 41
+        },
+        {
+          "month": "dec",
+          "volume": 303,
+          "price": 39
+        },
+        {
+          "month": "jan",
+          "volume": 128,
+          "price": 44
+        },
+        {
+          "month": "feb",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "mar",
+          "volume": 217,
+          "price": 39
+        },
+        {
+          "month": "apr",
+          "volume": 348,
+          "price": 44
+        },
+        {
+          "month": "may",
+          "volume": 204,
+          "price": 44
+        },
+        {
+          "month": "jun",
+          "volume": 343,
+          "price": 43
+        },
+        {
+          "month": "jul",
+          "volume": 241,
+          "price": 43
+        },
+        {
+          "month": "aug",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "sep",
+          "volume": 61,
+          "price": 38
+        }
+      ],
+      "cocoaOtherIncome": [
+        {
+          "type": "fp",
+          "amount": 2545
+        }
+      ],
+      "coffeeSales": [
+        {
+          "month": "oct",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "nov",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "dec",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "jan",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "feb",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "mar",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "apr",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "may",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "jun",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "jul",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "aug",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "sep",
+          "volume": "",
+          "price": ""
+        }
+      ],
+      "coffeeOtherIncome": [
+        {
+          "type": "",
+          "amount": ""
+        }
+      ],
+      "otherCashCrops": [
+        {
+          "crop": "rubber",
+          "unit": "kilogram",
+          "q1": 0,
+          "q2": 632,
+          "q3": 2000,
+          "q4": 176,
+          "totalVolumeSold": 478,
+          "totalRevenueOverride": ""
+        }
+      ],
+      "stapleCrops": [
+        {
+          "crop": "cassava",
+          "unit": "bag",
+          "q1": 165,
+          "q2": 328,
+          "q3": 335,
+          "q4": 379,
+          "qtyConsumed": 8,
+          "qtySold": 4
+        }
+      ],
+      "otherFoodCrops": [
+        {
+          "crop": "",
+          "consumption": "",
+          "sales": "",
+          "totalQtyProduced": "",
+          "totalMarketValue": ""
+        }
+      ],
+      "livestock": [
+        {
+          "product": "goat",
+          "consumption": "covers_needs",
+          "sales": "surplus_sold",
+          "totalQtyProduced": "",
+          "totalMarketValue": 2456
+        }
+      ],
+      "otherIncome": [
+        {
+          "product": "cocoa pod husk sales",
+          "unitOfSales": "kilogram",
+          "totalSales": 350,
+          "avgPrice": 220,
+          "revenueOverride": ""
+        }
+      ]
+    },
+    "costs": {
+      "agriInputs": [
+        {
+          "productType": "other",
+          "unit": "bag",
+          "qty": 4,
+          "totalCost": 1378,
+          "usedForCocoa": "100",
+          "subsidyValue": ""
+        },
+        {
+          "productType": "fertilizer",
+          "unit": "liter",
+          "qty": 3,
+          "totalCost": 492,
+          "usedForCocoa": "0_24",
+          "subsidyValue": ""
+        }
+      ],
+      "tools": [
+        {
+          "tool": "pioche",
+          "lifespan": 1,
+          "quantity": 1,
+          "totalCost": 543,
+          "depreciatedCost": "",
+          "usedForCocoa": "100",
+          "subsidyValue": ""
+        }
+      ],
+      "otherCosts": [
+        {
+          "costType": "maintenance",
+          "details": "carburant moto",
+          "totalCost": 690,
+          "usedForCocoa": "none",
+          "subsidyValue": ""
+        }
+      ],
+      "sharecropPayments": []
+    },
+    "labour": [
+      {
+        "month": "oct",
+        "hhDays": "",
+        "hhDaysCocoa": "",
+        "hiredDays": "",
+        "hiredDaysCocoa": "",
+        "dailyWage": "",
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "nov",
+        "hhDays": 12,
+        "hhDaysCocoa": 9,
+        "hiredDays": 10,
+        "hiredDaysCocoa": 3,
+        "dailyWage": 61,
+        "otherService": "pruning",
+        "serviceUsedFor": "cocoa",
+        "serviceCost": 358,
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "dec",
+        "hhDays": 15,
+        "hhDaysCocoa": 15,
+        "hiredDays": 0,
+        "hiredDaysCocoa": 0,
+        "dailyWage": 80,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "jan",
+        "hhDays": 16,
+        "hhDaysCocoa": 13,
+        "hiredDays": 6,
+        "hiredDaysCocoa": 5,
+        "dailyWage": 94,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "feb",
+        "hhDays": "",
+        "hhDaysCocoa": "",
+        "hiredDays": "",
+        "hiredDaysCocoa": "",
+        "dailyWage": "",
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "mar",
+        "hhDays": 7,
+        "hhDaysCocoa": 7,
+        "hiredDays": 2,
+        "hiredDaysCocoa": 1,
+        "dailyWage": 62,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "apr",
+        "hhDays": 18,
+        "hhDaysCocoa": 8,
+        "hiredDays": 1,
+        "hiredDaysCocoa": 1,
+        "dailyWage": 71,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "may",
+        "hhDays": 5,
+        "hhDaysCocoa": 3,
+        "hiredDays": 5,
+        "hiredDaysCocoa": 1,
+        "dailyWage": 112,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "jun",
+        "hhDays": "",
+        "hhDaysCocoa": "",
+        "hiredDays": "",
+        "hiredDaysCocoa": "",
+        "dailyWage": "",
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "jul",
+        "hhDays": 25,
+        "hhDaysCocoa": 13,
+        "hiredDays": 4,
+        "hiredDaysCocoa": 4,
+        "dailyWage": 83,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "aug",
+        "hhDays": 9,
+        "hhDaysCocoa": 7,
+        "hiredDays": 8,
+        "hiredDaysCocoa": 3,
+        "dailyWage": 69,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "sep",
+        "hhDays": "",
+        "hhDaysCocoa": "",
+        "hiredDays": "",
+        "hiredDaysCocoa": "",
+        "dailyWage": "",
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      }
+    ],
+    "expenditures": {
+      "food": {
+        "q1": 1093,
+        "q2": 1592,
+        "q3": 2559,
+        "q4": 2427
+      },
+      "education": {
+        "q1": 3627,
+        "q2": 816,
+        "q3": 297,
+        "q4": 108
+      },
+      "healthcare": {
+        "q1": 1096,
+        "q2": 1180,
+        "q3": 362,
+        "q4": 1017
+      },
+      "other": {
+        "q1": 19,
+        "q2": 1253,
+        "q3": 1456,
+        "q4": 28
+      }
+    }
+  },
+  {
+    "meta": {
+      "id": "hh_ms1kfv2g_zx5dzh",
+      "formatVersion": 2,
+      "language": "en",
+      "createdAt": "2026-01-19T00:00:00.000Z",
+      "updatedAt": "2026-01-19T00:00:00.000Z",
+      "areaUnit": "acre",
+      "volumeUnit": "kg",
+      "currencyUnit": "GHS"
+    },
+    "consent": {
+      "respondentName": "Abena Owusu",
+      "date": "2026-01-19",
+      "releaseFI": true,
+      "releaseCoop": true,
+      "releasePN": true,
+      "releaseBuyers": false,
+      "oralConsent": "",
+      "explanation": ""
+    },
+    "profile": {
+      "coopName": "Fair Ghana Coop",
+      "floId": "4919",
+      "coachName": "Comfort Adjei",
+      "programme": "Living Income cocoa",
+      "producerName": "Abena Owusu",
+      "producerCode": "FAI329",
+      "village": "Suhum",
+      "gps": "",
+      "cocoaAreaIms": 7,
+      "cocoaAreaImsMeasured": "estimated",
+      "cocoaVolumeProduced": 1685,
+      "totalFarmAreaIms": 8,
+      "totalFarmAreaImsMeasured": "estimated",
+      "cocoaVolumeSoldCoop": 1517,
+      "farmgatePriceMain": 49,
+      "fpDistributed": 3719,
+      "farmgatePriceMid": 44,
+      "otherDiffDistributed": 845,
+      "plots": [
+        {
+          "plotNo": 1,
+          "crop": "cocoa",
+          "otherCropName": "",
+          "area": 1,
+          "measured": "measured",
+          "landArrangement": "owner_sharecropper",
+          "observation": "good",
+          "treeAge": "17"
+        },
+        {
+          "plotNo": 2,
+          "crop": "cocoa",
+          "otherCropName": "",
+          "area": 2,
+          "measured": "measured",
+          "landArrangement": "owner_sharecropper",
+          "observation": "good",
+          "treeAge": "9"
+        },
+        {
+          "plotNo": 3,
+          "crop": "other_crop",
+          "otherCropName": "",
+          "area": 2,
+          "measured": "estimated",
+          "landArrangement": "owner_family",
+          "observation": "good",
+          "treeAge": "23"
+        }
+      ],
+      "fallowLand": 0,
+      "minorFoodCrops": "yam, groundnut",
+      "livestockKept": "sheep",
+      "householdWorking": [
+        {
+          "idx": 1,
+          "name": "Abena Owusu",
+          "relationship": "head",
+          "age": 57,
+          "gender": "gender_m",
+          "occupation": "fulltime_cocoa",
+          "otherOccupation": "",
+          "pctTime": 0.5
+        },
+        {
+          "idx": 2,
+          "name": "Comfort",
+          "relationship": "parent",
+          "age": 33,
+          "gender": "gender_f",
+          "occupation": "parttime_cocoa",
+          "otherOccupation": "runs a small provisions shop",
+          "pctTime": 1
+        }
+      ],
+      "householdNotWorking": [
+        {
+          "idx": 1,
+          "name": "Efua",
+          "relationship": "head",
+          "age": 45,
+          "gender": "gender_f",
+          "occupation": "retired",
+          "contributesIncome": "yes"
+        },
+        {
+          "idx": 2,
+          "name": "Comfort",
+          "relationship": "cousin",
+          "age": 29,
+          "gender": "gender_m",
+          "occupation": "retired",
+          "contributesIncome": "yes"
+        },
+        {
+          "idx": 3,
+          "name": "Efua",
+          "relationship": "parent",
+          "age": 26,
+          "gender": "gender_m",
+          "occupation": "retired",
+          "contributesIncome": "yes"
+        }
+      ]
+    },
+    "revenues": {
+      "has": {
+        "coffee": false,
+        "otherCashCrops": true,
+        "stapleCrops": true,
+        "otherFoodCrops": false,
+        "livestock": true,
+        "otherIncome": false
+      },
+      "cocoaSales": [
+        {
+          "month": "oct",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "nov",
+          "volume": 195,
+          "price": 47
+        },
+        {
+          "month": "dec",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "jan",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "feb",
+          "volume": 247,
+          "price": 48
+        },
+        {
+          "month": "mar",
+          "volume": 157,
+          "price": 52
+        },
+        {
+          "month": "apr",
+          "volume": 56,
+          "price": 47
+        },
+        {
+          "month": "may",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "jun",
+          "volume": 54,
+          "price": 50
+        },
+        {
+          "month": "jul",
+          "volume": 314,
+          "price": 48
+        },
+        {
+          "month": "aug",
+          "volume": 94,
+          "price": 50
+        },
+        {
+          "month": "sep",
+          "volume": 173,
+          "price": 52
+        }
+      ],
+      "cocoaOtherIncome": [
+        {
+          "type": "fp",
+          "amount": 2766
+        }
+      ],
+      "coffeeSales": [
+        {
+          "month": "oct",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "nov",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "dec",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "jan",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "feb",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "mar",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "apr",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "may",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "jun",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "jul",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "aug",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "sep",
+          "volume": "",
+          "price": ""
+        }
+      ],
+      "coffeeOtherIncome": [
+        {
+          "type": "",
+          "amount": ""
+        }
+      ],
+      "otherCashCrops": [
+        {
+          "crop": "rubber",
+          "unit": "kilogram",
+          "q1": 1683,
+          "q2": 1301,
+          "q3": 1798,
+          "q4": 1565,
+          "totalVolumeSold": 58,
+          "totalRevenueOverride": ""
+        }
+      ],
+      "stapleCrops": [
+        {
+          "crop": "cassava",
+          "unit": "bag",
+          "q1": 330,
+          "q2": 211,
+          "q3": 294,
+          "q4": 173,
+          "qtyConsumed": 7,
+          "qtySold": 6
+        }
+      ],
+      "otherFoodCrops": [
+        {
+          "crop": "",
+          "consumption": "",
+          "sales": "",
+          "totalQtyProduced": "",
+          "totalMarketValue": ""
+        }
+      ],
+      "livestock": [
+        {
+          "product": "goat",
+          "consumption": "covers_needs",
+          "sales": "surplus_sold",
+          "totalQtyProduced": "",
+          "totalMarketValue": 2970
+        }
+      ],
+      "otherIncome": [
+        {
+          "product": "",
+          "unitOfSales": "",
+          "totalSales": "",
+          "avgPrice": "",
+          "revenueOverride": ""
+        }
+      ]
+    },
+    "costs": {
+      "agriInputs": [
+        {
+          "productType": "seedlings",
+          "unit": "bag",
+          "qty": 8,
+          "totalCost": 2690,
+          "usedForCocoa": "none",
+          "subsidyValue": ""
+        },
+        {
+          "productType": "fertilizer",
+          "unit": "liter",
+          "qty": 4,
+          "totalCost": 1107,
+          "usedForCocoa": "25_49",
+          "subsidyValue": ""
+        }
+      ],
+      "tools": [
+        {
+          "tool": "hoe",
+          "lifespan": 3,
+          "quantity": 1,
+          "totalCost": 112,
+          "depreciatedCost": "",
+          "usedForCocoa": "75_99",
+          "subsidyValue": ""
+        }
+      ],
+      "otherCosts": [
+        {
+          "costType": "coop_fees",
+          "details": "motorbike fuel",
+          "totalCost": 500,
+          "usedForCocoa": "100",
+          "subsidyValue": ""
+        }
+      ],
+      "sharecropPayments": []
+    },
+    "labour": [
+      {
+        "month": "oct",
+        "hhDays": 13,
+        "hhDaysCocoa": 10,
+        "hiredDays": 7,
+        "hiredDaysCocoa": 0,
+        "dailyWage": 75,
+        "otherService": "harvesting",
+        "serviceUsedFor": "cocoa",
+        "serviceCost": 225,
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "nov",
+        "hhDays": 14,
+        "hhDaysCocoa": 7,
+        "hiredDays": 5,
+        "hiredDaysCocoa": 1,
+        "dailyWage": 115,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "dec",
+        "hhDays": 8,
+        "hhDaysCocoa": 7,
+        "hiredDays": 1,
+        "hiredDaysCocoa": 0,
+        "dailyWage": 90,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "jan",
+        "hhDays": "",
+        "hhDaysCocoa": "",
+        "hiredDays": "",
+        "hiredDaysCocoa": "",
+        "dailyWage": "",
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "feb",
+        "hhDays": "",
+        "hhDaysCocoa": "",
+        "hiredDays": "",
+        "hiredDaysCocoa": "",
+        "dailyWage": "",
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "mar",
+        "hhDays": "",
+        "hhDaysCocoa": "",
+        "hiredDays": "",
+        "hiredDaysCocoa": "",
+        "dailyWage": "",
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "apr",
+        "hhDays": 19,
+        "hhDaysCocoa": 6,
+        "hiredDays": 9,
+        "hiredDaysCocoa": 4,
+        "dailyWage": 76,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "may",
+        "hhDays": "",
+        "hhDaysCocoa": "",
+        "hiredDays": "",
+        "hiredDaysCocoa": "",
+        "dailyWage": "",
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "jun",
+        "hhDays": "",
+        "hhDaysCocoa": "",
+        "hiredDays": "",
+        "hiredDaysCocoa": "",
+        "dailyWage": "",
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "jul",
+        "hhDays": "",
+        "hhDaysCocoa": "",
+        "hiredDays": "",
+        "hiredDaysCocoa": "",
+        "dailyWage": "",
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "aug",
+        "hhDays": 20,
+        "hhDaysCocoa": 5,
+        "hiredDays": 4,
+        "hiredDaysCocoa": 4,
+        "dailyWage": 73,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "sep",
+        "hhDays": 10,
+        "hhDaysCocoa": 8,
+        "hiredDays": 3,
+        "hiredDaysCocoa": 0,
+        "dailyWage": 99,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      }
+    ],
+    "expenditures": {
+      "food": {
+        "q1": 1220,
+        "q2": 2329,
+        "q3": 2586,
+        "q4": 1993
+      },
+      "education": {
+        "q1": 3146,
+        "q2": 1148,
+        "q3": 361,
+        "q4": 183
+      },
+      "healthcare": {
+        "q1": 335,
+        "q2": 581,
+        "q3": 765,
+        "q4": 310
+      },
+      "other": {
+        "q1": 655,
+        "q2": 1463,
+        "q3": 274,
+        "q4": 15
+      }
+    }
+  },
+  {
+    "meta": {
+      "id": "hh_ms1kfv2g_61q0uu",
+      "formatVersion": 2,
+      "language": "en",
+      "createdAt": "2026-01-28T00:00:00.000Z",
+      "updatedAt": "2026-01-28T00:00:00.000Z",
+      "areaUnit": "acre",
+      "volumeUnit": "kg",
+      "currencyUnit": "GHS"
+    },
+    "consent": {
+      "respondentName": "Kwame Mensah",
+      "date": "2026-01-28",
+      "releaseFI": true,
+      "releaseCoop": true,
+      "releasePN": false,
+      "releaseBuyers": false,
+      "oralConsent": "",
+      "explanation": ""
+    },
+    "profile": {
+      "coopName": "KKFU",
+      "floId": "5262",
+      "coachName": "Comfort Adjei",
+      "programme": "Living Income cocoa",
+      "producerName": "Kwame Mensah",
+      "producerCode": "KKF765",
+      "village": "Kwabeng",
+      "gps": "",
+      "cocoaAreaIms": 3,
+      "cocoaAreaImsMeasured": "estimated",
+      "cocoaVolumeProduced": 1309,
+      "totalFarmAreaIms": 4,
+      "totalFarmAreaImsMeasured": "estimated",
+      "cocoaVolumeSoldCoop": 1178,
+      "farmgatePriceMain": 48,
+      "fpDistributed": 1337,
+      "farmgatePriceMid": 57,
+      "otherDiffDistributed": 1047,
+      "plots": [
+        {
+          "plotNo": 1,
+          "crop": "other_crop",
+          "otherCropName": "",
+          "area": 3,
+          "measured": "estimated",
+          "landArrangement": "owner_family",
+          "observation": "acceptable",
+          "treeAge": "27"
+        },
+        {
+          "plotNo": 2,
+          "crop": "other_crop",
+          "otherCropName": "",
+          "area": 4,
+          "measured": "measured",
+          "landArrangement": "sharecropper_abunu",
+          "observation": "bad",
+          "treeAge": "24"
+        },
+        {
+          "plotNo": 3,
+          "crop": "other_crop",
+          "otherCropName": "",
+          "area": 2,
+          "measured": "measured",
+          "landArrangement": "owner_caretaker",
+          "observation": "bad",
+          "treeAge": "23"
+        },
+        {
+          "plotNo": 4,
+          "crop": "cocoa",
+          "otherCropName": "",
+          "area": 2,
+          "measured": "measured",
+          "landArrangement": "owner_sharecropper",
+          "observation": "bad",
+          "treeAge": "21"
+        }
+      ],
+      "fallowLand": 1,
+      "minorFoodCrops": "yam, groundnut",
+      "livestockKept": "sheep",
+      "householdWorking": [
+        {
+          "idx": 1,
+          "name": "Kwame Mensah",
+          "relationship": "head",
+          "age": 56,
+          "gender": "gender_m",
+          "occupation": "parttime_cocoa_other",
+          "otherOccupation": "carpenter",
+          "pctTime": 0.5
+        },
+        {
+          "idx": 2,
+          "name": "Comfort",
+          "relationship": "parent",
+          "age": 30,
+          "gender": "gender_m",
+          "occupation": "fulltime_cocoa_other",
+          "otherOccupation": "carpenter",
+          "pctTime": 0.5
+        },
+        {
+          "idx": 3,
+          "name": "Kwame",
+          "relationship": "head",
+          "age": 36,
+          "gender": "gender_m",
+          "occupation": "fulltime_cocoa",
+          "otherOccupation": "carpenter",
+          "pctTime": 0.25
+        }
+      ],
+      "householdNotWorking": []
+    },
+    "revenues": {
+      "has": {
+        "coffee": true,
+        "otherCashCrops": true,
+        "stapleCrops": true,
+        "otherFoodCrops": false,
+        "livestock": false,
+        "otherIncome": false
+      },
+      "cocoaSales": [
+        {
+          "month": "oct",
+          "volume": 115,
+          "price": 49
+        },
+        {
+          "month": "nov",
+          "volume": 267,
+          "price": 48
+        },
+        {
+          "month": "dec",
+          "volume": 161,
+          "price": 48
+        },
+        {
+          "month": "jan",
+          "volume": 338,
+          "price": 49
+        },
+        {
+          "month": "feb",
+          "volume": 294,
+          "price": 49
+        },
+        {
+          "month": "mar",
+          "volume": 190,
+          "price": 47
+        },
+        {
+          "month": "apr",
+          "volume": 253,
+          "price": 47
+        },
+        {
+          "month": "may",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "jun",
+          "volume": 316,
+          "price": 49
+        },
+        {
+          "month": "jul",
+          "volume": 199,
+          "price": 46
+        },
+        {
+          "month": "aug",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "sep",
+          "volume": "",
+          "price": ""
+        }
+      ],
+      "cocoaOtherIncome": [
+        {
+          "type": "fp",
+          "amount": 3264
+        }
+      ],
+      "coffeeSales": [
+        {
+          "month": "oct",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "nov",
+          "volume": 120,
+          "price": 1450
+        },
+        {
+          "month": "dec",
+          "volume": 210,
+          "price": 1450
+        },
+        {
+          "month": "jan",
+          "volume": 180,
+          "price": 1500
+        },
+        {
+          "month": "feb",
+          "volume": 90,
+          "price": 1500
+        },
+        {
+          "month": "mar",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "apr",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "may",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "jun",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "jul",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "aug",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "sep",
+          "volume": 60,
+          "price": 1400
+        }
+      ],
+      "coffeeOtherIncome": [
+        {
+          "type": "coffee quality bonus",
+          "amount": 42000
+        }
+      ],
+      "otherCashCrops": [
+        {
+          "crop": "cashew",
+          "unit": "kilogram",
+          "q1": 1258,
+          "q2": 1077,
+          "q3": 1021,
+          "q4": 1657,
+          "totalVolumeSold": 120,
+          "totalRevenueOverride": ""
+        }
+      ],
+      "stapleCrops": [
+        {
+          "crop": "cassava",
+          "unit": "bag",
+          "q1": 119,
+          "q2": 115,
+          "q3": 329,
+          "q4": 96,
+          "qtyConsumed": 10,
+          "qtySold": 1
+        }
+      ],
+      "otherFoodCrops": [
+        {
+          "crop": "",
+          "consumption": "",
+          "sales": "",
+          "totalQtyProduced": "",
+          "totalMarketValue": ""
+        }
+      ],
+      "livestock": [],
+      "otherIncome": [
+        {
+          "product": "",
+          "unitOfSales": "",
+          "totalSales": "",
+          "avgPrice": "",
+          "revenueOverride": ""
+        }
+      ]
+    },
+    "costs": {
+      "agriInputs": [
+        {
+          "productType": "other",
+          "unit": "bag",
+          "qty": 8,
+          "totalCost": 589,
+          "usedForCocoa": "50_74",
+          "subsidyValue": ""
+        }
+      ],
+      "tools": [
+        {
+          "tool": "wheelbarrow",
+          "lifespan": 4,
+          "quantity": 1,
+          "totalCost": 464,
+          "depreciatedCost": "",
+          "usedForCocoa": "none",
+          "subsidyValue": ""
+        }
+      ],
+      "otherCosts": [
+        {
+          "costType": "fuel",
+          "details": "cooperative dues",
+          "totalCost": 398,
+          "usedForCocoa": "none",
+          "subsidyValue": ""
+        }
+      ],
+      "sharecropPayments": []
+    },
+    "labour": [
+      {
+        "month": "oct",
+        "hhDays": 16,
+        "hhDaysCocoa": 11,
+        "hiredDays": 10,
+        "hiredDaysCocoa": 1,
+        "dailyWage": 103,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "nov",
+        "hhDays": 21,
+        "hhDaysCocoa": 3,
+        "hiredDays": 2,
+        "hiredDaysCocoa": 2,
+        "dailyWage": 87,
+        "otherService": "harvesting",
+        "serviceUsedFor": "cocoa",
+        "serviceCost": 481,
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "dec",
+        "hhDays": 5,
+        "hhDaysCocoa": 5,
+        "hiredDays": 3,
+        "hiredDaysCocoa": 3,
+        "dailyWage": 102,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "jan",
+        "hhDays": 12,
+        "hhDaysCocoa": 12,
+        "hiredDays": 3,
+        "hiredDaysCocoa": 3,
+        "dailyWage": 69,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "feb",
+        "hhDays": 24,
+        "hhDaysCocoa": 11,
+        "hiredDays": 7,
+        "hiredDaysCocoa": 7,
+        "dailyWage": 73,
+        "otherService": "spraying",
+        "serviceUsedFor": "cocoa",
+        "serviceCost": 340,
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "mar",
+        "hhDays": 24,
+        "hhDaysCocoa": 21,
+        "hiredDays": 7,
+        "hiredDaysCocoa": 7,
+        "dailyWage": 109,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "apr",
+        "hhDays": "",
+        "hhDaysCocoa": "",
+        "hiredDays": "",
+        "hiredDaysCocoa": "",
+        "dailyWage": "",
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "may",
+        "hhDays": 22,
+        "hhDaysCocoa": 15,
+        "hiredDays": 7,
+        "hiredDaysCocoa": 1,
+        "dailyWage": 103,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "jun",
+        "hhDays": 25,
+        "hhDaysCocoa": 19,
+        "hiredDays": 0,
+        "hiredDaysCocoa": 0,
+        "dailyWage": 60,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "jul",
+        "hhDays": 20,
+        "hhDaysCocoa": 13,
+        "hiredDays": 9,
+        "hiredDaysCocoa": 5,
+        "dailyWage": 87,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "aug",
+        "hhDays": 25,
+        "hhDaysCocoa": 23,
+        "hiredDays": 2,
+        "hiredDaysCocoa": 0,
+        "dailyWage": 104,
+        "otherService": "harvesting",
+        "serviceUsedFor": "cocoa",
+        "serviceCost": 155,
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "sep",
+        "hhDays": 23,
+        "hhDaysCocoa": 21,
+        "hiredDays": 2,
+        "hiredDaysCocoa": 1,
+        "dailyWage": 67,
+        "otherService": "pruning",
+        "serviceUsedFor": "cocoa",
+        "serviceCost": 460,
+        "subsidizedLabour": ""
+      }
+    ],
+    "expenditures": {
+      "food": {
+        "q1": 2747,
+        "q2": 1825,
+        "q3": 1063,
+        "q4": 1880
+      },
+      "education": {
+        "q1": 4484,
+        "q2": 422,
+        "q3": 986,
+        "q4": 1875
+      },
+      "healthcare": {
+        "q1": 529,
+        "q2": 70,
+        "q3": 638,
+        "q4": 929
+      },
+      "other": {
+        "q1": 219,
+        "q2": 1392,
+        "q3": 521,
+        "q4": 1498
+      }
+    }
+  },
+  {
+    "meta": {
+      "id": "hh_ms1kfv2g_cy6yms",
+      "formatVersion": 2,
+      "language": "fr",
+      "createdAt": "2026-06-27T00:00:00.000Z",
+      "updatedAt": "2026-06-27T00:00:00.000Z",
+      "areaUnit": "acre",
+      "volumeUnit": "kg",
+      "currencyUnit": "XOF"
+    },
+    "consent": {
+      "respondentName": "Yao Kouame",
+      "date": "2026-06-27",
+      "releaseFI": true,
+      "releaseCoop": true,
+      "releasePN": false,
+      "releaseBuyers": true,
+      "oralConsent": "",
+      "explanation": ""
+    },
+    "profile": {
+      "coopName": "ECAM",
+      "floId": "9697",
+      "coachName": "Kouadio Serge",
+      "programme": "Living Income cocoa",
+      "producerName": "Yao Kouame",
+      "producerCode": "ECA217",
+      "village": "Divo",
+      "gps": "",
+      "cocoaAreaIms": 8,
+      "cocoaAreaImsMeasured": "estimated",
+      "cocoaVolumeProduced": 785,
+      "totalFarmAreaIms": 12,
+      "totalFarmAreaImsMeasured": "estimated",
+      "cocoaVolumeSoldCoop": 707,
+      "farmgatePriceMain": 42,
+      "fpDistributed": 3234,
+      "farmgatePriceMid": 44,
+      "otherDiffDistributed": 1434,
+      "plots": [
+        {
+          "plotNo": 1,
+          "crop": "cocoa",
+          "otherCropName": "",
+          "area": 3,
+          "measured": "estimated",
+          "landArrangement": "owner_family",
+          "observation": "good",
+          "treeAge": "9"
+        },
+        {
+          "plotNo": 2,
+          "crop": "cocoa",
+          "otherCropName": "",
+          "area": 4,
+          "measured": "measured",
+          "landArrangement": "sharecropper_abunu",
+          "observation": "good",
+          "treeAge": "20"
+        },
+        {
+          "plotNo": 3,
+          "crop": "cocoa",
+          "otherCropName": "",
+          "area": 3,
+          "measured": "measured",
+          "landArrangement": "sharecropper_abunu",
+          "observation": "acceptable",
+          "treeAge": "28"
+        }
+      ],
+      "fallowLand": 0,
+      "minorFoodCrops": "riz, mais",
+      "livestockKept": "moutons",
+      "householdWorking": [
+        {
+          "idx": 1,
+          "name": "Yao Kouame",
+          "relationship": "head",
+          "age": 25,
+          "gender": "gender_m",
+          "occupation": "fulltime_cocoa",
+          "otherOccupation": "petit commerce au village",
+          "pctTime": 1
+        }
+      ],
+      "householdNotWorking": [
+        {
+          "idx": 1,
+          "name": "Kouadio",
+          "relationship": "sibling",
+          "age": 9,
+          "gender": "gender_f",
+          "occupation": "household_chores",
+          "contributesIncome": "no"
+        }
+      ]
+    },
+    "revenues": {
+      "has": {
+        "coffee": false,
+        "otherCashCrops": true,
+        "stapleCrops": true,
+        "otherFoodCrops": false,
+        "livestock": false,
+        "otherIncome": true
+      },
+      "cocoaSales": [
+        {
+          "month": "oct",
+          "volume": 305,
+          "price": 44
+        },
+        {
+          "month": "nov",
+          "volume": 261,
+          "price": 41
+        },
+        {
+          "month": "dec",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "jan",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "feb",
+          "volume": 271,
+          "price": 40
+        },
+        {
+          "month": "mar",
+          "volume": 343,
+          "price": 44
+        },
+        {
+          "month": "apr",
+          "volume": 298,
+          "price": 44
+        },
+        {
+          "month": "may",
+          "volume": 60,
+          "price": 41
+        },
+        {
+          "month": "jun",
+          "volume": 205,
+          "price": 43
+        },
+        {
+          "month": "jul",
+          "volume": 170,
+          "price": 44
+        },
+        {
+          "month": "aug",
+          "volume": 318,
+          "price": 45
+        },
+        {
+          "month": "sep",
+          "volume": 348,
+          "price": 45
+        }
+      ],
+      "cocoaOtherIncome": [
+        {
+          "type": "ra_premium",
+          "amount": 846
+        }
+      ],
+      "coffeeSales": [
+        {
+          "month": "oct",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "nov",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "dec",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "jan",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "feb",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "mar",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "apr",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "may",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "jun",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "jul",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "aug",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "sep",
+          "volume": "",
+          "price": ""
+        }
+      ],
+      "coffeeOtherIncome": [
+        {
+          "type": "",
+          "amount": ""
+        }
+      ],
+      "otherCashCrops": [
+        {
+          "crop": "rubber",
+          "unit": "kilogram",
+          "q1": 1926,
+          "q2": 1024,
+          "q3": 1850,
+          "q4": 672,
+          "totalVolumeSold": 432,
+          "totalRevenueOverride": ""
+        }
+      ],
+      "stapleCrops": [
+        {
+          "crop": "corn",
+          "unit": "bag",
+          "q1": 64,
+          "q2": 235,
+          "q3": 300,
+          "q4": 316,
+          "qtyConsumed": 4,
+          "qtySold": 5
+        }
+      ],
+      "otherFoodCrops": [
+        {
+          "crop": "",
+          "consumption": "",
+          "sales": "",
+          "totalQtyProduced": "",
+          "totalMarketValue": ""
+        }
+      ],
+      "livestock": [],
+      "otherIncome": [
+        {
+          "product": "charcoal sales",
+          "unitOfSales": "kilogram",
+          "totalSales": 180,
+          "avgPrice": 410,
+          "revenueOverride": ""
+        }
+      ]
+    },
+    "costs": {
+      "agriInputs": [
+        {
+          "productType": "other",
+          "unit": "bag",
+          "qty": 5,
+          "totalCost": 447,
+          "usedForCocoa": "0_24",
+          "subsidyValue": ""
+        }
+      ],
+      "tools": [
+        {
+          "tool": "pulvérisateur à dos",
+          "lifespan": 1,
+          "quantity": 1,
+          "totalCost": 674,
+          "depreciatedCost": "",
+          "usedForCocoa": "0_24",
+          "subsidyValue": ""
+        }
+      ],
+      "otherCosts": [
+        {
+          "costType": "transport",
+          "details": "cotisation coopérative",
+          "totalCost": 714,
+          "usedForCocoa": "0_24",
+          "subsidyValue": ""
+        }
+      ],
+      "sharecropPayments": []
+    },
+    "labour": [
+      {
+        "month": "oct",
+        "hhDays": "",
+        "hhDaysCocoa": "",
+        "hiredDays": "",
+        "hiredDaysCocoa": "",
+        "dailyWage": "",
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "nov",
+        "hhDays": 9,
+        "hhDaysCocoa": 5,
+        "hiredDays": 8,
+        "hiredDaysCocoa": 3,
+        "dailyWage": 109,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "dec",
+        "hhDays": 21,
+        "hhDaysCocoa": 21,
+        "hiredDays": 6,
+        "hiredDaysCocoa": 4,
+        "dailyWage": 93,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "jan",
+        "hhDays": 19,
+        "hhDaysCocoa": 5,
+        "hiredDays": 4,
+        "hiredDaysCocoa": 1,
+        "dailyWage": 76,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "feb",
+        "hhDays": 8,
+        "hhDaysCocoa": 3,
+        "hiredDays": 7,
+        "hiredDaysCocoa": 2,
+        "dailyWage": 72,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "mar",
+        "hhDays": 19,
+        "hhDaysCocoa": 6,
+        "hiredDays": 0,
+        "hiredDaysCocoa": 0,
+        "dailyWage": 80,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "apr",
+        "hhDays": "",
+        "hhDaysCocoa": "",
+        "hiredDays": "",
+        "hiredDaysCocoa": "",
+        "dailyWage": "",
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "may",
+        "hhDays": 18,
+        "hhDaysCocoa": 4,
+        "hiredDays": 0,
+        "hiredDaysCocoa": 0,
+        "dailyWage": 105,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "jun",
+        "hhDays": 11,
+        "hhDaysCocoa": 7,
+        "hiredDays": 8,
+        "hiredDaysCocoa": 5,
+        "dailyWage": 60,
+        "otherService": "spraying",
+        "serviceUsedFor": "cocoa",
+        "serviceCost": 366,
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "jul",
+        "hhDays": 18,
+        "hhDaysCocoa": 12,
+        "hiredDays": 8,
+        "hiredDaysCocoa": 5,
+        "dailyWage": 95,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "aug",
+        "hhDays": 25,
+        "hhDaysCocoa": 14,
+        "hiredDays": 5,
+        "hiredDaysCocoa": 5,
+        "dailyWage": 96,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "sep",
+        "hhDays": "",
+        "hhDaysCocoa": "",
+        "hiredDays": "",
+        "hiredDaysCocoa": "",
+        "dailyWage": "",
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      }
+    ],
+    "expenditures": {
+      "food": {
+        "q1": 1854,
+        "q2": 1025,
+        "q3": 2947,
+        "q4": 1217
+      },
+      "education": {
+        "q1": 3915,
+        "q2": 1355,
+        "q3": 1111,
+        "q4": 446
+      },
+      "healthcare": {
+        "q1": 593,
+        "q2": 952,
+        "q3": 445,
+        "q4": 60
+      },
+      "other": {
+        "q1": 572,
+        "q2": 428,
+        "q3": 576,
+        "q4": 1274
+      }
+    }
+  },
+  {
+    "meta": {
+      "id": "hh_ms1kfv2h_q0jtjl",
+      "formatVersion": 2,
+      "language": "fr",
+      "createdAt": "2026-01-07T00:00:00.000Z",
+      "updatedAt": "2026-01-07T00:00:00.000Z",
+      "areaUnit": "acre",
+      "volumeUnit": "kg",
+      "currencyUnit": "XOF"
+    },
+    "consent": {
+      "respondentName": "Brou Kone",
+      "date": "2026-01-07",
+      "releaseFI": true,
+      "releaseCoop": true,
+      "releasePN": true,
+      "releaseBuyers": true,
+      "oralConsent": "",
+      "explanation": ""
+    },
+    "profile": {
+      "coopName": "SCOOPCA",
+      "floId": "6067",
+      "coachName": "Yao Bertin",
+      "programme": "Living Income cocoa",
+      "producerName": "Brou Kone",
+      "producerCode": "SCO581",
+      "village": "Daloa",
+      "gps": "",
+      "cocoaAreaIms": 4,
+      "cocoaAreaImsMeasured": "estimated",
+      "cocoaVolumeProduced": 926,
+      "totalFarmAreaIms": 7,
+      "totalFarmAreaImsMeasured": "estimated",
+      "cocoaVolumeSoldCoop": 833,
+      "farmgatePriceMain": 44,
+      "fpDistributed": 2745,
+      "farmgatePriceMid": 44,
+      "otherDiffDistributed": 1942,
+      "plots": [
+        {
+          "plotNo": 1,
+          "crop": "other_crop",
+          "otherCropName": "",
+          "area": 2,
+          "measured": "estimated",
+          "landArrangement": "owner_caretaker",
+          "observation": "good",
+          "treeAge": "19"
+        },
+        {
+          "plotNo": 2,
+          "crop": "cocoa",
+          "otherCropName": "",
+          "area": 1,
+          "measured": "measured",
+          "landArrangement": "sharecropper_abunu",
+          "observation": "acceptable",
+          "treeAge": "15"
+        },
+        {
+          "plotNo": 3,
+          "crop": "cocoa",
+          "otherCropName": "",
+          "area": 4,
+          "measured": "measured",
+          "landArrangement": "sharecropper_abunu",
+          "observation": "acceptable",
+          "treeAge": "30"
+        }
+      ],
+      "fallowLand": 2,
+      "minorFoodCrops": "igname, arachide",
+      "livestockKept": "moutons",
+      "householdWorking": [
+        {
+          "idx": 1,
+          "name": "Brou Kone",
+          "relationship": "head",
+          "age": 20,
+          "gender": "gender_m",
+          "occupation": "fulltime_cocoa",
+          "otherOccupation": "",
+          "pctTime": 0.5
+        },
+        {
+          "idx": 2,
+          "name": "Kouassi",
+          "relationship": "spouse",
+          "age": 29,
+          "gender": "gender_f",
+          "occupation": "parttime_cocoa",
+          "otherOccupation": "tisse des paniers",
+          "pctTime": 0.25
+        },
+        {
+          "idx": 3,
+          "name": "Amenan",
+          "relationship": "spouse",
+          "age": 26,
+          "gender": "gender_m",
+          "occupation": "parttime_cocoa",
+          "otherOccupation": "",
+          "pctTime": 0.5
+        }
+      ],
+      "householdNotWorking": []
+    },
+    "revenues": {
+      "has": {
+        "coffee": false,
+        "otherCashCrops": false,
+        "stapleCrops": true,
+        "otherFoodCrops": true,
+        "livestock": true,
+        "otherIncome": false
+      },
+      "cocoaSales": [
+        {
+          "month": "oct",
+          "volume": 102,
+          "price": 42
+        },
+        {
+          "month": "nov",
+          "volume": 320,
+          "price": 44
+        },
+        {
+          "month": "dec",
+          "volume": 30,
+          "price": 46
+        },
+        {
+          "month": "jan",
+          "volume": 65,
+          "price": 42
+        },
+        {
+          "month": "feb",
+          "volume": 275,
+          "price": 47
+        },
+        {
+          "month": "mar",
+          "volume": 113,
+          "price": 46
+        },
+        {
+          "month": "apr",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "may",
+          "volume": 342,
+          "price": 46
+        },
+        {
+          "month": "jun",
+          "volume": 36,
+          "price": 45
+        },
+        {
+          "month": "jul",
+          "volume": 52,
+          "price": 41
+        },
+        {
+          "month": "aug",
+          "volume": 95,
+          "price": 41
+        },
+        {
+          "month": "sep",
+          "volume": 337,
+          "price": 45
+        }
+      ],
+      "cocoaOtherIncome": [
+        {
+          "type": "lirp_diff",
+          "amount": 2338
+        }
+      ],
+      "coffeeSales": [
+        {
+          "month": "oct",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "nov",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "dec",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "jan",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "feb",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "mar",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "apr",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "may",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "jun",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "jul",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "aug",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "sep",
+          "volume": "",
+          "price": ""
+        }
+      ],
+      "coffeeOtherIncome": [
+        {
+          "type": "",
+          "amount": ""
+        }
+      ],
+      "otherCashCrops": [],
+      "stapleCrops": [
+        {
+          "crop": "yam",
+          "unit": "bag",
+          "q1": 281,
+          "q2": 298,
+          "q3": 241,
+          "q4": 305,
+          "qtyConsumed": 9,
+          "qtySold": 7
+        }
+      ],
+      "otherFoodCrops": [
+        {
+          "crop": "pepper",
+          "consumption": "covers_needs",
+          "sales": "mainly_sale",
+          "totalQtyProduced": 60,
+          "totalMarketValue": 28500
+        }
+      ],
+      "livestock": [
+        {
+          "product": "eggs",
+          "consumption": "covers_needs",
+          "sales": "surplus_sold",
+          "totalQtyProduced": "",
+          "totalMarketValue": 2948
+        }
+      ],
+      "otherIncome": [
+        {
+          "product": "",
+          "unitOfSales": "",
+          "totalSales": "",
+          "avgPrice": "",
+          "revenueOverride": ""
+        }
+      ]
+    },
+    "costs": {
+      "agriInputs": [
+        {
+          "productType": "pesticides",
+          "unit": "bag",
+          "qty": 3,
+          "totalCost": 1524,
+          "usedForCocoa": "none",
+          "subsidyValue": ""
+        }
+      ],
+      "tools": [
+        {
+          "tool": "machette",
+          "lifespan": 1,
+          "quantity": 1,
+          "totalCost": 394,
+          "depreciatedCost": "",
+          "usedForCocoa": "50_74",
+          "subsidyValue": ""
+        }
+      ],
+      "otherCosts": [
+        {
+          "costType": "packaging",
+          "details": "sacs de jute",
+          "totalCost": 323,
+          "usedForCocoa": "0_24",
+          "subsidyValue": ""
+        }
+      ],
+      "sharecropPayments": []
+    },
+    "labour": [
+      {
+        "month": "oct",
+        "hhDays": 14,
+        "hhDaysCocoa": 13,
+        "hiredDays": 10,
+        "hiredDaysCocoa": 6,
+        "dailyWage": 89,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "nov",
+        "hhDays": 14,
+        "hhDaysCocoa": 14,
+        "hiredDays": 1,
+        "hiredDaysCocoa": 1,
+        "dailyWage": 109,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "dec",
+        "hhDays": 20,
+        "hhDaysCocoa": 10,
+        "hiredDays": 5,
+        "hiredDaysCocoa": 3,
+        "dailyWage": 81,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "jan",
+        "hhDays": "",
+        "hhDaysCocoa": "",
+        "hiredDays": "",
+        "hiredDaysCocoa": "",
+        "dailyWage": "",
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "feb",
+        "hhDays": 15,
+        "hhDaysCocoa": 4,
+        "hiredDays": 6,
+        "hiredDaysCocoa": 5,
+        "dailyWage": 111,
+        "otherService": "pruning",
+        "serviceUsedFor": "cocoa",
+        "serviceCost": 245,
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "mar",
+        "hhDays": 5,
+        "hhDaysCocoa": 3,
+        "hiredDays": 6,
+        "hiredDaysCocoa": 6,
+        "dailyWage": 60,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "apr",
+        "hhDays": "",
+        "hhDaysCocoa": "",
+        "hiredDays": "",
+        "hiredDaysCocoa": "",
+        "dailyWage": "",
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "may",
+        "hhDays": 11,
+        "hhDaysCocoa": 5,
+        "hiredDays": 7,
+        "hiredDaysCocoa": 6,
+        "dailyWage": 112,
+        "otherService": "pruning",
+        "serviceUsedFor": "cocoa",
+        "serviceCost": 496,
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "jun",
+        "hhDays": 25,
+        "hhDaysCocoa": 13,
+        "hiredDays": 7,
+        "hiredDaysCocoa": 3,
+        "dailyWage": 113,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "jul",
+        "hhDays": 6,
+        "hhDaysCocoa": 6,
+        "hiredDays": 0,
+        "hiredDaysCocoa": 0,
+        "dailyWage": 111,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "aug",
+        "hhDays": 19,
+        "hhDaysCocoa": 16,
+        "hiredDays": 9,
+        "hiredDaysCocoa": 3,
+        "dailyWage": 70,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "sep",
+        "hhDays": "",
+        "hhDaysCocoa": "",
+        "hiredDays": "",
+        "hiredDaysCocoa": "",
+        "dailyWage": "",
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      }
+    ],
+    "expenditures": {
+      "food": {
+        "q1": 1134,
+        "q2": 1146,
+        "q3": 1217,
+        "q4": 2665
+      },
+      "education": {
+        "q1": 998,
+        "q2": 585,
+        "q3": 1946,
+        "q4": 785
+      },
+      "healthcare": {
+        "q1": 9,
+        "q2": 1272,
+        "q3": 1466,
+        "q4": 649
+      },
+      "other": {
+        "q1": 1434,
+        "q2": 1287,
+        "q3": 703,
+        "q4": 955
+      }
+    }
+  },
+  {
+    "meta": {
+      "id": "hh_ms1kfv2h_jrt0eo",
+      "formatVersion": 2,
+      "language": "fr",
+      "createdAt": "2026-01-27T00:00:00.000Z",
+      "updatedAt": "2026-01-27T00:00:00.000Z",
+      "areaUnit": "acre",
+      "volumeUnit": "kg",
+      "currencyUnit": "XOF"
+    },
+    "consent": {
+      "respondentName": "Adjoua Diomande",
+      "date": "2026-01-27",
+      "releaseFI": true,
+      "releaseCoop": true,
+      "releasePN": true,
+      "releaseBuyers": false,
+      "oralConsent": "",
+      "explanation": "consentement oral obtenu en présence du chef de village"
+    },
+    "profile": {
+      "coopName": "SCOOPCA",
+      "floId": "1307",
+      "coachName": "Kouadio Serge",
+      "programme": "Living Income cocoa",
+      "producerName": "Adjoua Diomande",
+      "producerCode": "SCO441",
+      "village": "Daloa",
+      "gps": "",
+      "cocoaAreaIms": 7,
+      "cocoaAreaImsMeasured": "estimated",
+      "cocoaVolumeProduced": 1348,
+      "totalFarmAreaIms": 8,
+      "totalFarmAreaImsMeasured": "estimated",
+      "cocoaVolumeSoldCoop": 1213,
+      "farmgatePriceMain": 46,
+      "fpDistributed": 1784,
+      "farmgatePriceMid": 55,
+      "otherDiffDistributed": 565,
+      "plots": [
+        {
+          "plotNo": 1,
+          "crop": "cocoa",
+          "otherCropName": "",
+          "area": 2,
+          "measured": "measured",
+          "landArrangement": "sharecropper_abusan",
+          "observation": "acceptable",
+          "treeAge": "21"
+        },
+        {
+          "plotNo": 2,
+          "crop": "cocoa",
+          "otherCropName": "",
+          "area": 4,
+          "measured": "measured",
+          "landArrangement": "owner_caretaker",
+          "observation": "good",
+          "treeAge": "7"
+        },
+        {
+          "plotNo": 3,
+          "crop": "other_crop",
+          "otherCropName": "",
+          "area": 1,
+          "measured": "measured",
+          "landArrangement": "owner_sharecropper",
+          "observation": "bad",
+          "treeAge": "13"
+        },
+        {
+          "plotNo": 4,
+          "crop": "other_crop",
+          "otherCropName": "",
+          "area": 3,
+          "measured": "estimated",
+          "landArrangement": "sharecropper_abunu",
+          "observation": "good",
+          "treeAge": "23"
+        }
+      ],
+      "fallowLand": 0,
+      "minorFoodCrops": "igname, arachide",
+      "livestockKept": "chèvres, poules",
+      "householdWorking": [
+        {
+          "idx": 1,
+          "name": "Adjoua Diomande",
+          "relationship": "head",
+          "age": 36,
+          "gender": "gender_m",
+          "occupation": "fulltime_cocoa_other",
+          "otherOccupation": "",
+          "pctTime": 0.75
+        },
+        {
+          "idx": 2,
+          "name": "Konan",
+          "relationship": "cousin",
+          "age": 48,
+          "gender": "gender_f",
+          "occupation": "fulltime_cocoa",
+          "otherOccupation": "vend des légumes au marché",
+          "pctTime": 0.25
+        },
+        {
+          "idx": 3,
+          "name": "Aya",
+          "relationship": "cousin",
+          "age": 27,
+          "gender": "gender_m",
+          "occupation": "fulltime_cocoa",
+          "otherOccupation": "",
+          "pctTime": 0.75
+        }
+      ],
+      "householdNotWorking": [
+        {
+          "idx": 1,
+          "name": "Brou",
+          "relationship": "child",
+          "age": 28,
+          "gender": "gender_f",
+          "occupation": "student",
+          "contributesIncome": "yes"
+        },
+        {
+          "idx": 2,
+          "name": "Adjoua",
+          "relationship": "sibling",
+          "age": 36,
+          "gender": "gender_m",
+          "occupation": "retired",
+          "contributesIncome": "no"
+        },
+        {
+          "idx": 3,
+          "name": "Amenan",
+          "relationship": "spouse",
+          "age": 31,
+          "gender": "gender_f",
+          "occupation": "offfarm_paid",
+          "contributesIncome": "yes"
+        }
+      ]
+    },
+    "revenues": {
+      "has": {
+        "coffee": false,
+        "otherCashCrops": false,
+        "stapleCrops": true,
+        "otherFoodCrops": false,
+        "livestock": false,
+        "otherIncome": false
+      },
+      "cocoaSales": [
+        {
+          "month": "oct",
+          "volume": 197,
+          "price": 47
+        },
+        {
+          "month": "nov",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "dec",
+          "volume": 198,
+          "price": 45
+        },
+        {
+          "month": "jan",
+          "volume": 233,
+          "price": 47
+        },
+        {
+          "month": "feb",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "mar",
+          "volume": 254,
+          "price": 48
+        },
+        {
+          "month": "apr",
+          "volume": 271,
+          "price": 43
+        },
+        {
+          "month": "may",
+          "volume": 303,
+          "price": 49
+        },
+        {
+          "month": "jun",
+          "volume": 129,
+          "price": 44
+        },
+        {
+          "month": "jul",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "aug",
+          "volume": 341,
+          "price": 44
+        },
+        {
+          "month": "sep",
+          "volume": "",
+          "price": ""
+        }
+      ],
+      "cocoaOtherIncome": [
+        {
+          "type": "fp",
+          "amount": 4222
+        }
+      ],
+      "coffeeSales": [
+        {
+          "month": "oct",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "nov",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "dec",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "jan",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "feb",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "mar",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "apr",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "may",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "jun",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "jul",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "aug",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "sep",
+          "volume": "",
+          "price": ""
+        }
+      ],
+      "coffeeOtherIncome": [
+        {
+          "type": "",
+          "amount": ""
+        }
+      ],
+      "otherCashCrops": [],
+      "stapleCrops": [
+        {
+          "crop": "cassava",
+          "unit": "bag",
+          "q1": 232,
+          "q2": 222,
+          "q3": 182,
+          "q4": 56,
+          "qtyConsumed": 6,
+          "qtySold": 5
+        }
+      ],
+      "otherFoodCrops": [
+        {
+          "crop": "",
+          "consumption": "",
+          "sales": "",
+          "totalQtyProduced": "",
+          "totalMarketValue": ""
+        }
+      ],
+      "livestock": [],
+      "otherIncome": [
+        {
+          "product": "",
+          "unitOfSales": "",
+          "totalSales": "",
+          "avgPrice": "",
+          "revenueOverride": ""
+        }
+      ]
+    },
+    "costs": {
+      "agriInputs": [
+        {
+          "productType": "fertilizer",
+          "unit": "bag",
+          "qty": 6,
+          "totalCost": 560,
+          "usedForCocoa": "0_24",
+          "subsidyValue": ""
+        }
+      ],
+      "tools": [
+        {
+          "tool": "pulvérisateur à dos",
+          "lifespan": 3,
+          "quantity": 1,
+          "totalCost": 582,
+          "depreciatedCost": "",
+          "usedForCocoa": "50_74",
+          "subsidyValue": ""
+        }
+      ],
+      "otherCosts": [
+        {
+          "costType": "maintenance",
+          "details": "sacs de jute",
+          "totalCost": 680,
+          "usedForCocoa": "50_74",
+          "subsidyValue": ""
+        }
+      ],
+      "sharecropPayments": [
+        {
+          "paymentType": "sharecropper",
+          "cashOrKind": "in_kind",
+          "cocoaVolumeInKind": 148,
+          "costOrValue": 2380,
+          "cocoaShare": "50_74"
+        }
+      ]
+    },
+    "labour": [
+      {
+        "month": "oct",
+        "hhDays": 24,
+        "hhDaysCocoa": 19,
+        "hiredDays": 10,
+        "hiredDaysCocoa": 9,
+        "dailyWage": 99,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "nov",
+        "hhDays": 14,
+        "hhDaysCocoa": 5,
+        "hiredDays": 2,
+        "hiredDaysCocoa": 1,
+        "dailyWage": 87,
+        "otherService": "weeding",
+        "serviceUsedFor": "cocoa",
+        "serviceCost": 318,
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "dec",
+        "hhDays": 9,
+        "hhDaysCocoa": 7,
+        "hiredDays": 3,
+        "hiredDaysCocoa": 0,
+        "dailyWage": 100,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "jan",
+        "hhDays": 5,
+        "hhDaysCocoa": 5,
+        "hiredDays": 5,
+        "hiredDaysCocoa": 5,
+        "dailyWage": 106,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "feb",
+        "hhDays": 22,
+        "hhDaysCocoa": 17,
+        "hiredDays": 10,
+        "hiredDaysCocoa": 5,
+        "dailyWage": 99,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "mar",
+        "hhDays": 21,
+        "hhDaysCocoa": 14,
+        "hiredDays": 7,
+        "hiredDaysCocoa": 6,
+        "dailyWage": 63,
+        "otherService": "weeding",
+        "serviceUsedFor": "cocoa",
+        "serviceCost": 266,
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "apr",
+        "hhDays": 11,
+        "hhDaysCocoa": 5,
+        "hiredDays": 4,
+        "hiredDaysCocoa": 4,
+        "dailyWage": 96,
+        "otherService": "pod_breaking",
+        "serviceUsedFor": "cocoa",
+        "serviceCost": 132,
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "may",
+        "hhDays": 14,
+        "hhDaysCocoa": 4,
+        "hiredDays": 10,
+        "hiredDaysCocoa": 0,
+        "dailyWage": 116,
+        "otherService": "pruning",
+        "serviceUsedFor": "cocoa",
+        "serviceCost": 214,
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "jun",
+        "hhDays": 12,
+        "hhDaysCocoa": 5,
+        "hiredDays": 5,
+        "hiredDaysCocoa": 1,
+        "dailyWage": 114,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "jul",
+        "hhDays": 13,
+        "hhDaysCocoa": 6,
+        "hiredDays": 0,
+        "hiredDaysCocoa": 0,
+        "dailyWage": 73,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "aug",
+        "hhDays": "",
+        "hhDaysCocoa": "",
+        "hiredDays": "",
+        "hiredDaysCocoa": "",
+        "dailyWage": "",
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "sep",
+        "hhDays": 13,
+        "hhDaysCocoa": 11,
+        "hiredDays": 4,
+        "hiredDaysCocoa": 3,
+        "dailyWage": 79,
+        "otherService": "pod_breaking",
+        "serviceUsedFor": "cocoa",
+        "serviceCost": 116,
+        "subsidizedLabour": ""
+      }
+    ],
+    "expenditures": {
+      "food": {
+        "q1": 2855,
+        "q2": 1106,
+        "q3": 2851,
+        "q4": 2520
+      },
+      "education": {
+        "q1": 694,
+        "q2": 1300,
+        "q3": 722,
+        "q4": 1368
+      },
+      "healthcare": {
+        "q1": 1474,
+        "q2": 413,
+        "q3": 738,
+        "q4": 343
+      },
+      "other": {
+        "q1": 783,
+        "q2": 1297,
+        "q3": 267,
+        "q4": 474
+      }
+    }
+  },
+  {
+    "meta": {
+      "id": "hh_ms1kfv2i_mcwzoi",
+      "formatVersion": 2,
+      "language": "fr",
+      "createdAt": "2026-03-05T00:00:00.000Z",
+      "updatedAt": "2026-03-05T00:00:00.000Z",
+      "areaUnit": "acre",
+      "volumeUnit": "kg",
+      "currencyUnit": "XOF"
+    },
+    "consent": {
+      "respondentName": "N'Guessan Kone",
+      "date": "2026-03-05",
+      "releaseFI": true,
+      "releaseCoop": true,
+      "releasePN": true,
+      "releaseBuyers": true,
+      "oralConsent": "",
+      "explanation": "consentement oral obtenu en présence du chef de village"
+    },
+    "profile": {
+      "coopName": "CAYAT",
+      "floId": "2806",
+      "coachName": "Yao Bertin",
+      "programme": "Living Income cocoa",
+      "producerName": "N'Guessan Kone",
+      "producerCode": "CAY224",
+      "village": "Soubré",
+      "gps": "",
+      "cocoaAreaIms": 6,
+      "cocoaAreaImsMeasured": "estimated",
+      "cocoaVolumeProduced": 982,
+      "totalFarmAreaIms": 10,
+      "totalFarmAreaImsMeasured": "estimated",
+      "cocoaVolumeSoldCoop": 884,
+      "farmgatePriceMain": 44,
+      "fpDistributed": 3540,
+      "farmgatePriceMid": 44,
+      "otherDiffDistributed": 883,
+      "plots": [
+        {
+          "plotNo": 1,
+          "crop": "cocoa",
+          "otherCropName": "",
+          "area": 4,
+          "measured": "estimated",
+          "landArrangement": "sharecropper_abunu",
+          "observation": "bad",
+          "treeAge": "28"
+        },
+        {
+          "plotNo": 2,
+          "crop": "other_crop",
+          "otherCropName": "",
+          "area": 4,
+          "measured": "estimated",
+          "landArrangement": "owner_caretaker",
+          "observation": "acceptable",
+          "treeAge": "22"
+        }
+      ],
+      "fallowLand": 2,
+      "minorFoodCrops": "igname, arachide",
+      "livestockKept": "chèvres, poules",
+      "householdWorking": [
+        {
+          "idx": 1,
+          "name": "N'Guessan Kone",
+          "relationship": "head",
+          "age": 51,
+          "gender": "gender_f",
+          "occupation": "parttime_cocoa_other",
+          "otherOccupation": "",
+          "pctTime": 0.5
+        }
+      ],
+      "householdNotWorking": [
+        {
+          "idx": 1,
+          "name": "Aya",
+          "relationship": "spouse",
+          "age": 68,
+          "gender": "gender_m",
+          "occupation": "retired",
+          "contributesIncome": "yes"
+        },
+        {
+          "idx": 2,
+          "name": "Konan",
+          "relationship": "cousin",
+          "age": 39,
+          "gender": "gender_f",
+          "occupation": "student",
+          "contributesIncome": "yes"
+        }
+      ]
+    },
+    "revenues": {
+      "has": {
+        "coffee": false,
+        "otherCashCrops": true,
+        "stapleCrops": true,
+        "otherFoodCrops": false,
+        "livestock": true,
+        "otherIncome": false
+      },
+      "cocoaSales": [
+        {
+          "month": "oct",
+          "volume": 333,
+          "price": 45
+        },
+        {
+          "month": "nov",
+          "volume": 108,
+          "price": 45
+        },
+        {
+          "month": "dec",
+          "volume": 186,
+          "price": 46
+        },
+        {
+          "month": "jan",
+          "volume": 257,
+          "price": 44
+        },
+        {
+          "month": "feb",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "mar",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "apr",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "may",
+          "volume": 177,
+          "price": 42
+        },
+        {
+          "month": "jun",
+          "volume": 125,
+          "price": 47
+        },
+        {
+          "month": "jul",
+          "volume": 99,
+          "price": 47
+        },
+        {
+          "month": "aug",
+          "volume": 57,
+          "price": 44
+        },
+        {
+          "month": "sep",
+          "volume": "",
+          "price": ""
+        }
+      ],
+      "cocoaOtherIncome": [
+        {
+          "type": "fp",
+          "amount": 784
+        }
+      ],
+      "coffeeSales": [
+        {
+          "month": "oct",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "nov",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "dec",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "jan",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "feb",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "mar",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "apr",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "may",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "jun",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "jul",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "aug",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "sep",
+          "volume": "",
+          "price": ""
+        }
+      ],
+      "coffeeOtherIncome": [
+        {
+          "type": "",
+          "amount": ""
+        }
+      ],
+      "otherCashCrops": [
+        {
+          "crop": "cashew",
+          "unit": "kilogram",
+          "q1": 292,
+          "q2": 1766,
+          "q3": 180,
+          "q4": 1832,
+          "totalVolumeSold": 466,
+          "totalRevenueOverride": ""
+        }
+      ],
+      "stapleCrops": [
+        {
+          "crop": "yam",
+          "unit": "bag",
+          "q1": 167,
+          "q2": 164,
+          "q3": 257,
+          "q4": 347,
+          "qtyConsumed": 5,
+          "qtySold": 1
+        }
+      ],
+      "otherFoodCrops": [
+        {
+          "crop": "",
+          "consumption": "",
+          "sales": "",
+          "totalQtyProduced": "",
+          "totalMarketValue": ""
+        }
+      ],
+      "livestock": [
+        {
+          "product": "eggs",
+          "consumption": "covers_needs",
+          "sales": "surplus_sold",
+          "totalQtyProduced": "",
+          "totalMarketValue": 3595
+        }
+      ],
+      "otherIncome": [
+        {
+          "product": "",
+          "unitOfSales": "",
+          "totalSales": "",
+          "avgPrice": "",
+          "revenueOverride": ""
+        }
+      ]
+    },
+    "costs": {
+      "agriInputs": [
+        {
+          "productType": "other",
+          "unit": "bag",
+          "qty": 5,
+          "totalCost": 567,
+          "usedForCocoa": "50_74",
+          "subsidyValue": ""
+        }
+      ],
+      "tools": [
+        {
+          "tool": "pioche",
+          "lifespan": 3,
+          "quantity": 1,
+          "totalCost": 116,
+          "depreciatedCost": "",
+          "usedForCocoa": "75_99",
+          "subsidyValue": ""
+        }
+      ],
+      "otherCosts": [
+        {
+          "costType": "packaging",
+          "details": "sacs de jute",
+          "totalCost": 368,
+          "usedForCocoa": "50_74",
+          "subsidyValue": ""
+        }
+      ],
+      "sharecropPayments": [
+        {
+          "paymentType": "caretaker",
+          "cashOrKind": "cash",
+          "cocoaVolumeInKind": 92,
+          "costOrValue": 12107,
+          "cocoaShare": "50_74"
+        }
+      ]
+    },
+    "labour": [
+      {
+        "month": "oct",
+        "hhDays": 12,
+        "hhDaysCocoa": 5,
+        "hiredDays": 2,
+        "hiredDaysCocoa": 2,
+        "dailyWage": 92,
+        "otherService": "spraying",
+        "serviceUsedFor": "cocoa",
+        "serviceCost": 106,
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "nov",
+        "hhDays": "",
+        "hhDaysCocoa": "",
+        "hiredDays": "",
+        "hiredDaysCocoa": "",
+        "dailyWage": "",
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "dec",
+        "hhDays": 24,
+        "hhDaysCocoa": 14,
+        "hiredDays": 7,
+        "hiredDaysCocoa": 3,
+        "dailyWage": 61,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "jan",
+        "hhDays": 15,
+        "hhDaysCocoa": 10,
+        "hiredDays": 1,
+        "hiredDaysCocoa": 1,
+        "dailyWage": 120,
+        "otherService": "harvesting",
+        "serviceUsedFor": "cocoa",
+        "serviceCost": 237,
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "feb",
+        "hhDays": 6,
+        "hhDaysCocoa": 6,
+        "hiredDays": 10,
+        "hiredDaysCocoa": 1,
+        "dailyWage": 68,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "mar",
+        "hhDays": 20,
+        "hhDaysCocoa": 15,
+        "hiredDays": 8,
+        "hiredDaysCocoa": 5,
+        "dailyWage": 62,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "apr",
+        "hhDays": 13,
+        "hhDaysCocoa": 3,
+        "hiredDays": 0,
+        "hiredDaysCocoa": 0,
+        "dailyWage": 65,
+        "otherService": "weeding",
+        "serviceUsedFor": "cocoa",
+        "serviceCost": 379,
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "may",
+        "hhDays": "",
+        "hhDaysCocoa": "",
+        "hiredDays": "",
+        "hiredDaysCocoa": "",
+        "dailyWage": "",
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "jun",
+        "hhDays": "",
+        "hhDaysCocoa": "",
+        "hiredDays": "",
+        "hiredDaysCocoa": "",
+        "dailyWage": "",
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "jul",
+        "hhDays": 10,
+        "hhDaysCocoa": 8,
+        "hiredDays": 8,
+        "hiredDaysCocoa": 7,
+        "dailyWage": 71,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "aug",
+        "hhDays": 15,
+        "hhDaysCocoa": 11,
+        "hiredDays": 6,
+        "hiredDaysCocoa": 1,
+        "dailyWage": 118,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "sep",
+        "hhDays": 10,
+        "hhDaysCocoa": 10,
+        "hiredDays": 4,
+        "hiredDaysCocoa": 1,
+        "dailyWage": 62,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      }
+    ],
+    "expenditures": {
+      "food": {
+        "q1": 1332,
+        "q2": 1456,
+        "q3": 1434,
+        "q4": 1490
+      },
+      "education": {
+        "q1": 2919,
+        "q2": 450,
+        "q3": 725,
+        "q4": 347
+      },
+      "healthcare": {
+        "q1": 1311,
+        "q2": 389,
+        "q3": 936,
+        "q4": 1426
+      },
+      "other": {
+        "q1": 430,
+        "q2": 1170,
+        "q3": 1467,
+        "q4": 373
+      }
+    }
+  },
+  {
+    "meta": {
+      "id": "hh_ms1kfv2i_ab4ydr",
+      "formatVersion": 2,
+      "language": "fr",
+      "createdAt": "2026-07-09T00:00:00.000Z",
+      "updatedAt": "2026-07-09T00:00:00.000Z",
+      "areaUnit": "acre",
+      "volumeUnit": "kg",
+      "currencyUnit": "XOF"
+    },
+    "consent": {
+      "respondentName": "Amenan Diomande",
+      "date": "2026-07-09",
+      "releaseFI": true,
+      "releaseCoop": true,
+      "releasePN": false,
+      "releaseBuyers": false,
+      "oralConsent": "",
+      "explanation": ""
+    },
+    "profile": {
+      "coopName": "ECAM",
+      "floId": "7110",
+      "coachName": "Yao Bertin",
+      "programme": "Living Income cocoa",
+      "producerName": "Amenan Diomande",
+      "producerCode": "ECA207",
+      "village": "Divo",
+      "gps": "",
+      "cocoaAreaIms": 6,
+      "cocoaAreaImsMeasured": "estimated",
+      "cocoaVolumeProduced": 1443,
+      "totalFarmAreaIms": 8,
+      "totalFarmAreaImsMeasured": "estimated",
+      "cocoaVolumeSoldCoop": 1299,
+      "farmgatePriceMain": 47,
+      "fpDistributed": 1452,
+      "farmgatePriceMid": 54,
+      "otherDiffDistributed": 1995,
+      "plots": [
+        {
+          "plotNo": 1,
+          "crop": "cocoa_intercropped",
+          "otherCropName": "",
+          "area": 2,
+          "measured": "estimated",
+          "landArrangement": "sharecropper_abusan",
+          "observation": "good",
+          "treeAge": "7"
+        }
+      ],
+      "fallowLand": 1,
+      "minorFoodCrops": "riz, mais",
+      "livestockKept": "moutons",
+      "householdWorking": [
+        {
+          "idx": 1,
+          "name": "Amenan Diomande",
+          "relationship": "head",
+          "age": 23,
+          "gender": "gender_f",
+          "occupation": "parttime_cocoa",
+          "otherOccupation": "conduit une moto-taxi",
+          "pctTime": 0.25
+        },
+        {
+          "idx": 2,
+          "name": "Akissi",
+          "relationship": "spouse",
+          "age": 60,
+          "gender": "gender_m",
+          "occupation": "fulltime_cocoa_other",
+          "otherOccupation": "",
+          "pctTime": 0.5
+        },
+        {
+          "idx": 3,
+          "name": "Konan",
+          "relationship": "spouse",
+          "age": 49,
+          "gender": "gender_f",
+          "occupation": "parttime_cocoa_other",
+          "otherOccupation": "conduit une moto-taxi",
+          "pctTime": 0.25
+        }
+      ],
+      "householdNotWorking": [
+        {
+          "idx": 1,
+          "name": "Yao",
+          "relationship": "spouse",
+          "age": 66,
+          "gender": "gender_f",
+          "occupation": "student",
+          "contributesIncome": "yes"
+        },
+        {
+          "idx": 2,
+          "name": "Aya",
+          "relationship": "parent",
+          "age": 52,
+          "gender": "gender_f",
+          "occupation": "retired",
+          "contributesIncome": "yes"
+        },
+        {
+          "idx": 3,
+          "name": "Affoue",
+          "relationship": "sibling",
+          "age": 54,
+          "gender": "gender_f",
+          "occupation": "household_chores",
+          "contributesIncome": "yes"
+        }
+      ]
+    },
+    "revenues": {
+      "has": {
+        "coffee": false,
+        "otherCashCrops": false,
+        "stapleCrops": true,
+        "otherFoodCrops": false,
+        "livestock": false,
+        "otherIncome": true
+      },
+      "cocoaSales": [
+        {
+          "month": "oct",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "nov",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "dec",
+          "volume": 343,
+          "price": 44
+        },
+        {
+          "month": "jan",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "feb",
+          "volume": 49,
+          "price": 44
+        },
+        {
+          "month": "mar",
+          "volume": 86,
+          "price": 46
+        },
+        {
+          "month": "apr",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "may",
+          "volume": 131,
+          "price": 46
+        },
+        {
+          "month": "jun",
+          "volume": 130,
+          "price": 47
+        },
+        {
+          "month": "jul",
+          "volume": 45,
+          "price": 49
+        },
+        {
+          "month": "aug",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "sep",
+          "volume": 97,
+          "price": 48
+        }
+      ],
+      "cocoaOtherIncome": [
+        {
+          "type": "fp",
+          "amount": 3310
+        },
+        {
+          "type": "ra_premium",
+          "amount": 671
+        }
+      ],
+      "coffeeSales": [
+        {
+          "month": "oct",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "nov",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "dec",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "jan",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "feb",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "mar",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "apr",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "may",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "jun",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "jul",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "aug",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "sep",
+          "volume": "",
+          "price": ""
+        }
+      ],
+      "coffeeOtherIncome": [
+        {
+          "type": "",
+          "amount": ""
+        }
+      ],
+      "otherCashCrops": [],
+      "stapleCrops": [
+        {
+          "crop": "yam",
+          "unit": "bag",
+          "q1": 267,
+          "q2": 191,
+          "q3": 294,
+          "q4": 333,
+          "qtyConsumed": 3,
+          "qtySold": 1
+        }
+      ],
+      "otherFoodCrops": [
+        {
+          "crop": "",
+          "consumption": "",
+          "sales": "",
+          "totalQtyProduced": "",
+          "totalMarketValue": ""
+        }
+      ],
+      "livestock": [],
+      "otherIncome": [
+        {
+          "product": "timber sales",
+          "unitOfSales": "kilogram",
+          "totalSales": 95,
+          "avgPrice": 900,
+          "revenueOverride": ""
+        }
+      ]
+    },
+    "costs": {
+      "agriInputs": [
+        {
+          "productType": "seedlings",
+          "unit": "bag",
+          "qty": 1,
+          "totalCost": 1921,
+          "usedForCocoa": "none",
+          "subsidyValue": ""
+        }
+      ],
+      "tools": [
+        {
+          "tool": "pulvérisateur à dos",
+          "lifespan": 3,
+          "quantity": 1,
+          "totalCost": 182,
+          "depreciatedCost": "",
+          "usedForCocoa": "100",
+          "subsidyValue": ""
+        }
+      ],
+      "otherCosts": [
+        {
+          "costType": "fuel",
+          "details": "sacs de jute",
+          "totalCost": 574,
+          "usedForCocoa": "75_99",
+          "subsidyValue": ""
+        }
+      ],
+      "sharecropPayments": [
+        {
+          "paymentType": "sharecropper",
+          "cashOrKind": "cash",
+          "cocoaVolumeInKind": 52,
+          "costOrValue": 9526,
+          "cocoaShare": "75_99"
+        }
+      ]
+    },
+    "labour": [
+      {
+        "month": "oct",
+        "hhDays": 17,
+        "hhDaysCocoa": 4,
+        "hiredDays": 7,
+        "hiredDaysCocoa": 3,
+        "dailyWage": 85,
+        "otherService": "pod_breaking",
+        "serviceUsedFor": "cocoa",
+        "serviceCost": 115,
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "nov",
+        "hhDays": 24,
+        "hhDaysCocoa": 9,
+        "hiredDays": 2,
+        "hiredDaysCocoa": 2,
+        "dailyWage": 82,
+        "otherService": "pod_breaking",
+        "serviceUsedFor": "cocoa",
+        "serviceCost": 445,
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "dec",
+        "hhDays": "",
+        "hhDaysCocoa": "",
+        "hiredDays": "",
+        "hiredDaysCocoa": "",
+        "dailyWage": "",
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "jan",
+        "hhDays": "",
+        "hhDaysCocoa": "",
+        "hiredDays": "",
+        "hiredDaysCocoa": "",
+        "dailyWage": "",
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "feb",
+        "hhDays": 6,
+        "hhDaysCocoa": 4,
+        "hiredDays": 0,
+        "hiredDaysCocoa": 0,
+        "dailyWage": 110,
+        "otherService": "harvesting",
+        "serviceUsedFor": "cocoa",
+        "serviceCost": 318,
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "mar",
+        "hhDays": 15,
+        "hhDaysCocoa": 10,
+        "hiredDays": 5,
+        "hiredDaysCocoa": 5,
+        "dailyWage": 100,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "apr",
+        "hhDays": "",
+        "hhDaysCocoa": "",
+        "hiredDays": "",
+        "hiredDaysCocoa": "",
+        "dailyWage": "",
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "may",
+        "hhDays": "",
+        "hhDaysCocoa": "",
+        "hiredDays": "",
+        "hiredDaysCocoa": "",
+        "dailyWage": "",
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "jun",
+        "hhDays": 10,
+        "hhDaysCocoa": 5,
+        "hiredDays": 4,
+        "hiredDaysCocoa": 1,
+        "dailyWage": 103,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "jul",
+        "hhDays": "",
+        "hhDaysCocoa": "",
+        "hiredDays": "",
+        "hiredDaysCocoa": "",
+        "dailyWage": "",
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "aug",
+        "hhDays": 25,
+        "hhDaysCocoa": 5,
+        "hiredDays": 1,
+        "hiredDaysCocoa": 0,
+        "dailyWage": 87,
+        "otherService": "pod_breaking",
+        "serviceUsedFor": "cocoa",
+        "serviceCost": 308,
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "sep",
+        "hhDays": 24,
+        "hhDaysCocoa": 14,
+        "hiredDays": 10,
+        "hiredDaysCocoa": 3,
+        "dailyWage": 116,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      }
+    ],
+    "expenditures": {
+      "food": {
+        "q1": 2953,
+        "q2": 2310,
+        "q3": 1238,
+        "q4": 2837
+      },
+      "education": {
+        "q1": 4992,
+        "q2": 1128,
+        "q3": 759,
+        "q4": 84
+      },
+      "healthcare": {
+        "q1": 404,
+        "q2": 827,
+        "q3": 763,
+        "q4": 1093
+      },
+      "other": {
+        "q1": 204,
+        "q2": 657,
+        "q3": 383,
+        "q4": 1146
+      }
+    }
+  },
+  {
+    "meta": {
+      "id": "hh_ms1kfv2i_0rxp5o",
+      "formatVersion": 2,
+      "language": "fr",
+      "createdAt": "2026-07-11T00:00:00.000Z",
+      "updatedAt": "2026-07-11T00:00:00.000Z",
+      "areaUnit": "acre",
+      "volumeUnit": "kg",
+      "currencyUnit": "XOF"
+    },
+    "consent": {
+      "respondentName": "Amenan Coulibaly",
+      "date": "2026-07-11",
+      "releaseFI": true,
+      "releaseCoop": true,
+      "releasePN": true,
+      "releaseBuyers": true,
+      "oralConsent": "",
+      "explanation": ""
+    },
+    "profile": {
+      "coopName": "ECAM",
+      "floId": "3606",
+      "coachName": "Yao Bertin",
+      "programme": "Living Income cocoa",
+      "producerName": "Amenan Coulibaly",
+      "producerCode": "ECA479",
+      "village": "Divo",
+      "gps": "",
+      "cocoaAreaIms": 2,
+      "cocoaAreaImsMeasured": "estimated",
+      "cocoaVolumeProduced": 1513,
+      "totalFarmAreaIms": 5,
+      "totalFarmAreaImsMeasured": "estimated",
+      "cocoaVolumeSoldCoop": 1362,
+      "farmgatePriceMain": 50,
+      "fpDistributed": 3872,
+      "farmgatePriceMid": 54,
+      "otherDiffDistributed": 1168,
+      "plots": [
+        {
+          "plotNo": 1,
+          "crop": "cocoa",
+          "otherCropName": "",
+          "area": 2,
+          "measured": "estimated",
+          "landArrangement": "sharecropper_abunu",
+          "observation": "good",
+          "treeAge": "28"
+        },
+        {
+          "plotNo": 2,
+          "crop": "cocoa_intercropped",
+          "otherCropName": "",
+          "area": 3,
+          "measured": "measured",
+          "landArrangement": "owner_sharecropper",
+          "observation": "acceptable",
+          "treeAge": "22"
+        },
+        {
+          "plotNo": 3,
+          "crop": "other_crop",
+          "otherCropName": "",
+          "area": 1,
+          "measured": "estimated",
+          "landArrangement": "sharecropper_abusan",
+          "observation": "bad",
+          "treeAge": "20"
+        }
+      ],
+      "fallowLand": 1,
+      "minorFoodCrops": "manioc, banane plantain",
+      "livestockKept": "moutons",
+      "householdWorking": [
+        {
+          "idx": 1,
+          "name": "Amenan Coulibaly",
+          "relationship": "head",
+          "age": 44,
+          "gender": "gender_f",
+          "occupation": "fulltime_cocoa_other",
+          "otherOccupation": "",
+          "pctTime": 0.25
+        },
+        {
+          "idx": 2,
+          "name": "Kouadio",
+          "relationship": "sibling",
+          "age": 51,
+          "gender": "gender_f",
+          "occupation": "parttime_cocoa_other",
+          "otherOccupation": "",
+          "pctTime": 0.5
+        },
+        {
+          "idx": 3,
+          "name": "Yao",
+          "relationship": "parent",
+          "age": 48,
+          "gender": "gender_m",
+          "occupation": "parttime_cocoa",
+          "otherOccupation": "",
+          "pctTime": 0.5
+        }
+      ],
+      "householdNotWorking": [
+        {
+          "idx": 1,
+          "name": "Konan",
+          "relationship": "cousin",
+          "age": 65,
+          "gender": "gender_m",
+          "occupation": "household_chores",
+          "contributesIncome": "yes"
+        },
+        {
+          "idx": 2,
+          "name": "Amenan",
+          "relationship": "spouse",
+          "age": 42,
+          "gender": "gender_f",
+          "occupation": "offfarm_paid",
+          "contributesIncome": "no"
+        }
+      ]
+    },
+    "revenues": {
+      "has": {
+        "coffee": false,
+        "otherCashCrops": true,
+        "stapleCrops": true,
+        "otherFoodCrops": false,
+        "livestock": true,
+        "otherIncome": false
+      },
+      "cocoaSales": [
+        {
+          "month": "oct",
+          "volume": 128,
+          "price": 48
+        },
+        {
+          "month": "nov",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "dec",
+          "volume": 294,
+          "price": 50
+        },
+        {
+          "month": "jan",
+          "volume": 301,
+          "price": 47
+        },
+        {
+          "month": "feb",
+          "volume": 41,
+          "price": 47
+        },
+        {
+          "month": "mar",
+          "volume": 183,
+          "price": 52
+        },
+        {
+          "month": "apr",
+          "volume": 214,
+          "price": 47
+        },
+        {
+          "month": "may",
+          "volume": 95,
+          "price": 48
+        },
+        {
+          "month": "jun",
+          "volume": 286,
+          "price": 48
+        },
+        {
+          "month": "jul",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "aug",
+          "volume": 204,
+          "price": 49
+        },
+        {
+          "month": "sep",
+          "volume": 180,
+          "price": 50
+        }
+      ],
+      "cocoaOtherIncome": [
+        {
+          "type": "fp",
+          "amount": 2300
+        }
+      ],
+      "coffeeSales": [
+        {
+          "month": "oct",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "nov",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "dec",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "jan",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "feb",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "mar",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "apr",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "may",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "jun",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "jul",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "aug",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "sep",
+          "volume": "",
+          "price": ""
+        }
+      ],
+      "coffeeOtherIncome": [
+        {
+          "type": "",
+          "amount": ""
+        }
+      ],
+      "otherCashCrops": [
+        {
+          "crop": "palm_oil",
+          "unit": "kilogram",
+          "q1": 1171,
+          "q2": 1264,
+          "q3": 1888,
+          "q4": 497,
+          "totalVolumeSold": 106,
+          "totalRevenueOverride": ""
+        }
+      ],
+      "stapleCrops": [
+        {
+          "crop": "corn",
+          "unit": "bag",
+          "q1": 95,
+          "q2": 296,
+          "q3": 141,
+          "q4": 56,
+          "qtyConsumed": 9,
+          "qtySold": 0
+        }
+      ],
+      "otherFoodCrops": [
+        {
+          "crop": "",
+          "consumption": "",
+          "sales": "",
+          "totalQtyProduced": "",
+          "totalMarketValue": ""
+        }
+      ],
+      "livestock": [
+        {
+          "product": "goat",
+          "consumption": "covers_needs",
+          "sales": "surplus_sold",
+          "totalQtyProduced": "",
+          "totalMarketValue": 3087
+        }
+      ],
+      "otherIncome": [
+        {
+          "product": "",
+          "unitOfSales": "",
+          "totalSales": "",
+          "avgPrice": "",
+          "revenueOverride": ""
+        }
+      ]
+    },
+    "costs": {
+      "agriInputs": [
+        {
+          "productType": "fertilizer",
+          "unit": "bag",
+          "qty": 2,
+          "totalCost": 2028,
+          "usedForCocoa": "25_49",
+          "subsidyValue": ""
+        },
+        {
+          "productType": "other",
+          "unit": "liter",
+          "qty": 5,
+          "totalCost": 849,
+          "usedForCocoa": "none",
+          "subsidyValue": ""
+        }
+      ],
+      "tools": [
+        {
+          "tool": "pioche",
+          "lifespan": 2,
+          "quantity": 1,
+          "totalCost": 556,
+          "depreciatedCost": "",
+          "usedForCocoa": "none",
+          "subsidyValue": ""
+        }
+      ],
+      "otherCosts": [
+        {
+          "costType": "fuel",
+          "details": "transport des fèves au dépôt",
+          "totalCost": 373,
+          "usedForCocoa": "50_74",
+          "subsidyValue": ""
+        }
+      ],
+      "sharecropPayments": [
+        {
+          "paymentType": "land_owner",
+          "cashOrKind": "cash",
+          "cocoaVolumeInKind": 66,
+          "costOrValue": 5395,
+          "cocoaShare": "none"
+        }
+      ]
+    },
+    "labour": [
+      {
+        "month": "oct",
+        "hhDays": 24,
+        "hhDaysCocoa": 10,
+        "hiredDays": 6,
+        "hiredDaysCocoa": 3,
+        "dailyWage": 78,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "nov",
+        "hhDays": "",
+        "hhDaysCocoa": "",
+        "hiredDays": "",
+        "hiredDaysCocoa": "",
+        "dailyWage": "",
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "dec",
+        "hhDays": "",
+        "hhDaysCocoa": "",
+        "hiredDays": "",
+        "hiredDaysCocoa": "",
+        "dailyWage": "",
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "jan",
+        "hhDays": 11,
+        "hhDaysCocoa": 10,
+        "hiredDays": 4,
+        "hiredDaysCocoa": 2,
+        "dailyWage": 66,
+        "otherService": "pruning",
+        "serviceUsedFor": "cocoa",
+        "serviceCost": 376,
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "feb",
+        "hhDays": 9,
+        "hhDaysCocoa": 6,
+        "hiredDays": 4,
+        "hiredDaysCocoa": 1,
+        "dailyWage": 99,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "mar",
+        "hhDays": 13,
+        "hhDaysCocoa": 11,
+        "hiredDays": 8,
+        "hiredDaysCocoa": 4,
+        "dailyWage": 83,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "apr",
+        "hhDays": "",
+        "hhDaysCocoa": "",
+        "hiredDays": "",
+        "hiredDaysCocoa": "",
+        "dailyWage": "",
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "may",
+        "hhDays": 18,
+        "hhDaysCocoa": 8,
+        "hiredDays": 8,
+        "hiredDaysCocoa": 0,
+        "dailyWage": 60,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "jun",
+        "hhDays": 9,
+        "hhDaysCocoa": 3,
+        "hiredDays": 5,
+        "hiredDaysCocoa": 1,
+        "dailyWage": 108,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "jul",
+        "hhDays": 9,
+        "hhDaysCocoa": 9,
+        "hiredDays": 5,
+        "hiredDaysCocoa": 3,
+        "dailyWage": 77,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "aug",
+        "hhDays": 8,
+        "hhDaysCocoa": 3,
+        "hiredDays": 1,
+        "hiredDaysCocoa": 0,
+        "dailyWage": 82,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "sep",
+        "hhDays": 10,
+        "hhDaysCocoa": 7,
+        "hiredDays": 9,
+        "hiredDaysCocoa": 9,
+        "dailyWage": 101,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      }
+    ],
+    "expenditures": {
+      "food": {
+        "q1": 1625,
+        "q2": 1810,
+        "q3": 2643,
+        "q4": 1041
+      },
+      "education": {
+        "q1": 780,
+        "q2": 992,
+        "q3": 1767,
+        "q4": 8
+      },
+      "healthcare": {
+        "q1": 830,
+        "q2": 1017,
+        "q3": 466,
+        "q4": 198
+      },
+      "other": {
+        "q1": 1442,
+        "q2": 1082,
+        "q3": 1202,
+        "q4": 742
+      }
+    }
+  },
+  {
+    "meta": {
+      "id": "hh_ms1kfv2j_tkki94",
+      "formatVersion": 2,
+      "language": "fr",
+      "createdAt": "2026-01-08T00:00:00.000Z",
+      "updatedAt": "2026-01-08T00:00:00.000Z",
+      "areaUnit": "acre",
+      "volumeUnit": "kg",
+      "currencyUnit": "XOF"
+    },
+    "consent": {
+      "respondentName": "Aya Bamba",
+      "date": "2026-01-08",
+      "releaseFI": true,
+      "releaseCoop": true,
+      "releasePN": true,
+      "releaseBuyers": true,
+      "oralConsent": "",
+      "explanation": ""
+    },
+    "profile": {
+      "coopName": "ECAM",
+      "floId": "5641",
+      "coachName": "Kouadio Serge",
+      "programme": "Living Income cocoa",
+      "producerName": "Aya Bamba",
+      "producerCode": "ECA729",
+      "village": "Divo",
+      "gps": "",
+      "cocoaAreaIms": 8,
+      "cocoaAreaImsMeasured": "estimated",
+      "cocoaVolumeProduced": 431,
+      "totalFarmAreaIms": 12,
+      "totalFarmAreaImsMeasured": "estimated",
+      "cocoaVolumeSoldCoop": 388,
+      "farmgatePriceMain": 45,
+      "fpDistributed": 2109,
+      "farmgatePriceMid": 44,
+      "otherDiffDistributed": 186,
+      "plots": [
+        {
+          "plotNo": 1,
+          "crop": "other_crop",
+          "otherCropName": "",
+          "area": 3,
+          "measured": "estimated",
+          "landArrangement": "owner_sharecropper",
+          "observation": "bad",
+          "treeAge": "15"
+        }
+      ],
+      "fallowLand": 2,
+      "minorFoodCrops": "igname, arachide",
+      "livestockKept": "poules, canards",
+      "householdWorking": [
+        {
+          "idx": 1,
+          "name": "Aya Bamba",
+          "relationship": "head",
+          "age": 58,
+          "gender": "gender_f",
+          "occupation": "parttime_cocoa_other",
+          "otherOccupation": "",
+          "pctTime": 1
+        },
+        {
+          "idx": 2,
+          "name": "Aya",
+          "relationship": "child",
+          "age": 26,
+          "gender": "gender_f",
+          "occupation": "fulltime_cocoa",
+          "otherOccupation": "vend des légumes au marché",
+          "pctTime": 0.75
+        },
+        {
+          "idx": 3,
+          "name": "Akoua",
+          "relationship": "sibling",
+          "age": 54,
+          "gender": "gender_m",
+          "occupation": "fulltime_cocoa_other",
+          "otherOccupation": "",
+          "pctTime": 0.75
+        }
+      ],
+      "householdNotWorking": [
+        {
+          "idx": 1,
+          "name": "N'Guessan",
+          "relationship": "cousin",
+          "age": 14,
+          "gender": "gender_f",
+          "occupation": "offfarm_paid",
+          "contributesIncome": "no"
+        }
+      ]
+    },
+    "revenues": {
+      "has": {
+        "coffee": true,
+        "otherCashCrops": false,
+        "stapleCrops": true,
+        "otherFoodCrops": false,
+        "livestock": false,
+        "otherIncome": false
+      },
+      "cocoaSales": [
+        {
+          "month": "oct",
+          "volume": 167,
+          "price": 42
+        },
+        {
+          "month": "nov",
+          "volume": 145,
+          "price": 46
+        },
+        {
+          "month": "dec",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "jan",
+          "volume": 130,
+          "price": 46
+        },
+        {
+          "month": "feb",
+          "volume": 330,
+          "price": 44
+        },
+        {
+          "month": "mar",
+          "volume": 242,
+          "price": 47
+        },
+        {
+          "month": "apr",
+          "volume": 101,
+          "price": 42
+        },
+        {
+          "month": "may",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "jun",
+          "volume": 279,
+          "price": 46
+        },
+        {
+          "month": "jul",
+          "volume": 96,
+          "price": 42
+        },
+        {
+          "month": "aug",
+          "volume": 272,
+          "price": 48
+        },
+        {
+          "month": "sep",
+          "volume": 339,
+          "price": 44
+        }
+      ],
+      "cocoaOtherIncome": [
+        {
+          "type": "fp",
+          "amount": 2662
+        }
+      ],
+      "coffeeSales": [
+        {
+          "month": "oct",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "nov",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "dec",
+          "volume": 95,
+          "price": 1380
+        },
+        {
+          "month": "jan",
+          "volume": 140,
+          "price": 1400
+        },
+        {
+          "month": "feb",
+          "volume": 160,
+          "price": 1400
+        },
+        {
+          "month": "mar",
+          "volume": 70,
+          "price": 1420
+        },
+        {
+          "month": "apr",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "may",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "jun",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "jul",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "aug",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "sep",
+          "volume": "",
+          "price": ""
+        }
+      ],
+      "coffeeOtherIncome": [
+        {
+          "type": "coffee quality bonus",
+          "amount": 31000
+        }
+      ],
+      "otherCashCrops": [],
+      "stapleCrops": [
+        {
+          "crop": "corn",
+          "unit": "bag",
+          "q1": 226,
+          "q2": 399,
+          "q3": 203,
+          "q4": 162,
+          "qtyConsumed": 8,
+          "qtySold": 9
+        }
+      ],
+      "otherFoodCrops": [
+        {
+          "crop": "",
+          "consumption": "",
+          "sales": "",
+          "totalQtyProduced": "",
+          "totalMarketValue": ""
+        }
+      ],
+      "livestock": [],
+      "otherIncome": [
+        {
+          "product": "",
+          "unitOfSales": "",
+          "totalSales": "",
+          "avgPrice": "",
+          "revenueOverride": ""
+        }
+      ]
+    },
+    "costs": {
+      "agriInputs": [
+        {
+          "productType": "pesticides",
+          "unit": "bag",
+          "qty": 4,
+          "totalCost": 1839,
+          "usedForCocoa": "none",
+          "subsidyValue": ""
+        },
+        {
+          "productType": "other",
+          "unit": "liter",
+          "qty": 5,
+          "totalCost": 664,
+          "usedForCocoa": "25_49",
+          "subsidyValue": ""
+        }
+      ],
+      "tools": [
+        {
+          "tool": "machette",
+          "lifespan": 3,
+          "quantity": 1,
+          "totalCost": 416,
+          "depreciatedCost": "",
+          "usedForCocoa": "0_24",
+          "subsidyValue": ""
+        }
+      ],
+      "otherCosts": [
+        {
+          "costType": "maintenance",
+          "details": "sacs de jute",
+          "totalCost": 354,
+          "usedForCocoa": "none",
+          "subsidyValue": ""
+        }
+      ],
+      "sharecropPayments": [
+        {
+          "paymentType": "sharecropper",
+          "cashOrKind": "cash",
+          "cocoaVolumeInKind": 40,
+          "costOrValue": 12177,
+          "cocoaShare": "none"
+        }
+      ]
+    },
+    "labour": [
+      {
+        "month": "oct",
+        "hhDays": 20,
+        "hhDaysCocoa": 10,
+        "hiredDays": 1,
+        "hiredDaysCocoa": 0,
+        "dailyWage": 82,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "nov",
+        "hhDays": 25,
+        "hhDaysCocoa": 14,
+        "hiredDays": 8,
+        "hiredDaysCocoa": 2,
+        "dailyWage": 112,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "dec",
+        "hhDays": "",
+        "hhDaysCocoa": "",
+        "hiredDays": "",
+        "hiredDaysCocoa": "",
+        "dailyWage": "",
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "jan",
+        "hhDays": 17,
+        "hhDaysCocoa": 6,
+        "hiredDays": 5,
+        "hiredDaysCocoa": 2,
+        "dailyWage": 70,
+        "otherService": "pod_breaking",
+        "serviceUsedFor": "cocoa",
+        "serviceCost": 244,
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "feb",
+        "hhDays": 22,
+        "hhDaysCocoa": 18,
+        "hiredDays": 10,
+        "hiredDaysCocoa": 2,
+        "dailyWage": 100,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "mar",
+        "hhDays": 22,
+        "hhDaysCocoa": 6,
+        "hiredDays": 6,
+        "hiredDaysCocoa": 3,
+        "dailyWage": 96,
+        "otherService": "pod_breaking",
+        "serviceUsedFor": "cocoa",
+        "serviceCost": 130,
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "apr",
+        "hhDays": 18,
+        "hhDaysCocoa": 12,
+        "hiredDays": 7,
+        "hiredDaysCocoa": 5,
+        "dailyWage": 89,
+        "otherService": "pod_breaking",
+        "serviceUsedFor": "cocoa",
+        "serviceCost": 156,
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "may",
+        "hhDays": 18,
+        "hhDaysCocoa": 10,
+        "hiredDays": 6,
+        "hiredDaysCocoa": 6,
+        "dailyWage": 63,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "jun",
+        "hhDays": 16,
+        "hhDaysCocoa": 16,
+        "hiredDays": 6,
+        "hiredDaysCocoa": 4,
+        "dailyWage": 94,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "jul",
+        "hhDays": "",
+        "hhDaysCocoa": "",
+        "hiredDays": "",
+        "hiredDaysCocoa": "",
+        "dailyWage": "",
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "aug",
+        "hhDays": "",
+        "hhDaysCocoa": "",
+        "hiredDays": "",
+        "hiredDaysCocoa": "",
+        "dailyWage": "",
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "sep",
+        "hhDays": 22,
+        "hhDaysCocoa": 12,
+        "hiredDays": 5,
+        "hiredDaysCocoa": 4,
+        "dailyWage": 120,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      }
+    ],
+    "expenditures": {
+      "food": {
+        "q1": 1781,
+        "q2": 1007,
+        "q3": 2783,
+        "q4": 1192
+      },
+      "education": {
+        "q1": 4968,
+        "q2": 114,
+        "q3": 808,
+        "q4": 678
+      },
+      "healthcare": {
+        "q1": 305,
+        "q2": 892,
+        "q3": 717,
+        "q4": 637
+      },
+      "other": {
+        "q1": 1090,
+        "q2": 1141,
+        "q3": 373,
+        "q4": 340
+      }
+    }
+  },
+  {
+    "meta": {
+      "id": "hh_ms1kfv2j_r9vtsw",
+      "formatVersion": 2,
+      "language": "fr",
+      "createdAt": "2026-04-04T00:00:00.000Z",
+      "updatedAt": "2026-04-04T00:00:00.000Z",
+      "areaUnit": "acre",
+      "volumeUnit": "kg",
+      "currencyUnit": "XOF"
+    },
+    "consent": {
+      "respondentName": "Akissi Traore",
+      "date": "2026-04-04",
+      "releaseFI": true,
+      "releaseCoop": true,
+      "releasePN": true,
+      "releaseBuyers": true,
+      "oralConsent": "",
+      "explanation": ""
+    },
+    "profile": {
+      "coopName": "SCOOPCA",
+      "floId": "9433",
+      "coachName": "Yao Bertin",
+      "programme": "Living Income cocoa",
+      "producerName": "Akissi Traore",
+      "producerCode": "SCO668",
+      "village": "Daloa",
+      "gps": "",
+      "cocoaAreaIms": 7,
+      "cocoaAreaImsMeasured": "estimated",
+      "cocoaVolumeProduced": 1555,
+      "totalFarmAreaIms": 11,
+      "totalFarmAreaImsMeasured": "estimated",
+      "cocoaVolumeSoldCoop": 1400,
+      "farmgatePriceMain": 45,
+      "fpDistributed": 2453,
+      "farmgatePriceMid": 52,
+      "otherDiffDistributed": 63,
+      "plots": [
+        {
+          "plotNo": 1,
+          "crop": "cocoa",
+          "otherCropName": "",
+          "area": 1,
+          "measured": "measured",
+          "landArrangement": "sharecropper_abunu",
+          "observation": "good",
+          "treeAge": "19"
+        },
+        {
+          "plotNo": 2,
+          "crop": "other_crop",
+          "otherCropName": "",
+          "area": 3,
+          "measured": "measured",
+          "landArrangement": "sharecropper_abusan",
+          "observation": "acceptable",
+          "treeAge": "13"
+        },
+        {
+          "plotNo": 3,
+          "crop": "cocoa",
+          "otherCropName": "",
+          "area": 2,
+          "measured": "measured",
+          "landArrangement": "owner_family",
+          "observation": "good",
+          "treeAge": "28"
+        }
+      ],
+      "fallowLand": 1,
+      "minorFoodCrops": "manioc, banane plantain",
+      "livestockKept": "poules, canards",
+      "householdWorking": [
+        {
+          "idx": 1,
+          "name": "Akissi Traore",
+          "relationship": "head",
+          "age": 38,
+          "gender": "gender_f",
+          "occupation": "parttime_cocoa_other",
+          "otherOccupation": "",
+          "pctTime": 0.25
+        },
+        {
+          "idx": 2,
+          "name": "Affoue",
+          "relationship": "child",
+          "age": 40,
+          "gender": "gender_f",
+          "occupation": "parttime_cocoa_other",
+          "otherOccupation": "",
+          "pctTime": 0.75
+        }
+      ],
+      "householdNotWorking": [
+        {
+          "idx": 1,
+          "name": "Akoua",
+          "relationship": "parent",
+          "age": 56,
+          "gender": "gender_m",
+          "occupation": "student",
+          "contributesIncome": "no"
+        },
+        {
+          "idx": 2,
+          "name": "Akoua",
+          "relationship": "parent",
+          "age": 69,
+          "gender": "gender_m",
+          "occupation": "student",
+          "contributesIncome": "no"
+        },
+        {
+          "idx": 3,
+          "name": "Aya",
+          "relationship": "child",
+          "age": 58,
+          "gender": "gender_f",
+          "occupation": "household_chores",
+          "contributesIncome": "yes"
+        }
+      ]
+    },
+    "revenues": {
+      "has": {
+        "coffee": false,
+        "otherCashCrops": true,
+        "stapleCrops": true,
+        "otherFoodCrops": false,
+        "livestock": true,
+        "otherIncome": false
+      },
+      "cocoaSales": [
+        {
+          "month": "oct",
+          "volume": 152,
+          "price": 42
+        },
+        {
+          "month": "nov",
+          "volume": 259,
+          "price": 47
+        },
+        {
+          "month": "dec",
+          "volume": 347,
+          "price": 46
+        },
+        {
+          "month": "jan",
+          "volume": 221,
+          "price": 48
+        },
+        {
+          "month": "feb",
+          "volume": 335,
+          "price": 47
+        },
+        {
+          "month": "mar",
+          "volume": 298,
+          "price": 47
+        },
+        {
+          "month": "apr",
+          "volume": 184,
+          "price": 43
+        },
+        {
+          "month": "may",
+          "volume": 65,
+          "price": 44
+        },
+        {
+          "month": "jun",
+          "volume": 166,
+          "price": 42
+        },
+        {
+          "month": "jul",
+          "volume": 114,
+          "price": 45
+        },
+        {
+          "month": "aug",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "sep",
+          "volume": 110,
+          "price": 45
+        }
+      ],
+      "cocoaOtherIncome": [
+        {
+          "type": "organic_premium",
+          "amount": 4783
+        },
+        {
+          "type": "lirp_diff",
+          "amount": 546
+        }
+      ],
+      "coffeeSales": [
+        {
+          "month": "oct",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "nov",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "dec",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "jan",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "feb",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "mar",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "apr",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "may",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "jun",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "jul",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "aug",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "sep",
+          "volume": "",
+          "price": ""
+        }
+      ],
+      "coffeeOtherIncome": [
+        {
+          "type": "",
+          "amount": ""
+        }
+      ],
+      "otherCashCrops": [
+        {
+          "crop": "cashew",
+          "unit": "kilogram",
+          "q1": 324,
+          "q2": 411,
+          "q3": 1356,
+          "q4": 90,
+          "totalVolumeSold": 406,
+          "totalRevenueOverride": ""
+        }
+      ],
+      "stapleCrops": [
+        {
+          "crop": "cassava",
+          "unit": "bag",
+          "q1": 72,
+          "q2": 191,
+          "q3": 208,
+          "q4": 283,
+          "qtyConsumed": 8,
+          "qtySold": 2
+        }
+      ],
+      "otherFoodCrops": [
+        {
+          "crop": "",
+          "consumption": "",
+          "sales": "",
+          "totalQtyProduced": "",
+          "totalMarketValue": ""
+        }
+      ],
+      "livestock": [
+        {
+          "product": "eggs",
+          "consumption": "covers_needs",
+          "sales": "surplus_sold",
+          "totalQtyProduced": "",
+          "totalMarketValue": 3622
+        }
+      ],
+      "otherIncome": [
+        {
+          "product": "",
+          "unitOfSales": "",
+          "totalSales": "",
+          "avgPrice": "",
+          "revenueOverride": ""
+        }
+      ]
+    },
+    "costs": {
+      "agriInputs": [
+        {
+          "productType": "other",
+          "unit": "bag",
+          "qty": 2,
+          "totalCost": 2229,
+          "usedForCocoa": "75_99",
+          "subsidyValue": ""
+        },
+        {
+          "productType": "other",
+          "unit": "liter",
+          "qty": 4,
+          "totalCost": 989,
+          "usedForCocoa": "100",
+          "subsidyValue": ""
+        }
+      ],
+      "tools": [
+        {
+          "tool": "sécateur",
+          "lifespan": 4,
+          "quantity": 1,
+          "totalCost": 244,
+          "depreciatedCost": "",
+          "usedForCocoa": "75_99",
+          "subsidyValue": ""
+        }
+      ],
+      "otherCosts": [
+        {
+          "costType": "maintenance",
+          "details": "cotisation coopérative",
+          "totalCost": 834,
+          "usedForCocoa": "75_99",
+          "subsidyValue": ""
+        }
+      ],
+      "sharecropPayments": [
+        {
+          "paymentType": "caretaker",
+          "cashOrKind": "cash",
+          "cocoaVolumeInKind": 93,
+          "costOrValue": 10583,
+          "cocoaShare": "50_74"
+        }
+      ]
+    },
+    "labour": [
+      {
+        "month": "oct",
+        "hhDays": 21,
+        "hhDaysCocoa": 8,
+        "hiredDays": 3,
+        "hiredDaysCocoa": 0,
+        "dailyWage": 97,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "nov",
+        "hhDays": "",
+        "hhDaysCocoa": "",
+        "hiredDays": "",
+        "hiredDaysCocoa": "",
+        "dailyWage": "",
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "dec",
+        "hhDays": 25,
+        "hhDaysCocoa": 12,
+        "hiredDays": 8,
+        "hiredDaysCocoa": 5,
+        "dailyWage": 118,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "jan",
+        "hhDays": "",
+        "hhDaysCocoa": "",
+        "hiredDays": "",
+        "hiredDaysCocoa": "",
+        "dailyWage": "",
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "feb",
+        "hhDays": 5,
+        "hhDaysCocoa": 5,
+        "hiredDays": 10,
+        "hiredDaysCocoa": 3,
+        "dailyWage": 89,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "mar",
+        "hhDays": "",
+        "hhDaysCocoa": "",
+        "hiredDays": "",
+        "hiredDaysCocoa": "",
+        "dailyWage": "",
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "apr",
+        "hhDays": 16,
+        "hhDaysCocoa": 13,
+        "hiredDays": 8,
+        "hiredDaysCocoa": 6,
+        "dailyWage": 91,
+        "otherService": "spraying",
+        "serviceUsedFor": "cocoa",
+        "serviceCost": 322,
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "may",
+        "hhDays": "",
+        "hhDaysCocoa": "",
+        "hiredDays": "",
+        "hiredDaysCocoa": "",
+        "dailyWage": "",
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "jun",
+        "hhDays": 15,
+        "hhDaysCocoa": 13,
+        "hiredDays": 0,
+        "hiredDaysCocoa": 0,
+        "dailyWage": 92,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "jul",
+        "hhDays": "",
+        "hhDaysCocoa": "",
+        "hiredDays": "",
+        "hiredDaysCocoa": "",
+        "dailyWage": "",
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "aug",
+        "hhDays": 5,
+        "hhDaysCocoa": 4,
+        "hiredDays": 4,
+        "hiredDaysCocoa": 0,
+        "dailyWage": 95,
+        "otherService": "harvesting",
+        "serviceUsedFor": "cocoa",
+        "serviceCost": 187,
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "sep",
+        "hhDays": "",
+        "hhDaysCocoa": "",
+        "hiredDays": "",
+        "hiredDaysCocoa": "",
+        "dailyWage": "",
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      }
+    ],
+    "expenditures": {
+      "food": {
+        "q1": 1289,
+        "q2": 1840,
+        "q3": 1024,
+        "q4": 2086
+      },
+      "education": {
+        "q1": 4371,
+        "q2": 478,
+        "q3": 246,
+        "q4": 1481
+      },
+      "healthcare": {
+        "q1": 687,
+        "q2": 579,
+        "q3": 371,
+        "q4": 762
+      },
+      "other": {
+        "q1": 100,
+        "q2": 897,
+        "q3": 1389,
+        "q4": 1388
+      }
+    }
+  },
+  {
+    "meta": {
+      "id": "hh_ms1kfv2j_f11cvg",
+      "formatVersion": 2,
+      "language": "fr",
+      "createdAt": "2026-04-18T00:00:00.000Z",
+      "updatedAt": "2026-04-18T00:00:00.000Z",
+      "areaUnit": "acre",
+      "volumeUnit": "kg",
+      "currencyUnit": "XOF"
+    },
+    "consent": {
+      "respondentName": "Aya Kone",
+      "date": "2026-04-18",
+      "releaseFI": true,
+      "releaseCoop": true,
+      "releasePN": false,
+      "releaseBuyers": true,
+      "oralConsent": "",
+      "explanation": "consentement oral obtenu en présence du chef de village"
+    },
+    "profile": {
+      "coopName": "CAYAT",
+      "floId": "8951",
+      "coachName": "Yao Bertin",
+      "programme": "Living Income cocoa",
+      "producerName": "Aya Kone",
+      "producerCode": "CAY431",
+      "village": "Soubré",
+      "gps": "",
+      "cocoaAreaIms": 3,
+      "cocoaAreaImsMeasured": "estimated",
+      "cocoaVolumeProduced": 772,
+      "totalFarmAreaIms": 7,
+      "totalFarmAreaImsMeasured": "estimated",
+      "cocoaVolumeSoldCoop": 695,
+      "farmgatePriceMain": 45,
+      "fpDistributed": 543,
+      "farmgatePriceMid": 54,
+      "otherDiffDistributed": 251,
+      "plots": [
+        {
+          "plotNo": 1,
+          "crop": "cocoa_intercropped",
+          "otherCropName": "",
+          "area": 3,
+          "measured": "measured",
+          "landArrangement": "owner_family",
+          "observation": "acceptable",
+          "treeAge": "30"
+        }
+      ],
+      "fallowLand": 0,
+      "minorFoodCrops": "igname, arachide",
+      "livestockKept": "moutons",
+      "householdWorking": [
+        {
+          "idx": 1,
+          "name": "Aya Kone",
+          "relationship": "head",
+          "age": 38,
+          "gender": "gender_f",
+          "occupation": "parttime_cocoa_other",
+          "otherOccupation": "",
+          "pctTime": 1
+        },
+        {
+          "idx": 2,
+          "name": "Adjoua",
+          "relationship": "child",
+          "age": 57,
+          "gender": "gender_m",
+          "occupation": "fulltime_cocoa",
+          "otherOccupation": "",
+          "pctTime": 0.25
+        },
+        {
+          "idx": 3,
+          "name": "Kouadio",
+          "relationship": "cousin",
+          "age": 52,
+          "gender": "gender_m",
+          "occupation": "parttime_cocoa_other",
+          "otherOccupation": "petit commerce au village",
+          "pctTime": 0.5
+        }
+      ],
+      "householdNotWorking": [
+        {
+          "idx": 1,
+          "name": "Aya",
+          "relationship": "cousin",
+          "age": 67,
+          "gender": "gender_f",
+          "occupation": "offfarm_paid",
+          "contributesIncome": "no"
+        }
+      ]
+    },
+    "revenues": {
+      "has": {
+        "coffee": false,
+        "otherCashCrops": true,
+        "stapleCrops": true,
+        "otherFoodCrops": true,
+        "livestock": false,
+        "otherIncome": false
+      },
+      "cocoaSales": [
+        {
+          "month": "oct",
+          "volume": 180,
+          "price": 45
+        },
+        {
+          "month": "nov",
+          "volume": 290,
+          "price": 44
+        },
+        {
+          "month": "dec",
+          "volume": 120,
+          "price": 43
+        },
+        {
+          "month": "jan",
+          "volume": 322,
+          "price": 43
+        },
+        {
+          "month": "feb",
+          "volume": 346,
+          "price": 42
+        },
+        {
+          "month": "mar",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "apr",
+          "volume": 95,
+          "price": 43
+        },
+        {
+          "month": "may",
+          "volume": 40,
+          "price": 47
+        },
+        {
+          "month": "jun",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "jul",
+          "volume": 48,
+          "price": 43
+        },
+        {
+          "month": "aug",
+          "volume": 326,
+          "price": 42
+        },
+        {
+          "month": "sep",
+          "volume": 242,
+          "price": 43
+        }
+      ],
+      "cocoaOtherIncome": [
+        {
+          "type": "organic_premium",
+          "amount": 967
+        }
+      ],
+      "coffeeSales": [
+        {
+          "month": "oct",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "nov",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "dec",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "jan",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "feb",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "mar",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "apr",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "may",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "jun",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "jul",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "aug",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "sep",
+          "volume": "",
+          "price": ""
+        }
+      ],
+      "coffeeOtherIncome": [
+        {
+          "type": "",
+          "amount": ""
+        }
+      ],
+      "otherCashCrops": [
+        {
+          "crop": "cashew",
+          "unit": "kilogram",
+          "q1": 1878,
+          "q2": 1676,
+          "q3": 652,
+          "q4": 264,
+          "totalVolumeSold": 76,
+          "totalRevenueOverride": ""
+        }
+      ],
+      "stapleCrops": [
+        {
+          "crop": "yam",
+          "unit": "bag",
+          "q1": 372,
+          "q2": 84,
+          "q3": 159,
+          "q4": 238,
+          "qtyConsumed": 3,
+          "qtySold": 9
+        }
+      ],
+      "otherFoodCrops": [
+        {
+          "crop": "beans",
+          "consumption": "covers_needs",
+          "sales": "no_sales",
+          "totalQtyProduced": 90,
+          "totalMarketValue": 15200
+        }
+      ],
+      "livestock": [],
+      "otherIncome": [
+        {
+          "product": "",
+          "unitOfSales": "",
+          "totalSales": "",
+          "avgPrice": "",
+          "revenueOverride": ""
+        }
+      ]
+    },
+    "costs": {
+      "agriInputs": [
+        {
+          "productType": "seedlings",
+          "unit": "bag",
+          "qty": 7,
+          "totalCost": 2762,
+          "usedForCocoa": "25_49",
+          "subsidyValue": ""
+        }
+      ],
+      "tools": [
+        {
+          "tool": "brouette",
+          "lifespan": 1,
+          "quantity": 1,
+          "totalCost": 388,
+          "depreciatedCost": "",
+          "usedForCocoa": "100",
+          "subsidyValue": ""
+        }
+      ],
+      "otherCosts": [
+        {
+          "costType": "coop_fees",
+          "details": "cotisation coopérative",
+          "totalCost": 572,
+          "usedForCocoa": "0_24",
+          "subsidyValue": ""
+        }
+      ],
+      "sharecropPayments": []
+    },
+    "labour": [
+      {
+        "month": "oct",
+        "hhDays": 6,
+        "hhDaysCocoa": 3,
+        "hiredDays": 8,
+        "hiredDaysCocoa": 7,
+        "dailyWage": 84,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "nov",
+        "hhDays": 7,
+        "hhDaysCocoa": 5,
+        "hiredDays": 1,
+        "hiredDaysCocoa": 1,
+        "dailyWage": 119,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "dec",
+        "hhDays": 24,
+        "hhDaysCocoa": 21,
+        "hiredDays": 9,
+        "hiredDaysCocoa": 0,
+        "dailyWage": 75,
+        "otherService": "weeding",
+        "serviceUsedFor": "cocoa",
+        "serviceCost": 475,
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "jan",
+        "hhDays": 5,
+        "hhDaysCocoa": 5,
+        "hiredDays": 10,
+        "hiredDaysCocoa": 6,
+        "dailyWage": 104,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "feb",
+        "hhDays": 13,
+        "hhDaysCocoa": 7,
+        "hiredDays": 0,
+        "hiredDaysCocoa": 0,
+        "dailyWage": 66,
+        "otherService": "weeding",
+        "serviceUsedFor": "cocoa",
+        "serviceCost": 203,
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "mar",
+        "hhDays": "",
+        "hhDaysCocoa": "",
+        "hiredDays": "",
+        "hiredDaysCocoa": "",
+        "dailyWage": "",
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "apr",
+        "hhDays": "",
+        "hhDaysCocoa": "",
+        "hiredDays": "",
+        "hiredDaysCocoa": "",
+        "dailyWage": "",
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "may",
+        "hhDays": 5,
+        "hhDaysCocoa": 3,
+        "hiredDays": 6,
+        "hiredDaysCocoa": 2,
+        "dailyWage": 61,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "jun",
+        "hhDays": "",
+        "hhDaysCocoa": "",
+        "hiredDays": "",
+        "hiredDaysCocoa": "",
+        "dailyWage": "",
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "jul",
+        "hhDays": 24,
+        "hhDaysCocoa": 22,
+        "hiredDays": 10,
+        "hiredDaysCocoa": 3,
+        "dailyWage": 93,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "aug",
+        "hhDays": "",
+        "hhDaysCocoa": "",
+        "hiredDays": "",
+        "hiredDaysCocoa": "",
+        "dailyWage": "",
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "sep",
+        "hhDays": 23,
+        "hhDaysCocoa": 19,
+        "hiredDays": 2,
+        "hiredDaysCocoa": 1,
+        "dailyWage": 61,
+        "otherService": "spraying",
+        "serviceUsedFor": "cocoa",
+        "serviceCost": 118,
+        "subsidizedLabour": ""
+      }
+    ],
+    "expenditures": {
+      "food": {
+        "q1": 1593,
+        "q2": 2122,
+        "q3": 2566,
+        "q4": 1882
+      },
+      "education": {
+        "q1": 4196,
+        "q2": 1179,
+        "q3": 1823,
+        "q4": 1549
+      },
+      "healthcare": {
+        "q1": 935,
+        "q2": 1364,
+        "q3": 460,
+        "q4": 496
+      },
+      "other": {
+        "q1": 166,
+        "q2": 1300,
+        "q3": 220,
+        "q4": 15
+      }
+    }
+  },
+  {
+    "meta": {
+      "id": "hh_ms1kfv2k_uxctgc",
+      "formatVersion": 2,
+      "language": "en",
+      "createdAt": "2026-04-27T00:00:00.000Z",
+      "updatedAt": "2026-04-27T00:00:00.000Z",
+      "areaUnit": "acre",
+      "volumeUnit": "kg",
+      "currencyUnit": "GHS"
+    },
+    "consent": {
+      "respondentName": "Kwame Asante",
+      "date": "2026-04-27",
+      "releaseFI": true,
+      "releaseCoop": true,
+      "releasePN": false,
+      "releaseBuyers": true,
+      "oralConsent": "",
+      "explanation": ""
+    },
+    "profile": {
+      "coopName": "Fair Ghana Coop",
+      "floId": "9326",
+      "coachName": "Comfort Adjei",
+      "programme": "Living Income cocoa",
+      "producerName": "Kwame Asante",
+      "producerCode": "FAI606",
+      "village": "Suhum",
+      "gps": "",
+      "cocoaAreaIms": 5,
+      "cocoaAreaImsMeasured": "estimated",
+      "cocoaVolumeProduced": 1560,
+      "totalFarmAreaIms": 7,
+      "totalFarmAreaImsMeasured": "estimated",
+      "cocoaVolumeSoldCoop": 1404,
+      "farmgatePriceMain": 38,
+      "fpDistributed": 1125,
+      "farmgatePriceMid": 42,
+      "otherDiffDistributed": 1015,
+      "plots": [
+        {
+          "plotNo": 1,
+          "crop": "other_crop",
+          "otherCropName": "",
+          "area": 2,
+          "measured": "estimated",
+          "landArrangement": "sharecropper_abusan",
+          "observation": "bad",
+          "treeAge": "27"
+        },
+        {
+          "plotNo": 2,
+          "crop": "cocoa",
+          "otherCropName": "",
+          "area": 4,
+          "measured": "estimated",
+          "landArrangement": "owner_caretaker",
+          "observation": "good",
+          "treeAge": "6"
+        },
+        {
+          "plotNo": 3,
+          "crop": "cocoa",
+          "otherCropName": "",
+          "area": 1,
+          "measured": "measured",
+          "landArrangement": "sharecropper_abunu",
+          "observation": "good",
+          "treeAge": "20"
+        },
+        {
+          "plotNo": 4,
+          "crop": "cocoa_intercropped",
+          "otherCropName": "",
+          "area": 1,
+          "measured": "estimated",
+          "landArrangement": "owner_family",
+          "observation": "acceptable",
+          "treeAge": "17"
+        }
+      ],
+      "fallowLand": 0,
+      "minorFoodCrops": "cassava, plantain",
+      "livestockKept": "sheep",
+      "householdWorking": [
+        {
+          "idx": 1,
+          "name": "Kwame Asante",
+          "relationship": "head",
+          "age": 31,
+          "gender": "gender_m",
+          "occupation": "fulltime_cocoa",
+          "otherOccupation": "",
+          "pctTime": 0.5
+        },
+        {
+          "idx": 2,
+          "name": "Kwame",
+          "relationship": "head",
+          "age": 32,
+          "gender": "gender_f",
+          "occupation": "parttime_cocoa_other",
+          "otherOccupation": "",
+          "pctTime": 1
+        }
+      ],
+      "householdNotWorking": [
+        {
+          "idx": 1,
+          "name": "Comfort",
+          "relationship": "sibling",
+          "age": 57,
+          "gender": "gender_f",
+          "occupation": "household_chores",
+          "contributesIncome": "no"
+        },
+        {
+          "idx": 2,
+          "name": "Efua",
+          "relationship": "child",
+          "age": 53,
+          "gender": "gender_m",
+          "occupation": "retired",
+          "contributesIncome": "no"
+        }
+      ]
+    },
+    "revenues": {
+      "has": {
+        "coffee": false,
+        "otherCashCrops": true,
+        "stapleCrops": true,
+        "otherFoodCrops": false,
+        "livestock": false,
+        "otherIncome": true
+      },
+      "cocoaSales": [
+        {
+          "month": "oct",
+          "volume": 120,
+          "price": 36
+        },
+        {
+          "month": "nov",
+          "volume": 198,
+          "price": 41
+        },
+        {
+          "month": "dec",
+          "volume": 167,
+          "price": 38
+        },
+        {
+          "month": "jan",
+          "volume": 126,
+          "price": 37
+        },
+        {
+          "month": "feb",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "mar",
+          "volume": 194,
+          "price": 40
+        },
+        {
+          "month": "apr",
+          "volume": 275,
+          "price": 35
+        },
+        {
+          "month": "may",
+          "volume": 280,
+          "price": 39
+        },
+        {
+          "month": "jun",
+          "volume": 262,
+          "price": 40
+        },
+        {
+          "month": "jul",
+          "volume": 150,
+          "price": 39
+        },
+        {
+          "month": "aug",
+          "volume": 245,
+          "price": 38
+        },
+        {
+          "month": "sep",
+          "volume": 61,
+          "price": 39
+        }
+      ],
+      "cocoaOtherIncome": [
+        {
+          "type": "fp",
+          "amount": 1510
+        },
+        {
+          "type": "organic_premium",
+          "amount": 938
+        }
+      ],
+      "coffeeSales": [
+        {
+          "month": "oct",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "nov",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "dec",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "jan",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "feb",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "mar",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "apr",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "may",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "jun",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "jul",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "aug",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "sep",
+          "volume": "",
+          "price": ""
+        }
+      ],
+      "coffeeOtherIncome": [
+        {
+          "type": "",
+          "amount": ""
+        }
+      ],
+      "otherCashCrops": [
+        {
+          "crop": "cashew",
+          "unit": "kilogram",
+          "q1": 965,
+          "q2": 1197,
+          "q3": 1120,
+          "q4": 886,
+          "totalVolumeSold": 478,
+          "totalRevenueOverride": ""
+        }
+      ],
+      "stapleCrops": [
+        {
+          "crop": "yam",
+          "unit": "bag",
+          "q1": 284,
+          "q2": 63,
+          "q3": 331,
+          "q4": 317,
+          "qtyConsumed": 6,
+          "qtySold": 10
+        }
+      ],
+      "otherFoodCrops": [
+        {
+          "crop": "",
+          "consumption": "",
+          "sales": "",
+          "totalQtyProduced": "",
+          "totalMarketValue": ""
+        }
+      ],
+      "livestock": [],
+      "otherIncome": [
+        {
+          "product": "palm wine sales",
+          "unitOfSales": "kilogram",
+          "totalSales": 420,
+          "avgPrice": 150,
+          "revenueOverride": ""
+        }
+      ]
+    },
+    "costs": {
+      "agriInputs": [
+        {
+          "productType": "fertilizer",
+          "unit": "bag",
+          "qty": 5,
+          "totalCost": 927,
+          "usedForCocoa": "50_74",
+          "subsidyValue": ""
+        },
+        {
+          "productType": "pesticides",
+          "unit": "liter",
+          "qty": 1,
+          "totalCost": 652,
+          "usedForCocoa": "75_99",
+          "subsidyValue": ""
+        }
+      ],
+      "tools": [
+        {
+          "tool": "hoe",
+          "lifespan": 2,
+          "quantity": 1,
+          "totalCost": 603,
+          "depreciatedCost": "",
+          "usedForCocoa": "25_49",
+          "subsidyValue": ""
+        }
+      ],
+      "otherCosts": [
+        {
+          "costType": "coop_fees",
+          "details": "jute bags",
+          "totalCost": 245,
+          "usedForCocoa": "75_99",
+          "subsidyValue": ""
+        }
+      ],
+      "sharecropPayments": []
+    },
+    "labour": [
+      {
+        "month": "oct",
+        "hhDays": 6,
+        "hhDaysCocoa": 6,
+        "hiredDays": 9,
+        "hiredDaysCocoa": 7,
+        "dailyWage": 60,
+        "otherService": "spraying",
+        "serviceUsedFor": "cocoa",
+        "serviceCost": 412,
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "nov",
+        "hhDays": 10,
+        "hhDaysCocoa": 8,
+        "hiredDays": 10,
+        "hiredDaysCocoa": 7,
+        "dailyWage": 112,
+        "otherService": "spraying",
+        "serviceUsedFor": "cocoa",
+        "serviceCost": 215,
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "dec",
+        "hhDays": 10,
+        "hhDaysCocoa": 10,
+        "hiredDays": 9,
+        "hiredDaysCocoa": 1,
+        "dailyWage": 70,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "jan",
+        "hhDays": 22,
+        "hhDaysCocoa": 6,
+        "hiredDays": 8,
+        "hiredDaysCocoa": 0,
+        "dailyWage": 111,
+        "otherService": "spraying",
+        "serviceUsedFor": "cocoa",
+        "serviceCost": 474,
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "feb",
+        "hhDays": 7,
+        "hhDaysCocoa": 6,
+        "hiredDays": 9,
+        "hiredDaysCocoa": 7,
+        "dailyWage": 66,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "mar",
+        "hhDays": 8,
+        "hhDaysCocoa": 4,
+        "hiredDays": 5,
+        "hiredDaysCocoa": 2,
+        "dailyWage": 85,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "apr",
+        "hhDays": "",
+        "hhDaysCocoa": "",
+        "hiredDays": "",
+        "hiredDaysCocoa": "",
+        "dailyWage": "",
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "may",
+        "hhDays": 10,
+        "hhDaysCocoa": 5,
+        "hiredDays": 2,
+        "hiredDaysCocoa": 0,
+        "dailyWage": 74,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "jun",
+        "hhDays": 14,
+        "hhDaysCocoa": 3,
+        "hiredDays": 6,
+        "hiredDaysCocoa": 6,
+        "dailyWage": 76,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "jul",
+        "hhDays": "",
+        "hhDaysCocoa": "",
+        "hiredDays": "",
+        "hiredDaysCocoa": "",
+        "dailyWage": "",
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "aug",
+        "hhDays": "",
+        "hhDaysCocoa": "",
+        "hiredDays": "",
+        "hiredDaysCocoa": "",
+        "dailyWage": "",
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "sep",
+        "hhDays": 15,
+        "hhDaysCocoa": 10,
+        "hiredDays": 4,
+        "hiredDaysCocoa": 3,
+        "dailyWage": 110,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      }
+    ],
+    "expenditures": {
+      "food": {
+        "q1": 2332,
+        "q2": 1742,
+        "q3": 2636,
+        "q4": 2418
+      },
+      "education": {
+        "q1": 1673,
+        "q2": 182,
+        "q3": 1733,
+        "q4": 447
+      },
+      "healthcare": {
+        "q1": 59,
+        "q2": 1138,
+        "q3": 1493,
+        "q4": 1266
+      },
+      "other": {
+        "q1": 1311,
+        "q2": 753,
+        "q3": 817,
+        "q4": 179
+      }
+    }
+  },
+  {
+    "meta": {
+      "id": "hh_ms1kfv2k_xeyemj",
+      "formatVersion": 2,
+      "language": "en",
+      "createdAt": "2026-06-06T00:00:00.000Z",
+      "updatedAt": "2026-06-06T00:00:00.000Z",
+      "areaUnit": "acre",
+      "volumeUnit": "kg",
+      "currencyUnit": "GHS"
+    },
+    "consent": {
+      "respondentName": "Kofi Asante",
+      "date": "2026-06-06",
+      "releaseFI": true,
+      "releaseCoop": true,
+      "releasePN": true,
+      "releaseBuyers": false,
+      "oralConsent": "",
+      "explanation": ""
+    },
+    "profile": {
+      "coopName": "Fair Ghana Coop",
+      "floId": "9751",
+      "coachName": "Comfort Adjei",
+      "programme": "Living Income cocoa",
+      "producerName": "Kofi Asante",
+      "producerCode": "FAI417",
+      "village": "Suhum",
+      "gps": "",
+      "cocoaAreaIms": 3,
+      "cocoaAreaImsMeasured": "estimated",
+      "cocoaVolumeProduced": 1586,
+      "totalFarmAreaIms": 7,
+      "totalFarmAreaImsMeasured": "estimated",
+      "cocoaVolumeSoldCoop": 1427,
+      "farmgatePriceMain": 49,
+      "fpDistributed": 558,
+      "farmgatePriceMid": 46,
+      "otherDiffDistributed": 615,
+      "plots": [
+        {
+          "plotNo": 1,
+          "crop": "other_crop",
+          "otherCropName": "",
+          "area": 1,
+          "measured": "measured",
+          "landArrangement": "owner_sharecropper",
+          "observation": "good",
+          "treeAge": "24"
+        },
+        {
+          "plotNo": 2,
+          "crop": "other_crop",
+          "otherCropName": "",
+          "area": 4,
+          "measured": "estimated",
+          "landArrangement": "owner_family",
+          "observation": "good",
+          "treeAge": "18"
+        },
+        {
+          "plotNo": 3,
+          "crop": "cocoa_intercropped",
+          "otherCropName": "",
+          "area": 3,
+          "measured": "estimated",
+          "landArrangement": "owner_family",
+          "observation": "bad",
+          "treeAge": "3"
+        },
+        {
+          "plotNo": 4,
+          "crop": "cocoa_intercropped",
+          "otherCropName": "",
+          "area": 4,
+          "measured": "measured",
+          "landArrangement": "sharecropper_abunu",
+          "observation": "good",
+          "treeAge": "28"
+        }
+      ],
+      "fallowLand": 0,
+      "minorFoodCrops": "yam, groundnut",
+      "livestockKept": "sheep",
+      "householdWorking": [
+        {
+          "idx": 1,
+          "name": "Kofi Asante",
+          "relationship": "head",
+          "age": 42,
+          "gender": "gender_f",
+          "occupation": "parttime_cocoa_other",
+          "otherOccupation": "",
+          "pctTime": 0.5
+        }
+      ],
+      "householdNotWorking": [
+        {
+          "idx": 1,
+          "name": "Kofi",
+          "relationship": "head",
+          "age": 73,
+          "gender": "gender_m",
+          "occupation": "student",
+          "contributesIncome": "no"
+        }
+      ]
+    },
+    "revenues": {
+      "has": {
+        "coffee": false,
+        "otherCashCrops": false,
+        "stapleCrops": true,
+        "otherFoodCrops": false,
+        "livestock": false,
+        "otherIncome": false
+      },
+      "cocoaSales": [
+        {
+          "month": "oct",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "nov",
+          "volume": 57,
+          "price": 47
+        },
+        {
+          "month": "dec",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "jan",
+          "volume": 75,
+          "price": 52
+        },
+        {
+          "month": "feb",
+          "volume": 99,
+          "price": 50
+        },
+        {
+          "month": "mar",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "apr",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "may",
+          "volume": 292,
+          "price": 50
+        },
+        {
+          "month": "jun",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "jul",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "aug",
+          "volume": 284,
+          "price": 51
+        },
+        {
+          "month": "sep",
+          "volume": 133,
+          "price": 49
+        }
+      ],
+      "cocoaOtherIncome": [
+        {
+          "type": "fp",
+          "amount": 2061
+        }
+      ],
+      "coffeeSales": [
+        {
+          "month": "oct",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "nov",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "dec",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "jan",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "feb",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "mar",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "apr",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "may",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "jun",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "jul",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "aug",
+          "volume": "",
+          "price": ""
+        },
+        {
+          "month": "sep",
+          "volume": "",
+          "price": ""
+        }
+      ],
+      "coffeeOtherIncome": [
+        {
+          "type": "",
+          "amount": ""
+        }
+      ],
+      "otherCashCrops": [],
+      "stapleCrops": [
+        {
+          "crop": "cassava",
+          "unit": "bag",
+          "q1": 382,
+          "q2": 367,
+          "q3": 242,
+          "q4": 388,
+          "qtyConsumed": 2,
+          "qtySold": 1
+        }
+      ],
+      "otherFoodCrops": [
+        {
+          "crop": "",
+          "consumption": "",
+          "sales": "",
+          "totalQtyProduced": "",
+          "totalMarketValue": ""
+        }
+      ],
+      "livestock": [],
+      "otherIncome": [
+        {
+          "product": "",
+          "unitOfSales": "",
+          "totalSales": "",
+          "avgPrice": "",
+          "revenueOverride": ""
+        }
+      ]
+    },
+    "costs": {
+      "agriInputs": [
+        {
+          "productType": "seedlings",
+          "unit": "bag",
+          "qty": 1,
+          "totalCost": 437,
+          "usedForCocoa": "0_24",
+          "subsidyValue": ""
+        }
+      ],
+      "tools": [
+        {
+          "tool": "knapsack sprayer",
+          "lifespan": 2,
+          "quantity": 1,
+          "totalCost": 452,
+          "depreciatedCost": "",
+          "usedForCocoa": "75_99",
+          "subsidyValue": ""
+        }
+      ],
+      "otherCosts": [
+        {
+          "costType": "transport",
+          "details": "motorbike fuel",
+          "totalCost": 468,
+          "usedForCocoa": "0_24",
+          "subsidyValue": ""
+        }
+      ],
+      "sharecropPayments": [
+        {
+          "paymentType": "sharecropper",
+          "cashOrKind": "cash",
+          "cocoaVolumeInKind": 83,
+          "costOrValue": 6675,
+          "cocoaShare": "0_24"
+        }
+      ]
+    },
+    "labour": [
+      {
+        "month": "oct",
+        "hhDays": 10,
+        "hhDaysCocoa": 8,
+        "hiredDays": 6,
+        "hiredDaysCocoa": 4,
+        "dailyWage": 118,
+        "otherService": "weeding",
+        "serviceUsedFor": "cocoa",
+        "serviceCost": 118,
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "nov",
+        "hhDays": 11,
+        "hhDaysCocoa": 9,
+        "hiredDays": 1,
+        "hiredDaysCocoa": 0,
+        "dailyWage": 112,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "dec",
+        "hhDays": "",
+        "hhDaysCocoa": "",
+        "hiredDays": "",
+        "hiredDaysCocoa": "",
+        "dailyWage": "",
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "jan",
+        "hhDays": 16,
+        "hhDaysCocoa": 7,
+        "hiredDays": 8,
+        "hiredDaysCocoa": 6,
+        "dailyWage": 99,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "feb",
+        "hhDays": "",
+        "hhDaysCocoa": "",
+        "hiredDays": "",
+        "hiredDaysCocoa": "",
+        "dailyWage": "",
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "mar",
+        "hhDays": 18,
+        "hhDaysCocoa": 12,
+        "hiredDays": 2,
+        "hiredDaysCocoa": 2,
+        "dailyWage": 89,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "apr",
+        "hhDays": "",
+        "hhDaysCocoa": "",
+        "hiredDays": "",
+        "hiredDaysCocoa": "",
+        "dailyWage": "",
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "may",
+        "hhDays": 6,
+        "hhDaysCocoa": 4,
+        "hiredDays": 10,
+        "hiredDaysCocoa": 2,
+        "dailyWage": 111,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "jun",
+        "hhDays": 11,
+        "hhDaysCocoa": 6,
+        "hiredDays": 7,
+        "hiredDaysCocoa": 4,
+        "dailyWage": 61,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "jul",
+        "hhDays": 21,
+        "hhDaysCocoa": 19,
+        "hiredDays": 0,
+        "hiredDaysCocoa": 0,
+        "dailyWage": 95,
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "aug",
+        "hhDays": "",
+        "hhDaysCocoa": "",
+        "hiredDays": "",
+        "hiredDaysCocoa": "",
+        "dailyWage": "",
+        "otherService": "",
+        "serviceUsedFor": "",
+        "serviceCost": "",
+        "subsidizedLabour": ""
+      },
+      {
+        "month": "sep",
+        "hhDays": 23,
+        "hhDaysCocoa": 22,
+        "hiredDays": 4,
+        "hiredDaysCocoa": 4,
+        "dailyWage": 106,
+        "otherService": "pruning",
+        "serviceUsedFor": "cocoa",
+        "serviceCost": 390,
+        "subsidizedLabour": ""
+      }
+    ],
+    "expenditures": {
+      "food": {
+        "q1": 2895,
+        "q2": 2789,
+        "q3": 2238,
+        "q4": 1239
+      },
+      "education": {
+        "q1": 4396,
+        "q2": 1322,
+        "q3": 1454,
+        "q4": 365
+      },
+      "healthcare": {
+        "q1": 859,
+        "q2": 353,
+        "q3": 843,
+        "q4": 799
+      },
+      "other": {
+        "q1": 1105,
+        "q2": 469,
+        "q3": 719,
+        "q4": 560
+      }
+    }
+  }
+]

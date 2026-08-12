@@ -258,3 +258,18 @@ footer.app-footer { text-align: center; color: var(--text-light); font-size: 0.7
   header.app-header, nav#tab-nav, .table-actions, .btn, footer.app-footer { display: none !important; }
   .panel { border: none; box-shadow: none; }
 }
+
+/* ---------- revenue source screening questions ---------- */
+.toggle-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 8px 20px; background: var(--card-alt); border: 1px solid var(--border);
+  border-radius: 12px; padding: 14px 18px; margin: 10px 0 18px;
+}
+.toggle-row {
+  display: flex; align-items: center; gap: 10px; cursor: pointer;
+  padding: 6px 0; font-size: 0.9rem; color: var(--text);
+}
+.toggle-row input[type="checkbox"] {
+  width: 20px; height: 20px; flex: none; accent-color: var(--tangerine); cursor: pointer;
+}
+.toggle-row span { user-select: none; }

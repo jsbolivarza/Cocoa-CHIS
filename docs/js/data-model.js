@@ -217,6 +217,13 @@ function emptyRecord() {
       householdNotWorking: makeEmptyTable("householdNotWorking"),
     },
     revenues: {
+      // Which non-cocoa income sources this household actually has. All start
+      // false so the enumerator opts in: an empty table on screen is an
+      // invitation to fill it, and invented data is worse than no data.
+      has: {
+        coffee: false, otherCashCrops: false, stapleCrops: false,
+        otherFoodCrops: false, livestock: false, otherIncome: false,
+      },
       cocoaSales: OPTIONS.months.map(m => ({ month: m.key, volume: "", price: "" })),
       cocoaOtherIncome: makeEmptyTable("cocoaOtherIncome"),
       coffeeSales: OPTIONS.months.map(m => ({ month: m.key, volume: "", price: "" })),
@@ -241,4 +248,39 @@ function emptyRecord() {
       other: { q1: "", q2: "", q3: "", q4: "" },
     },
   };
+}
+
+/* The six non-cocoa revenue sections on tab 2, each gated by a yes/no answer.
+   Ordered as they appear on screen. `arrays` lists every table the answer
+   controls, so one answer can gate more than one table (coffee has two). */
+const REVENUE_SECTIONS = [
+  { key: "coffee", labelKey: "has_coffee", arrays: ["coffeeSales", "coffeeOtherIncome"] },
+  { key: "otherCashCrops", labelKey: "has_other_cash_crops", arrays: ["otherCashCrops"] },
+  { key: "stapleCrops", labelKey: "has_staple_crops", arrays: ["stapleCrops"] },
+  { key: "otherFoodCrops", labelKey: "has_other_food_crops", arrays: ["otherFoodCrops"] },
+  { key: "livestock", labelKey: "has_livestock", arrays: ["livestock"] },
+  { key: "otherIncome", labelKey: "has_other_income", arrays: ["otherIncome"] },
+];
+
+/* True if any cell in any row of this table has been filled in. */
+function tableHasData(rows) {
+  if (!Array.isArray(rows)) return false;
+  return rows.some(row => Object.keys(row).some(k =>
+    k !== "month" && row[k] !== "" && row[k] != null && row[k] !== false));
+}
+
+/* Records captured before the yes/no answers existed, and records arriving by
+   JSON import, have no `has` block. Defaulting those to false would hide data
+   that is already there and silently drop it out of every total, so the answer
+   is inferred from whether the tables actually contain anything. */
+function ensureRevenueFlags(record) {
+  if (!record || !record.revenues) return record;
+  const rev = record.revenues;
+  if (!rev.has) rev.has = {};
+  REVENUE_SECTIONS.forEach(section => {
+    if (typeof rev.has[section.key] !== "boolean") {
+      rev.has[section.key] = section.arrays.some(name => tableHasData(rev[name]));
+    }
+  });
+  return record;
 }

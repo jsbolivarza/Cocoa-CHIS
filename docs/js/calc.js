@@ -109,20 +109,29 @@ function calcOtherFarmIncome(rows) {
   return sum(rows, r => calcOtherFarmIncomeRow(r));
 }
 
+/* The six non-cocoa sections are each gated by a yes/no answer on the revenues
+   tab. "No" means the household does not have that income source, so the
+   section contributes nothing even if rows were typed and then switched off.
+   The rows themselves are kept in the record so switching back restores them. */
 function calcRevenues(revenues) {
+  const has = revenues.has || {};
+  const on = key => has[key] === true;
+
   const cocoa = calcMonthlySales(revenues.cocoaSales || []);
   const cocoaOtherIncome = calcOtherIncomeRows(revenues.cocoaOtherIncome || []);
   const totalCocoaRevenue = cocoa.totalRevenue + cocoaOtherIncome;
 
-  const coffee = calcMonthlySales(revenues.coffeeSales || []);
-  const coffeeOtherIncome = calcOtherIncomeRows(revenues.coffeeOtherIncome || []);
+  const coffee = on("coffee")
+    ? calcMonthlySales(revenues.coffeeSales || [])
+    : { totalVolume: 0, totalRevenue: 0, avgPrice: null };
+  const coffeeOtherIncome = on("coffee") ? calcOtherIncomeRows(revenues.coffeeOtherIncome || []) : 0;
   const totalCoffeeRevenue = coffee.totalRevenue + coffeeOtherIncome;
 
-  const otherCashCropRevenue = calcCashCrops(revenues.otherCashCrops || []);
-  const stapleValue = calcStapleCrops(revenues.stapleCrops || []);
-  const otherFoodValue = calcOtherFoodOrLivestock(revenues.otherFoodCrops || []);
-  const livestockValue = calcOtherFoodOrLivestock(revenues.livestock || []);
-  const otherIncome = calcOtherFarmIncome(revenues.otherIncome || []);
+  const otherCashCropRevenue = on("otherCashCrops") ? calcCashCrops(revenues.otherCashCrops || []) : 0;
+  const stapleValue = on("stapleCrops") ? calcStapleCrops(revenues.stapleCrops || []) : 0;
+  const otherFoodValue = on("otherFoodCrops") ? calcOtherFoodOrLivestock(revenues.otherFoodCrops || []) : 0;
+  const livestockValue = on("livestock") ? calcOtherFoodOrLivestock(revenues.livestock || []) : 0;
+  const otherIncome = on("otherIncome") ? calcOtherFarmIncome(revenues.otherIncome || []) : 0;
 
   const foodCropsTotal = stapleValue + otherFoodValue;
   const totalFarmRevenue = totalCocoaRevenue + totalCoffeeRevenue + otherCashCropRevenue + foodCropsTotal + livestockValue + otherIncome;

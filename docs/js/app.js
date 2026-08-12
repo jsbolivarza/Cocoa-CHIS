@@ -289,6 +289,34 @@ function renderRevenuesTab(lang) {
   const r = record.revenues;
   const res = calcRevenues(r);
   const cur = record.meta.currencyUnit;
+  const has = r.has || {};
+  const on = key => has[key] === true;
+
+  // The screening questions. Answering "no" keeps the section off screen and
+  // out of every total, so nobody fills in a table just because it is there.
+  const screening = `
+    ${sectionHeader("rev_sources_heading", "rev_sources_help", lang)}
+    <div class="toggle-grid">
+      ${REVENUE_SECTIONS.map(s => `
+        <label class="toggle-row">
+          <input type="checkbox" data-path="revenues.has.${s.key}" ${on(s.key) ? "checked" : ""}>
+          <span>${esc(t(s.labelKey, lang))}</span>
+        </label>`).join("")}
+    </div>`;
+
+  // Only the sections the household actually has appear in the strip: a row of
+  // zeroes for income sources they told you they do not have is just noise.
+  const strip = [
+    on("coffee") ? statBox("total_coffee_revenue", res.totalCoffeeRevenue, lang, cur) : "",
+    on("otherCashCrops") ? statBox("total_other_cash_crop_revenue", res.otherCashCropRevenue, lang, cur) : "",
+    on("stapleCrops") ? statBox("total_staple_value", res.stapleValue, lang, cur) : "",
+    on("otherFoodCrops") ? statBox("total_other_food_value", res.otherFoodValue, lang, cur) : "",
+    on("livestock") ? statBox("total_livestock_value", res.livestockValue, lang, cur) : "",
+    on("otherIncome") ? statBox("total_other_income", res.otherIncome, lang, cur) : "",
+  ].join("");
+
+  const section = (key, body) => on(key) ? body : "";
+
   return `
   <div class="panel">
     <div class="kpi-grid">
@@ -296,14 +324,7 @@ function renderRevenuesTab(lang) {
       ${kpiCard("eggplant", "total_cocoa_sales", res.cocoa.totalRevenue, lang, cur)}
       ${kpiCard("mint", "total_other_cocoa_income", res.cocoaOtherIncome, lang, cur)}
     </div>
-    <div class="stat-row">
-      ${statBox("total_coffee_revenue", res.totalCoffeeRevenue, lang, cur)}
-      ${statBox("total_other_cash_crop_revenue", res.otherCashCropRevenue, lang, cur)}
-      ${statBox("total_staple_value", res.stapleValue, lang, cur)}
-      ${statBox("total_other_food_value", res.otherFoodValue, lang, cur)}
-      ${statBox("total_livestock_value", res.livestockValue, lang, cur)}
-      ${statBox("total_other_income", res.otherIncome, lang, cur)}
-    </div>
+    ${strip ? `<div class="stat-row">${strip}</div>` : ""}
 
     ${sectionHeader("rev_cocoa_heading", "rev_cocoa_help", lang)}
     ${renderMonthlySalesTable("revenues.cocoaSales", lang)}
@@ -311,29 +332,37 @@ function renderRevenuesTab(lang) {
     <p class="section-help">${esc(t("rev_cocoa_other_help", lang))}</p>
     ${renderTable("cocoaOtherIncome", "revenues.cocoaOtherIncome", lang)}
 
-    ${sectionHeader("rev_coffee_heading", "rev_coffee_help", lang)}
-    ${renderMonthlySalesTable("revenues.coffeeSales", lang)}
-    <div class="stat-row">
-      ${statBox("total_coffee_sales", res.coffee.totalRevenue, lang, cur)}
-      ${statBox("total_other_coffee_income", res.coffeeOtherIncome, lang, cur)}
-    </div>
-    <h4>${esc(t("rev_coffee_other_heading", lang))}</h4>
-    ${renderTable("coffeeOtherIncome", "revenues.coffeeOtherIncome", lang)}
+    ${screening}
 
-    ${sectionHeader("rev_cash_crops_heading", "rev_cash_crops_help", lang)}
-    ${renderTable("otherCashCrops", "revenues.otherCashCrops", lang)}
+    ${section("coffee", `
+      ${sectionHeader("rev_coffee_heading", "rev_coffee_help", lang)}
+      ${renderMonthlySalesTable("revenues.coffeeSales", lang)}
+      <div class="stat-row">
+        ${statBox("total_coffee_sales", res.coffee.totalRevenue, lang, cur)}
+        ${statBox("total_other_coffee_income", res.coffeeOtherIncome, lang, cur)}
+      </div>
+      <h4>${esc(t("rev_coffee_other_heading", lang))}</h4>
+      ${renderTable("coffeeOtherIncome", "revenues.coffeeOtherIncome", lang)}`)}
 
-    ${sectionHeader("rev_staple_heading", "rev_staple_help", lang)}
-    ${renderTable("stapleCrops", "revenues.stapleCrops", lang)}
+    ${section("otherCashCrops", `
+      ${sectionHeader("rev_cash_crops_heading", "rev_cash_crops_help", lang)}
+      ${renderTable("otherCashCrops", "revenues.otherCashCrops", lang)}`)}
 
-    ${sectionHeader("rev_other_food_heading", "rev_other_food_help", lang)}
-    ${renderTable("otherFoodCrops", "revenues.otherFoodCrops", lang)}
+    ${section("stapleCrops", `
+      ${sectionHeader("rev_staple_heading", "rev_staple_help", lang)}
+      ${renderTable("stapleCrops", "revenues.stapleCrops", lang)}`)}
 
-    ${sectionHeader("rev_livestock_heading", "rev_livestock_help", lang)}
-    ${renderTable("livestock", "revenues.livestock", lang)}
+    ${section("otherFoodCrops", `
+      ${sectionHeader("rev_other_food_heading", "rev_other_food_help", lang)}
+      ${renderTable("otherFoodCrops", "revenues.otherFoodCrops", lang)}`)}
 
-    ${sectionHeader("rev_other_income_heading", "rev_other_income_help", lang)}
-    ${renderTable("otherIncome", "revenues.otherIncome", lang)}
+    ${section("livestock", `
+      ${sectionHeader("rev_livestock_heading", "rev_livestock_help", lang)}
+      ${renderTable("livestock", "revenues.livestock", lang)}`)}
+
+    ${section("otherIncome", `
+      ${sectionHeader("rev_other_income_heading", "rev_other_income_help", lang)}
+      ${renderTable("otherIncome", "revenues.otherIncome", lang)}`)}
   </div>`;
 }
 
@@ -1043,6 +1072,7 @@ function initApp() {
       let lastId = null;
       list.forEach(r => {
         if (!r || !r.meta) return;
+        ensureRevenueFlags(r);
         r.meta.id = generateRecordId();
         records[r.meta.id] = r;
         lastId = r.meta.id;

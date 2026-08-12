@@ -143,7 +143,18 @@ function sectionHeader(headingKey, helpKey, lang) {
   return `<h3>${esc(t(headingKey, lang))}</h3>${help}`;
 }
 function statBox(labelKey, value, lang, unit) {
-  return `<div class="stat-box"><div class="stat-label">${esc(t(labelKey, lang))}</div><div class="stat-value">${fmt(value)}${unit ? " " + esc(unit) : ""}</div></div>`;
+  const negative = (typeof value === "number" && isFinite(value) && value < 0) ? " negative" : "";
+  return `<div class="stat-box"><div class="stat-label">${esc(t(labelKey, lang))}</div><div class="stat-value${negative}">${fmt(value)}${unit ? " " + esc(unit) : ""}</div></div>`;
+}
+/* An emphasized card, for the two or three figures a reader looks for first.
+   Everything else belongs in a statBox strip: if every number gets a card,
+   none of them reads as more important than the others. */
+function kpiCard(accent, labelKey, value, lang, unit) {
+  const negative = (typeof value === "number" && isFinite(value) && value < 0) ? " negative" : "";
+  return `<div class="kpi-card ${accent}">
+    <div class="kpi-label">${esc(t(labelKey, lang))}</div>
+    <div class="kpi-value${negative}">${fmt(value)}${unit ? ` <small>${esc(unit)}</small>` : ""}</div>
+  </div>`;
 }
 
 /* ================= CONSENT TAB ================= */
@@ -219,18 +230,20 @@ function renderProfileTab(lang) {
     </div>
 
     ${sectionHeader("farm_distribution_heading", "farm_distribution_help", lang)}
-    ${renderTable("plots", "profile.plots", lang)}
+    <div class="kpi-grid">
+      ${kpiCard("night", "total_cocoa_area", res.totalCocoaArea, lang, record.meta.areaUnit)}
+      ${kpiCard("eggplant", "total_cult_area", res.totalCultArea, lang, record.meta.areaUnit)}
+      ${kpiCard("mint", "total_farm_area_farmer", res.totalFarmAreaFarmer, lang, record.meta.areaUnit)}
+    </div>
     <div class="stat-row">
       ${statBox("total_cocoa_only_area", res.cocoaOnly, lang, record.meta.areaUnit)}
       ${statBox("total_intercropped_cocoa_area", res.cocoaIntercropped, lang, record.meta.areaUnit)}
-      ${statBox("total_cocoa_area", res.totalCocoaArea, lang, record.meta.areaUnit)}
-      ${statBox("total_cult_area", res.totalCultArea, lang, record.meta.areaUnit)}
-      ${statBox("total_farm_area_farmer", res.totalFarmAreaFarmer, lang, record.meta.areaUnit)}
       ${statBox("cocoa_area_sharecropped", res.cocoaAreaSharecropped, lang, record.meta.areaUnit)}
       ${statBox("pct_cocoa_sharecropped", res.pctCocoaSharecropped * 100, lang, "%")}
       ${statBox("farm_sharecropped", res.farmSharecropped, lang, record.meta.areaUnit)}
       ${statBox("pct_farm_sharecropped", res.pctFarmSharecropped * 100, lang, "%")}
     </div>
+    ${renderTable("plots", "profile.plots", lang)}
     <div class="form-grid form-grid-3">
       <label class="optional">${esc(t("fallow_land", lang))} ${renderInput("profile.fallowLand", "number", p.fallowLand)}</label>
       <label class="optional">${esc(t("minor_food_crops", lang))} ${renderInput("profile.minorFoodCrops", "text", p.minorFoodCrops)}</label>
@@ -238,21 +251,20 @@ function renderProfileTab(lang) {
     </div>
 
     ${sectionHeader("hh_composition_heading", null, lang)}
-    <h4>${esc(t("hh_working_heading", lang))}</h4>
-    <p class="section-help">${esc(t("hh_working_help", lang))}</p>
-    ${renderTable("householdWorking", "profile.householdWorking", lang)}
-    <div class="stat-row">
-      ${statBox("hh_working_count", res.workingCount, lang)}
-      ${statBox("hh_working_fte", res.fte, lang)}
-    </div>
-
-    <h4>${esc(t("hh_not_working_heading", lang))}</h4>
-    ${renderTable("householdNotWorking", "profile.householdNotWorking", lang)}
     <div class="stat-row">
       ${statBox("hh_total_members", res.totalMembers, lang)}
       ${statBox("hh_working_age", res.workingAge, lang)}
+      ${statBox("hh_working_count", res.workingCount, lang)}
+      ${statBox("hh_working_fte", res.fte, lang)}
     </div>
     <p class="field-hint">${esc(t("working_age_hint", lang))}</p>
+
+    <h4>${esc(t("hh_working_heading", lang))}</h4>
+    <p class="section-help">${esc(t("hh_working_help", lang))}</p>
+    ${renderTable("householdWorking", "profile.householdWorking", lang)}
+
+    <h4>${esc(t("hh_not_working_heading", lang))}</h4>
+    ${renderTable("householdNotWorking", "profile.householdNotWorking", lang)}
   </div>`;
 }
 
@@ -276,50 +288,52 @@ function renderMonthlySalesTable(arrPath, lang) {
 function renderRevenuesTab(lang) {
   const r = record.revenues;
   const res = calcRevenues(r);
+  const cur = record.meta.currencyUnit;
   return `
   <div class="panel">
+    <div class="kpi-grid">
+      ${kpiCard("night", "total_cocoa_revenue", res.totalCocoaRevenue, lang, cur)}
+      ${kpiCard("eggplant", "total_cocoa_sales", res.cocoa.totalRevenue, lang, cur)}
+      ${kpiCard("mint", "total_other_cocoa_income", res.cocoaOtherIncome, lang, cur)}
+    </div>
+    <div class="stat-row">
+      ${statBox("total_coffee_revenue", res.totalCoffeeRevenue, lang, cur)}
+      ${statBox("total_other_cash_crop_revenue", res.otherCashCropRevenue, lang, cur)}
+      ${statBox("total_staple_value", res.stapleValue, lang, cur)}
+      ${statBox("total_other_food_value", res.otherFoodValue, lang, cur)}
+      ${statBox("total_livestock_value", res.livestockValue, lang, cur)}
+      ${statBox("total_other_income", res.otherIncome, lang, cur)}
+    </div>
+
     ${sectionHeader("rev_cocoa_heading", "rev_cocoa_help", lang)}
     ${renderMonthlySalesTable("revenues.cocoaSales", lang)}
-    <div class="stat-row">
-      ${statBox("total_cocoa_sales", res.cocoa.totalRevenue, lang, record.meta.currencyUnit)}
-    </div>
     <h4>${esc(t("rev_cocoa_other_heading", lang))}</h4>
     <p class="section-help">${esc(t("rev_cocoa_other_help", lang))}</p>
     ${renderTable("cocoaOtherIncome", "revenues.cocoaOtherIncome", lang)}
-    <div class="stat-row">
-      ${statBox("total_other_cocoa_income", res.cocoaOtherIncome, lang, record.meta.currencyUnit)}
-      ${statBox("total_cocoa_revenue", res.totalCocoaRevenue, lang, record.meta.currencyUnit)}
-    </div>
 
     ${sectionHeader("rev_coffee_heading", "rev_coffee_help", lang)}
     ${renderMonthlySalesTable("revenues.coffeeSales", lang)}
-    <div class="stat-row">${statBox("total_coffee_sales", res.coffee.totalRevenue, lang, record.meta.currencyUnit)}</div>
+    <div class="stat-row">
+      ${statBox("total_coffee_sales", res.coffee.totalRevenue, lang, cur)}
+      ${statBox("total_other_coffee_income", res.coffeeOtherIncome, lang, cur)}
+    </div>
     <h4>${esc(t("rev_coffee_other_heading", lang))}</h4>
     ${renderTable("coffeeOtherIncome", "revenues.coffeeOtherIncome", lang)}
-    <div class="stat-row">
-      ${statBox("total_other_coffee_income", res.coffeeOtherIncome, lang, record.meta.currencyUnit)}
-      ${statBox("total_coffee_revenue", res.totalCoffeeRevenue, lang, record.meta.currencyUnit)}
-    </div>
 
     ${sectionHeader("rev_cash_crops_heading", "rev_cash_crops_help", lang)}
     ${renderTable("otherCashCrops", "revenues.otherCashCrops", lang)}
-    <div class="stat-row">${statBox("total_other_cash_crop_revenue", res.otherCashCropRevenue, lang, record.meta.currencyUnit)}</div>
 
     ${sectionHeader("rev_staple_heading", "rev_staple_help", lang)}
     ${renderTable("stapleCrops", "revenues.stapleCrops", lang)}
-    <div class="stat-row">${statBox("total_staple_value", res.stapleValue, lang, record.meta.currencyUnit)}</div>
 
     ${sectionHeader("rev_other_food_heading", "rev_other_food_help", lang)}
     ${renderTable("otherFoodCrops", "revenues.otherFoodCrops", lang)}
-    <div class="stat-row">${statBox("total_other_food_value", res.otherFoodValue, lang, record.meta.currencyUnit)}</div>
 
     ${sectionHeader("rev_livestock_heading", "rev_livestock_help", lang)}
     ${renderTable("livestock", "revenues.livestock", lang)}
-    <div class="stat-row">${statBox("total_livestock_value", res.livestockValue, lang, record.meta.currencyUnit)}</div>
 
     ${sectionHeader("rev_other_income_heading", "rev_other_income_help", lang)}
     ${renderTable("otherIncome", "revenues.otherIncome", lang)}
-    <div class="stat-row">${statBox("total_other_income", res.otherIncome, lang, record.meta.currencyUnit)}</div>
   </div>`;
 }
 
@@ -327,38 +341,34 @@ function renderRevenuesTab(lang) {
 function renderCostsTab(lang) {
   const c = record.costs;
   const res = calcCosts(c);
+  const cur = record.meta.currencyUnit;
   return `
   <div class="panel">
+    <div class="stat-row">
+      ${statBox("total_inputs_cost", res.inputs.total, lang, cur)}
+      ${statBox("total_inputs_cost_cocoa", res.inputs.totalCocoa, lang, cur)}
+      ${statBox("total_tools_cost", res.tools.total, lang, cur)}
+      ${statBox("total_tools_cost_cocoa", res.tools.totalDepreciatedCocoa, lang, cur)}
+      ${statBox("total_other_cost", res.other.total, lang, cur)}
+      ${statBox("total_other_cost_cocoa", res.other.totalCocoa, lang, cur)}
+      ${statBox("total_sharecrop_cost", res.sharecrop.total, lang, cur)}
+      ${statBox("total_sharecrop_cost_cocoa", res.sharecrop.totalCocoa, lang, cur)}
+      ${statBox("total_inkind_cocoa_volume", res.sharecrop.inKindCocoaVolume, lang, record.meta.volumeUnit)}
+    </div>
+
     ${sectionHeader("cost_inputs_heading", null, lang)}
     <p class="field-hint">${esc(t("cost_used_for_cocoa_help", lang))} ${esc(t("subsidy_help", lang))}</p>
     ${renderTable("agriInputs", "costs.agriInputs", lang)}
-    <div class="stat-row">
-      ${statBox("total_inputs_cost", res.inputs.total, lang, record.meta.currencyUnit)}
-      ${statBox("total_inputs_cost_cocoa", res.inputs.totalCocoa, lang, record.meta.currencyUnit)}
-    </div>
 
     ${sectionHeader("cost_tools_heading", null, lang)}
     <p class="field-hint">${esc(t("col_lifespan_help", lang))}</p>
     ${renderTable("tools", "costs.tools", lang)}
-    <div class="stat-row">
-      ${statBox("total_tools_cost", res.tools.total, lang, record.meta.currencyUnit)}
-      ${statBox("total_tools_cost_cocoa", res.tools.totalDepreciatedCocoa, lang, record.meta.currencyUnit)}
-    </div>
 
     ${sectionHeader("cost_other_heading", null, lang)}
     ${renderTable("otherCosts", "costs.otherCosts", lang)}
-    <div class="stat-row">
-      ${statBox("total_other_cost", res.other.total, lang, record.meta.currencyUnit)}
-      ${statBox("total_other_cost_cocoa", res.other.totalCocoa, lang, record.meta.currencyUnit)}
-    </div>
 
     ${sectionHeader("cost_sharecrop_heading", "cost_sharecrop_help", lang)}
     ${renderTable("sharecropPayments", "costs.sharecropPayments", lang)}
-    <div class="stat-row">
-      ${statBox("total_sharecrop_cost", res.sharecrop.total, lang, record.meta.currencyUnit)}
-      ${statBox("total_sharecrop_cost_cocoa", res.sharecrop.totalCocoa, lang, record.meta.currencyUnit)}
-      ${statBox("total_inkind_cocoa_volume", res.sharecrop.inKindCocoaVolume, lang, record.meta.volumeUnit)}
-    </div>
     <p class="field-hint">${esc(t("inkind_cross_check", lang))}</p>
   </div>`;
 }
@@ -386,6 +396,12 @@ function renderLabourTab(lang) {
   return `
   <div class="panel">
     ${sectionHeader("labour_heading", "labour_help_days", lang)}
+    <div class="stat-row">
+      ${statBox("labour_total", res.totalLabourCost, lang, record.meta.currencyUnit)}
+      ${statBox("labour_cost_cocoa", res.totalLabourCostCocoa, lang, record.meta.currencyUnit)}
+      ${statBox("col_daily_wage", res.avgDailyWage, lang, record.meta.currencyUnit)}
+      ${statBox("col_subsidized_labour", res.subsidizedLabour, lang, record.meta.currencyUnit)}
+    </div>
     <div class="table-wrap"><table class="data-table">
       <thead><tr>
         <th>${esc(t("col_month", lang))}</th>
@@ -403,37 +419,38 @@ function renderLabourTab(lang) {
       <tbody>${body}</tbody>
     </table></div>
     <p class="field-hint">${esc(t("other_service_help", lang))}</p>
-    <div class="stat-row">
-      ${statBox("labour_total", res.totalLabourCost, lang, record.meta.currencyUnit)}
-      ${statBox("labour_cost_cocoa", res.totalLabourCostCocoa, lang, record.meta.currencyUnit)}
-      ${statBox("col_daily_wage", res.avgDailyWage, lang, record.meta.currencyUnit)}
-      ${statBox("col_subsidized_labour", res.subsidizedLabour, lang, record.meta.currencyUnit)}
-    </div>
   </div>`;
 }
 
 /* ================= EXPENDITURES TAB ================= */
 function renderExpCategory(catKey, headingKey, lang) {
   const cat = record.expenditures[catKey];
-  const total = calcExpenditureCategory(cat);
   return `<h4>${esc(t(headingKey, lang))}</h4>
   <div class="form-grid form-grid-4">
     <label>${esc(t("col_q1", lang))} ${renderInput(`expenditures.${catKey}.q1`, "number", cat.q1)}</label>
     <label>${esc(t("col_q2", lang))} ${renderInput(`expenditures.${catKey}.q2`, "number", cat.q2)}</label>
     <label>${esc(t("col_q3", lang))} ${renderInput(`expenditures.${catKey}.q3`, "number", cat.q3)}</label>
     <label>${esc(t("col_q4", lang))} ${renderInput(`expenditures.${catKey}.q4`, "number", cat.q4)}</label>
-  </div>
-  <div class="stat-row">${statBox("exp_total_cost", total, lang, record.meta.currencyUnit)}</div>`;
+  </div>`;
 }
 function renderExpendituresTab(lang) {
   const res = calcExpenditures(record.expenditures);
+  const cur = record.meta.currencyUnit;
   return `
   <div class="panel">
+    <div class="kpi-grid">
+      ${kpiCard("night", "res_total_expenditures", res.total, lang, cur)}
+    </div>
+    <div class="stat-row">
+      ${statBox("exp_food_heading", res.food, lang, cur)}
+      ${statBox("exp_education_heading", res.education, lang, cur)}
+      ${statBox("exp_healthcare_heading", res.healthcare, lang, cur)}
+      ${statBox("exp_other_heading", res.other, lang, cur)}
+    </div>
     ${renderExpCategory("food", "exp_food_heading", lang)}
     ${renderExpCategory("education", "exp_education_heading", lang)}
     ${renderExpCategory("healthcare", "exp_healthcare_heading", lang)}
     ${renderExpCategory("other", "exp_other_heading", lang)}
-    <div class="stat-row"><div class="stat-box stat-box-highlight"><div class="stat-label">${esc(t("res_total_expenditures", lang))}</div><div class="stat-value">${fmt(res.total)} ${esc(record.meta.currencyUnit)}</div></div></div>
   </div>`;
 }
 
@@ -455,16 +472,19 @@ function renderResultsTab(lang) {
   // Headline cards: the figures anyone asks for first, so they are not buried
   // in a forty-row table while a farmer is sitting across the table.
   const kpis = `
-    <h3>${esc(t("kpi_heading", lang))}</h3>
+    <div class="kpi-grid">
+      ${kpiCard("night", "res_profit", res.profitFarm, lang, cur)}
+      ${kpiCard("eggplant", "res_cost_of_production_kg", res.costOfProductionPerKg, lang, cur + "/" + vol)}
+      ${kpiCard("mint", "cmp_price_per_kg", res.revenues.cocoa.avgPrice, lang, cur + "/" + vol)}
+    </div>
     <div class="stat-row">
       ${statBox("res_cocoa_yield", res.cocoaYieldPerArea, lang, vol + "/" + area)}
-      ${statBox("res_cost_of_production_kg", res.costOfProductionPerKg, lang, cur + "/" + vol)}
-      ${statBox("cmp_price_per_kg", res.revenues.cocoa.avgPrice, lang, cur + "/" + vol)}
       ${statBox("res_total_revenues", res.totalRevenueFarm, lang, cur)}
       ${statBox("res_total_costs", res.totalCostFarm, lang, cur)}
-      ${statBox("res_profit", res.profitFarm, lang, cur)}
+      ${statBox("cmp_net_cocoa", res.profitCocoa, lang, cur)}
       ${statBox("res_total_expenditures", res.expenditures.total, lang, cur)}
       ${statBox("cmp_gap", res.profitFarm - (res.expenditures.total || 0), lang, cur)}
+      ${statBox("res_household_labour", res.labour.totalHhDays, lang, t("days_unit", lang))}
     </div>`;
   return `
   <div class="panel">
@@ -779,30 +799,24 @@ function renderCompareScreen(lang) {
     <tr>
       <td class="row-head">${esc(s.producer || t("unnamed_household", lang))}</td>
       <td>${esc(s.coop || "—")}</td>
-      <td>${esc(s.village || "—")}</td>
       <td>${esc((s.currency || "—") + " / " + (s.areaUnit || "—"))}</td>
       <td class="num">${cell(s.cocoaArea)}</td>
       <td class="num">${cell(s.yieldPerArea)}</td>
       <td class="num">${cell(s.costPerKg)}</td>
       <td class="num">${cell(s.pricePerKg)}</td>
       <td class="num${neg(s.marginPerKg)}">${cell(s.marginPerKg)}</td>
-      <td class="num">${cell(s.cocoaRevenue)}</td>
-      <td class="num${neg(s.netCocoa)}">${cell(s.netCocoa)}</td>
       <td class="num${neg(s.netFarm)}">${cell(s.netFarm)}</td>
       <td class="num">${cell(s.expenditure)}</td>
       <td class="num${neg(s.gap)}">${cell(s.gap)}</td>
       <td class="num${neg(s.perPerson)}">${cell(s.perPerson)}</td>
-      <td class="num">${cell(s.members)}</td>
       <td class="num">${cell(s.labourDays)}</td>
-      <td class="num">${cell(s.returnOnLabour)}</td>
     </tr>`).join("");
 
   const head = [
-    "cmp_producer", "cmp_coop", "cmp_village", "cmp_units", "cmp_cocoa_area", "cmp_yield",
-    "cmp_cost_per_kg", "cmp_price_per_kg", "cmp_margin_per_kg", "cmp_cocoa_revenue",
-    "cmp_net_cocoa", "cmp_net_farm", "cmp_expenditure", "cmp_gap", "cmp_per_person",
-    "cmp_members", "cmp_labour_days", "cmp_return_labour",
-  ].map((k, i) => `<th class="${i >= 4 ? "num" : ""}">${esc(t(k, lang))}</th>`).join("");
+    "cmp_producer", "cmp_coop", "cmp_units", "cmp_cocoa_area", "cmp_yield",
+    "cmp_cost_per_kg", "cmp_price_per_kg", "cmp_margin_per_kg", "cmp_net_farm",
+    "cmp_expenditure", "cmp_gap", "cmp_per_person", "cmp_labour_days",
+  ].map((k, i) => `<th class="${i >= 3 ? "num" : ""}">${esc(t(k, lang))}</th>`).join("");
 
   return `<div class="panel">
     ${sectionHeader("compare_heading", "compare_help", lang)}
@@ -814,21 +828,17 @@ function renderCompareScreen(lang) {
         ${rows}
         <tr class="total-row">
           <td class="row-head">${esc(t("compare_avg", lang))} (${list.length})</td>
-          <td></td><td></td><td></td>
+          <td></td><td></td>
           <td class="num">${avgCell(s => s.cocoaArea, mixedUnits)}</td>
           <td class="num">${avgCell(s => s.yieldPerArea, mixedUnits)}</td>
           <td class="num">${avgCell(s => s.costPerKg, mixedUnits)}</td>
           <td class="num">${avgCell(s => s.pricePerKg, mixedUnits)}</td>
           <td class="num">${avgCell(s => s.marginPerKg, mixedUnits)}</td>
-          <td class="num">${avgCell(s => s.cocoaRevenue, mixedUnits)}</td>
-          <td class="num">${avgCell(s => s.netCocoa, mixedUnits)}</td>
           <td class="num">${avgCell(s => s.netFarm, mixedUnits)}</td>
           <td class="num">${avgCell(s => s.expenditure, mixedUnits)}</td>
           <td class="num">${avgCell(s => s.gap, mixedUnits)}</td>
           <td class="num">${avgCell(s => s.perPerson, mixedUnits)}</td>
-          <td class="num">${avgCell(s => s.members, false)}</td>
           <td class="num">${avgCell(s => s.labourDays, false)}</td>
-          <td class="num">${avgCell(s => s.returnOnLabour, mixedUnits)}</td>
         </tr>
       </tbody>
     </table></div>

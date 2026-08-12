@@ -120,27 +120,54 @@ table.data-table .computed-cell { font-weight: 700; color: var(--night); backgro
 
 .table-actions { margin: 10px 0 4px; }
 
-.stat-row { display: flex; flex-wrap: wrap; gap: 12px; margin: 14px 0; }
-.stat-box {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-left: 4px solid var(--tangerine);
-  border-radius: 10px;
-  box-shadow: 0 1px 3px rgba(30,30,30,.06);
-  padding: 12px 16px;
-  min-width: 160px;
-  flex: 1 1 160px;
+/* ---------- indicators ----------
+   Two tiers only. A short row of emphasized cards for the figures anyone asks
+   for first, then one flat strip for everything else. The strip is a single
+   bordered container rather than one bordered, coloured card per number: at
+   nine or ten indicators the per-card version turned into a wall of colour
+   that made every figure look equally important. */
+.kpi-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px; margin: 0 0 14px;
 }
-.stat-row .stat-box:nth-of-type(6n+2) { border-left-color: var(--night); }
-.stat-row .stat-box:nth-of-type(6n+3) { border-left-color: var(--eggplant); }
-.stat-row .stat-box:nth-of-type(6n+4) { border-left-color: var(--sky); }
-.stat-row .stat-box:nth-of-type(6n+5) { border-left-color: var(--flower); }
-.stat-row .stat-box:nth-of-type(6n+0) { border-left-color: var(--mint-dark); }
-.stat-box-highlight { background: var(--night); color: #fff; border-color: var(--night); border-left-color: var(--tangerine); }
-.stat-box-highlight .stat-label { color: rgba(255,255,255,.7); }
-.stat-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.04em; font-weight: 600; color: var(--text-light); }
-.stat-value { font-size: 1.25rem; font-weight: 700; color: var(--night); font-variant-numeric: tabular-nums; }
-.stat-box-highlight .stat-value { color: #fff; }
+.kpi-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-left: 4px solid var(--tangerine); border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(30,30,30,.08); padding: 14px 18px;
+}
+.kpi-card.night { background: var(--night); border-color: var(--night); border-left-color: var(--tangerine); }
+.kpi-card.eggplant { border-left-color: var(--eggplant); }
+.kpi-card.mint { border-left-color: var(--mint-dark); }
+.kpi-card.sky { border-left-color: var(--sky); }
+.kpi-label {
+  font-size: 0.68rem; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.05em; color: var(--text-light); margin-bottom: 5px;
+}
+.kpi-value {
+  font-family: 'Exo 2', sans-serif; font-weight: 700; font-size: 1.4rem;
+  color: var(--night); line-height: 1; font-variant-numeric: tabular-nums;
+}
+.kpi-value small { font-size: 0.74rem; font-weight: 600; color: var(--text-light); }
+.kpi-card.night .kpi-label { color: rgba(255,255,255,.7); }
+.kpi-card.night .kpi-value { color: #fff; }
+.kpi-card.night .kpi-value small { color: rgba(255,255,255,.7); }
+.kpi-value.negative { color: var(--flower); }
+
+.stat-row {
+  background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(30,30,30,.06); padding: 12px 18px; margin: 0 0 16px;
+  display: flex; gap: 24px; flex-wrap: wrap;
+}
+.stat-box { min-width: 100px; }
+.stat-label {
+  font-size: 0.64rem; text-transform: uppercase; letter-spacing: 0.05em;
+  font-weight: 600; color: var(--text-light);
+}
+.stat-value {
+  font-size: 0.95rem; font-weight: 600; color: var(--night);
+  font-variant-numeric: tabular-nums; margin-top: 2px;
+}
+.stat-value.negative { color: var(--flower); }
 
 .results-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
 .results-table .group-row td { background: var(--night); color: #fff; font-weight: 700; padding: 9px; font-family: 'Exo 2', sans-serif; }
@@ -182,7 +209,7 @@ table.data-table .computed-cell { font-weight: 700; color: var(--night); backgro
   background: var(--tangerine-tint); border-left: 4px solid var(--tangerine);
   border-radius: 8px; padding: 9px 12px; font-size: 0.85rem; margin: 10px 0;
 }
-table.compare-table { min-width: 1200px; }
+table.compare-table { min-width: 1020px; }
 table.compare-table .row-head { font-weight: 600; white-space: nowrap; }
 table.compare-table td.negative { color: var(--flower); font-weight: 700; }
 table.compare-table .total-row td {

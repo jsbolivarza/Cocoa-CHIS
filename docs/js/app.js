@@ -449,9 +449,27 @@ function resultsTotalRow(labelKey, farmVal, cocoaVal, lang, unit) {
 }
 function renderResultsTab(lang) {
   const res = calcResults(record);
+  const cur = record.meta.currencyUnit;
+  const area = record.meta.areaUnit;
+  const vol = record.meta.volumeUnit;
+  // Headline cards: the figures anyone asks for first, so they are not buried
+  // in a forty-row table while a farmer is sitting across the table.
+  const kpis = `
+    <h3>${esc(t("kpi_heading", lang))}</h3>
+    <div class="stat-row">
+      ${statBox("res_cocoa_yield", res.cocoaYieldPerArea, lang, vol + "/" + area)}
+      ${statBox("res_cost_of_production_kg", res.costOfProductionPerKg, lang, cur + "/" + vol)}
+      ${statBox("cmp_price_per_kg", res.revenues.cocoa.avgPrice, lang, cur + "/" + vol)}
+      ${statBox("res_total_revenues", res.totalRevenueFarm, lang, cur)}
+      ${statBox("res_total_costs", res.totalCostFarm, lang, cur)}
+      ${statBox("res_profit", res.profitFarm, lang, cur)}
+      ${statBox("res_total_expenditures", res.expenditures.total, lang, cur)}
+      ${statBox("cmp_gap", res.profitFarm - (res.expenditures.total || 0), lang, cur)}
+    </div>`;
   return `
   <div class="panel">
     ${sectionHeader("results_heading", "results_help", lang)}
+    ${kpis}
     <div class="table-wrap"><table class="data-table results-table">
       <thead><tr><th></th><th>${esc(t("col_whole_farm", lang))}</th><th>${esc(t("col_cocoa_only", lang))}</th><th></th></tr></thead>
       <tbody>
@@ -500,11 +518,24 @@ const TAB_RENDERERS = {
 let records = {};        // id -> record, the whole collection on this device
 let currentRecordId = null;
 let screen = "list";     // "list" (records overview) | "editor" (a single household's tabs)
+let listTab = "records"; // "records" | "compare", the two tabs of the list screen
+// In memory only. A search that survived a restart would hide records with no
+// visible reason why, which reads as data loss on a device that has no backend.
+let recordSearch = "";
+let compareFilters = { coop: "", programme: "", areaUnit: "", currency: "" };
+
+const LIST_TABS = ["records", "compare"];
+const LIST_TAB_LABEL_KEY = { records: "tab_list_records", compare: "tab_list_compare" };
 
 function renderCurrentTab() {
   const container = document.getElementById("tab-content");
   if (screen === "list") {
-    container.innerHTML = renderRecordsScreen(currentLang);
+    renderListNav();
+    updateSearchBar();
+    container.innerHTML = listTab === "compare"
+      ? renderCompareScreen(currentLang)
+      : renderRecordsScreen(currentLang);
+    if (listTab === "compare") wireCompareFilters();
     return;
   }
   container.innerHTML = TAB_RENDERERS[currentTab](currentLang);
@@ -520,6 +551,55 @@ function switchTab(tab) {
 function renderNav() {
   const nav = document.getElementById("tab-nav");
   nav.innerHTML = TABS.map(tab => `<button type="button" class="nav-btn ${tab === currentTab ? "active" : ""}" data-tab="${tab}">${esc(t(TAB_LABEL_KEY[tab], currentLang))}</button>`).join("");
+}
+
+function renderListNav() {
+  const nav = document.getElementById("list-nav");
+  nav.innerHTML = LIST_TABS.map(tab =>
+    `<button type="button" class="nav-btn ${tab === listTab ? "active" : ""}" data-list-tab="${tab}">${esc(t(LIST_TAB_LABEL_KEY[tab], currentLang))}</button>`).join("");
+}
+
+function switchListTab(tab) {
+  listTab = tab;
+  renderCurrentTab();
+  window.scrollTo(0, 0);
+}
+
+/* The search box lives in static markup outside #tab-content, so it survives
+   re-renders and keeps focus while typing. That means its visibility and its
+   labels have to be driven from here rather than from a template string. */
+function updateSearchBar() {
+  const bar = document.getElementById("record-search-bar");
+  const showing = screen === "list" && listTab === "records" && Object.keys(records).length > 0;
+  bar.style.display = showing ? "" : "none";
+  if (!showing) return;
+  document.getElementById("record-search-label").textContent = t("search_label", currentLang);
+  const box = document.getElementById("record-search");
+  box.placeholder = t("search_placeholder", currentLang);
+  const clear = document.getElementById("record-search-clear");
+  clear.textContent = t("search_clear", currentLang);
+  clear.style.display = recordSearch ? "" : "none";
+}
+
+function normalizeSearch(v) {
+  // Strip accents so "Kouame" finds "Kouamé", which matters when the name on
+  // the tablet keyboard rarely matches the name in the record exactly.
+  return String(v == null ? "" : v).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+}
+
+function recordMatchesSearch(summary, needle) {
+  if (!needle) return true;
+  const haystack = normalizeSearch(
+    [summary.producerName, summary.coopName, summary.village, summary.floId,
+     summary.producerCode, summary.respondentName].join(" "));
+  return needle.split(/\s+/).every(word => haystack.includes(word));
+}
+
+function clearRecordSearch() {
+  recordSearch = "";
+  const box = document.getElementById("record-search");
+  if (box) box.value = "";
+  renderCurrentTab();
 }
 
 function applyScreenVisibility() {
@@ -538,7 +618,18 @@ function fmtDate(iso) {
 }
 
 function renderRecordsScreen(lang) {
-  const list = summarizeRecords(records);
+  const all = summarizeRecords(records);
+  const needle = normalizeSearch(recordSearch);
+  const list = all.filter(r => recordMatchesSearch(r, needle));
+  if (all.length && !list.length) {
+    return `
+    <div class="panel">
+      ${sectionHeader("records_heading", "records_help", lang)}
+      <div class="empty-state">${esc(t("search_no_match", lang))}
+        <a href="#" data-action="clear-search">${esc(t("search_clear_link", lang))}</a>
+      </div>
+    </div>`;
+  }
   if (!list.length) {
     return `
     <div class="panel records-empty">
@@ -547,7 +638,9 @@ function renderRecordsScreen(lang) {
       <div class="table-actions"><button type="button" class="btn btn-secondary" data-action="new-record-cta">+ ${esc(t("btn_new_record", lang))}</button></div>
     </div>`;
   }
-  const countLabel = `${list.length} ${esc(t("records_count_suffix", lang))}`;
+  const countLabel = needle
+    ? `${list.length} ${esc(t("search_showing", lang))} ${all.length} ${esc(t("records_count_suffix", lang))}`
+    : `${list.length} ${esc(t("records_count_suffix", lang))}`;
   const rows = list.map(r => `
     <div class="record-card">
       <div class="record-card-main">
@@ -568,6 +661,194 @@ function renderRecordsScreen(lang) {
     <p class="records-count">${countLabel}</p>
     <div class="records-list">${rows}</div>
   </div>`;
+}
+
+/* ---------- comparison screen ----------
+   Everything below is read from calc.js, the same engine that fills the
+   results tab, so a figure here can never disagree with the figure the
+   enumerator saw while capturing. Nothing new is computed except the two
+   derived indicators at the bottom of compareSummary. */
+
+/* Currencies are free-typed, so "XOF", "xof" and " XOF " arrive as three
+   different values and would each suppress the averages. Only the comparison
+   normalises them; what the enumerator typed is never modified. */
+function currencyKey(rec) {
+  return String(rec.meta.currencyUnit || "").trim().toUpperCase();
+}
+
+function compareSummary(rec) {
+  const r = calcResults(rec);
+  const members = r.profile.totalMembers;
+  const price = r.revenues.cocoa.avgPrice;
+  const costKg = r.costOfProductionPerKg;
+  return {
+    id: rec.meta.id,
+    producer: rec.profile.producerName,
+    coop: rec.profile.coopName,
+    village: rec.profile.village,
+    programme: rec.profile.programme,
+    currency: currencyKey(rec),
+    areaUnit: rec.meta.areaUnit,
+    volumeUnit: rec.meta.volumeUnit,
+    cocoaArea: r.profile.totalCocoaArea,
+    yieldPerArea: r.cocoaYieldPerArea,
+    costPerKg: costKg,
+    pricePerKg: price,
+    cocoaRevenue: r.revenues.totalCocoaRevenue,
+    netCocoa: r.profitCocoa,
+    netFarm: r.profitFarm,
+    expenditure: r.expenditures.total,
+    members: members,
+    labourDays: (r.labour.totalHhDaysCocoa || 0) + (r.labour.totalHiredDaysCocoa || 0),
+    returnOnLabour: r.returnOnLabourCocoa,
+    // Derived: what a kilo actually earns after it has been produced.
+    marginPerKg: (price == null || costKg == null) ? null : price - costKg,
+    // Derived: whether the farm covered what the household spent.
+    gap: r.profitFarm - (r.expenditures.total || 0),
+    // Derived: net farm income spread across everyone it has to support.
+    perPerson: members > 0 ? r.profitFarm / members : null,
+  };
+}
+
+function renderCompareScreen(lang) {
+  const all = Object.values(records);
+  if (all.length < 2) {
+    return `<div class="panel">
+      ${sectionHeader("compare_heading", "compare_help", lang)}
+      <div class="empty-state">${esc(t("compare_need_more", lang))}</div>
+    </div>`;
+  }
+
+  const summaries = all.map(compareSummary);
+
+  // Filter options come from the records actually on the device, so a dropdown
+  // never offers a cooperative or currency nobody captured.
+  const uniq = key => [...new Set(summaries.map(s => (s[key] || "").toString().trim()))].filter(Boolean).sort();
+  const opts = { coop: uniq("coop"), programme: uniq("programme"), areaUnit: uniq("areaUnit"), currency: uniq("currency") };
+
+  // Drop any filter whose value no longer exists, e.g. after deleting a record.
+  Object.keys(compareFilters).forEach(k => {
+    if (compareFilters[k] && !opts[k].includes(compareFilters[k])) compareFilters[k] = "";
+  });
+
+  const list = summaries.filter(s =>
+    (!compareFilters.coop || (s.coop || "").trim() === compareFilters.coop) &&
+    (!compareFilters.programme || (s.programme || "").trim() === compareFilters.programme) &&
+    (!compareFilters.areaUnit || s.areaUnit === compareFilters.areaUnit) &&
+    (!compareFilters.currency || s.currency === compareFilters.currency));
+
+  const hasFilter = Object.values(compareFilters).some(Boolean);
+  const sel = (key, labelKey) => `
+    <div class="filter-field">
+      <label>${esc(t(labelKey, lang))}</label>
+      <select class="field field-select" data-compare-filter="${key}">
+        <option value="">${esc(t("filter_all", lang))}</option>
+        ${opts[key].map(o => `<option value="${esc(o)}" ${o === compareFilters[key] ? "selected" : ""}>${esc(o)}</option>`).join("")}
+      </select>
+    </div>`;
+  const filterBar = `<div class="filter-bar">
+      ${sel("coop", "filter_coop")}
+      ${sel("programme", "filter_programme")}
+      ${sel("areaUnit", "filter_area_unit")}
+      ${sel("currency", "filter_currency")}
+      ${hasFilter ? `<button type="button" class="btn" data-compare-reset>${esc(t("filter_reset", lang))}</button>` : ""}
+    </div>`;
+
+  if (!list.length) {
+    return `<div class="panel">
+      ${sectionHeader("compare_heading", "compare_help", lang)}
+      ${filterBar}
+      <div class="empty-state">${esc(t("compare_no_match", lang))}</div>
+    </div>`;
+  }
+
+  // Money and per-area figures across different currencies or area units are not
+  // the same quantity, so averaging them produces a number that means nothing.
+  // Blank those averages rather than hand an enumerator a wrong figure.
+  const mixedUnits = new Set(list.map(s => s.currency + "|" + s.areaUnit)).size > 1;
+
+  const avg = pick => {
+    const vals = list.map(pick).filter(v => v != null && isFinite(v));
+    return vals.length ? vals.reduce((a, b) => a + b, 0) / vals.length : null;
+  };
+  const cell = v => v == null || !isFinite(v) ? "—" : fmt(v);
+  const avgCell = (pick, suppressed) => suppressed ? "—" : cell(avg(pick));
+  const neg = v => (v != null && isFinite(v) && v < 0) ? " negative" : "";
+
+  const rows = list.map(s => `
+    <tr>
+      <td class="row-head">${esc(s.producer || t("unnamed_household", lang))}</td>
+      <td>${esc(s.coop || "—")}</td>
+      <td>${esc(s.village || "—")}</td>
+      <td>${esc((s.currency || "—") + " / " + (s.areaUnit || "—"))}</td>
+      <td class="num">${cell(s.cocoaArea)}</td>
+      <td class="num">${cell(s.yieldPerArea)}</td>
+      <td class="num">${cell(s.costPerKg)}</td>
+      <td class="num">${cell(s.pricePerKg)}</td>
+      <td class="num${neg(s.marginPerKg)}">${cell(s.marginPerKg)}</td>
+      <td class="num">${cell(s.cocoaRevenue)}</td>
+      <td class="num${neg(s.netCocoa)}">${cell(s.netCocoa)}</td>
+      <td class="num${neg(s.netFarm)}">${cell(s.netFarm)}</td>
+      <td class="num">${cell(s.expenditure)}</td>
+      <td class="num${neg(s.gap)}">${cell(s.gap)}</td>
+      <td class="num${neg(s.perPerson)}">${cell(s.perPerson)}</td>
+      <td class="num">${cell(s.members)}</td>
+      <td class="num">${cell(s.labourDays)}</td>
+      <td class="num">${cell(s.returnOnLabour)}</td>
+    </tr>`).join("");
+
+  const head = [
+    "cmp_producer", "cmp_coop", "cmp_village", "cmp_units", "cmp_cocoa_area", "cmp_yield",
+    "cmp_cost_per_kg", "cmp_price_per_kg", "cmp_margin_per_kg", "cmp_cocoa_revenue",
+    "cmp_net_cocoa", "cmp_net_farm", "cmp_expenditure", "cmp_gap", "cmp_per_person",
+    "cmp_members", "cmp_labour_days", "cmp_return_labour",
+  ].map((k, i) => `<th class="${i >= 4 ? "num" : ""}">${esc(t(k, lang))}</th>`).join("");
+
+  return `<div class="panel">
+    ${sectionHeader("compare_heading", "compare_help", lang)}
+    ${filterBar}
+    ${mixedUnits ? `<p class="warn-note">${esc(t("compare_mixed_currency", lang))}</p>` : ""}
+    <div class="table-wrap"><table class="data-table results-table compare-table">
+      <thead><tr>${head}</tr></thead>
+      <tbody>
+        ${rows}
+        <tr class="total-row">
+          <td class="row-head">${esc(t("compare_avg", lang))} (${list.length})</td>
+          <td></td><td></td><td></td>
+          <td class="num">${avgCell(s => s.cocoaArea, mixedUnits)}</td>
+          <td class="num">${avgCell(s => s.yieldPerArea, mixedUnits)}</td>
+          <td class="num">${avgCell(s => s.costPerKg, mixedUnits)}</td>
+          <td class="num">${avgCell(s => s.pricePerKg, mixedUnits)}</td>
+          <td class="num">${avgCell(s => s.marginPerKg, mixedUnits)}</td>
+          <td class="num">${avgCell(s => s.cocoaRevenue, mixedUnits)}</td>
+          <td class="num">${avgCell(s => s.netCocoa, mixedUnits)}</td>
+          <td class="num">${avgCell(s => s.netFarm, mixedUnits)}</td>
+          <td class="num">${avgCell(s => s.expenditure, mixedUnits)}</td>
+          <td class="num">${avgCell(s => s.gap, mixedUnits)}</td>
+          <td class="num">${avgCell(s => s.perPerson, mixedUnits)}</td>
+          <td class="num">${avgCell(s => s.members, false)}</td>
+          <td class="num">${avgCell(s => s.labourDays, false)}</td>
+          <td class="num">${avgCell(s => s.returnOnLabour, mixedUnits)}</td>
+        </tr>
+      </tbody>
+    </table></div>
+    <p class="section-help">${esc(t("cmp_gap_help", lang))}</p>
+  </div>`;
+}
+
+function wireCompareFilters() {
+  const container = document.getElementById("tab-content");
+  container.querySelectorAll("[data-compare-filter]").forEach(el => {
+    el.addEventListener("change", () => {
+      compareFilters[el.dataset.compareFilter] = el.value;
+      renderCurrentTab();
+    });
+  });
+  const reset = container.querySelector("[data-compare-reset]");
+  if (reset) reset.addEventListener("click", () => {
+    compareFilters = { coop: "", programme: "", areaUnit: "", currency: "" };
+    renderCurrentTab();
+  });
 }
 
 function goToRecordsList() {
@@ -613,6 +894,24 @@ function deleteRecord(id) {
   });
 }
 
+function deleteAllRecords() {
+  if (!Object.keys(records).length) return;
+  showConfirmModal(t("confirm_delete_all", currentLang), () => {
+    clearAllRecords();
+    records = {};
+    currentRecordId = null;
+    record = null;
+    recordSearch = "";
+    compareFilters = { coop: "", programme: "", areaUnit: "", currency: "" };
+    listTab = "records";
+    const box = document.getElementById("record-search");
+    if (box) box.value = "";
+    screen = "list";
+    applyScreenVisibility();
+    renderCurrentTab();
+  });
+}
+
 function renderHeaderStrings() {
   document.getElementById("app-title").textContent = t("app_title", currentLang);
   document.getElementById("app-subtitle").textContent = t("app_subtitle", currentLang);
@@ -623,6 +922,7 @@ function renderHeaderStrings() {
   document.getElementById("btn-export-all-csv").textContent = t("btn_export_all_csv", currentLang);
   document.getElementById("btn-export-all-json").textContent = t("btn_export_all_json", currentLang);
   document.getElementById("btn-import-json").textContent = t("btn_import_json", currentLang);
+  document.getElementById("btn-delete-all").textContent = t("btn_delete_all", currentLang);
   document.getElementById("offline-badge").textContent = t("offline_badge", currentLang);
   document.getElementById("required-hint").textContent = t("required_hint", currentLang);
 }
@@ -682,6 +982,7 @@ function attachHandlers() {
     else if (action === "export-json-record") exportJson(records[btn.dataset.id]);
     else if (action === "export-csv-record") exportCsv(records[btn.dataset.id]);
     else if (action === "new-record-cta") createNewRecord();
+    else if (action === "clear-search") { e.preventDefault(); clearRecordSearch(); }
   });
 }
 
@@ -704,6 +1005,18 @@ function initApp() {
     const btn = e.target.closest(".nav-btn");
     if (btn) switchTab(btn.dataset.tab);
   });
+  document.getElementById("list-nav").addEventListener("click", e => {
+    const btn = e.target.closest("[data-list-tab]");
+    if (btn) switchListTab(btn.dataset.listTab);
+  });
+  // "input" rather than "change": the list should filter as you type. The box is
+  // outside #tab-content so re-rendering the list cannot steal focus from it.
+  document.getElementById("record-search").addEventListener("input", e => {
+    recordSearch = e.target.value;
+    renderCurrentTab();
+  });
+  document.getElementById("record-search-clear").addEventListener("click", clearRecordSearch);
+  document.getElementById("btn-delete-all").addEventListener("click", deleteAllRecords);
   document.getElementById("btn-my-records").addEventListener("click", goToRecordsList);
   document.getElementById("btn-new-record").addEventListener("click", createNewRecord);
   document.getElementById("btn-export-json").addEventListener("click", () => { if (record) exportJson(record); });

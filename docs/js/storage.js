@@ -56,6 +56,21 @@ function deleteRecordFromStorage(recordsMap, id) {
   return persistAllRecords(recordsMap);
 }
 
+/* Wipe every record on this device. Used by "Delete all data", for when a
+   round has been exported and the tablet is being handed to the next
+   enumerator. Also drops the legacy v1 key so a migration cannot resurrect
+   a record the user just asked to remove. */
+function clearAllRecords() {
+  try {
+    localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem(STORAGE_KEY_LEGACY_V1);
+    return true;
+  } catch (e) {
+    console.error("Local clear failed", e);
+    return false;
+  }
+}
+
 /* Summary rows for the records list screen, most recently updated first. */
 function summarizeRecords(recordsMap) {
   return Object.values(recordsMap)
@@ -64,6 +79,9 @@ function summarizeRecords(recordsMap) {
       producerName: r.profile.producerName,
       coopName: r.profile.coopName,
       respondentName: r.consent.respondentName,
+      floId: r.profile.floId,
+      producerCode: r.profile.producerCode,
+      village: r.profile.village,
       updatedAt: r.meta.updatedAt,
     }))
     .sort((a, b) => (b.updatedAt || "").localeCompare(a.updatedAt || ""));

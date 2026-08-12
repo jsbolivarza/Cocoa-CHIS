@@ -46,6 +46,58 @@ const STR = {
   records_count_suffix: { en: "household record(s) saved", fr: "fiche(s) ménage enregistrée(s)", es: "registro(s) de hogar guardado(s)" },
   records_empty_title: { en: "No household records yet", fr: "Aucune fiche ménage pour l'instant", es: "Aún no hay registros de hogares" },
   records_empty_body: { en: "Start your first household record to begin capturing data.", fr: "Créez votre première fiche ménage pour commencer la saisie.", es: "Cree su primer registro de hogar para comenzar a capturar datos." },
+  // Records list: search
+  search_label: { en: "Search", fr: "Rechercher", es: "Buscar" },
+  search_placeholder: { en: "Producer, cooperative, village, FLO ID", fr: "Producteur, coopérative, village, FLO ID", es: "Productor, cooperativa, aldea, FLO ID" },
+  search_clear: { en: "Clear", fr: "Effacer", es: "Limpiar" },
+  search_no_match: { en: "No household record matches that search.", fr: "Aucune fiche ménage ne correspond à cette recherche.", es: "Ningún registro de hogar coincide con esa búsqueda." },
+  search_clear_link: { en: "Clear the search", fr: "Effacer la recherche", es: "Quitar la búsqueda" },
+  search_showing: { en: "of", fr: "sur", es: "de" },
+
+  // Delete all
+  btn_delete_all: { en: "Delete all data", fr: "Tout supprimer", es: "Borrar todos los datos" },
+  confirm_delete_all: { en: "Delete every household record on this device? This cannot be undone. Export a JSON backup first if you are not sure.", fr: "Supprimer toutes les fiches ménage de cet appareil ? Cette action est irréversible. Faites d'abord une sauvegarde JSON si vous avez un doute.", es: "¿Borrar todos los registros de hogar de este dispositivo? Esta acción no se puede deshacer. Haga primero una copia de seguridad JSON si no está seguro." },
+
+  // List-screen tabs
+  tab_list_records: { en: "My records", fr: "Mes fiches", es: "Mis registros" },
+  tab_list_compare: { en: "Compare households", fr: "Comparer les ménages", es: "Comparar hogares" },
+
+  // Comparison tab
+  compare_heading: { en: "Compare households", fr: "Comparer les ménages", es: "Comparar hogares" },
+  compare_help: { en: "Every household saved on this device, side by side. Use the filters to compare like with like: figures in different currencies or area units cannot be averaged together.", fr: "Tous les ménages enregistrés sur cet appareil, côte à côte. Utilisez les filtres pour comparer ce qui est comparable : des montants dans des devises ou des unités de surface différentes ne peuvent pas être moyennés ensemble.", es: "Todos los hogares guardados en este dispositivo, uno al lado del otro. Use los filtros para comparar lo comparable: cifras en monedas o unidades de área distintas no se pueden promediar juntas." },
+  compare_need_more: { en: "Save at least two household records to compare them.", fr: "Enregistrez au moins deux fiches ménage pour les comparer.", es: "Guarde al menos dos registros de hogar para compararlos." },
+  compare_no_match: { en: "No household record matches these filters.", fr: "Aucune fiche ménage ne correspond à ces filtres.", es: "Ningún registro de hogar coincide con estos filtros." },
+  compare_mixed_currency: { en: "These households do not all use the same currency or area unit, so the money averages are left blank. Filter by currency and area unit to see them.", fr: "Ces ménages n'utilisent pas tous la même devise ou unité de surface : les moyennes monétaires sont laissées vides. Filtrez par devise et unité de surface pour les afficher.", es: "Estos hogares no usan todos la misma moneda o unidad de área, así que los promedios monetarios se dejan en blanco. Filtre por moneda y unidad de área para verlos." },
+  compare_avg: { en: "Average", fr: "Moyenne", es: "Promedio" },
+  filter_all: { en: "All", fr: "Tous", es: "Todos" },
+  filter_coop: { en: "Cooperative", fr: "Coopérative", es: "Cooperativa" },
+  filter_programme: { en: "Programme", fr: "Programme", es: "Programa" },
+  filter_area_unit: { en: "Area unit", fr: "Unité de surface", es: "Unidad de área" },
+  filter_currency: { en: "Currency", fr: "Devise", es: "Moneda" },
+  filter_reset: { en: "Reset filters", fr: "Réinitialiser", es: "Restablecer" },
+  cmp_producer: { en: "Producer", fr: "Producteur", es: "Productor" },
+  cmp_coop: { en: "Cooperative", fr: "Coopérative", es: "Cooperativa" },
+  cmp_village: { en: "Village", fr: "Village", es: "Aldea" },
+  cmp_units: { en: "Currency / area", fr: "Devise / surface", es: "Moneda / área" },
+  cmp_cocoa_area: { en: "Cocoa area", fr: "Surface cacao", es: "Área de cacao" },
+  cmp_yield: { en: "Cocoa yield", fr: "Rendement cacao", es: "Rendimiento cacao" },
+  cmp_cost_per_kg: { en: "Cost / kg", fr: "Coût / kg", es: "Costo / kg" },
+  cmp_price_per_kg: { en: "Price / kg", fr: "Prix / kg", es: "Precio / kg" },
+  cmp_margin_per_kg: { en: "Margin / kg", fr: "Marge / kg", es: "Margen / kg" },
+  cmp_cocoa_revenue: { en: "Cocoa revenue", fr: "Revenus cacao", es: "Ingresos cacao" },
+  cmp_net_cocoa: { en: "Net cocoa income", fr: "Revenu net cacao", es: "Ingreso neto cacao" },
+  cmp_net_farm: { en: "Net farm income", fr: "Revenu net exploitation", es: "Ingreso neto finca" },
+  cmp_expenditure: { en: "HH expenditure", fr: "Dépenses ménage", es: "Gastos del hogar" },
+  cmp_gap: { en: "Income minus expenditure", fr: "Revenu moins dépenses", es: "Ingreso menos gastos" },
+  cmp_per_person: { en: "Income per person", fr: "Revenu par personne", es: "Ingreso por persona" },
+  cmp_members: { en: "HH members", fr: "Membres du ménage", es: "Miembros del hogar" },
+  cmp_labour_days: { en: "Labour days (cocoa)", fr: "Jours de travail (cacao)", es: "Días de trabajo (cacao)" },
+  cmp_return_labour: { en: "Return on labour (cocoa)", fr: "Rendement du travail (cacao)", es: "Retorno del trabajo (cacao)" },
+  cmp_gap_help: { en: "Income minus expenditure is net farm income less total household expenditure. A negative figure means the farm did not cover what the household spent.", fr: "Revenu moins dépenses correspond au revenu net de l'exploitation moins les dépenses totales du ménage. Un chiffre négatif signifie que l'exploitation n'a pas couvert les dépenses du ménage.", es: "Ingreso menos gastos es el ingreso neto de la finca menos el gasto total del hogar. Una cifra negativa significa que la finca no cubrió lo que gastó el hogar." },
+
+  // Results tab headline cards
+  kpi_heading: { en: "Headline figures", fr: "Chiffres clés", es: "Cifras principales" },
+
   col_respondent: { en: "Respondent", fr: "Répondant", es: "Encuestado" },
   col_updated: { en: "Last updated", fr: "Dernière mise à jour", es: "Última actualización" },
   unnamed_household: { en: "Unnamed household", fr: "Ménage sans nom", es: "Hogar sin nombre" },

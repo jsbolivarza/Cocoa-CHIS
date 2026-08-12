@@ -147,6 +147,49 @@ table.data-table .computed-cell { font-weight: 700; color: var(--night); backgro
 .results-table .total-row td { background: var(--tangerine-tint); color: var(--night); font-weight: 700; border-top: 2px solid var(--tangerine); }
 
 .screen-list .editor-only { display: none !important; }
+.screen-editor .list-only { display: none !important; }
+
+/* ---------- records search ---------- */
+.search-bar {
+  display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap;
+  background: var(--card-alt); border: 1px solid var(--border);
+  border-radius: 10px; padding: 12px 14px; margin-bottom: 14px;
+}
+.search-field { flex: 1 1 280px; display: flex; flex-direction: column; gap: 4px; }
+.search-field label {
+  font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.04em;
+  font-weight: 600; color: var(--text-light);
+}
+.search-field input { width: 100%; min-width: 0; }
+.empty-state {
+  padding: 22px; text-align: center; color: var(--text-light);
+  background: var(--card-alt); border: 1px dashed var(--border); border-radius: 10px;
+}
+.empty-state a { color: var(--night); font-weight: 600; margin-left: 6px; }
+
+/* ---------- comparison tab ---------- */
+.filter-bar {
+  display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap;
+  background: var(--card-alt); border: 1px solid var(--border);
+  border-radius: 10px; padding: 12px 14px; margin: 12px 0;
+}
+.filter-field { flex: 1 1 170px; display: flex; flex-direction: column; gap: 4px; }
+.filter-field label {
+  font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.04em;
+  font-weight: 600; color: var(--text-light);
+}
+.warn-note {
+  background: var(--tangerine-tint); border-left: 4px solid var(--tangerine);
+  border-radius: 8px; padding: 9px 12px; font-size: 0.85rem; margin: 10px 0;
+}
+table.compare-table { min-width: 1200px; }
+table.compare-table .row-head { font-weight: 600; white-space: nowrap; }
+table.compare-table td.negative { color: var(--flower); font-weight: 700; }
+table.compare-table .total-row td {
+  background: var(--night); color: #fff; font-weight: 700;
+  border-top: 2px solid var(--tangerine);
+}
+table.compare-table .total-row td.negative { color: var(--flower); }
 
 .records-count { color: var(--text-light); font-size: 0.85rem; margin: -4px 0 14px; }
 .records-list { display: flex; flex-direction: column; gap: 10px; }

@@ -37,18 +37,32 @@
     <button type="button" id="btn-export-all-json" class="btn">Export all as JSON</button>
     <button type="button" id="btn-import-json" class="btn">Import JSON</button>
     <input type="file" id="import-file-input" accept="application/json" style="display:none">
+    <button type="button" id="btn-delete-all" class="btn btn-danger list-only">Delete all data</button>
   </div>
   <p id="offline-badge" class="offline-badge">Working offline — data stays on this device until exported</p>
 </header>
 
 <nav id="tab-nav" class="editor-only"></nav>
+<nav id="list-nav" class="list-only"></nav>
 
 <main>
   <p id="required-hint" class="required-hint editor-only"></p>
+
+  <!-- Deliberately outside #tab-content: that container is rebuilt on every render,
+       and an input inside it would be destroyed and lose focus on each keystroke. -->
+  <div id="record-search-bar" class="search-bar list-only" style="display:none">
+    <div class="search-field">
+      <label for="record-search" id="record-search-label">Search</label>
+      <input type="search" id="record-search" class="field" autocomplete="off"
+        placeholder="Producer, cooperative, village, FLO ID">
+    </div>
+    <button type="button" id="record-search-clear" class="btn">Clear</button>
+  </div>
+
   <div id="tab-content"></div>
 </main>
 
-<footer class="app-footer">Fairtrade International  · cocoa household data capture tool</footer>
+<footer class="app-footer">Fairtrade International — Data and Systems Unit · cocoa household data capture tool</footer>
 
 <div id="confirm-modal" class="modal-overlay" style="display:none">
   <div class="modal-box">

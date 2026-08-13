@@ -840,7 +840,7 @@ function renderRecordsScreen(lang) {
   }).join("");
   return `
   <div class="panel">
-    ${sectionHeader("records_heading", "records_help", lang)}
+    <p class="section-help">${esc(t("records_help", lang))}</p>
     <p class="records-count">${countLabel}</p>
     <div class="records-list">${rows}</div>
   </div>`;
@@ -931,7 +931,8 @@ function renderCompareScreen(lang) {
     }
     return `<label class="filter-chip">
       <span class="filter-chip-label">${esc(t(labelKey, lang))}</span>
-      <select data-compare-filter="${key}">
+      <span class="filter-chip-caret" aria-hidden="true">&#9662;</span>
+      <select data-compare-filter="${key}" aria-label="${esc(t(labelKey, lang))}">
         <option value="">${esc(t("filter_all", lang))}</option>
         ${opts[key].map(o => `<option value="${esc(o)}">${esc(o)}</option>`).join("")}
       </select>

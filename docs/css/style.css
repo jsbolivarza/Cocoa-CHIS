@@ -557,3 +557,88 @@ header.app-header .search-bar .btn {
   header.app-header .save-status { display: none; }
   .filter-count { width: 100%; margin-left: 0; }
 }
+
+
+/* The .field focus ring is a pale cream halo built for white backgrounds. On
+   the navy bar it reads as a grey box, so the search field gets its own: the
+   whole pill lifts instead of the input drawing a frame inside it. */
+header.app-header .search-field input:focus,
+header.app-header .search-field input:focus-visible {
+  outline: none; box-shadow: none; border-color: transparent;
+}
+header.app-header .search-bar:focus-within {
+  background: rgba(255,255,255,.2);
+  box-shadow: 0 0 0 2px rgba(255,255,255,.4);
+}
+
+
+/* ---------- colour restraint pass ----------
+   Tangerine now means one thing: the primary action on the screen. Everything
+   that used it for emphasis alone moves to navy outline or grey. */
+
+/* Step navigation is not the primary action on a capture screen. */
+.step-footer-actions .btn-secondary {
+  background: #fff; border-color: var(--night); color: var(--night);
+}
+.step-footer-actions .btn-secondary:hover { background: var(--card-alt); }
+
+/* Six orange "add row" buttons on one screen was six primary actions. */
+.table-actions .btn, button[data-action="add-row"] {
+  background: #fff; border: 1px solid var(--border); color: var(--night);
+  font-weight: 600;
+}
+.table-actions .btn:hover, button[data-action="add-row"]:hover {
+  border-color: var(--night); background: var(--card-alt);
+}
+
+/* A summary row is not a warning. Grey carries it. */
+table.compare-table .total-row td,
+.results-table .total-row td {
+  background: var(--card-alt); color: var(--text);
+  border-top: 1px solid var(--grey); font-weight: 700;
+}
+table.compare-table .total-row td:first-child { color: var(--text-light); }
+table.compare-table .total-row td.negative { color: var(--flower); }
+
+/* Income source chips: eggplant, tinted rather than filled. Still unmistakably
+   on at arm's length, which matters because these answers decide whether whole
+   sections are counted. */
+.chip.is-on {
+  background: var(--eggplant-tint); border-color: var(--eggplant);
+  color: var(--eggplant); font-weight: 600;
+}
+.chip:hover { border-color: var(--eggplant); }
+
+/* The menu was a child of the navy bar, so opening it doubled the ribbon and
+   pushed the page down. Now it drops over the content as a white panel. */
+header.app-header { position: sticky; }
+.app-menu {
+  position: absolute; right: 16px; top: 100%;
+  background: #fff; border: 1px solid var(--border); border-top: none;
+  border-radius: 0 0 12px 12px; box-shadow: 0 8px 24px rgba(0,0,0,.14);
+  padding: 14px; margin: 0; width: min(340px, calc(100vw - 32px));
+  display: flex; flex-direction: column; gap: 12px; z-index: 30;
+}
+header.app-header .app-menu .btn {
+  background: #fff; border-color: var(--border); color: var(--night);
+}
+header.app-header .app-menu .btn:hover { background: var(--card-alt); border-color: var(--night); }
+header.app-header .app-menu .btn-danger {
+  background: #fff; border-color: var(--flower); color: var(--flower);
+}
+header.app-header .app-menu .lang-switch { background: var(--card-alt); align-self: flex-start; }
+header.app-header .app-menu .lang-btn { color: var(--text-light); }
+header.app-header .app-menu .lang-btn.active { background: var(--night); color: #fff; }
+
+/* Filter chips: the label alone when unset, the value when set. */
+.filter-chip { position: relative; padding-right: 26px; }
+.filter-chip.is-on { padding-right: 12px; }
+.filter-chip select {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  opacity: 0; cursor: pointer;
+}
+.filter-chip-caret {
+  position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+  font-size: 0.7rem; color: var(--text-light); pointer-events: none;
+}
+.filter-chip:hover { border-color: var(--night); color: var(--night); }

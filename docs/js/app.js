@@ -991,7 +991,7 @@ function renderCompareScreen(lang) {
   ].map((k, i) => `<th class="${i >= 3 ? "num" : ""}">${esc(t(k, lang))}</th>`).join("");
 
   return `<div class="panel">
-    ${sectionHeader("compare_heading", "compare_help", lang)}
+    <div class="wide-only">${sectionHeader("compare_heading", "compare_help", lang)}</div>
     ${filterBar}
     ${mixedUnits ? `<p class="warn-note">${esc(t("compare_mixed_currency", lang))}</p>` : ""}
     ${renderCompareChart(list, mixedUnits, lang)}
@@ -1015,7 +1015,7 @@ function renderCompareScreen(lang) {
         </tr>
       </tbody>
     </table></div>
-    <p class="section-help">${esc(t("cmp_gap_help", lang))}</p>
+    <p class="section-help wide-only">${esc(t("cmp_gap_help", lang))}</p>
   </div>`;
 }
 
@@ -1402,37 +1402,65 @@ function recordProgress(rec) {
 /* Phones cannot show thirteen columns. Cost per kilo against margin per kilo is
    the pairing the table exists to show, so the narrow view draws that directly
    and the full table stays for tablets. */
+/* A diverging bar of net farm income minus household expenditure, which is the
+   question the comparison exists to answer: did the farm cover what the
+   household spent. One quantity per bar, sorted worst first, zero line placed
+   by the data so an all-positive set wastes no space on empty negative space.
+
+   The previous version stacked cost per kilo and margin per kilo. With costs at
+   4% of price the cost segment was a sliver, which made the one figure the tool
+   is built to measure the one you could not see. */
 function renderCompareChart(list, mixedUnits, lang) {
   // Bars drawn across currencies are meaningless: 600 XOF and 10 GHS on one
   // scale flattens every GHS bar to nothing. The warning above says to filter.
   if (mixedUnits) return "";
-  const usable = list.filter(s => s.costPerKg != null && isFinite(s.costPerKg));
+  const usable = list
+    .filter(s => s.gap != null && isFinite(s.gap))
+    .slice()
+    .sort((a, b) => a.gap - b.gap);
   if (!usable.length) return "";
-  // Scale to the widest bar, which is cost plus a positive margin.
-  const max = Math.max(...usable.map(s =>
-    s.costPerKg + Math.max(0, (s.marginPerKg == null || !isFinite(s.marginPerKg)) ? 0 : s.marginPerKg)));
+
+  const values = usable.map(s => s.gap);
+  const lo = Math.min(0, ...values);
+  const hi = Math.max(0, ...values);
+  const span = (hi - lo) || 1;
+  // Where zero sits across the track, so bars share one scale either side.
+  const zeroPct = (-lo / span) * 100;
+  const widthPct = v => (Math.abs(v) / span) * 100;
+
+  const avg = values.reduce((a, b) => a + b, 0) / values.length;
+  const avgPct = ((avg - lo) / span) * 100;
+  const shortfall = values.filter(v => v < 0).length;
+  const currency = usable[0].currency || "";
+
   const rows = usable.map(s => {
-    const costPct = max ? (s.costPerKg / max) * 100 : 0;
-    const margin = s.marginPerKg;
-    const marginPct = (max && margin != null && isFinite(margin)) ? (Math.abs(margin) / max) * 100 : 0;
-    const negative = margin != null && margin < 0;
+    const negative = s.gap < 0;
+    const bar = negative
+      ? `<span class="cmp-bar-fill is-negative" style="right:${(100 - zeroPct).toFixed(2)}%;width:${widthPct(s.gap).toFixed(2)}%"></span>`
+      : `<span class="cmp-bar-fill" style="left:${zeroPct.toFixed(2)}%;width:${widthPct(s.gap).toFixed(2)}%"></span>`;
     return `<div class="cmp-bar-row">
       <div class="cmp-bar-head">
         <span class="cmp-bar-name">${esc(s.producer || t("unnamed_household", lang))}</span>
-        <span class="cmp-bar-val${negative ? " negative" : ""}">${margin == null ? "—" : fmt(margin)}</span>
+        <span class="cmp-bar-val${negative ? " negative" : " positive"}">${fmt(s.gap)}</span>
       </div>
-      <div class="cmp-bar-track">
-        <span class="cmp-bar-cost" style="width:${costPct.toFixed(1)}%"></span>
-        <span class="cmp-bar-margin${negative ? " negative" : ""}" style="width:${marginPct.toFixed(1)}%"></span>
-      </div>
+      <div class="cmp-bar-track">${bar}</div>
     </div>`;
   }).join("");
+
   return `<div class="compare-chart">
-    <div class="cmp-chart-title">${esc(t("cmp_chart_title", lang))}</div>
-    ${rows}
-    <div class="cmp-legend">
-      <span><i class="swatch cost"></i>${esc(t("cmp_legend_cost", lang))}</span>
-      <span><i class="swatch margin"></i>${esc(t("cmp_legend_margin", lang))}</span>
+    <div class="cmp-chart-head">
+      <span>${esc(currency)} · ${esc(t("cmp_worst_first", lang))}</span>
+      <span>${usable.length} ${esc(t("search_showing", lang))} ${list.length}</span>
     </div>
+    <div class="cmp-plot">
+      <span class="cmp-zero" style="left:${zeroPct.toFixed(2)}%"></span>
+      <span class="cmp-avg" style="left:${avgPct.toFixed(2)}%"></span>
+      ${rows}
+    </div>
+    <div class="cmp-legend">
+      <span><i class="swatch negative"></i>${esc(t("cmp_legend_shortfall", lang))}</span>
+      <span><i class="swatch avg-line"></i>${esc(t("compare_avg", lang))} ${fmt(avg)}</span>
+    </div>
+    <p class="cmp-callout">${shortfall} ${esc(t("search_showing", lang))} ${usable.length} ${esc(t("cmp_shortfall_count", lang))}</p>
   </div>`;
 }

@@ -618,6 +618,7 @@ const LIST_TABS = ["records", "compare"];
 const LIST_TAB_LABEL_KEY = { records: "tab_list_records", compare: "tab_list_compare" };
 
 function renderCurrentTab() {
+  renderBarContext();
   const container = document.getElementById("tab-content");
   if (screen === "list") {
     renderNav();
@@ -694,7 +695,6 @@ function renderStepFooter() {
   const footer = document.createElement("div");
   footer.className = "step-footer";
   footer.innerHTML = `
-    <span class="step-count">${esc(t("step_counter", currentLang))} ${idx + 1} / ${TABS.length}</span>
     <div class="step-footer-actions">
       <button type="button" class="btn btn-complete ${isDone ? "is-done" : ""}" data-step-action="toggle">
         <span class="step-icon" aria-hidden="true">${STEP_ICON[isDone ? "complete" : "empty"]}</span>
@@ -921,20 +921,28 @@ function renderCompareScreen(lang) {
     (!compareFilters.currency || s.currency === compareFilters.currency));
 
   const hasFilter = Object.values(compareFilters).some(Boolean);
-  const sel = (key, labelKey) => `
-    <div class="filter-field">
-      <label>${esc(t(labelKey, lang))}</label>
-      <select class="field field-select" data-compare-filter="${key}">
+  // Chips rather than four stacked full-width selects, which used most of a
+  // phone screen before any data appeared. An active filter shows its value
+  // and clears on tap; an inactive one stays a compact dropdown.
+  const sel = (key, labelKey) => {
+    if (compareFilters[key]) {
+      return `<button type="button" class="filter-chip is-on" data-clear-filter="${key}">
+        ${esc(compareFilters[key])}<span class="chip-x" aria-hidden="true">&times;</span></button>`;
+    }
+    return `<label class="filter-chip">
+      <span class="filter-chip-label">${esc(t(labelKey, lang))}</span>
+      <select data-compare-filter="${key}">
         <option value="">${esc(t("filter_all", lang))}</option>
-        ${opts[key].map(o => `<option value="${esc(o)}" ${o === compareFilters[key] ? "selected" : ""}>${esc(o)}</option>`).join("")}
+        ${opts[key].map(o => `<option value="${esc(o)}">${esc(o)}</option>`).join("")}
       </select>
-    </div>`;
+    </label>`;
+  };
   const filterBar = `<div class="filter-bar">
+      ${sel("currency", "filter_currency")}
+      ${sel("areaUnit", "filter_area_unit")}
       ${sel("coop", "filter_coop")}
       ${sel("programme", "filter_programme")}
-      ${sel("areaUnit", "filter_area_unit")}
-      ${sel("currency", "filter_currency")}
-      ${hasFilter ? `<button type="button" class="btn" data-compare-reset>${esc(t("filter_reset", lang))}</button>` : ""}
+      <span class="filter-count">${list.length} ${esc(t("search_showing", lang))} ${summaries.length}</span>
     </div>`;
 
   if (!list.length) {
@@ -985,7 +993,7 @@ function renderCompareScreen(lang) {
     ${sectionHeader("compare_heading", "compare_help", lang)}
     ${filterBar}
     ${mixedUnits ? `<p class="warn-note">${esc(t("compare_mixed_currency", lang))}</p>` : ""}
-    ${renderCompareChart(list, lang)}
+    ${renderCompareChart(list, mixedUnits, lang)}
     <div class="table-wrap compare-table-wrap"><table class="data-table results-table compare-table">
       <thead><tr>${head}</tr></thead>
       <tbody>
@@ -1015,6 +1023,12 @@ function wireCompareFilters() {
   container.querySelectorAll("[data-compare-filter]").forEach(el => {
     el.addEventListener("change", () => {
       compareFilters[el.dataset.compareFilter] = el.value;
+      renderCurrentTab();
+    });
+  });
+  container.querySelectorAll("[data-clear-filter]").forEach(el => {
+    el.addEventListener("click", () => {
+      compareFilters[el.dataset.clearFilter] = "";
       renderCurrentTab();
     });
   });
@@ -1085,19 +1099,27 @@ function deleteAllRecords() {
   });
 }
 
+/* Some of these no longer exist: the bar removed the subtitle and the offline
+   note, and "my records" was replaced by the back arrow. Setting text on a
+   missing element throws, so each one is guarded. */
 function renderHeaderStrings() {
-  document.getElementById("app-title").textContent = t("app_title", currentLang);
-  document.getElementById("app-subtitle").textContent = t("app_subtitle", currentLang);
-  document.getElementById("btn-my-records").textContent = t("btn_my_records", currentLang);
-  document.getElementById("btn-new-record").textContent = t("btn_new_record", currentLang);
-  document.getElementById("btn-export-json").textContent = t("btn_export_json", currentLang);
-  document.getElementById("btn-export-csv").textContent = t("btn_export_csv", currentLang);
-  document.getElementById("btn-export-all-csv").textContent = t("btn_export_all_csv", currentLang);
-  document.getElementById("btn-export-all-json").textContent = t("btn_export_all_json", currentLang);
-  document.getElementById("btn-import-json").textContent = t("btn_import_json", currentLang);
-  document.getElementById("btn-delete-all").textContent = t("btn_delete_all", currentLang);
-  document.getElementById("offline-badge").textContent = t("offline_badge", currentLang);
-  document.getElementById("required-hint").textContent = t("required_hint", currentLang);
+  const set = (id, key) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = t(key, currentLang);
+  };
+  set("app-title", "app_title");
+  set("app-subtitle", "app_subtitle");
+  set("btn-my-records", "btn_my_records");
+  set("btn-new-record", "btn_new_record");
+  set("btn-export-json", "btn_export_json");
+  set("btn-export-csv", "btn_export_csv");
+  set("btn-export-all-csv", "btn_export_all_csv");
+  set("btn-export-all-json", "btn_export_all_json");
+  set("btn-import-json", "btn_import_json");
+  set("btn-delete-all", "btn_delete_all");
+  set("required-hint", "required_hint");
+  const back = document.getElementById("btn-bar-back");
+  if (back) back.setAttribute("aria-label", t("btn_my_records", currentLang));
 }
 
 function switchLang(lang) {
@@ -1191,6 +1213,7 @@ function initApp() {
   screen = "list";
   applyScreenVisibility();
   renderHeaderStrings();
+  renderBarContext();
   renderCurrentTab();
   attachHandlers();
   setSaveStatus("saved");
@@ -1277,13 +1300,18 @@ function buildAppBar() {
   const actionRow = rows[1];
   const newBtn = document.getElementById("btn-new-record");
   const langSwitch = header.querySelector(".lang-switch");
+  const saveStatus = document.getElementById("save-status");
+  const searchBar = document.getElementById("record-search-bar");
+  const badge = document.getElementById("offline-badge");
   if (!actionRow || !topRow) return;
+
+  // The offline note was a permanent paragraph restating what the app always
+  // does. Removed rather than hidden so it cannot come back on a wide screen.
+  if (badge) badge.remove();
 
   const panel = document.createElement("div");
   panel.className = "app-menu";
   panel.hidden = true;
-  header.appendChild(panel);
-
   // Language moves in too: enumerators set it once and never touch it again.
   if (langSwitch) panel.appendChild(langSwitch);
   panel.appendChild(actionRow);
@@ -1296,17 +1324,64 @@ function buildAppBar() {
   toggle.className = "btn-icon menu-toggle";
   toggle.setAttribute("aria-expanded", "false");
   toggle.innerHTML = "&#8942;";
-  if (newBtn) topRow.appendChild(newBtn);
-  topRow.appendChild(toggle);
+
+  const back = document.createElement("button");
+  back.type = "button";
+  back.id = "btn-bar-back";
+  back.className = "btn-icon bar-back editor-only";
+  back.innerHTML = "&#8592;";
+  back.addEventListener("click", goToRecordsList);
+
+  // One bar, two contexts: the records list, or the household being captured.
+  header.innerHTML = "";
+  const bar = document.createElement("div");
+  bar.className = "bar-row";
+  bar.appendChild(back);
+  const titles = document.createElement("div");
+  titles.className = "bar-titles";
+  titles.innerHTML = `<span class="bar-product" id="bar-product"></span>
+    <span class="bar-context" id="bar-context"></span>
+    <span class="bar-sub" id="bar-sub"></span>`;
+  bar.appendChild(titles);
+  if (saveStatus) bar.appendChild(saveStatus);
+  if (newBtn) bar.appendChild(newBtn);
+  bar.appendChild(toggle);
+  header.appendChild(bar);
+  // Search sits inside the bar on the list screen, not in a panel below it.
+  if (searchBar) header.appendChild(searchBar);
+  header.appendChild(panel);
 
   toggle.addEventListener("click", () => setMenuOpen(panel.hidden));
-  // Any action inside the menu closes it, so the sheet never covers the result.
   panel.addEventListener("click", e => {
     if (e.target.closest("button")) setMenuOpen(false);
   });
   document.addEventListener("click", e => {
     if (!panel.hidden && !panel.contains(e.target) && e.target !== toggle) setMenuOpen(false);
   });
+}
+
+/* The bar says where you are. On the list that is the record count; inside a
+   record it is who you are interviewing and which step you are on, which is
+   why the step counter left the footer. */
+function renderBarContext() {
+  const product = document.getElementById("bar-product");
+  const context = document.getElementById("bar-context");
+  const sub = document.getElementById("bar-sub");
+  if (!context) return;
+  if (product) product.textContent = t("app_title", currentLang);
+  if (screen === "editor" && record) {
+    context.textContent = record.profile.producerName || t("unnamed_household", currentLang);
+    const bits = [record.profile.coopName, record.profile.village].filter(Boolean);
+    const units = [record.meta.currencyUnit, record.meta.areaUnit].filter(Boolean).join(" / ");
+    if (units) bits.push(units);
+    const idx = TABS.indexOf(currentTab) + 1;
+    sub.textContent = `${idx} ${t("record_of_steps", currentLang)} ${TABS.length} · ${t(TAB_LABEL_KEY[currentTab], currentLang)}`
+      + (bits.length ? " · " + bits.join(" · ") : "");
+  } else {
+    context.textContent = t("records_heading", currentLang);
+    const n = Object.keys(records).length;
+    sub.textContent = `${n} ${t("records_count_suffix", currentLang)}`;
+  }
 }
 
 function setMenuOpen(open) {
@@ -1326,10 +1401,15 @@ function recordProgress(rec) {
 /* Phones cannot show thirteen columns. Cost per kilo against margin per kilo is
    the pairing the table exists to show, so the narrow view draws that directly
    and the full table stays for tablets. */
-function renderCompareChart(list, lang) {
+function renderCompareChart(list, mixedUnits, lang) {
+  // Bars drawn across currencies are meaningless: 600 XOF and 10 GHS on one
+  // scale flattens every GHS bar to nothing. The warning above says to filter.
+  if (mixedUnits) return "";
   const usable = list.filter(s => s.costPerKg != null && isFinite(s.costPerKg));
   if (!usable.length) return "";
-  const max = Math.max(...usable.map(s => Math.max(s.costPerKg, s.pricePerKg || 0)));
+  // Scale to the widest bar, which is cost plus a positive margin.
+  const max = Math.max(...usable.map(s =>
+    s.costPerKg + Math.max(0, (s.marginPerKg == null || !isFinite(s.marginPerKg)) ? 0 : s.marginPerKg)));
   const rows = usable.map(s => {
     const costPct = max ? (s.costPerKg / max) * 100 : 0;
     const margin = s.marginPerKg;

@@ -65,6 +65,18 @@ function deleteRecordFromStorage(recordsMap, id) {
    round has been exported and the tablet is being handed to the next
    enumerator. Also drops the legacy v1 key so a migration cannot resurrect
    a record the user just asked to remove. */
+/* The interface language is a property of this device and the person holding it,
+   not of the record being read. A record captured in French opens in whatever
+   language the reader chose; only the coded dropdown answers get re-translated,
+   and free text stays exactly as it was typed. */
+const LANG_KEY = "cocoa_capture_lang";
+function loadLangPref() {
+  try { return localStorage.getItem(LANG_KEY); } catch (e) { return null; }
+}
+function saveLangPref(lang) {
+  try { localStorage.setItem(LANG_KEY, lang); } catch (e) { /* private mode */ }
+}
+
 function clearAllRecords() {
   try {
     localStorage.removeItem(STORAGE_KEY);

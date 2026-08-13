@@ -285,9 +285,22 @@ function renderProfileTab(lang) {
 }
 
 /* ================= REVENUES TAB ================= */
+/* Twelve months where nine are blank is mostly scrolling. The filled months
+   show, the rest collapse behind one summary row, and expanding is per table
+   so opening one does not open the others. */
+const expandedMonthTables = new Set();
+
 function renderMonthlySalesTable(arrPath, lang) {
   const rows = getPath(record, arrPath);
-  const body = rows.map((row, idx) => {
+  const expanded = expandedMonthTables.has(arrPath);
+  const filled = rows.map((row, idx) => ({ row, idx }))
+    .filter(({ row }) => num(row.volume) || num(row.price));
+  const visible = expanded || !filled.length ? rows.map((row, idx) => ({ row, idx })) : filled;
+  const hiddenCount = rows.length - visible.length;
+  const hiddenRevenue = rows.reduce((sum, row, idx) =>
+    visible.some(v => v.idx === idx) ? sum : sum + num(row.volume) * num(row.price), 0);
+
+  const body = visible.map(({ row, idx }) => {
     const revenue = num(row.volume) * num(row.price);
     return `<tr>
       <td>${esc(optLabel("months", row.month, lang))}</td>
@@ -296,9 +309,19 @@ function renderMonthlySalesTable(arrPath, lang) {
       <td class="computed-cell">${fmt(revenue)}</td>
     </tr>`;
   }).join("");
+
+  const moreRow = hiddenCount > 0 ? `<tr class="months-more" data-expand-months="${arrPath}">
+      <td colspan="3">${hiddenCount} ${esc(t("months_more", lang))}</td>
+      <td class="computed-cell">${fmt(hiddenRevenue)}</td>
+    </tr>` : "";
+  const lessRow = expanded && filled.length && filled.length < rows.length
+    ? `<tr class="months-more" data-collapse-months="${arrPath}">
+        <td colspan="4">${esc(t("months_less", lang))}</td>
+      </tr>` : "";
+
   return `<div class="table-wrap"><table class="data-table">
     <thead><tr><th>${esc(t("col_month", lang))}</th><th>${esc(t("col_volume_sold", lang))}</th><th>${esc(t("col_price_per_kilo", lang))}</th><th>${esc(t("col_revenue", lang))}</th></tr></thead>
-    <tbody>${body}</tbody></table></div>`;
+    <tbody>${body}${moreRow}${lessRow}</tbody></table></div>`;
 }
 
 function renderRevenuesTab(lang) {
@@ -312,12 +335,13 @@ function renderRevenuesTab(lang) {
   // out of every total, so nobody fills in a table just because it is there.
   const screening = `
     ${sectionHeader("rev_sources_heading", "rev_sources_help", lang)}
-    <div class="toggle-grid">
+    <div class="chip-row">
       ${REVENUE_SECTIONS.map(s => `
-        <label class="toggle-row">
-          <input type="checkbox" data-path="revenues.has.${s.key}" ${on(s.key) ? "checked" : ""}>
-          <span>${esc(t(s.labelKey, lang))}</span>
-        </label>`).join("")}
+        <button type="button" class="chip ${on(s.key) ? "is-on" : ""}"
+          data-chip="revenues.has.${s.key}" aria-pressed="${on(s.key)}">
+          ${on(s.key) ? '<span class="chip-check" aria-hidden="true">&#10003;</span>' : ""}
+          ${esc(t(s.labelKey, lang))}
+        </button>`).join("")}
     </div>`;
 
   // Only the sections the household actually has appear in the strip: a row of
@@ -785,20 +809,35 @@ function renderRecordsScreen(lang) {
   const countLabel = needle
     ? `${list.length} ${esc(t("search_showing", lang))} ${all.length} ${esc(t("records_count_suffix", lang))}`
     : `${list.length} ${esc(t("records_count_suffix", lang))}`;
-  const rows = list.map(r => `
-    <div class="record-card">
+  const rows = list.map(r => {
+    const p = recordProgress(records[r.id]);
+    const capturedIn = (records[r.id].meta.language || "").toUpperCase();
+    return `
+    <div class="record-card" data-action="open-record" data-id="${r.id}" role="button" tabindex="0">
       <div class="record-card-main">
-        <div class="record-card-title">${esc(r.producerName || t("unnamed_household", lang))}</div>
+        <div class="record-card-title">
+          ${esc(r.producerName || t("unnamed_household", lang))}
+          ${capturedIn && capturedIn !== lang.toUpperCase() ? `<span class="lang-tag">${esc(capturedIn)}</span>` : ""}
+        </div>
         <div class="record-card-sub">${esc(r.coopName || t("unnamed_coop", lang))}${r.respondentName ? " · " + esc(r.respondentName) : ""}</div>
         <div class="record-card-date">${esc(t("col_updated", lang))}: ${esc(fmtDate(r.updatedAt))}</div>
+        <div class="record-progress" title="${p.done} / ${p.total}">
+          <span style="width:${p.pct}%" class="${p.done === p.total ? "is-complete" : ""}"></span>
+        </div>
+        <div class="record-progress-label">${p.done === p.total
+          ? esc(t("record_complete", lang))
+          : `${p.done} ${esc(t("record_of_steps", lang))} ${p.total}`}</div>
       </div>
-      <div class="record-card-actions">
+      <button type="button" class="btn-icon card-menu-toggle" data-action="card-menu" data-id="${r.id}"
+        aria-label="${esc(t("btn_more_actions", lang))}">&#8942;</button>
+      <div class="card-menu" data-card-menu="${r.id}" hidden>
         <button type="button" class="btn" data-action="open-record" data-id="${r.id}">${esc(t("btn_open_record", lang))}</button>
         <button type="button" class="btn" data-action="export-json-record" data-id="${r.id}">${esc(t("btn_export_json", lang))}</button>
         <button type="button" class="btn" data-action="export-csv-record" data-id="${r.id}">${esc(t("btn_export_csv", lang))}</button>
-        <button type="button" class="btn-icon" data-action="delete-record" data-id="${r.id}" title="${esc(t("btn_delete_record", lang))}">✕</button>
+        <button type="button" class="btn btn-danger" data-action="delete-record" data-id="${r.id}">${esc(t("btn_delete_record", lang))}</button>
       </div>
-    </div>`).join("");
+    </div>`;
+  }).join("");
   return `
   <div class="panel">
     ${sectionHeader("records_heading", "records_help", lang)}
@@ -946,7 +985,8 @@ function renderCompareScreen(lang) {
     ${sectionHeader("compare_heading", "compare_help", lang)}
     ${filterBar}
     ${mixedUnits ? `<p class="warn-note">${esc(t("compare_mixed_currency", lang))}</p>` : ""}
-    <div class="table-wrap"><table class="data-table results-table compare-table">
+    ${renderCompareChart(list, lang)}
+    <div class="table-wrap compare-table-wrap"><table class="data-table results-table compare-table">
       <thead><tr>${head}</tr></thead>
       <tbody>
         ${rows}
@@ -996,7 +1036,6 @@ function openRecord(id) {
   if (!records[id]) return;
   currentRecordId = id;
   record = records[id];
-  currentLang = record.meta.language || currentLang;
   screen = "editor";
   currentTab = "consent";
   applyScreenVisibility();
@@ -1063,12 +1102,11 @@ function renderHeaderStrings() {
 
 function switchLang(lang) {
   currentLang = lang;
-  if (record) record.meta.language = lang;
+  saveLangPref(lang);
   document.querySelectorAll(".lang-btn").forEach(b => b.classList.toggle("active", b.dataset.lang === lang));
   renderNav();
   renderHeaderStrings();
   renderCurrentTab();
-  if (record) scheduleSave();
 }
 
 /* ---------- save status ---------- */
@@ -1106,9 +1144,30 @@ function attachHandlers() {
     }
   });
   container.addEventListener("click", e => {
+    const expander = e.target.closest("[data-expand-months]");
+    if (expander) { expandedMonthTables.add(expander.dataset.expandMonths); return renderCurrentTab(); }
+    const collapser = e.target.closest("[data-collapse-months]");
+    if (collapser) { expandedMonthTables.delete(collapser.dataset.collapseMonths); return renderCurrentTab(); }
+    const chip = e.target.closest("[data-chip]");
+    if (chip && record) {
+      const path = chip.dataset.chip;
+      setPath(record, path, !getPath(record, path));
+      scheduleSave();
+      renderCurrentTab();
+      return;
+    }
     const btn = e.target.closest("[data-action]");
     if (!btn) return;
     const action = btn.dataset.action;
+    if (action === "card-menu") {
+      e.stopPropagation();
+      const menu = container.querySelector(`[data-card-menu="${btn.dataset.id}"]`);
+      const wasHidden = menu.hidden;
+      container.querySelectorAll("[data-card-menu]").forEach(m => { m.hidden = true; });
+      menu.hidden = !wasHidden;
+      return;
+    }
+    if (btn.closest(".card-menu")) e.stopPropagation();
     if (action === "add-row") doAddRow(btn.dataset.schema, btn.dataset.arrpath);
     else if (action === "remove-row") doRemoveRow(btn.dataset.arrpath, parseInt(btn.dataset.idx, 10));
     else if (action === "open-record") openRecord(btn.dataset.id);
@@ -1123,9 +1182,10 @@ function attachHandlers() {
 /* ---------- app lifecycle ---------- */
 function initApp() {
   buildWorkspaceLayout();
+  buildAppBar();
   records = loadAllRecords();
   const summary = summarizeRecords(records);
-  currentLang = (summary.length && records[summary[0].id].meta.language) || "en";
+  currentLang = loadLangPref() || "en";
 
   document.querySelectorAll(".lang-btn").forEach(b => b.classList.toggle("active", b.dataset.lang === currentLang));
   screen = "list";
@@ -1139,6 +1199,13 @@ function initApp() {
   document.getElementById("tab-nav").addEventListener("click", e => {
     const btn = e.target.closest(".nav-btn");
     if (btn) switchTab(btn.dataset.tab);
+  });
+  document.getElementById("tab-content").addEventListener("keydown", e => {
+    if (e.key !== "Enter" && e.key !== " ") return;
+    const card = e.target.closest(".record-card");
+    if (!card) return;
+    e.preventDefault();
+    openRecord(card.dataset.id);
   });
   document.getElementById("tab-content").addEventListener("click", e => {
     const btn = e.target.closest("[data-step-action]");
@@ -1195,3 +1262,96 @@ function initApp() {
 }
 
 document.addEventListener("DOMContentLoaded", initApp);
+
+/* ---------- phone layout ----------
+   Built at runtime for the same reason as the workspace wrapper: it keeps
+   index.html, and whatever asset paths it currently holds, untouched. */
+
+/* Seven stacked buttons used to occupy the top third of a phone screen before
+   any content appeared. Everything except "new record" moves behind one menu. */
+function buildAppBar() {
+  const header = document.querySelector(".app-header");
+  if (!header || header.querySelector(".app-menu")) return;
+  const rows = header.querySelectorAll(".header-actions");
+  const topRow = rows[0];
+  const actionRow = rows[1];
+  const newBtn = document.getElementById("btn-new-record");
+  const langSwitch = header.querySelector(".lang-switch");
+  if (!actionRow || !topRow) return;
+
+  const panel = document.createElement("div");
+  panel.className = "app-menu";
+  panel.hidden = true;
+  header.appendChild(panel);
+
+  // Language moves in too: enumerators set it once and never touch it again.
+  if (langSwitch) panel.appendChild(langSwitch);
+  panel.appendChild(actionRow);
+  actionRow.removeAttribute("style");
+  actionRow.classList.add("app-menu-actions");
+
+  const toggle = document.createElement("button");
+  toggle.type = "button";
+  toggle.id = "btn-app-menu";
+  toggle.className = "btn-icon menu-toggle";
+  toggle.setAttribute("aria-expanded", "false");
+  toggle.innerHTML = "&#8942;";
+  if (newBtn) topRow.appendChild(newBtn);
+  topRow.appendChild(toggle);
+
+  toggle.addEventListener("click", () => setMenuOpen(panel.hidden));
+  // Any action inside the menu closes it, so the sheet never covers the result.
+  panel.addEventListener("click", e => {
+    if (e.target.closest("button")) setMenuOpen(false);
+  });
+  document.addEventListener("click", e => {
+    if (!panel.hidden && !panel.contains(e.target) && e.target !== toggle) setMenuOpen(false);
+  });
+}
+
+function setMenuOpen(open) {
+  const panel = document.querySelector(".app-menu");
+  const toggle = document.getElementById("btn-app-menu");
+  if (!panel) return;
+  panel.hidden = !open;
+  if (toggle) toggle.setAttribute("aria-expanded", String(open));
+}
+
+/* How many of the seven steps this record has been marked complete on. */
+function recordProgress(rec) {
+  const done = Array.isArray(rec.meta.completedSteps) ? rec.meta.completedSteps.length : 0;
+  return { done, total: TABS.length, pct: Math.round((done / TABS.length) * 100) };
+}
+
+/* Phones cannot show thirteen columns. Cost per kilo against margin per kilo is
+   the pairing the table exists to show, so the narrow view draws that directly
+   and the full table stays for tablets. */
+function renderCompareChart(list, lang) {
+  const usable = list.filter(s => s.costPerKg != null && isFinite(s.costPerKg));
+  if (!usable.length) return "";
+  const max = Math.max(...usable.map(s => Math.max(s.costPerKg, s.pricePerKg || 0)));
+  const rows = usable.map(s => {
+    const costPct = max ? (s.costPerKg / max) * 100 : 0;
+    const margin = s.marginPerKg;
+    const marginPct = (max && margin != null && isFinite(margin)) ? (Math.abs(margin) / max) * 100 : 0;
+    const negative = margin != null && margin < 0;
+    return `<div class="cmp-bar-row">
+      <div class="cmp-bar-head">
+        <span class="cmp-bar-name">${esc(s.producer || t("unnamed_household", lang))}</span>
+        <span class="cmp-bar-val${negative ? " negative" : ""}">${margin == null ? "—" : fmt(margin)}</span>
+      </div>
+      <div class="cmp-bar-track">
+        <span class="cmp-bar-cost" style="width:${costPct.toFixed(1)}%"></span>
+        <span class="cmp-bar-margin${negative ? " negative" : ""}" style="width:${marginPct.toFixed(1)}%"></span>
+      </div>
+    </div>`;
+  }).join("");
+  return `<div class="compare-chart">
+    <div class="cmp-chart-title">${esc(t("cmp_chart_title", lang))}</div>
+    ${rows}
+    <div class="cmp-legend">
+      <span><i class="swatch cost"></i>${esc(t("cmp_legend_cost", lang))}</span>
+      <span><i class="swatch margin"></i>${esc(t("cmp_legend_margin", lang))}</span>
+    </div>
+  </div>`;
+}

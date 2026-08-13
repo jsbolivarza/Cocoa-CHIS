@@ -103,6 +103,14 @@ const STR = {
   has_livestock: { en: "Keeps livestock", fr: "Élève du bétail", es: "Cría ganado" },
   has_other_income: { en: "Has other farm income", fr: "A d'autres revenus agricoles", es: "Tiene otros ingresos agrícolas" },
 
+  // Step rail and step footer
+  steps_heading: { en: "Steps", fr: "Étapes", es: "Pasos" },
+  step_counter: { en: "Step", fr: "Étape", es: "Paso" },
+  step_mark_complete: { en: "Mark as complete", fr: "Marquer comme terminé", es: "Marcar como completado" },
+  step_marked_complete: { en: "Marked complete", fr: "Marqué comme terminé", es: "Marcado como completado" },
+  step_back: { en: "Back", fr: "Précédent", es: "Anterior" },
+  step_next: { en: "Next", fr: "Suivant", es: "Siguiente" },
+
   col_respondent: { en: "Respondent", fr: "Répondant", es: "Encuestado" },
   col_updated: { en: "Last updated", fr: "Dernière mise à jour", es: "Última actualización" },
   unnamed_household: { en: "Unnamed household", fr: "Ménage sans nom", es: "Hogar sin nombre" },

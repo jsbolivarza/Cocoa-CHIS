@@ -198,6 +198,9 @@ function emptyRecord() {
       areaUnit: "acre",
       volumeUnit: "kg",
       currencyUnit: "",
+      // Steps the enumerator has explicitly marked done. Nothing in this form
+      // is strictly required, so completion cannot be inferred from the data.
+      completedSteps: [],
     },
     consent: {
       respondentName: "", date: "",

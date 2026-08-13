@@ -118,9 +118,10 @@ const STR = {
   record_of_steps: { en: "of", fr: "sur", es: "de" },
   months_more: { en: "more months with no sales", fr: "autres mois sans vente", es: "meses más sin ventas" },
   months_less: { en: "Show only months with sales", fr: "Afficher seulement les mois avec des ventes", es: "Mostrar solo los meses con ventas" },
-  cmp_chart_title: { en: "Cost per kilo vs margin", fr: "Coût par kilo et marge", es: "Costo por kilo y margen" },
-  cmp_legend_cost: { en: "Cost", fr: "Coût", es: "Costo" },
-  cmp_legend_margin: { en: "Margin", fr: "Marge", es: "Margen" },
+
+  cmp_worst_first: { en: "per year, worst first", fr: "par an, du plus faible au plus élevé", es: "por año, del más bajo al más alto" },
+  cmp_legend_shortfall: { en: "Farm did not cover spending", fr: "L'exploitation n'a pas couvert les dépenses", es: "La finca no cubrió los gastos" },
+  cmp_shortfall_count: { en: "households did not cover their spending", fr: "ménages n'ont pas couvert leurs dépenses", es: "hogares no cubrieron sus gastos" },
 
   col_respondent: { en: "Respondent", fr: "Répondant", es: "Encuestado" },
   col_updated: { en: "Last updated", fr: "Dernière mise à jour", es: "Última actualización" },

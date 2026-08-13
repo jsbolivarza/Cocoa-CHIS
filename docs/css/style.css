@@ -373,7 +373,7 @@ footer.app-footer { text-align: center; color: var(--text-light); font-size: 0.7
 
 /* ---------- record cards ---------- */
 .record-card { position: relative; cursor: pointer; }
-.record-card:hover { border-color: var(--tangerine); }
+@media (hover: hover) { .record-card:hover { border-color: var(--tangerine); } }
 .record-card:focus-visible { outline: 2px solid var(--tangerine); outline-offset: 2px; }
 .lang-tag {
   display: inline-block; margin-left: 7px; padding: 1px 6px; border-radius: 20px;
@@ -413,7 +413,7 @@ footer.app-footer { text-align: center; color: var(--text-light); font-size: 0.7
   color: var(--text-light); padding: 9px 15px; font-size: 0.85rem;
   font-family: 'Inter', sans-serif; cursor: pointer; min-height: 40px;
 }
-.chip:hover { border-color: var(--night); }
+
 .chip.is-on { background: var(--night); border-color: var(--night); color: #fff; font-weight: 600; }
 .chip-check { font-size: 0.8rem; }
 
@@ -422,35 +422,60 @@ tr.months-more td {
   background: var(--card-alt); color: var(--text-light);
   font-size: 0.82rem; cursor: pointer;
 }
-tr.months-more:hover td { color: var(--night); }
+@media (hover: hover) { tr.months-more:hover td { color: var(--night); } }
 
-/* ---------- comparison chart ---------- */
-.compare-chart { display: none; margin: 12px 0 4px; }
-.cmp-chart-title {
-  font-size: 0.64rem; text-transform: uppercase; letter-spacing: 0.05em;
-  font-weight: 600; color: var(--text-light); margin-bottom: 10px;
+/* ---------- comparison chart ----------
+   One quantity per bar, diverging from a zero line whose position comes from
+   the data, so an all-positive set does not reserve half the width for
+   negatives that do not exist. */
+.compare-chart { display: none; margin: 4px 0 2px; }
+.cmp-chart-head {
+  display: flex; justify-content: space-between; gap: 10px;
+  font-size: 0.72rem; color: var(--text-light); margin-bottom: 12px;
 }
-.cmp-bar-row { margin-bottom: 11px; }
-.cmp-bar-head { display: flex; justify-content: space-between; font-size: 0.82rem; }
-.cmp-bar-name { color: var(--text); }
-.cmp-bar-val { color: var(--mint-dark); font-weight: 600; }
+.cmp-plot { position: relative; }
+.cmp-zero, .cmp-avg {
+  position: absolute; top: 0; bottom: 20px; width: 0; pointer-events: none;
+}
+.cmp-zero { border-left: 1px solid var(--grey); }
+.cmp-avg { border-left: 1px dashed var(--grey-dark); }
+.cmp-bar-row { margin-bottom: 13px; position: relative; }
+.cmp-bar-head { display: flex; justify-content: space-between; gap: 8px; font-size: 0.8rem; }
+.cmp-bar-name { color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cmp-bar-val { font-weight: 600; font-variant-numeric: tabular-nums; flex: none; }
+.cmp-bar-val.positive { color: var(--night); }
 .cmp-bar-val.negative { color: var(--flower); }
-.cmp-bar-track { display: flex; gap: 2px; margin-top: 4px; }
-.cmp-bar-cost { height: 6px; background: var(--eggplant); border-radius: 2px; }
-.cmp-bar-margin { height: 6px; background: var(--mint-dark); border-radius: 2px; }
-.cmp-bar-margin.negative { background: var(--flower); }
-.cmp-legend { display: flex; gap: 14px; font-size: 0.7rem; color: var(--text-light); margin-top: 10px; }
-.cmp-legend .swatch {
-  display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 5px;
+.cmp-bar-track { position: relative; height: 10px; margin-top: 4px; }
+.cmp-bar-fill {
+  position: absolute; height: 10px; background: var(--night);
+  border-radius: 0 3px 3px 0; min-width: 2px;
 }
-.cmp-legend .swatch.cost { background: var(--eggplant); }
-.cmp-legend .swatch.margin { background: var(--mint-dark); }
+.cmp-bar-fill.is-negative {
+  background: var(--flower); border-radius: 3px 0 0 3px;
+}
+.cmp-legend {
+  display: flex; gap: 14px; flex-wrap: wrap;
+  font-size: 0.72rem; color: var(--text-light); margin-top: 8px;
+}
+.cmp-legend .swatch {
+  display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 5px;
+}
+.cmp-legend .swatch.negative { background: var(--flower); }
+.cmp-legend .swatch.avg-line {
+  width: 0; height: 11px; border-radius: 0;
+  border-left: 1px dashed var(--grey-dark); margin-right: 7px; vertical-align: -2px;
+}
+.cmp-callout {
+  background: var(--card-alt); border-radius: 8px; padding: 10px 12px;
+  font-size: 0.75rem; color: var(--text-light); margin: 12px 0 0;
+}
 
 /* ---------- phone ---------- */
 @media (max-width: 720px) {
   main { padding: 16px 14px; }
   nav#tab-nav, nav#list-nav { padding: 0 14px; }
   .compare-chart { display: block; }
+  .wide-only { display: none; }
   .compare-table-wrap { display: none; }
   .step-footer {
     position: sticky; bottom: 0; background: #fff;
@@ -607,7 +632,7 @@ table.compare-table .total-row td.negative { color: var(--flower); }
   background: var(--eggplant-tint); border-color: var(--eggplant);
   color: var(--eggplant); font-weight: 600;
 }
-.chip:hover { border-color: var(--eggplant); }
+
 
 /* The menu was a child of the navy bar, so opening it doubled the ribbon and
    pushed the page down. Now it drops over the content as a white panel. */
@@ -641,4 +666,10 @@ header.app-header .app-menu .lang-btn.active { background: var(--night); color: 
   position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
   font-size: 0.7rem; color: var(--text-light); pointer-events: none;
 }
-.filter-chip:hover { border-color: var(--night); color: var(--night); }
+/* Touch devices keep :hover on the last tapped element, so an active chip was
+   left with navy text on its navy background and the label vanished. Hover is
+   now limited to pointers that can actually hover, and to inactive chips. */
+@media (hover: hover) {
+  .filter-chip:not(.is-on):hover { border-color: var(--night); color: var(--night); }
+  .chip:not(.is-on):hover { border-color: var(--eggplant); }
+}

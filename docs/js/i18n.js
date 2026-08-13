@@ -111,6 +111,17 @@ const STR = {
   step_back: { en: "Back", fr: "Précédent", es: "Anterior" },
   step_next: { en: "Next", fr: "Suivant", es: "Siguiente" },
 
+  // Phone layout
+  btn_more_actions: { en: "More actions", fr: "Plus d'actions", es: "Más acciones" },
+  btn_menu: { en: "Menu", fr: "Menu", es: "Menú" },
+  record_complete: { en: "All steps complete", fr: "Toutes les étapes terminées", es: "Todos los pasos completados" },
+  record_of_steps: { en: "of", fr: "sur", es: "de" },
+  months_more: { en: "more months with no sales", fr: "autres mois sans vente", es: "meses más sin ventas" },
+  months_less: { en: "Show only months with sales", fr: "Afficher seulement les mois avec des ventes", es: "Mostrar solo los meses con ventas" },
+  cmp_chart_title: { en: "Cost per kilo vs margin", fr: "Coût par kilo et marge", es: "Costo por kilo y margen" },
+  cmp_legend_cost: { en: "Cost", fr: "Coût", es: "Costo" },
+  cmp_legend_margin: { en: "Margin", fr: "Marge", es: "Margen" },
+
   col_respondent: { en: "Respondent", fr: "Répondant", es: "Encuestado" },
   col_updated: { en: "Last updated", fr: "Dernière mise à jour", es: "Última actualización" },
   unnamed_household: { en: "Unnamed household", fr: "Ménage sans nom", es: "Hogar sin nombre" },

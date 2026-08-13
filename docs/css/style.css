@@ -90,6 +90,34 @@ nav#tab-nav {
 .nav-btn.step-empty .step-icon { color: var(--grey); }
 .step-label { overflow: hidden; text-overflow: ellipsis; }
 
+/* ---------- records list nav ----------
+   Its own rules rather than borrowing nav#tab-nav's: that selector became a
+   vertical rail, and the list tabs stayed horizontal at every width. */
+nav#list-nav {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  padding: 0 32px;
+  background: #fff;
+  border-bottom: 2px solid var(--border);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+nav#list-nav .nav-btn {
+  width: auto;
+  border-left: none;
+  border-bottom: 3px solid transparent;
+  border-radius: 0;
+  padding: 12px 14px;
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+nav#list-nav .nav-btn.active {
+  background: none;
+  color: var(--night);
+  border-bottom-color: var(--tangerine);
+}
+
 /* ---------- step footer ---------- */
 .step-footer {
   display: flex; align-items: center; justify-content: space-between;
@@ -314,7 +342,7 @@ footer.app-footer { text-align: center; color: var(--text-light); font-size: 0.7
 }
 
 /* ---------- revenue source screening questions ---------- */
-.toggle-grid {
+._retired_toggle_grid {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 8px 20px; background: var(--card-alt); border: 1px solid var(--border);
   border-radius: 12px; padding: 14px 18px; margin: 10px 0 18px;
@@ -327,3 +355,116 @@ footer.app-footer { text-align: center; color: var(--text-light); font-size: 0.7
   width: 20px; height: 20px; flex: none; accent-color: var(--tangerine); cursor: pointer;
 }
 .toggle-row span { user-select: none; }
+
+
+/* ---------- app bar ---------- */
+.menu-toggle {
+  font-size: 1.4rem; line-height: 1; padding: 4px 10px;
+  border: 1px solid var(--border); border-radius: 8px; background: #fff;
+  color: var(--night); cursor: pointer;
+}
+.app-menu {
+  border-top: 1px solid var(--border); margin-top: 10px; padding-top: 12px;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.app-menu[hidden] { display: none; }
+.app-menu-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.app-menu .lang-switch { align-self: flex-start; }
+
+/* ---------- record cards ---------- */
+.record-card { position: relative; cursor: pointer; }
+.record-card:hover { border-color: var(--tangerine); }
+.record-card:focus-visible { outline: 2px solid var(--tangerine); outline-offset: 2px; }
+.lang-tag {
+  display: inline-block; margin-left: 7px; padding: 1px 6px; border-radius: 20px;
+  background: var(--sky-tint); color: #0b5f7a; font-size: 0.62rem;
+  font-weight: 700; letter-spacing: 0.04em; vertical-align: middle;
+}
+.record-progress {
+  height: 4px; background: var(--card-alt); border-radius: 2px;
+  margin-top: 9px; overflow: hidden;
+}
+.record-progress span {
+  display: block; height: 100%; background: var(--tangerine); border-radius: 2px;
+}
+.record-progress span.is-complete { background: var(--mint-dark); }
+.record-progress-label { font-size: 0.7rem; color: var(--text-light); margin-top: 4px; }
+.card-menu-toggle {
+  position: absolute; top: 10px; right: 10px;
+  font-size: 1.25rem; line-height: 1; padding: 2px 9px;
+  border: 1px solid var(--border); border-radius: 8px; background: #fff;
+  color: var(--night); cursor: pointer;
+}
+.card-menu {
+  display: flex; flex-direction: column; gap: 6px;
+  border-top: 1px solid var(--border); margin-top: 11px; padding-top: 11px;
+}
+.card-menu[hidden] { display: none; }
+
+/* ---------- income source chips ---------- */
+.chip-row {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  background: var(--card-alt); border: 1px solid var(--border);
+  border-radius: 12px; padding: 13px 15px; margin: 10px 0 18px;
+}
+.chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: #fff; border: 1px solid var(--border); border-radius: 22px;
+  color: var(--text-light); padding: 9px 15px; font-size: 0.85rem;
+  font-family: 'Inter', sans-serif; cursor: pointer; min-height: 40px;
+}
+.chip:hover { border-color: var(--night); }
+.chip.is-on { background: var(--night); border-color: var(--night); color: #fff; font-weight: 600; }
+.chip-check { font-size: 0.8rem; }
+
+/* ---------- collapsed month rows ---------- */
+tr.months-more td {
+  background: var(--card-alt); color: var(--text-light);
+  font-size: 0.82rem; cursor: pointer;
+}
+tr.months-more:hover td { color: var(--night); }
+
+/* ---------- comparison chart ---------- */
+.compare-chart { display: none; margin: 12px 0 4px; }
+.cmp-chart-title {
+  font-size: 0.64rem; text-transform: uppercase; letter-spacing: 0.05em;
+  font-weight: 600; color: var(--text-light); margin-bottom: 10px;
+}
+.cmp-bar-row { margin-bottom: 11px; }
+.cmp-bar-head { display: flex; justify-content: space-between; font-size: 0.82rem; }
+.cmp-bar-name { color: var(--text); }
+.cmp-bar-val { color: var(--mint-dark); font-weight: 600; }
+.cmp-bar-val.negative { color: var(--flower); }
+.cmp-bar-track { display: flex; gap: 2px; margin-top: 4px; }
+.cmp-bar-cost { height: 6px; background: var(--eggplant); border-radius: 2px; }
+.cmp-bar-margin { height: 6px; background: var(--mint-dark); border-radius: 2px; }
+.cmp-bar-margin.negative { background: var(--flower); }
+.cmp-legend { display: flex; gap: 14px; font-size: 0.7rem; color: var(--text-light); margin-top: 10px; }
+.cmp-legend .swatch {
+  display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 5px;
+}
+.cmp-legend .swatch.cost { background: var(--eggplant); }
+.cmp-legend .swatch.margin { background: var(--mint-dark); }
+
+/* ---------- phone ---------- */
+@media (max-width: 720px) {
+  main { padding: 16px 14px; }
+  nav#tab-nav, nav#list-nav { padding: 0 14px; }
+  header.app-header { padding: 14px; }
+  .app-header h1 { font-size: 1.05rem; }
+  .header-top { display: flex; align-items: flex-start; gap: 10px; }
+  .header-top .header-actions { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+  #btn-new-record { white-space: nowrap; }
+  .compare-chart { display: block; }
+  .compare-table-wrap { display: none; }
+  .step-footer {
+    position: sticky; bottom: 0; background: #fff;
+    margin: 22px -14px 0; padding: 11px 14px;
+    border-top: 1px solid var(--border); z-index: 5;
+  }
+  .step-count { display: none; }
+  .step-footer-actions { width: 100%; }
+  .step-footer-actions .btn { flex: 1; text-align: center; }
+  .kpi-grid { grid-template-columns: 1fr; }
+  .record-card-title { padding-right: 44px; }
+}

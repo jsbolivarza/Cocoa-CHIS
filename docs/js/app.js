@@ -11,6 +11,22 @@ let currentLang = "en";
 let saveTimer = null;
 
 const TABS = ["consent", "profile", "revenues", "costs", "labour", "expenditures", "results"];
+
+/* Which part of the record each step owns, used to tell an untouched step from
+   one someone has started. "results" is computed rather than captured, so it
+   has no section and never shows as in progress. */
+const TAB_SECTION = {
+  consent: "consent", profile: "profile", revenues: "revenues",
+  costs: "costs", labour: "labour", expenditures: "expenditures", results: null,
+};
+
+/* Tabler-style glyphs would need a webfont, so the rail uses inline SVG paths.
+   Three states: marked complete, started but not marked, untouched. */
+const STEP_ICON = {
+  complete: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m9 12 2 2 4-4"/></svg>',
+  started: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5" fill="currentColor" stroke="none"/></svg>',
+  empty: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/></svg>',
+};
 const TAB_LABEL_KEY = {
   consent: "tab_consent", profile: "tab_profile", revenues: "tab_revenues",
   costs: "tab_costs", labour: "tab_labour", expenditures: "tab_expenditures", results: "tab_results",
@@ -572,6 +588,7 @@ let listTab = "records"; // "records" | "compare", the two tabs of the list scre
 // visible reason why, which reads as data loss on a device that has no backend.
 let recordSearch = "";
 let compareFilters = { coop: "", programme: "", areaUnit: "", currency: "" };
+let EMPTY_SECTION_CACHE = null;
 
 const LIST_TABS = ["records", "compare"];
 const LIST_TAB_LABEL_KEY = { records: "tab_list_records", compare: "tab_list_compare" };
@@ -579,6 +596,7 @@ const LIST_TAB_LABEL_KEY = { records: "tab_list_records", compare: "tab_list_com
 function renderCurrentTab() {
   const container = document.getElementById("tab-content");
   if (screen === "list") {
+    renderNav();
     renderListNav();
     updateSearchBar();
     container.innerHTML = listTab === "compare"
@@ -588,7 +606,8 @@ function renderCurrentTab() {
     return;
   }
   container.innerHTML = TAB_RENDERERS[currentTab](currentLang);
-  document.querySelectorAll(".nav-btn").forEach(b => b.classList.toggle("active", b.dataset.tab === currentTab));
+  renderNav();
+  renderStepFooter();
 }
 
 function switchTab(tab) {
@@ -597,10 +616,86 @@ function switchTab(tab) {
   window.scrollTo(0, 0);
 }
 
+/* The rail sits beside the content on a landscape tablet and folds back into the
+   original horizontal tab row below the breakpoint, which is what a phone or a
+   portrait tablet gets. Same markup either way, the layout is CSS only. */
 function renderNav() {
   const nav = document.getElementById("tab-nav");
-  nav.innerHTML = TABS.map(tab => `<button type="button" class="nav-btn ${tab === currentTab ? "active" : ""}" data-tab="${tab}">${esc(t(TAB_LABEL_KEY[tab], currentLang))}</button>`).join("");
+  if (!record || screen !== "editor") { nav.innerHTML = ""; return; }
+  const done = completedSteps();
+  nav.innerHTML = `<span class="rail-heading">${esc(t("steps_heading", currentLang))}</span>` +
+    TABS.map(tab => {
+      const state = done.includes(tab) ? "complete" : (stepHasData(tab) ? "started" : "empty");
+      return `<button type="button" class="nav-btn step-${state} ${tab === currentTab ? "active" : ""}" data-tab="${tab}">
+        <span class="step-icon" aria-hidden="true">${STEP_ICON[state]}</span>
+        <span class="step-label">${esc(t(TAB_LABEL_KEY[tab], currentLang))}</span>
+      </button>`;
+    }).join("");
 }
+
+/* Marked complete is an explicit act, kept on the record so it survives export
+   and reimport. It is deliberately separate from whether the step has data:
+   nothing in this form is truly mandatory, so the app cannot infer completion. */
+function completedSteps() {
+  if (!record) return [];
+  if (!Array.isArray(record.meta.completedSteps)) record.meta.completedSteps = [];
+  return record.meta.completedSteps;
+}
+
+function stepHasData(tab) {
+  const section = TAB_SECTION[tab];
+  if (!section || !record) return false;
+  if (!EMPTY_SECTION_CACHE) EMPTY_SECTION_CACHE = emptyRecord();
+  return JSON.stringify(record[section]) !== JSON.stringify(EMPTY_SECTION_CACHE[section]);
+}
+
+function toggleStepComplete(tab) {
+  const done = completedSteps();
+  const at = done.indexOf(tab);
+  if (at >= 0) done.splice(at, 1); else done.push(tab);
+  scheduleSave();
+  renderNav();
+  renderStepFooter();
+}
+
+/* Rendered after the tab body rather than inside it, so none of the seven tab
+   renderers has to know the footer exists. */
+function renderStepFooter() {
+  const container = document.getElementById("tab-content");
+  const existing = container.querySelector(".step-footer");
+  if (existing) existing.remove();
+  if (screen !== "editor" || !record) return;
+  const idx = TABS.indexOf(currentTab);
+  const isDone = completedSteps().includes(currentTab);
+  const footer = document.createElement("div");
+  footer.className = "step-footer";
+  footer.innerHTML = `
+    <span class="step-count">${esc(t("step_counter", currentLang))} ${idx + 1} / ${TABS.length}</span>
+    <div class="step-footer-actions">
+      <button type="button" class="btn btn-complete ${isDone ? "is-done" : ""}" data-step-action="toggle">
+        <span class="step-icon" aria-hidden="true">${STEP_ICON[isDone ? "complete" : "empty"]}</span>
+        ${esc(t(isDone ? "step_marked_complete" : "step_mark_complete", currentLang))}
+      </button>
+      ${idx > 0 ? `<button type="button" class="btn" data-step-action="prev">${esc(t("step_back", currentLang))}</button>` : ""}
+      ${idx < TABS.length - 1 ? `<button type="button" class="btn btn-secondary" data-step-action="next">${esc(t("step_next", currentLang))}</button>` : ""}
+    </div>`;
+  container.appendChild(footer);
+}
+
+/* Built at load time instead of in index.html: the rail needs nav and main to be
+   siblings inside one flex parent, and doing it here keeps the markup file, and
+   whatever asset paths it currently holds, untouched. */
+function buildWorkspaceLayout() {
+  const nav = document.getElementById("tab-nav");
+  const main = document.querySelector("main");
+  if (!nav || !main || main.parentElement.classList.contains("workspace")) return;
+  const wrap = document.createElement("div");
+  wrap.className = "workspace";
+  main.parentNode.insertBefore(wrap, main);
+  wrap.appendChild(nav);
+  wrap.appendChild(main);
+}
+
 
 function renderListNav() {
   const nav = document.getElementById("list-nav");
@@ -1027,6 +1122,7 @@ function attachHandlers() {
 
 /* ---------- app lifecycle ---------- */
 function initApp() {
+  buildWorkspaceLayout();
   records = loadAllRecords();
   const summary = summarizeRecords(records);
   currentLang = (summary.length && records[summary[0].id].meta.language) || "en";
@@ -1043,6 +1139,15 @@ function initApp() {
   document.getElementById("tab-nav").addEventListener("click", e => {
     const btn = e.target.closest(".nav-btn");
     if (btn) switchTab(btn.dataset.tab);
+  });
+  document.getElementById("tab-content").addEventListener("click", e => {
+    const btn = e.target.closest("[data-step-action]");
+    if (!btn) return;
+    const action = btn.dataset.stepAction;
+    if (action === "toggle") return toggleStepComplete(currentTab);
+    const idx = TABS.indexOf(currentTab);
+    if (action === "next" && idx < TABS.length - 1) switchTab(TABS[idx + 1]);
+    if (action === "prev" && idx > 0) switchTab(TABS[idx - 1]);
   });
   document.getElementById("list-nav").addEventListener("click", e => {
     const btn = e.target.closest("[data-list-tab]");

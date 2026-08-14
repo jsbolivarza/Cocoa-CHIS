@@ -433,36 +433,46 @@ function renderRevenuesTab(lang) {
 }
 
 /* ================= COSTS TAB ================= */
+/* Every other tab puts its indicators directly above the table they summarise.
+   Costs put all nine in one strip at the top, where "Total cost" appeared four
+   times and nothing said which section each belonged to. Each pair now sits
+   under its own heading and names its category. */
 function renderCostsTab(lang) {
   const c = record.costs;
   const res = calcCosts(c);
   const cur = record.meta.currencyUnit;
   return `
   <div class="panel">
+    ${sectionHeader("cost_inputs_heading", null, lang)}
     <div class="stat-row">
       ${statBox("total_inputs_cost", res.inputs.total, lang, cur)}
       ${statBox("total_inputs_cost_cocoa", res.inputs.totalCocoa, lang, cur)}
-      ${statBox("total_tools_cost", res.tools.total, lang, cur)}
-      ${statBox("total_tools_cost_cocoa", res.tools.totalDepreciatedCocoa, lang, cur)}
-      ${statBox("total_other_cost", res.other.total, lang, cur)}
-      ${statBox("total_other_cost_cocoa", res.other.totalCocoa, lang, cur)}
-      ${statBox("total_sharecrop_cost", res.sharecrop.total, lang, cur)}
-      ${statBox("total_sharecrop_cost_cocoa", res.sharecrop.totalCocoa, lang, cur)}
-      ${statBox("total_inkind_cocoa_volume", res.sharecrop.inKindCocoaVolume, lang, record.meta.volumeUnit)}
     </div>
-
-    ${sectionHeader("cost_inputs_heading", null, lang)}
     <p class="field-hint">${esc(t("cost_used_for_cocoa_help", lang))} ${esc(t("subsidy_help", lang))}</p>
     ${renderTable("agriInputs", "costs.agriInputs", lang)}
 
     ${sectionHeader("cost_tools_heading", null, lang)}
+    <div class="stat-row">
+      ${statBox("total_tools_cost", res.tools.total, lang, cur)}
+      ${statBox("total_tools_cost_depreciated", res.tools.totalDepreciated, lang, cur)}
+      ${statBox("total_tools_cost_cocoa", res.tools.totalDepreciatedCocoa, lang, cur)}
+    </div>
     <p class="field-hint">${esc(t("col_lifespan_help", lang))}</p>
     ${renderTable("tools", "costs.tools", lang)}
 
     ${sectionHeader("cost_other_heading", null, lang)}
+    <div class="stat-row">
+      ${statBox("total_other_cost", res.other.total, lang, cur)}
+      ${statBox("total_other_cost_cocoa", res.other.totalCocoa, lang, cur)}
+    </div>
     ${renderTable("otherCosts", "costs.otherCosts", lang)}
 
     ${sectionHeader("cost_sharecrop_heading", "cost_sharecrop_help", lang)}
+    <div class="stat-row">
+      ${statBox("total_sharecrop_cost", res.sharecrop.total, lang, cur)}
+      ${statBox("total_sharecrop_cost_cocoa", res.sharecrop.totalCocoa, lang, cur)}
+      ${statBox("total_inkind_cocoa_volume", res.sharecrop.inKindCocoaVolume, lang, record.meta.volumeUnit)}
+    </div>
     ${renderTable("sharecropPayments", "costs.sharecropPayments", lang)}
     <p class="field-hint">${esc(t("inkind_cross_check", lang))}</p>
   </div>`;

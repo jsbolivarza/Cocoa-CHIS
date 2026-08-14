@@ -326,8 +326,8 @@ const STR = {
   col_product_type: { en: "Product type", fr: "Type de produit", es: "Tipo de producto" },
   col_qty_purchased: { en: "Amount purchased", fr: "Quantité achetée", es: "Cantidad comprada" },
   col_total_cost: { en: "Total cost", fr: "Coût total", es: "Costo total" },
-  total_inputs_cost: { en: "Total cost of agricultural inputs", fr: "Coût total des intrants agricoles", es: "Costo total de insumos agrícolas" },
-  total_inputs_cost_cocoa: { en: "Total cost related to cocoa", fr: "Coût total lié au cacao", es: "Costo total relacionado con el cacao" },
+  total_inputs_cost: { en: "Agricultural inputs, total", fr: "Intrants agricoles, total", es: "Insumos agrícolas, total" },
+  total_inputs_cost_cocoa: { en: "Agricultural inputs, cocoa share", fr: "Intrants agricoles, part cacao", es: "Insumos agrícolas, parte cacao" },
 
   cost_tools_heading: { en: "Purchases of tools & equipment", fr: "Achats d'outils et d'équipements", es: "Compras de herramientas y equipos" },
   col_tool: { en: "Tool", fr: "Outil", es: "Herramienta" },
@@ -335,14 +335,15 @@ const STR = {
   col_lifespan_help: { en: "Enter 1 if the tool lasts less than a year.", fr: "Indiquez 1 si l'outil dure moins d'un an.", es: "Indique 1 si la herramienta dura menos de un año." },
   col_quantity: { en: "Quantity", fr: "Quantité", es: "Cantidad" },
   col_depreciated_cost: { en: "Depreciated cost (this year)", fr: "Coût amorti (cette année)", es: "Costo depreciado (este año)" },
-  total_tools_cost: { en: "Total cost", fr: "Coût total", es: "Costo total" },
-  total_tools_cost_cocoa: { en: "Total cost related to cocoa", fr: "Coût total lié au cacao", es: "Costo total relacionado con el cacao" },
+  total_tools_cost: { en: "Tools and equipment, purchase cost", fr: "Outils et équipements, coût d'achat", es: "Herramientas y equipos, costo de compra" },
+  total_tools_cost_depreciated: { en: "Tools and equipment, this year's depreciation", fr: "Outils et équipements, amortissement de l'année", es: "Herramientas y equipos, depreciación del año" },
+  total_tools_cost_cocoa: { en: "Tools and equipment, cocoa share", fr: "Outils et équipements, part cacao", es: "Herramientas y equipos, parte cacao" },
 
   cost_other_heading: { en: "Other costs", fr: "Autres coûts", es: "Otros costos" },
   col_cost_type: { en: "Cost type", fr: "Type de coût", es: "Tipo de costo" },
   col_details: { en: "Details", fr: "Détails", es: "Detalles" },
-  total_other_cost: { en: "Total cost", fr: "Coût total", es: "Costo total" },
-  total_other_cost_cocoa: { en: "Total cost related to cocoa", fr: "Coût total lié au cacao", es: "Costo total relacionado con el cacao" },
+  total_other_cost: { en: "Other costs, total", fr: "Autres coûts, total", es: "Otros costos, total" },
+  total_other_cost_cocoa: { en: "Other costs, cocoa share", fr: "Autres coûts, part cacao", es: "Otros costos, parte cacao" },
 
   cost_sharecrop_heading: { en: "Payments to sharecroppers / caretakers / land owner", fr: "Paiements aux métayers / gérants / propriétaires terriens", es: "Pagos a aparceros / cuidadores / propietario de la tierra" },
   cost_sharecrop_help: { en: "Select the type of payment and whether it was in cash or in kind. For in-kind payments, record the amount of cocoa beans given as payment — this must not also appear under cocoa sales on the Revenues tab.", fr: "Sélectionnez le type de paiement et s'il était en espèces ou en nature. Pour les paiements en nature, indiquez la quantité de fèves de cacao donnée en paiement — celle-ci ne doit pas apparaître aussi dans les ventes de cacao de l'onglet Revenus.", es: "Seleccione el tipo de pago y si fue en efectivo o en especie. Para los pagos en especie, registre la cantidad de granos de cacao entregados como pago; esto no debe aparecer también en las ventas de cacao de la pestaña Ingresos." },
@@ -352,9 +353,9 @@ const STR = {
   in_kind: { en: "in-kind", fr: "en nature", es: "en especie" },
   col_cocoa_volume_in_kind: { en: "Cocoa volume if in-kind (kg)", fr: "Volume de cacao si en nature (kg)", es: "Volumen de cacao si es en especie (kg)" },
   col_cost_or_value: { en: "Cost or value", fr: "Coût ou valeur", es: "Costo o valor" },
-  total_sharecrop_cost: { en: "Total cost", fr: "Coût total", es: "Costo total" },
-  total_sharecrop_cost_cocoa: { en: "Total cost related to cocoa", fr: "Coût total lié au cacao", es: "Costo total relacionado con el cacao" },
-  total_inkind_cocoa_volume: { en: "Total cocoa volume given as in-kind payment", fr: "Volume total de cacao donné en paiement en nature", es: "Volumen total de cacao entregado como pago en especie" },
+  total_sharecrop_cost: { en: "Payments for land and labour arrangements, total", fr: "Paiements liés aux arrangements fonciers, total", es: "Pagos por acuerdos de tierra y trabajo, total" },
+  total_sharecrop_cost_cocoa: { en: "Payments for land and labour arrangements, cocoa share", fr: "Paiements liés aux arrangements fonciers, part cacao", es: "Pagos por acuerdos de tierra y trabajo, parte cacao" },
+  total_inkind_cocoa_volume: { en: "Cocoa paid in kind", fr: "Cacao versé en paiement en nature", es: "Cacao entregado como pago en especie" },
   inkind_cross_check: { en: "Check this matches the amount recorded, and that it is not double-counted under cocoa sales.", fr: "Vérifiez que ceci correspond au montant enregistré, et qu'il n'est pas compté deux fois dans les ventes de cacao.", es: "Verifique que esto coincida con el monto registrado y que no se cuente dos veces en las ventas de cacao." },
 
   // ---------------- LABOUR ----------------

@@ -2,7 +2,7 @@
    Cache-first offline shell. Bump CACHE_NAME on every deployed change so
    returning devices pick up the new version instead of serving a stale
    cached copy indefinitely. */
-const CACHE_NAME = "cocoa-capture-v14";
+const CACHE_NAME = "cocoa-capture-v15";
 const ASSETS = [
   "./",
   "./index.html",

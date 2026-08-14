@@ -136,8 +136,8 @@ const STR = {
   record_of_steps: { en: "of", fr: "sur", es: "de" },
   months_more: { en: "more months with no sales", fr: "autres mois sans vente", es: "meses más sin ventas" },
   months_less: { en: "Show only months with sales", fr: "Afficher seulement les mois avec des ventes", es: "Mostrar solo los meses con ventas" },
-  months_more_labour: { en: "more months with no labour recorded", fr: "autres mois sans main d'œuvre saisie", es: "meses más sin mano de obra registrada" },
-  months_less_labour: { en: "Show only months with labour recorded", fr: "Afficher seulement les mois avec de la main d'œuvre", es: "Mostrar solo los meses con mano de obra" },
+  season_note: { en: "Cocoa season, October to September", fr: "Campagne cacaoyère, d'octobre à septembre", es: "Campaña cacaotera, de octubre a septiembre" },
+  months_filled_label: { en: "months with labour recorded", fr: "mois avec de la main d'œuvre saisie", es: "meses con mano de obra registrada" },
   row_word: { en: "Row", fr: "Ligne", es: "Fila" },
 
   cmp_worst_first: { en: "per year, worst first", fr: "par an, du plus faible au plus élevé", es: "por año, del más bajo al más alto" },

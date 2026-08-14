@@ -33,6 +33,14 @@ const TAB_LABEL_KEY = {
 };
 const FIXED_SIZE_TABLES = [];
 
+/* One definition of "phone", used by both the stylesheet and the two renderers
+   that change shape rather than just reflow. A phone on its side is about
+   930px wide and 430px tall, so width alone does not answer the question. */
+const PHONE_QUERY = "(max-width: 720px), (max-height: 520px) and (orientation: landscape)";
+function isPhoneLayout() {
+  return !!(window.matchMedia && window.matchMedia(PHONE_QUERY).matches);
+}
+
 /* ---------- generic helpers ---------- */
 function getPath(obj, path) {
   return path.split(".").reduce((o, k) => (o == null ? undefined : o[k]), obj);
@@ -107,6 +115,7 @@ function renderTable(schemaKey, arrPath, lang, opts) {
   const headerCells = schema.columns.map(c => tableHeaderCell(c, lang)).join("");
   const extraHeader = fixed ? "" : `<th class="col-remove"></th>`;
   const rowWord = t("row_word", lang);
+  const hasIndex = schema.columns.some(c => c.type === "index");
   const bodyRows = rows.map((row, idx) => {
     const cells = schema.columns.map(col => {
       // Two forms of the same cell: a bare number in the grid, "Row 3" as the
@@ -115,7 +124,11 @@ function renderTable(schemaKey, arrPath, lang, opts) {
       return `<td data-label="${esc(cellLabel(col, lang))}">${renderColField(`${arrPath}.${idx}`, col, row, lang)}</td>`;
     }).join("");
     const removeCell = fixed ? "" : `<td class="col-remove"><button type="button" class="btn-icon" data-action="remove-row" data-arrpath="${arrPath}" data-idx="${idx}" title="${esc(t("btn_remove_row", lang))}">✕</button></td>`;
-    return `<tr>${cells}${removeCell}</tr>`;
+    // Tables with no index column have no heading of their own, so the stacked
+    // card had nothing at the top and the remove button landed on the first
+    // field's label. This gives every such card a heading band to sit in.
+    const rowNum = hasIndex ? "" : ` data-rownum="${esc(rowWord)} ${idx + 1}"`;
+    return `<tr${rowNum}>${cells}${removeCell}</tr>`;
   }).join("");
   const addRowBtn = fixed ? "" : `<div class="table-actions"><button type="button" class="btn btn-secondary" data-action="add-row" data-schema="${schemaKey}" data-arrpath="${arrPath}">+ ${esc(t("btn_add_row", lang))}</button></div>`;
   return `<div class="table-wrap stack-wrap"><table class="data-table"><thead><tr>${headerCells}${extraHeader}</tr></thead><tbody>${bodyRows}</tbody></table></div>${addRowBtn}`;
@@ -331,7 +344,8 @@ function renderMonthlySalesTable(arrPath, lang) {
         <td colspan="4">${esc(t("months_less", lang))}</td>
       </tr>` : "";
 
-  return `<div class="table-wrap stack-wrap"><table class="data-table">
+  return `<p class="season-note">${esc(t("season_note", lang))}</p>
+  <div class="table-wrap stack-wrap"><table class="data-table">
     <thead><tr><th>${esc(t("col_month", lang))}</th><th>${esc(t("col_volume_sold", lang))}</th><th>${esc(t("col_price_per_kilo", lang))}</th><th>${esc(t("col_revenue", lang))}</th></tr></thead>
     <tbody>${body}${moreRow}${lessRow}</tbody></table></div>`;
 }
@@ -456,31 +470,25 @@ function renderCostsTab(lang) {
 
 /* ================= LABOUR TAB ================= */
 /* Twelve months of eleven columns is the widest table in the tool and the one a
-   phone handles worst, stacked or not. It collapses the same way the monthly
-   sales tables do: months with something in them, plus one summary row for the
-   rest. Same expander state, same handlers. */
+   phone handles worst. Stacked it ran to roughly twelve screens before a single
+   number existed, so on a phone the months become a picker and only the chosen
+   month is on screen: one card, one tap to move between months. Wide screens
+   keep the grid, where seeing twelve months at once is the point. */
 const LABOUR_FIELDS = ["hhDays", "hhDaysCocoa", "hiredDays", "hiredDaysCocoa",
   "dailyWage", "otherService", "serviceUsedFor", "serviceCost", "subsidizedLabour"];
+
+let labourMonth = 0;
 
 function labourRowHasData(row) {
   return LABOUR_FIELDS.some(k => row[k] !== "" && row[k] != null);
 }
 
-function renderLabourTab(lang) {
-  const rows = record.labour;
-  const res = calcLabour(rows);
-  const expanded = expandedMonthTables.has("labour");
-  const filled = rows.map((row, idx) => ({ row, idx })).filter(({ row }) => labourRowHasData(row));
-  const visible = expanded || !filled.length ? rows.map((row, idx) => ({ row, idx })) : filled;
-  const hiddenCount = rows.length - visible.length;
-  const monthCost = row => num(row.hiredDays) * num(row.dailyWage) + num(row.serviceCost);
-  const hiddenCost = rows.reduce((sum, row, idx) =>
-    visible.some(v => v.idx === idx) ? sum : sum + monthCost(row), 0);
+function labourMonthCost(row) {
+  return num(row.hiredDays) * num(row.dailyWage) + num(row.serviceCost);
+}
 
-  const body = visible.map(({ row, idx }) => {
-    const rowCost = monthCost(row);
-    return `<tr>
-      <td class="idx-cell">${esc(optLabel("months", row.month, lang))}</td>
+function labourCells(row, idx, lang) {
+  return `
       <td data-label="${esc(t("col_hh_days", lang))}">${renderInput(`labour.${idx}.hhDays`, "number", row.hhDays)}</td>
       <td data-label="${esc(t("col_hh_days_cocoa", lang))}">${renderInput(`labour.${idx}.hhDaysCocoa`, "number", row.hhDaysCocoa)}</td>
       <td data-label="${esc(t("col_hired_days", lang))}">${renderInput(`labour.${idx}.hiredDays`, "number", row.hiredDays)}</td>
@@ -489,26 +497,36 @@ function renderLabourTab(lang) {
       <td data-label="${esc(t("col_other_service", lang))}">${renderSelect(`labour.${idx}.otherService`, "labour_service_type", null, row.otherService, lang)}</td>
       <td data-label="${esc(t("col_service_used_for", lang))}">${renderSelect(`labour.${idx}.serviceUsedFor`, null, ["cocoa", "non_cocoa"], row.serviceUsedFor, lang)}</td>
       <td data-label="${esc(t("col_service_cost", lang))}">${renderInput(`labour.${idx}.serviceCost`, "number", row.serviceCost)}</td>
-      <td class="computed-cell" data-label="${esc(t("col_labour_cost", lang))}">${fmt(rowCost)}</td>
-      <td data-label="${esc(t("col_subsidized_labour", lang))}">${renderInput(`labour.${idx}.subsidizedLabour`, "number", row.subsidizedLabour)}</td>
-    </tr>`;
-  }).join("") +
-  (hiddenCount > 0 ? `<tr class="months-more" data-expand-months="labour">
-      <td colspan="9">${hiddenCount} ${esc(t("months_more_labour", lang))}</td>
-      <td class="computed-cell" colspan="2">${fmt(hiddenCost)}</td>
-    </tr>` : "") +
-  (expanded && filled.length && filled.length < rows.length
-    ? `<tr class="months-more" data-collapse-months="labour"><td colspan="11">${esc(t("months_less_labour", lang))}</td></tr>` : "");
+      <td class="computed-cell" data-label="${esc(t("col_labour_cost", lang))}">${fmt(labourMonthCost(row))}</td>
+      <td data-label="${esc(t("col_subsidized_labour", lang))}">${renderInput(`labour.${idx}.subsidizedLabour`, "number", row.subsidizedLabour)}</td>`;
+}
+
+/* The picker carries the state of all twelve months, so nothing is hidden: a
+   month with something in it is marked, and the months you have not touched
+   are visibly the ones left to do. */
+function renderLabourPicker(rows, lang) {
+  if (labourMonth >= rows.length) labourMonth = 0;
+  const chips = rows.map((row, idx) => {
+    const filled = labourRowHasData(row);
+    return `<button type="button" class="month-chip ${idx === labourMonth ? "is-on" : ""} ${filled ? "has-data" : ""}"
+      data-labour-month="${idx}" aria-pressed="${idx === labourMonth}">
+      ${esc(optLabel("months", row.month, lang))}</button>`;
+  }).join("");
+  const row = rows[labourMonth];
+  const filledCount = rows.filter(labourRowHasData).length;
   return `
-  <div class="panel">
-    ${sectionHeader("labour_heading", "labour_help_days", lang)}
-    <div class="stat-row">
-      ${statBox("labour_total", res.totalLabourCost, lang, record.meta.currencyUnit)}
-      ${statBox("labour_cost_cocoa", res.totalLabourCostCocoa, lang, record.meta.currencyUnit)}
-      ${statBox("col_daily_wage", res.avgDailyWage, lang, record.meta.currencyUnit)}
-      ${statBox("col_subsidized_labour", res.subsidizedLabour, lang, record.meta.currencyUnit)}
-    </div>
-    <div class="table-wrap stack-wrap"><table class="data-table">
+    <div class="month-picker">${chips}</div>
+    <p class="field-hint month-picker-count">${filledCount} / ${rows.length} ${esc(t("months_filled_label", lang))}</p>
+    <div class="table-wrap stack-wrap"><table class="data-table"><tbody>
+      <tr data-rownum="${esc(optLabel("months", row.month, lang))}">${labourCells(row, labourMonth, lang)}</tr>
+    </tbody></table></div>`;
+}
+
+function renderLabourGrid(rows, lang) {
+  const body = rows.map((row, idx) =>
+    `<tr><td class="idx-cell">${esc(optLabel("months", row.month, lang))}</td>${labourCells(row, idx, lang)}</tr>`).join("");
+  return `
+    <div class="table-wrap"><table class="data-table">
       <thead><tr>
         <th>${esc(t("col_month", lang))}</th>
         <th>${esc(t("col_hh_days", lang))}</th>
@@ -523,7 +541,23 @@ function renderLabourTab(lang) {
         <th>${esc(t("col_subsidized_labour", lang))}</th>
       </tr></thead>
       <tbody>${body}</tbody>
-    </table></div>
+    </table></div>`;
+}
+
+function renderLabourTab(lang) {
+  const rows = record.labour;
+  const res = calcLabour(rows);
+  return `
+  <div class="panel">
+    ${sectionHeader("labour_heading", "labour_help_days", lang)}
+    <div class="stat-row">
+      ${statBox("labour_total", res.totalLabourCost, lang, record.meta.currencyUnit)}
+      ${statBox("labour_cost_cocoa", res.totalLabourCostCocoa, lang, record.meta.currencyUnit)}
+      ${statBox("col_daily_wage", res.avgDailyWage, lang, record.meta.currencyUnit)}
+      ${statBox("col_subsidized_labour", res.subsidizedLabour, lang, record.meta.currencyUnit)}
+    </div>
+    <p class="season-note">${esc(t("season_note", lang))}</p>
+    ${isPhoneLayout() ? renderLabourPicker(rows, lang) : renderLabourGrid(rows, lang)}
     <p class="field-hint">${esc(t("other_service_help", lang))}</p>
   </div>`;
 }
@@ -1170,6 +1204,7 @@ function openRecord(id) {
   if (!records[id]) return;
   currentRecordId = id;
   record = records[id];
+  labourMonth = 0;
   screen = "editor";
   currentTab = "consent";
   applyScreenVisibility();
@@ -1292,6 +1327,8 @@ function attachHandlers() {
     if (collapser) { expandedMonthTables.delete(collapser.dataset.collapseMonths); return renderCurrentTab(); }
     // The settings screen redraws itself, so its language buttons cannot hold
     // listeners of their own the way the ones in the old menu did.
+    const monthPick = e.target.closest("[data-labour-month]");
+    if (monthPick) { labourMonth = parseInt(monthPick.dataset.labourMonth, 10); return renderCurrentTab(); }
     const langPick = e.target.closest("[data-set-lang]");
     if (langPick) return switchLang(langPick.dataset.setLang);
     const chip = e.target.closest("[data-chip]");
@@ -1407,6 +1444,15 @@ function initApp() {
     });
     e.target.value = "";
   });
+
+  // Rotating the phone crosses the boundary between the picker and the grid,
+  // and neither can be produced by CSS from the other.
+  if (window.matchMedia) {
+    const mq = window.matchMedia(PHONE_QUERY);
+    const onChange = () => renderCurrentTab();
+    if (mq.addEventListener) mq.addEventListener("change", onChange);
+    else if (mq.addListener) mq.addListener(onChange);
+  }
 
   if ("serviceWorker" in navigator && location.protocol !== "file:") {
     navigator.serviceWorker.register("service-worker.js").catch(() => {});

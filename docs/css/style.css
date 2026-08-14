@@ -332,7 +332,7 @@ footer.app-footer { text-align: center; color: var(--text-light); font-size: 0.7
 .btn-danger { background: var(--flower); border-color: var(--flower); color: #fff; }
 .btn-danger:hover { background: #e03a63; }
 
-@media (max-width: 720px) {
+@media (max-width: 720px), (max-height: 520px) and (orientation: landscape) {
   .form-grid, .form-grid-3, .form-grid-4 { grid-template-columns: 1fr 1fr; }
   .header-top { flex-direction: column; align-items: flex-start; }
 }
@@ -472,7 +472,7 @@ tr.months-more td {
 }
 
 /* ---------- phone ---------- */
-@media (max-width: 720px) {
+@media (max-width: 720px), (max-height: 520px) and (orientation: landscape) {
   main { padding: 16px 14px; }
   nav#tab-nav, nav#list-nav { padding: 0 14px; }
   .compare-chart { display: block; }
@@ -576,7 +576,7 @@ header.app-header .search-bar .btn {
 .filter-chip-label { pointer-events: none; }
 .filter-count { font-size: 0.75rem; color: var(--text-light); margin-left: auto; }
 
-@media (max-width: 720px) {
+@media (max-width: 720px), (max-height: 520px) and (orientation: landscape) {
   header.app-header { padding: 9px 12px; }
   .bar-context { font-size: 0.92rem; }
   header.app-header #btn-new-record { padding: 8px 11px; font-size: 0.76rem; }
@@ -678,8 +678,15 @@ header.app-header .app-menu .lang-btn.active { background: var(--night); color: 
 
 /* ==========================================================================
    Phone layout pass: stacked tables, bottom navigation, footer, sticky offset
-   ========================================================================== */
 
+   The phone breakpoint is width OR a short landscape viewport. A phone on its
+   side is about 930px wide and 430px tall: wide enough to fall through a
+   width-only rule into the desktop grid, far too short to use it.
+
+   The display cutout sits in that landscape gutter, so everything that spans
+   the full width has to reserve the safe area or the first column disappears
+   under it.
+   ========================================================================== */
 /* The bar is fixed height and everything scrolls beneath it, so a field the
    browser scrolls into view on focus used to land half behind it. This is the
    offset that stops that, and it is why the bar needs a hard z-index rather
@@ -711,7 +718,11 @@ table.data-table thead th { z-index: 1; }
 .bottom-nav-btn.active { color: var(--night); }
 .bottom-nav-btn.active svg { stroke-width: 2.1; }
 
-@media (max-width: 720px) {
+@media (max-width: 720px), (max-height: 520px) and (orientation: landscape) {
+  header.app-header, main, .bottom-nav {
+    padding-left: max(14px, env(safe-area-inset-left));
+    padding-right: max(14px, env(safe-area-inset-right));
+  }
   .bottom-nav { display: flex; }
   nav#list-nav { display: none; }
   body.screen-list { padding-bottom: 72px; }
@@ -750,8 +761,18 @@ table.data-table thead th { z-index: 1; }
   .stack-wrap td.computed-cell {
     background: none; font-size: 1.05rem;
   }
+  /* Cards built from a table with no index column had no heading, so the
+     remove button sat on top of the first field's label. Every card now opens
+     with a heading band and the button sits in it. */
+  .stack-wrap tr[data-rownum]::before {
+    content: attr(data-rownum);
+    display: block; padding: 0 44px 8px 0; margin-bottom: 2px;
+    border-bottom: 1px solid var(--border);
+    font-family: 'Exo 2', sans-serif; font-size: 0.95rem;
+    font-weight: 700; color: var(--night);
+  }
   .stack-wrap td.col-remove {
-    position: absolute; top: 8px; right: 10px; width: auto; padding: 0;
+    position: absolute; top: 10px; right: 12px; width: auto; padding: 0;
   }
   .stack-wrap tr.months-more { display: flex; justify-content: space-between; align-items: baseline; }
   .stack-wrap tr.months-more td { width: auto; padding: 0; }
@@ -774,4 +795,33 @@ table.data-table thead th { z-index: 1; }
   }
   .step-footer-actions .btn-complete { grid-column: 1 / -1; }
   .step-footer-actions .btn { width: 100%; padding: 8px 6px; }
+}
+
+
+/* ---------- month picker ----------
+   The labour tab on a phone. Twelve stacked month cards ran to about twelve
+   screens before any data existed, so the months become a row of chips and only
+   the chosen one is on screen. Months already filled are marked, so what is
+   left to do stays visible without scrolling to find it. */
+.month-picker {
+  display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 6px;
+}
+.month-chip {
+  border: 1px solid var(--border); background: #fff; color: var(--text-light);
+  border-radius: 999px; padding: 7px 13px; min-height: 38px;
+  font-family: 'Inter', sans-serif; font-size: 0.8rem; font-weight: 600;
+  cursor: pointer;
+}
+.month-chip.has-data { color: var(--night); border-color: var(--night); }
+.month-chip.is-on {
+  background: var(--night); border-color: var(--night); color: #fff;
+}
+.month-picker-count { margin: 0 0 4px; }
+@media (hover: hover) {
+  .month-chip:not(.is-on):hover { border-color: var(--night); }
+}
+
+.season-note {
+  font-size: 0.78rem; color: var(--text-light); font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.04em; margin: 10px 0 0;
 }

@@ -195,6 +195,7 @@ table.data-table th, table.data-table td { border-bottom: 1px solid var(--border
 table.data-table thead th { background: var(--card-alt); color: var(--text-light); font-weight: 600; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; position: sticky; top: 0; }
 table.data-table td .field { min-width: 110px; }
 table.data-table .idx-cell { color: var(--text-light); font-weight: 600; white-space: nowrap; }
+.idx-full { display: none; }
 table.data-table .computed-cell { font-weight: 700; color: var(--night); background: var(--tangerine-tint); white-space: nowrap; font-variant-numeric: tabular-nums; }
 .col-remove { width: 36px; }
 .col-idx { width: 30px; }
@@ -672,4 +673,105 @@ header.app-header .app-menu .lang-btn.active { background: var(--night); color: 
 @media (hover: hover) {
   .filter-chip:not(.is-on):hover { border-color: var(--night); color: var(--night); }
   .chip:not(.is-on):hover { border-color: var(--eggplant); }
+}
+
+
+/* ==========================================================================
+   Phone layout pass: stacked tables, bottom navigation, footer, sticky offset
+   ========================================================================== */
+
+/* The bar is fixed height and everything scrolls beneath it, so a field the
+   browser scrolls into view on focus used to land half behind it. This is the
+   offset that stops that, and it is why the bar needs a hard z-index rather
+   than relying on source order against the sticky table headers. */
+html { scroll-padding-top: 84px; }
+header.app-header { z-index: 40; }
+table.data-table thead th { z-index: 1; }
+
+.stacked-actions { display: flex; flex-direction: column; gap: 10px; margin: 12px 0; }
+.stacked-actions .btn { width: 100%; }
+.btn:disabled { opacity: .45; cursor: default; }
+
+/* ---------- bottom navigation ----------
+   List screen only. During capture the step footer owns the bottom, and two
+   stacked bars would take about a third of a phone screen. */
+.bottom-nav {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;
+  display: none; background: #fff; border-top: 1px solid var(--border);
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+.bottom-nav-btn {
+  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px;
+  background: none; border: none; cursor: pointer;
+  padding: 8px 2px 9px; min-height: 56px;
+  color: var(--text-light); font-family: 'Inter', sans-serif;
+  font-size: 0.68rem; font-weight: 600; letter-spacing: .01em;
+}
+.bottom-nav-btn svg { width: 22px; height: 22px; }
+.bottom-nav-btn.active { color: var(--night); }
+.bottom-nav-btn.active svg { stroke-width: 2.1; }
+
+@media (max-width: 720px) {
+  .bottom-nav { display: flex; }
+  nav#list-nav { display: none; }
+  body.screen-list { padding-bottom: 72px; }
+
+  /* ---------- stacked tables ----------
+     Below this width a row is a card and every cell states its own label. The
+     results table keeps its grid: it is a read-only comparison of whole farm
+     against cocoa only, and stacking it would destroy the comparison. */
+  .stack-wrap { overflow-x: visible; border: none; border-radius: 0; }
+  .stack-wrap table.data-table { min-width: 0; display: block; }
+  .stack-wrap thead { display: none; }
+  .stack-wrap tbody { display: block; }
+  .stack-wrap tr {
+    display: block; position: relative;
+    border: 1px solid var(--border); border-radius: 10px;
+    background: var(--card); padding: 10px 12px 12px; margin-bottom: 10px;
+  }
+  .stack-wrap td {
+    display: block; width: 100%; border-bottom: none; padding: 7px 0 0;
+  }
+  .stack-wrap td[data-label]::before {
+    content: attr(data-label);
+    display: block; margin-bottom: 3px;
+    font-size: 0.68rem; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.04em; color: var(--text-light);
+  }
+  .stack-wrap td .field { width: 100%; min-width: 0; }
+  .stack-wrap td.idx-cell {
+    padding: 0 44px 8px 0; border-bottom: 1px solid var(--border);
+    font-family: 'Exo 2', sans-serif; font-size: 0.95rem; color: var(--night);
+  }
+  .stack-wrap td.idx-cell .idx-short { display: none; }
+  .stack-wrap td.idx-cell .idx-full { display: inline; }
+  /* A tinted full-width strip reads as a button. Computed values keep the
+     weight and lose the fill. */
+  .stack-wrap td.computed-cell {
+    background: none; font-size: 1.05rem;
+  }
+  .stack-wrap td.col-remove {
+    position: absolute; top: 8px; right: 10px; width: auto; padding: 0;
+  }
+  .stack-wrap tr.months-more { display: flex; justify-content: space-between; align-items: baseline; }
+  .stack-wrap tr.months-more td { width: auto; padding: 0; }
+  .stack-wrap tr.months-more td::before { content: none; }
+
+  /* Results keeps four columns at 390px by giving up padding, not structure. */
+  .results-table { min-width: 0; font-size: 0.78rem; }
+  .results-table th, .results-table td { padding: 6px 4px; }
+  .results-table td:last-child, .results-table th:last-child {
+    font-size: 0.68rem; color: var(--text-light);
+  }
+}
+
+/* ---------- step footer at phone width ----------
+   Three buttons on one row put "Marked complete" on two lines at 390px. The
+   mark sits on its own row, back and next share the one below. */
+@media (max-width: 430px) {
+  .step-footer-actions {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+  }
+  .step-footer-actions .btn-complete { grid-column: 1 / -1; }
+  .step-footer-actions .btn { width: 100%; padding: 8px 6px; }
 }

@@ -90,6 +90,15 @@ function tableHeaderCell(col, lang) {
   return `<th>${esc(label)}${optTag}</th>`;
 }
 
+/* Below 720px the header row is hidden and every cell states its own label, so
+   the label has to travel with the cell rather than live only in the <th>. The
+   optional badge is a <span> in the header and cannot survive in an attribute,
+   so it is folded into the text. */
+function cellLabel(col, lang) {
+  const label = t(col.labelKey, lang);
+  return col.optional ? `${label} · ${t("optional_badge", lang)}` : label;
+}
+
 function renderTable(schemaKey, arrPath, lang, opts) {
   opts = opts || {};
   const schema = TABLE_SCHEMAS[schemaKey];
@@ -97,16 +106,19 @@ function renderTable(schemaKey, arrPath, lang, opts) {
   const fixed = FIXED_SIZE_TABLES.includes(schemaKey);
   const headerCells = schema.columns.map(c => tableHeaderCell(c, lang)).join("");
   const extraHeader = fixed ? "" : `<th class="col-remove"></th>`;
+  const rowWord = t("row_word", lang);
   const bodyRows = rows.map((row, idx) => {
     const cells = schema.columns.map(col => {
-      if (col.type === "index") return `<td class="idx-cell">${idx + 1}</td>`;
-      return `<td>${renderColField(`${arrPath}.${idx}`, col, row, lang)}</td>`;
+      // Two forms of the same cell: a bare number in the grid, "Row 3" as the
+      // heading of a stacked card, switched in CSS rather than at render time.
+      if (col.type === "index") return `<td class="idx-cell"><span class="idx-short">${idx + 1}</span><span class="idx-full">${esc(rowWord)} ${idx + 1}</span></td>`;
+      return `<td data-label="${esc(cellLabel(col, lang))}">${renderColField(`${arrPath}.${idx}`, col, row, lang)}</td>`;
     }).join("");
     const removeCell = fixed ? "" : `<td class="col-remove"><button type="button" class="btn-icon" data-action="remove-row" data-arrpath="${arrPath}" data-idx="${idx}" title="${esc(t("btn_remove_row", lang))}">✕</button></td>`;
     return `<tr>${cells}${removeCell}</tr>`;
   }).join("");
   const addRowBtn = fixed ? "" : `<div class="table-actions"><button type="button" class="btn btn-secondary" data-action="add-row" data-schema="${schemaKey}" data-arrpath="${arrPath}">+ ${esc(t("btn_add_row", lang))}</button></div>`;
-  return `<div class="table-wrap"><table class="data-table"><thead><tr>${headerCells}${extraHeader}</tr></thead><tbody>${bodyRows}</tbody></table></div>${addRowBtn}`;
+  return `<div class="table-wrap stack-wrap"><table class="data-table"><thead><tr>${headerCells}${extraHeader}</tr></thead><tbody>${bodyRows}</tbody></table></div>${addRowBtn}`;
 }
 
 function doAddRow(schemaKey, arrPath) {
@@ -303,10 +315,10 @@ function renderMonthlySalesTable(arrPath, lang) {
   const body = visible.map(({ row, idx }) => {
     const revenue = num(row.volume) * num(row.price);
     return `<tr>
-      <td>${esc(optLabel("months", row.month, lang))}</td>
-      <td>${renderInput(`${arrPath}.${idx}.volume`, "number", row.volume)}</td>
-      <td>${renderInput(`${arrPath}.${idx}.price`, "number", row.price)}</td>
-      <td class="computed-cell">${fmt(revenue)}</td>
+      <td class="idx-cell">${esc(optLabel("months", row.month, lang))}</td>
+      <td data-label="${esc(t("col_volume_sold", lang))}">${renderInput(`${arrPath}.${idx}.volume`, "number", row.volume)}</td>
+      <td data-label="${esc(t("col_price_per_kilo", lang))}">${renderInput(`${arrPath}.${idx}.price`, "number", row.price)}</td>
+      <td class="computed-cell" data-label="${esc(t("col_revenue", lang))}">${fmt(revenue)}</td>
     </tr>`;
   }).join("");
 
@@ -319,7 +331,7 @@ function renderMonthlySalesTable(arrPath, lang) {
         <td colspan="4">${esc(t("months_less", lang))}</td>
       </tr>` : "";
 
-  return `<div class="table-wrap"><table class="data-table">
+  return `<div class="table-wrap stack-wrap"><table class="data-table">
     <thead><tr><th>${esc(t("col_month", lang))}</th><th>${esc(t("col_volume_sold", lang))}</th><th>${esc(t("col_price_per_kilo", lang))}</th><th>${esc(t("col_revenue", lang))}</th></tr></thead>
     <tbody>${body}${moreRow}${lessRow}</tbody></table></div>`;
 }
@@ -443,25 +455,50 @@ function renderCostsTab(lang) {
 }
 
 /* ================= LABOUR TAB ================= */
+/* Twelve months of eleven columns is the widest table in the tool and the one a
+   phone handles worst, stacked or not. It collapses the same way the monthly
+   sales tables do: months with something in them, plus one summary row for the
+   rest. Same expander state, same handlers. */
+const LABOUR_FIELDS = ["hhDays", "hhDaysCocoa", "hiredDays", "hiredDaysCocoa",
+  "dailyWage", "otherService", "serviceUsedFor", "serviceCost", "subsidizedLabour"];
+
+function labourRowHasData(row) {
+  return LABOUR_FIELDS.some(k => row[k] !== "" && row[k] != null);
+}
+
 function renderLabourTab(lang) {
   const rows = record.labour;
   const res = calcLabour(rows);
-  const body = rows.map((row, idx) => {
-    const rowCost = num(row.hiredDays) * num(row.dailyWage) + num(row.serviceCost);
+  const expanded = expandedMonthTables.has("labour");
+  const filled = rows.map((row, idx) => ({ row, idx })).filter(({ row }) => labourRowHasData(row));
+  const visible = expanded || !filled.length ? rows.map((row, idx) => ({ row, idx })) : filled;
+  const hiddenCount = rows.length - visible.length;
+  const monthCost = row => num(row.hiredDays) * num(row.dailyWage) + num(row.serviceCost);
+  const hiddenCost = rows.reduce((sum, row, idx) =>
+    visible.some(v => v.idx === idx) ? sum : sum + monthCost(row), 0);
+
+  const body = visible.map(({ row, idx }) => {
+    const rowCost = monthCost(row);
     return `<tr>
       <td class="idx-cell">${esc(optLabel("months", row.month, lang))}</td>
-      <td>${renderInput(`labour.${idx}.hhDays`, "number", row.hhDays)}</td>
-      <td>${renderInput(`labour.${idx}.hhDaysCocoa`, "number", row.hhDaysCocoa)}</td>
-      <td>${renderInput(`labour.${idx}.hiredDays`, "number", row.hiredDays)}</td>
-      <td>${renderInput(`labour.${idx}.hiredDaysCocoa`, "number", row.hiredDaysCocoa)}</td>
-      <td>${renderInput(`labour.${idx}.dailyWage`, "number", row.dailyWage)}</td>
-      <td>${renderSelect(`labour.${idx}.otherService`, "labour_service_type", null, row.otherService, lang)}</td>
-      <td>${renderSelect(`labour.${idx}.serviceUsedFor`, null, ["cocoa", "non_cocoa"], row.serviceUsedFor, lang)}</td>
-      <td>${renderInput(`labour.${idx}.serviceCost`, "number", row.serviceCost)}</td>
-      <td class="computed-cell">${fmt(rowCost)}</td>
-      <td>${renderInput(`labour.${idx}.subsidizedLabour`, "number", row.subsidizedLabour)}</td>
+      <td data-label="${esc(t("col_hh_days", lang))}">${renderInput(`labour.${idx}.hhDays`, "number", row.hhDays)}</td>
+      <td data-label="${esc(t("col_hh_days_cocoa", lang))}">${renderInput(`labour.${idx}.hhDaysCocoa`, "number", row.hhDaysCocoa)}</td>
+      <td data-label="${esc(t("col_hired_days", lang))}">${renderInput(`labour.${idx}.hiredDays`, "number", row.hiredDays)}</td>
+      <td data-label="${esc(t("col_hired_days_cocoa", lang))}">${renderInput(`labour.${idx}.hiredDaysCocoa`, "number", row.hiredDaysCocoa)}</td>
+      <td data-label="${esc(t("col_daily_wage", lang))}">${renderInput(`labour.${idx}.dailyWage`, "number", row.dailyWage)}</td>
+      <td data-label="${esc(t("col_other_service", lang))}">${renderSelect(`labour.${idx}.otherService`, "labour_service_type", null, row.otherService, lang)}</td>
+      <td data-label="${esc(t("col_service_used_for", lang))}">${renderSelect(`labour.${idx}.serviceUsedFor`, null, ["cocoa", "non_cocoa"], row.serviceUsedFor, lang)}</td>
+      <td data-label="${esc(t("col_service_cost", lang))}">${renderInput(`labour.${idx}.serviceCost`, "number", row.serviceCost)}</td>
+      <td class="computed-cell" data-label="${esc(t("col_labour_cost", lang))}">${fmt(rowCost)}</td>
+      <td data-label="${esc(t("col_subsidized_labour", lang))}">${renderInput(`labour.${idx}.subsidizedLabour`, "number", row.subsidizedLabour)}</td>
     </tr>`;
-  }).join("");
+  }).join("") +
+  (hiddenCount > 0 ? `<tr class="months-more" data-expand-months="labour">
+      <td colspan="9">${hiddenCount} ${esc(t("months_more_labour", lang))}</td>
+      <td class="computed-cell" colspan="2">${fmt(hiddenCost)}</td>
+    </tr>` : "") +
+  (expanded && filled.length && filled.length < rows.length
+    ? `<tr class="months-more" data-collapse-months="labour"><td colspan="11">${esc(t("months_less_labour", lang))}</td></tr>` : "");
   return `
   <div class="panel">
     ${sectionHeader("labour_heading", "labour_help_days", lang)}
@@ -471,7 +508,7 @@ function renderLabourTab(lang) {
       ${statBox("col_daily_wage", res.avgDailyWage, lang, record.meta.currencyUnit)}
       ${statBox("col_subsidized_labour", res.subsidizedLabour, lang, record.meta.currencyUnit)}
     </div>
-    <div class="table-wrap"><table class="data-table">
+    <div class="table-wrap stack-wrap"><table class="data-table">
       <thead><tr>
         <th>${esc(t("col_month", lang))}</th>
         <th>${esc(t("col_hh_days", lang))}</th>
@@ -614,8 +651,24 @@ let recordSearch = "";
 let compareFilters = { coop: "", programme: "", areaUnit: "", currency: "" };
 let EMPTY_SECTION_CACHE = null;
 
-const LIST_TABS = ["records", "compare"];
-const LIST_TAB_LABEL_KEY = { records: "tab_list_records", compare: "tab_list_compare" };
+/* Four sections, not two. Export left the overflow menu because it is used at
+   the end of every collection day; settings collects the three things that were
+   sharing that menu with the exports and have nothing to do with them. */
+const LIST_TABS = ["records", "compare", "export", "settings"];
+const LIST_TAB_LABEL_KEY = {
+  records: "tab_list_records", compare: "tab_list_compare",
+  export: "tab_list_export", settings: "tab_list_settings",
+};
+const LIST_TAB_SHORT_KEY = {
+  records: "nav_records", compare: "nav_compare",
+  export: "nav_export", settings: "nav_settings",
+};
+const LIST_TAB_ICON = {
+  records: `<path d="M4 4h16v16H4z"/><path d="M8 9h8M8 13h8M8 17h5"/>`,
+  compare: `<path d="M5 20V10M12 20V4M19 20v-7"/>`,
+  export: `<path d="M12 3v12"/><path d="M8 11l4 4 4-4"/><path d="M4 17v3h16v-3"/>`,
+  settings: `<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/>`,
+};
 
 function renderCurrentTab() {
   renderBarContext();
@@ -623,10 +676,13 @@ function renderCurrentTab() {
   if (screen === "list") {
     renderNav();
     renderListNav();
+    renderBottomNav();
     updateSearchBar();
-    container.innerHTML = listTab === "compare"
-      ? renderCompareScreen(currentLang)
-      : renderRecordsScreen(currentLang);
+    const LIST_RENDERERS = {
+      records: renderRecordsScreen, compare: renderCompareScreen,
+      export: renderExportScreen, settings: renderSettingsScreen,
+    };
+    container.innerHTML = (LIST_RENDERERS[listTab] || renderRecordsScreen)(currentLang);
     if (listTab === "compare") wireCompareFilters();
     return;
   }
@@ -720,6 +776,34 @@ function buildWorkspaceLayout() {
   wrap.appendChild(main);
 }
 
+
+/* Built at runtime alongside the workspace wrapper and the app bar, and for the
+   same reason. It is the list screen's only navigation on a phone: during
+   capture the step footer owns the bottom of the screen and this is hidden, so
+   the two bars can never stack. */
+function buildBottomNav() {
+  if (document.getElementById("bottom-nav")) return;
+  const nav = document.createElement("nav");
+  nav.id = "bottom-nav";
+  nav.className = "bottom-nav list-only";
+  document.body.appendChild(nav);
+  nav.addEventListener("click", e => {
+    const btn = e.target.closest("[data-list-tab]");
+    if (btn) switchListTab(btn.dataset.listTab);
+  });
+}
+
+function renderBottomNav() {
+  const nav = document.getElementById("bottom-nav");
+  if (!nav) return;
+  nav.innerHTML = LIST_TABS.map(tab => `
+    <button type="button" class="bottom-nav-btn ${tab === listTab ? "active" : ""}" data-list-tab="${tab}"
+      aria-current="${tab === listTab ? "page" : "false"}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${LIST_TAB_ICON[tab]}</svg>
+      <span>${esc(t(LIST_TAB_SHORT_KEY[tab], currentLang))}</span>
+    </button>`).join("");
+}
 
 function renderListNav() {
   const nav = document.getElementById("list-nav");
@@ -840,9 +924,44 @@ function renderRecordsScreen(lang) {
   }).join("");
   return `
   <div class="panel">
+    <div class="stacked-actions"><button type="button" class="btn btn-secondary btn-new-cta" data-action="new-record-cta">+ ${esc(t("btn_new_record", lang))}</button></div>
     <p class="section-help">${esc(t("records_help", lang))}</p>
     <p class="records-count">${countLabel}</p>
     <div class="records-list">${rows}</div>
+  </div>`;
+}
+
+/* ---------- export screen ----------
+   The whole-collection exports, on their own screen instead of three taps deep
+   in a menu they shared with the language switch. */
+function renderExportScreen(lang) {
+  const n = Object.keys(records).length;
+  return `
+  <div class="panel">
+    ${sectionHeader("export_heading", "export_help", lang)}
+    <p class="records-count">${n} ${esc(t("records_count_suffix", lang))}</p>
+    <div class="stacked-actions">
+      <button type="button" class="btn btn-secondary" data-action="export-all-csv" ${n ? "" : "disabled"}>${esc(t("btn_export_all_csv", lang))}</button>
+      <button type="button" class="btn" data-action="export-all-json" ${n ? "" : "disabled"}>${esc(t("btn_export_all_json", lang))}</button>
+    </div>
+    <p class="field-hint">${esc(t("export_note", lang))}</p>
+  </div>`;
+}
+
+/* ---------- settings screen ---------- */
+function renderSettingsScreen(lang) {
+  const langBtn = code => `<button type="button" class="lang-btn ${code === currentLang ? "active" : ""}" data-set-lang="${code}">${code.toUpperCase()}</button>`;
+  return `
+  <div class="panel">
+    ${sectionHeader("settings_heading", "settings_help", lang)}
+    <h4>${esc(t("settings_language", lang))}</h4>
+    <div class="lang-switch">${["en", "fr", "es"].map(langBtn).join("")}</div>
+    <h4>${esc(t("settings_data", lang))}</h4>
+    <div class="stacked-actions">
+      <button type="button" class="btn" data-action="import-json">${esc(t("btn_import_json", lang))}</button>
+      <button type="button" class="btn btn-danger" data-action="delete-all">${esc(t("btn_delete_all", lang))}</button>
+    </div>
+    <p class="field-hint">${esc(t("settings_delete_note", lang))}</p>
   </div>`;
 }
 
@@ -1171,6 +1290,10 @@ function attachHandlers() {
     if (expander) { expandedMonthTables.add(expander.dataset.expandMonths); return renderCurrentTab(); }
     const collapser = e.target.closest("[data-collapse-months]");
     if (collapser) { expandedMonthTables.delete(collapser.dataset.collapseMonths); return renderCurrentTab(); }
+    // The settings screen redraws itself, so its language buttons cannot hold
+    // listeners of their own the way the ones in the old menu did.
+    const langPick = e.target.closest("[data-set-lang]");
+    if (langPick) return switchLang(langPick.dataset.setLang);
     const chip = e.target.closest("[data-chip]");
     if (chip && record) {
       const path = chip.dataset.chip;
@@ -1198,6 +1321,10 @@ function attachHandlers() {
     else if (action === "export-json-record") exportJson(records[btn.dataset.id]);
     else if (action === "export-csv-record") exportCsv(records[btn.dataset.id]);
     else if (action === "new-record-cta") createNewRecord();
+    else if (action === "export-all-csv") exportAllCsv(records);
+    else if (action === "export-all-json") exportAllJson(records);
+    else if (action === "import-json") document.getElementById("import-file-input").click();
+    else if (action === "delete-all") deleteAllRecords();
     else if (action === "clear-search") { e.preventDefault(); clearRecordSearch(); }
   });
 }
@@ -1206,6 +1333,7 @@ function attachHandlers() {
 function initApp() {
   buildWorkspaceLayout();
   buildAppBar();
+  buildBottomNav();
   records = loadAllRecords();
   const summary = summarizeRecords(records);
   currentLang = loadLangPref() || "en";
@@ -1291,15 +1419,20 @@ document.addEventListener("DOMContentLoaded", initApp);
    Built at runtime for the same reason as the workspace wrapper: it keeps
    index.html, and whatever asset paths it currently holds, untouched. */
 
-/* Seven stacked buttons used to occupy the top third of a phone screen before
-   any content appeared. Everything except "new record" moves behind one menu. */
+/* The bar now carries where you are and nothing else. Everything that used to
+   crowd it lives on the list screen: New on the records section, the exports
+   and the language switch on their own sections. That is what stops the
+   producer name truncating to "Amenan Coulib...".
+
+   The original buttons are not deleted. initApp binds listeners to them by id
+   and index.html cannot be edited yet, so they move into a hidden stash where
+   those bindings stay valid and the file input still works. */
 function buildAppBar() {
   const header = document.querySelector(".app-header");
-  if (!header || header.querySelector(".app-menu")) return;
+  if (!header || document.getElementById("legacy-controls")) return;
   const rows = header.querySelectorAll(".header-actions");
   const topRow = rows[0];
   const actionRow = rows[1];
-  const newBtn = document.getElementById("btn-new-record");
   const langSwitch = header.querySelector(".lang-switch");
   const saveStatus = document.getElementById("save-status");
   const searchBar = document.getElementById("record-search-bar");
@@ -1310,21 +1443,12 @@ function buildAppBar() {
   // does. Removed rather than hidden so it cannot come back on a wide screen.
   if (badge) badge.remove();
 
-  const panel = document.createElement("div");
-  panel.className = "app-menu";
-  panel.hidden = true;
-  // Language moves in too: enumerators set it once and never touch it again.
-  if (langSwitch) panel.appendChild(langSwitch);
-  panel.appendChild(actionRow);
+  const stash = document.createElement("div");
+  stash.id = "legacy-controls";
+  stash.hidden = true;
+  if (langSwitch) stash.appendChild(langSwitch);
+  stash.appendChild(actionRow);
   actionRow.removeAttribute("style");
-  actionRow.classList.add("app-menu-actions");
-
-  const toggle = document.createElement("button");
-  toggle.type = "button";
-  toggle.id = "btn-app-menu";
-  toggle.className = "btn-icon menu-toggle";
-  toggle.setAttribute("aria-expanded", "false");
-  toggle.innerHTML = "&#8942;";
 
   const back = document.createElement("button");
   back.type = "button";
@@ -1345,20 +1469,10 @@ function buildAppBar() {
     <span class="bar-sub" id="bar-sub"></span>`;
   bar.appendChild(titles);
   if (saveStatus) bar.appendChild(saveStatus);
-  if (newBtn) bar.appendChild(newBtn);
-  bar.appendChild(toggle);
   header.appendChild(bar);
   // Search sits inside the bar on the list screen, not in a panel below it.
   if (searchBar) header.appendChild(searchBar);
-  header.appendChild(panel);
-
-  toggle.addEventListener("click", () => setMenuOpen(panel.hidden));
-  panel.addEventListener("click", e => {
-    if (e.target.closest("button")) setMenuOpen(false);
-  });
-  document.addEventListener("click", e => {
-    if (!panel.hidden && !panel.contains(e.target) && e.target !== toggle) setMenuOpen(false);
-  });
+  document.body.appendChild(stash);
 }
 
 /* The bar says where you are. On the list that is the record count; inside a

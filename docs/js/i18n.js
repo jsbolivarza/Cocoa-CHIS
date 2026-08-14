@@ -61,6 +61,24 @@ const STR = {
   // List-screen tabs
   tab_list_records: { en: "My records", fr: "Mes fiches", es: "Mis registros" },
   tab_list_compare: { en: "Compare households", fr: "Comparer les ménages", es: "Comparar hogares" },
+  tab_list_export: { en: "Export data", fr: "Exporter les données", es: "Exportar datos" },
+  tab_list_settings: { en: "Settings", fr: "Paramètres", es: "Ajustes" },
+
+  // Short forms for the bottom bar, where four labels share the screen width.
+  nav_records: { en: "Records", fr: "Fiches", es: "Registros" },
+  nav_compare: { en: "Compare", fr: "Comparer", es: "Comparar" },
+  nav_export: { en: "Export", fr: "Exporter", es: "Exportar" },
+  nav_settings: { en: "Settings", fr: "Réglages", es: "Ajustes" },
+
+  export_heading: { en: "Export this device's data", fr: "Exporter les données de cet appareil", es: "Exportar los datos de este dispositivo" },
+  export_help: { en: "Export at the end of every collection day. Nothing leaves this device until you do.", fr: "Exportez à la fin de chaque journée de collecte. Rien ne quitte cet appareil avant.", es: "Exporte al final de cada jornada de recolección. Nada sale de este dispositivo hasta entonces." },
+  export_note: { en: "CSV is one row per household for analysis. JSON keeps every captured detail and can be imported back into the app.", fr: "Le CSV donne une ligne par ménage pour l'analyse. Le JSON conserve tous les détails saisis et peut être réimporté dans l'application.", es: "El CSV da una fila por hogar para el análisis. El JSON conserva todos los detalles capturados y puede reimportarse en la aplicación." },
+
+  settings_heading: { en: "Settings", fr: "Paramètres", es: "Ajustes" },
+  settings_help: { en: "Interface language and data on this device.", fr: "Langue de l'interface et données sur cet appareil.", es: "Idioma de la interfaz y datos en este dispositivo." },
+  settings_language: { en: "Interface language", fr: "Langue de l'interface", es: "Idioma de la interfaz" },
+  settings_data: { en: "Data on this device", fr: "Données sur cet appareil", es: "Datos en este dispositivo" },
+  settings_delete_note: { en: "Deleting wipes every household on this device and cannot be undone. Export first.", fr: "La suppression efface tous les ménages de cet appareil et est irréversible. Exportez d'abord.", es: "Borrar elimina todos los hogares de este dispositivo y no se puede deshacer. Exporte primero." },
 
   // Comparison tab
   compare_heading: { en: "Compare households", fr: "Comparer les ménages", es: "Comparar hogares" },
@@ -118,6 +136,9 @@ const STR = {
   record_of_steps: { en: "of", fr: "sur", es: "de" },
   months_more: { en: "more months with no sales", fr: "autres mois sans vente", es: "meses más sin ventas" },
   months_less: { en: "Show only months with sales", fr: "Afficher seulement les mois avec des ventes", es: "Mostrar solo los meses con ventas" },
+  months_more_labour: { en: "more months with no labour recorded", fr: "autres mois sans main d'œuvre saisie", es: "meses más sin mano de obra registrada" },
+  months_less_labour: { en: "Show only months with labour recorded", fr: "Afficher seulement les mois avec de la main d'œuvre", es: "Mostrar solo los meses con mano de obra" },
+  row_word: { en: "Row", fr: "Ligne", es: "Fila" },
 
   cmp_worst_first: { en: "per year, worst first", fr: "par an, du plus faible au plus élevé", es: "por año, del más bajo al más alto" },
   cmp_legend_shortfall: { en: "Farm did not cover spending", fr: "L'exploitation n'a pas couvert les dépenses", es: "La finca no cubrió los gastos" },

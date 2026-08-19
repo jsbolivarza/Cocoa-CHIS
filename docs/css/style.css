@@ -825,3 +825,26 @@ table.data-table thead th { z-index: 1; }
   font-size: 0.78rem; color: var(--text-light); font-weight: 600;
   text-transform: uppercase; letter-spacing: 0.04em; margin: 10px 0 0;
 }
+
+
+/* ---------- update bar ----------
+   Sits above the bottom navigation so it cannot be mistaken for a tab, and
+   above the step footer so it is visible mid-interview. It never covers the
+   Next button: the coach can ignore it and keep working. */
+.update-bar {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 60;
+  display: flex; align-items: center; gap: 10px;
+  background: var(--night); color: #fff;
+  padding: 11px 14px calc(11px + env(safe-area-inset-bottom, 0px));
+  font-size: 0.86rem;
+}
+.update-bar span { flex: 1; }
+.update-bar button {
+  background: var(--tangerine); border: none; color: #fff;
+  font-family: 'Inter', sans-serif; font-size: 0.84rem; font-weight: 600;
+  padding: 8px 14px; border-radius: 8px; cursor: pointer;
+}
+.update-bar button.update-later {
+  background: none; color: #fff; opacity: 0.75;
+  padding: 8px 4px; font-size: 1rem;
+}

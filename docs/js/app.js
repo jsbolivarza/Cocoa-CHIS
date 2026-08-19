@@ -1006,6 +1006,11 @@ function renderSettingsScreen(lang) {
       <button type="button" class="btn btn-danger" data-action="delete-all">${esc(t("btn_delete_all", lang))}</button>
     </div>
     <p class="field-hint">${esc(t("settings_delete_note", lang))}</p>
+    <h4>${esc(t("settings_about", lang))}</h4>
+    <p class="field-hint">${esc(t("settings_version", lang))} ${esc(APP_VERSION)}</p>
+    <div class="stacked-actions">
+      <button type="button" class="btn btn-secondary" data-action="check-update">${esc(t("btn_check_update", lang))}</button>
+    </div>
   </div>`;
 }
 
@@ -1372,6 +1377,7 @@ function attachHandlers() {
     else if (action === "export-all-json") exportAllJson(records);
     else if (action === "import-json") document.getElementById("import-file-input").click();
     else if (action === "delete-all") deleteAllRecords();
+    else if (action === "check-update") checkForUpdateNow(e.target.closest("[data-action]"));
     else if (action === "clear-search") { e.preventDefault(); clearRecordSearch(); }
   });
 }
@@ -1464,9 +1470,87 @@ function initApp() {
     else if (mq.addListener) mq.addListener(onChange);
   }
 
-  if ("serviceWorker" in navigator && location.protocol !== "file:") {
-    navigator.serviceWorker.register("service-worker.js").catch(() => {});
-  }
+  setupUpdates();
+}
+
+/* ---------- version and updates ----------
+   Must match VERSION in service-worker.js. Shown on the settings screen so a
+   coach can read the version aloud instead of guessing at it. */
+const APP_VERSION = "17";
+
+/* Browsers only look for a new service worker on navigation, and a phone kept
+   in a pocket as an installed app may not navigate for days. So: check on
+   launch, and again whenever the app comes back to the foreground.
+
+   The new worker is never allowed to take over on its own. Swapping code under
+   a half-finished interview risks the record on screen, so the coach is asked
+   and the reload happens when they say so. */
+function setupUpdates() {
+  if (!("serviceWorker" in navigator) || location.protocol === "file:") return;
+
+  let reloading = false;
+  navigator.serviceWorker.addEventListener("controllerchange", () => {
+    if (reloading) return;
+    reloading = true;
+    location.reload();
+  });
+
+  navigator.serviceWorker.register("service-worker.js", { updateViaCache: "none" })
+    .then(reg => {
+      const offer = worker => {
+        if (worker && worker.state === "installed" && navigator.serviceWorker.controller) {
+          showUpdateBar(() => worker.postMessage("SKIP_WAITING"));
+        }
+      };
+      offer(reg.waiting);
+      reg.addEventListener("updatefound", () => {
+        const worker = reg.installing;
+        if (worker) worker.addEventListener("statechange", () => offer(worker));
+      });
+
+      const check = () => { if (document.visibilityState === "visible") reg.update().catch(() => {}); };
+      check();
+      document.addEventListener("visibilitychange", check);
+      setInterval(check, 60 * 60 * 1000);
+    })
+    .catch(() => {});
+}
+
+/* The settings button exists so a coach can confirm they are on the version
+   they were told to be on, without a hard reload and without a developer. */
+function checkForUpdateNow(button) {
+  if (!("serviceWorker" in navigator)) return;
+  const lang = currentLang;
+  if (button) button.textContent = t("update_checking", lang);
+  navigator.serviceWorker.getRegistration()
+    .then(reg => (reg ? reg.update().then(() => reg) : null))
+    .then(reg => {
+      if (button) {
+        button.textContent = reg && reg.waiting
+          ? t("update_available", lang)
+          : t("update_none", lang);
+      }
+    })
+    .catch(() => { if (button) button.textContent = t("update_none", lang); });
+}
+
+function showUpdateBar(onAccept) {
+  if (document.getElementById("update-bar")) return;
+  const bar = document.createElement("div");
+  bar.id = "update-bar";
+  bar.className = "update-bar";
+  bar.innerHTML = `
+    <span>${esc(t("update_available", currentLang))}</span>
+    <button type="button" data-action="apply-update">${esc(t("update_reload", currentLang))}</button>
+    <button type="button" class="update-later" data-action="dismiss-update"
+      aria-label="${esc(t("update_later", currentLang))}">✕</button>`;
+  document.body.appendChild(bar);
+  bar.addEventListener("click", e => {
+    const action = e.target.closest("[data-action]");
+    if (!action) return;
+    if (action.dataset.action === "apply-update") onAccept();
+    else bar.remove();
+  });
 }
 
 document.addEventListener("DOMContentLoaded", initApp);

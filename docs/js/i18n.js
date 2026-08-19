@@ -78,6 +78,14 @@ const STR = {
   settings_help: { en: "Interface language and data on this device.", fr: "Langue de l'interface et données sur cet appareil.", es: "Idioma de la interfaz y datos en este dispositivo." },
   settings_language: { en: "Interface language", fr: "Langue de l'interface", es: "Idioma de la interfaz" },
   settings_data: { en: "Data on this device", fr: "Données sur cet appareil", es: "Datos en este dispositivo" },
+  settings_about: { en: "About this app", fr: "À propos de l'application", es: "Acerca de la aplicación" },
+  settings_version: { en: "Version", fr: "Version", es: "Versión" },
+  btn_check_update: { en: "Check for updates", fr: "Rechercher des mises à jour", es: "Buscar actualizaciones" },
+  update_checking: { en: "Checking…", fr: "Recherche…", es: "Buscando…" },
+  update_none: { en: "You are on the latest version", fr: "Vous avez la dernière version", es: "Tiene la última versión" },
+  update_available: { en: "A new version is ready", fr: "Une nouvelle version est prête", es: "Hay una nueva versión lista" },
+  update_reload: { en: "Reload", fr: "Recharger", es: "Recargar" },
+  update_later: { en: "Later", fr: "Plus tard", es: "Más tarde" },
   settings_delete_note: { en: "Deleting wipes every household on this device and cannot be undone. Export first.", fr: "La suppression efface tous les ménages de cet appareil et est irréversible. Exportez d'abord.", es: "Borrar elimina todos los hogares de este dispositivo y no se puede deshacer. Exporte primero." },
 
   // Comparison tab

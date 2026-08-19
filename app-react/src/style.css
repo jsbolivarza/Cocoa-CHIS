@@ -1,0 +1,850 @@
+:root {
+  --tangerine: #FF8000; --tangerine-tint: #FFF1E0;
+  --eggplant: #7B1DAB; --eggplant-tint: #F2E6F9;
+  --flower: #FF4571;   --flower-tint: #FFE7ED;
+  --sky: #0FC0FC;      --sky-tint: #E3F8FF;
+  --mint: #09FBD3;     --mint-tint: #E0FFFA; --mint-dark: #0a7d5c;
+  --night: #001B6E;    --grey: #9CA399; --grey-dark: #6b7268;
+  --bg: #FFFFFF; --card: #FFFFFF; --card-alt: #F7F8F6;
+  --border: #E3E5E0; --text: #1E1E1E; --text-light: #6b7268;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); }
+body { font-family: 'Inter', -apple-system, "Segoe UI", Roboto, sans-serif; font-size: 16px; line-height: 1.45; }
+h1, h2, h3, h4, .stat-value, .lang-btn.active { font-family: 'Exo 2', 'Inter', sans-serif; }
+
+header.app-header {
+  background: #fff;
+  color: var(--text);
+  padding: 18px 32px;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 1px 3px rgba(30,30,30,.06);
+}
+.header-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.header-title h1 { margin: 0; font-size: 1.25rem; font-weight: 800; letter-spacing: .2px; color: var(--night); text-transform: uppercase; }
+.header-title p { margin: 2px 0 0; font-size: 0.85rem; color: var(--text-light); font-family: 'Inter', sans-serif; }
+.header-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+
+.lang-switch { display: flex; gap: 4px; background: var(--card-alt); border: 1px solid var(--border); border-radius: 999px; padding: 3px; }
+.lang-btn { border: none; background: transparent; color: var(--text-light); padding: 6px 12px; border-radius: 999px; font-size: 0.85rem; cursor: pointer; font-weight: 600; }
+.lang-btn.active { background: var(--night); color: #fff; }
+
+.save-status { font-size: 0.78rem; font-weight: 600; padding: 6px 12px; border-radius: 999px; background: var(--mint-tint); color: var(--mint-dark); }
+.save-status.saving { background: var(--tangerine-tint); color: #9a4b00; }
+
+.btn { border: 1px solid var(--night); background: #fff; color: var(--night); padding: 8px 14px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; cursor: pointer; min-height: 40px; font-family: 'Inter', sans-serif; }
+.btn:hover { background: var(--card-alt); }
+.btn-secondary { background: var(--tangerine); border-color: var(--tangerine); color: #fff; }
+.btn-secondary:hover { background: #E67300; }
+.btn-icon { border: 1px solid var(--flower); background: #fff; color: var(--flower); border-radius: 6px; width: 32px; height: 32px; cursor: pointer; font-size: 0.9rem; }
+.btn-icon:hover { background: var(--flower-tint); }
+
+.offline-badge { font-size: 0.78rem; color: var(--text-light); padding-top: 6px; }
+
+/* ---------- step rail ----------
+   Below 900px everything here is overridden at the bottom of this block and the
+   rail becomes the horizontal tab row again, which is what a phone or a
+   portrait tablet gets. */
+.workspace { display: flex; align-items: flex-start; max-width: 1400px; margin: 0 auto; }
+.workspace > main { flex: 1; min-width: 0; max-width: none; margin: 0; }
+
+nav#tab-nav {
+  flex: none;
+  width: 176px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 22px 10px 22px 20px;
+  background: #fff;
+  border-right: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  align-self: stretch;
+}
+.rail-heading {
+  font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.06em;
+  font-weight: 600; color: var(--text-light); padding: 0 8px 8px;
+}
+.nav-btn {
+  display: flex; align-items: center; gap: 9px;
+  background: none; border: none; border-left: 3px solid transparent;
+  border-radius: 0;
+  color: var(--text-light);
+  padding: 9px 10px;
+  font-size: 0.82rem; font-weight: 600; font-family: 'Exo 2', sans-serif;
+  text-align: left; white-space: nowrap; cursor: pointer; width: 100%;
+}
+.nav-btn:hover { background: var(--card-alt); }
+.nav-btn.active {
+  color: var(--night); background: var(--tangerine-tint);
+  border-left-color: var(--tangerine);
+}
+.step-icon { flex: none; width: 17px; height: 17px; display: inline-flex; }
+.step-icon svg { width: 100%; height: 100%; }
+.nav-btn.step-complete .step-icon { color: var(--mint-dark); }
+.nav-btn.step-started .step-icon { color: var(--tangerine); }
+.nav-btn.step-empty .step-icon { color: var(--grey); }
+.step-label { overflow: hidden; text-overflow: ellipsis; }
+
+/* ---------- records list nav ----------
+   Its own rules rather than borrowing nav#tab-nav's: that selector became a
+   vertical rail, and the list tabs stayed horizontal at every width. */
+nav#list-nav {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  padding: 0 32px;
+  background: #fff;
+  border-bottom: 2px solid var(--border);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+nav#list-nav .nav-btn {
+  width: auto;
+  border-left: none;
+  border-bottom: 3px solid transparent;
+  border-radius: 0;
+  padding: 12px 14px;
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+nav#list-nav .nav-btn.active {
+  background: none;
+  color: var(--night);
+  border-bottom-color: var(--tangerine);
+}
+
+/* ---------- step footer ---------- */
+.step-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 12px;
+  border-top: 1px solid var(--border); margin-top: 22px; padding-top: 16px;
+}
+.step-count { font-size: 0.8rem; color: var(--text-light); }
+.step-footer-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.btn-complete { display: inline-flex; align-items: center; gap: 7px; }
+.btn-complete .step-icon { width: 16px; height: 16px; color: var(--grey); }
+.btn-complete.is-done {
+  background: var(--mint-tint); border-color: var(--mint-dark); color: var(--mint-dark);
+}
+.btn-complete.is-done .step-icon { color: var(--mint-dark); }
+
+@media (max-width: 900px) {
+  .workspace { display: block; }
+  .workspace > main { max-width: 1400px; margin: 0 auto; }
+  nav#tab-nav {
+    width: auto; flex-direction: row; gap: 4px; overflow-x: auto;
+    padding: 0 32px; border-right: none; border-bottom: 2px solid var(--border);
+    position: static;
+  }
+  .rail-heading { display: none; }
+  .nav-btn {
+    width: auto; border-left: none; border-bottom: 3px solid transparent;
+    padding: 12px 14px; font-size: 0.88rem; font-weight: 700;
+  }
+  .nav-btn.active { background: none; border-bottom-color: var(--tangerine); }
+}
+
+main { max-width: 1400px; margin: 0 auto; padding: 26px 32px; }
+.required-hint { font-size: 0.8rem; color: var(--text-light); margin: 0 0 12px; }
+
+.panel { background: var(--card); border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 1px 3px rgba(30,30,30,.08); padding: 20px; margin-bottom: 20px; }
+.panel h2 { margin-top: 0; color: var(--night); }
+.panel h3 { color: var(--night); border-bottom: 2px solid var(--border); padding-bottom: 8px; margin-top: 28px; font-weight: 700; }
+.panel h3:first-of-type { margin-top: 0; }
+.panel h4 { color: var(--eggplant); margin-top: 20px; margin-bottom: 8px; text-transform: uppercase; letter-spacing: .3px; font-size: 0.95rem; }
+.section-help, .field-hint { color: var(--text-light); font-size: 0.85rem; font-family: 'Inter', sans-serif; }
+.field-hint { display: block; margin-top: 3px; }
+
+.consent-text p { margin: 0 0 10px; white-space: pre-line; }
+
+.form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin: 14px 0; }
+.form-grid-3 { grid-template-columns: repeat(3, 1fr); }
+.form-grid-4 { grid-template-columns: repeat(4, 1fr); }
+.form-grid label { display: flex; flex-direction: column; gap: 4px; font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: .3px; color: var(--text-light); }
+.form-grid label.optional { color: var(--grey); }
+
+.field {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 10px;
+  font-size: 1rem;
+  min-height: 42px;
+  background: #fff;
+  color: var(--text);
+  width: 100%;
+  font-family: 'Inter', sans-serif;
+  text-transform: none;
+  letter-spacing: normal;
+  font-weight: 400;
+}
+.field:focus { outline: none; border-color: var(--tangerine); box-shadow: 0 0 0 3px var(--tangerine-tint); }
+.field-select { appearance: auto; }
+
+.checkbox-row { display: flex; flex-wrap: wrap; gap: 16px; margin: 10px 0 18px; }
+.check { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; }
+.check input { width: 20px; height: 20px; accent-color: var(--tangerine); }
+
+.table-wrap { overflow-x: auto; margin-top: 10px; border: 1px solid var(--border); border-radius: 10px; }
+table.data-table { border-collapse: collapse; width: 100%; min-width: 640px; }
+table.data-table th, table.data-table td { border-bottom: 1px solid var(--border); padding: 7px 9px; text-align: left; vertical-align: middle; }
+table.data-table thead th { background: var(--card-alt); color: var(--text-light); font-weight: 600; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; position: sticky; top: 0; }
+table.data-table td .field { min-width: 110px; }
+table.data-table .idx-cell { color: var(--text-light); font-weight: 600; white-space: nowrap; }
+.idx-full { display: none; }
+table.data-table .computed-cell { font-weight: 700; color: var(--night); background: var(--tangerine-tint); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.col-remove { width: 36px; }
+.col-idx { width: 30px; }
+.opt-badge { font-size: 0.65rem; background: var(--card-alt); border: 1px solid var(--border); color: var(--text-light); padding: 1px 6px; border-radius: 999px; text-transform: none; letter-spacing: 0; }
+
+.table-actions { margin: 10px 0 4px; }
+
+/* ---------- indicators ----------
+   Two tiers only. A short row of emphasized cards for the figures anyone asks
+   for first, then one flat strip for everything else. The strip is a single
+   bordered container rather than one bordered, coloured card per number: at
+   nine or ten indicators the per-card version turned into a wall of colour
+   that made every figure look equally important. */
+.kpi-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px; margin: 0 0 14px;
+}
+.kpi-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-left: 4px solid var(--tangerine); border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(30,30,30,.08); padding: 14px 18px;
+}
+.kpi-card.night { background: var(--night); border-color: var(--night); border-left-color: var(--tangerine); }
+.kpi-card.eggplant { border-left-color: var(--eggplant); }
+.kpi-card.mint { border-left-color: var(--mint-dark); }
+.kpi-card.sky { border-left-color: var(--sky); }
+.kpi-label {
+  font-size: 0.68rem; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.05em; color: var(--text-light); margin-bottom: 5px;
+}
+.kpi-value {
+  font-family: 'Exo 2', sans-serif; font-weight: 700; font-size: 1.4rem;
+  color: var(--night); line-height: 1; font-variant-numeric: tabular-nums;
+}
+.kpi-value small { font-size: 0.74rem; font-weight: 600; color: var(--text-light); }
+.kpi-card.night .kpi-label { color: rgba(255,255,255,.7); }
+.kpi-card.night .kpi-value { color: #fff; }
+.kpi-card.night .kpi-value small { color: rgba(255,255,255,.7); }
+.kpi-value.negative { color: var(--flower); }
+
+.stat-row {
+  background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(30,30,30,.06); padding: 12px 18px; margin: 0 0 16px;
+  display: flex; gap: 24px; flex-wrap: wrap;
+}
+.stat-box { min-width: 100px; }
+.stat-label {
+  font-size: 0.64rem; text-transform: uppercase; letter-spacing: 0.05em;
+  font-weight: 600; color: var(--text-light);
+}
+.stat-value {
+  font-size: 0.95rem; font-weight: 600; color: var(--night);
+  font-variant-numeric: tabular-nums; margin-top: 2px;
+}
+.stat-value.negative { color: var(--flower); }
+
+.results-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
+.results-table .group-row td { background: var(--night); color: #fff; font-weight: 700; padding: 9px; font-family: 'Exo 2', sans-serif; }
+.results-table .total-row td { background: var(--tangerine-tint); color: var(--night); font-weight: 700; border-top: 2px solid var(--tangerine); }
+
+.screen-list .editor-only { display: none !important; }
+.screen-editor .list-only { display: none !important; }
+
+/* ---------- records search ---------- */
+.search-bar {
+  display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap;
+  background: var(--card-alt); border: 1px solid var(--border);
+  border-radius: 10px; padding: 12px 14px; margin-bottom: 14px;
+}
+.search-field { flex: 1 1 280px; display: flex; flex-direction: column; gap: 4px; }
+.search-field label {
+  font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.04em;
+  font-weight: 600; color: var(--text-light);
+}
+.search-field input { width: 100%; min-width: 0; }
+.empty-state {
+  padding: 22px; text-align: center; color: var(--text-light);
+  background: var(--card-alt); border: 1px dashed var(--border); border-radius: 10px;
+}
+.empty-state a { color: var(--night); font-weight: 600; margin-left: 6px; }
+
+/* ---------- comparison tab ---------- */
+.filter-bar {
+  display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap;
+  background: var(--card-alt); border: 1px solid var(--border);
+  border-radius: 10px; padding: 12px 14px; margin: 12px 0;
+}
+.filter-field { flex: 1 1 170px; display: flex; flex-direction: column; gap: 4px; }
+.filter-field label {
+  font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.04em;
+  font-weight: 600; color: var(--text-light);
+}
+.warn-note {
+  background: var(--tangerine-tint); border-left: 4px solid var(--tangerine);
+  border-radius: 8px; padding: 9px 12px; font-size: 0.85rem; margin: 10px 0;
+}
+table.compare-table { min-width: 1020px; }
+table.compare-table .row-head { font-weight: 600; white-space: nowrap; }
+table.compare-table td.negative { color: var(--flower); font-weight: 700; }
+table.compare-table .total-row td {
+  background: var(--night); color: #fff; font-weight: 700;
+  border-top: 2px solid var(--tangerine);
+}
+table.compare-table .total-row td.negative { color: var(--flower); }
+
+.records-count { color: var(--text-light); font-size: 0.85rem; margin: -4px 0 14px; }
+.records-list { display: flex; flex-direction: column; gap: 10px; }
+.record-card {
+  display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap;
+  border: 1px solid var(--border); border-left: 4px solid var(--tangerine); border-radius: 10px;
+  padding: 14px 16px; background: var(--card-alt);
+}
+.record-card-title { font-weight: 700; color: var(--night); font-family: 'Exo 2', sans-serif; font-size: 1.02rem; }
+.record-card-sub { color: var(--text-light); font-size: 0.85rem; margin-top: 2px; }
+.record-card-date { color: var(--grey-dark); font-size: 0.76rem; margin-top: 4px; }
+.record-card-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.record-card-main { flex: 1 1 260px; }
+.records-empty { text-align: center; padding: 40px 20px; }
+.records-empty h2 { color: var(--night); }
+
+footer.app-footer { text-align: center; color: var(--text-light); font-size: 0.78rem; padding: 20px; }
+
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(30,30,30,.45);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 100; padding: 20px;
+}
+.modal-box {
+  background: #fff; border-radius: 12px; padding: 22px; max-width: 380px; width: 100%;
+  box-shadow: 0 8px 24px rgba(0,0,0,.2);
+}
+.modal-box p { margin: 0 0 18px; color: var(--text); font-size: 0.95rem; line-height: 1.5; }
+.modal-actions { display: flex; gap: 10px; justify-content: flex-end; }
+.btn-danger { background: var(--flower); border-color: var(--flower); color: #fff; }
+.btn-danger:hover { background: #e03a63; }
+
+@media (max-width: 720px), (max-height: 520px) and (orientation: landscape) {
+  .form-grid, .form-grid-3, .form-grid-4 { grid-template-columns: 1fr 1fr; }
+  .header-top { flex-direction: column; align-items: flex-start; }
+}
+
+@media print {
+  header.app-header, nav#tab-nav, .table-actions, .btn, footer.app-footer { display: none !important; }
+  .panel { border: none; box-shadow: none; }
+}
+
+/* ---------- revenue source screening questions ---------- */
+._retired_toggle_grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 8px 20px; background: var(--card-alt); border: 1px solid var(--border);
+  border-radius: 12px; padding: 14px 18px; margin: 10px 0 18px;
+}
+.toggle-row {
+  display: flex; align-items: center; gap: 10px; cursor: pointer;
+  padding: 6px 0; font-size: 0.9rem; color: var(--text);
+}
+.toggle-row input[type="checkbox"] {
+  width: 20px; height: 20px; flex: none; accent-color: var(--tangerine); cursor: pointer;
+}
+.toggle-row span { user-select: none; }
+
+
+/* ---------- app bar ---------- */
+.menu-toggle {
+  font-size: 1.4rem; line-height: 1; padding: 4px 10px;
+  border: 1px solid var(--border); border-radius: 8px; background: #fff;
+  color: var(--night); cursor: pointer;
+}
+.app-menu {
+  border-top: 1px solid var(--border); margin-top: 10px; padding-top: 12px;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.app-menu[hidden] { display: none; }
+.app-menu-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.app-menu .lang-switch { align-self: flex-start; }
+
+/* ---------- record cards ---------- */
+.record-card { position: relative; cursor: pointer; }
+@media (hover: hover) { .record-card:hover { border-color: var(--tangerine); } }
+.record-card:focus-visible { outline: 2px solid var(--tangerine); outline-offset: 2px; }
+.lang-tag {
+  display: inline-block; margin-left: 7px; padding: 1px 6px; border-radius: 20px;
+  background: var(--sky-tint); color: #0b5f7a; font-size: 0.62rem;
+  font-weight: 700; letter-spacing: 0.04em; vertical-align: middle;
+}
+.record-progress {
+  height: 4px; background: var(--card-alt); border-radius: 2px;
+  margin-top: 9px; overflow: hidden;
+}
+.record-progress span {
+  display: block; height: 100%; background: var(--tangerine); border-radius: 2px;
+}
+.record-progress span.is-complete { background: var(--mint-dark); }
+.record-progress-label { font-size: 0.7rem; color: var(--text-light); margin-top: 4px; }
+.card-menu-toggle {
+  position: absolute; top: 10px; right: 10px;
+  font-size: 1.25rem; line-height: 1; padding: 2px 9px;
+  border: 1px solid var(--border); border-radius: 8px; background: #fff;
+  color: var(--night); cursor: pointer;
+}
+.card-menu {
+  display: flex; flex-direction: column; gap: 6px;
+  border-top: 1px solid var(--border); margin-top: 11px; padding-top: 11px;
+}
+.card-menu[hidden] { display: none; }
+
+/* ---------- income source chips ---------- */
+.chip-row {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  background: var(--card-alt); border: 1px solid var(--border);
+  border-radius: 12px; padding: 13px 15px; margin: 10px 0 18px;
+}
+.chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: #fff; border: 1px solid var(--border); border-radius: 22px;
+  color: var(--text-light); padding: 9px 15px; font-size: 0.85rem;
+  font-family: 'Inter', sans-serif; cursor: pointer; min-height: 40px;
+}
+
+.chip.is-on { background: var(--night); border-color: var(--night); color: #fff; font-weight: 600; }
+.chip-check { font-size: 0.8rem; }
+
+/* ---------- collapsed month rows ---------- */
+tr.months-more td {
+  background: var(--card-alt); color: var(--text-light);
+  font-size: 0.82rem; cursor: pointer;
+}
+@media (hover: hover) { tr.months-more:hover td { color: var(--night); } }
+
+/* ---------- comparison chart ----------
+   One quantity per bar, diverging from a zero line whose position comes from
+   the data, so an all-positive set does not reserve half the width for
+   negatives that do not exist. */
+.compare-chart { display: none; margin: 4px 0 2px; }
+.cmp-chart-head {
+  display: flex; justify-content: space-between; gap: 10px;
+  font-size: 0.72rem; color: var(--text-light); margin-bottom: 12px;
+}
+.cmp-plot { position: relative; }
+.cmp-zero, .cmp-avg {
+  position: absolute; top: 0; bottom: 20px; width: 0; pointer-events: none;
+}
+.cmp-zero { border-left: 1px solid var(--grey); }
+.cmp-avg { border-left: 1px dashed var(--grey-dark); }
+.cmp-bar-row { margin-bottom: 13px; position: relative; }
+.cmp-bar-head { display: flex; justify-content: space-between; gap: 8px; font-size: 0.8rem; }
+.cmp-bar-name { color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cmp-bar-val { font-weight: 600; font-variant-numeric: tabular-nums; flex: none; }
+.cmp-bar-val.positive { color: var(--night); }
+.cmp-bar-val.negative { color: var(--flower); }
+.cmp-bar-track { position: relative; height: 10px; margin-top: 4px; }
+.cmp-bar-fill {
+  position: absolute; height: 10px; background: var(--night);
+  border-radius: 0 3px 3px 0; min-width: 2px;
+}
+.cmp-bar-fill.is-negative {
+  background: var(--flower); border-radius: 3px 0 0 3px;
+}
+.cmp-legend {
+  display: flex; gap: 14px; flex-wrap: wrap;
+  font-size: 0.72rem; color: var(--text-light); margin-top: 8px;
+}
+.cmp-legend .swatch {
+  display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 5px;
+}
+.cmp-legend .swatch.negative { background: var(--flower); }
+.cmp-legend .swatch.avg-line {
+  width: 0; height: 11px; border-radius: 0;
+  border-left: 1px dashed var(--grey-dark); margin-right: 7px; vertical-align: -2px;
+}
+.cmp-callout {
+  background: var(--card-alt); border-radius: 8px; padding: 10px 12px;
+  font-size: 0.75rem; color: var(--text-light); margin: 12px 0 0;
+}
+
+/* ---------- phone ---------- */
+@media (max-width: 720px), (max-height: 520px) and (orientation: landscape) {
+  main { padding: 16px 14px; }
+  nav#tab-nav, nav#list-nav { padding: 0 14px; }
+  .compare-chart { display: block; }
+  .wide-only { display: none; }
+  .compare-table-wrap { display: none; }
+  .step-footer {
+    position: sticky; bottom: 0; background: #fff;
+    margin: 22px -14px 0; padding: 11px 14px;
+    border-top: 1px solid var(--border); z-index: 5;
+  }
+  .step-count { display: none; }
+  .step-footer-actions { width: 100%; }
+  .step-footer-actions .btn { flex: 1; text-align: center; }
+  .kpi-grid { grid-template-columns: 1fr; }
+  .record-card-title { padding-right: 44px; }
+}
+
+
+/* ---------- navy app bar ----------
+   One bar, two contexts. On the list it names the collection; inside a record
+   it names the household and the step, which is why the step counter is no
+   longer repeated in the footer. */
+header.app-header {
+  background: var(--night); border-bottom: none;
+  padding: 10px 16px; position: sticky; top: 0; z-index: 20;
+}
+.bar-row { display: flex; align-items: center; gap: 10px; max-width: 1400px; margin: 0 auto; }
+.bar-titles { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.bar-product {
+  font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.09em;
+  font-weight: 600; color: rgba(255,255,255,.55);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.bar-context {
+  font-family: 'Exo 2', sans-serif; font-size: 1rem; font-weight: 700; color: #fff;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.bar-sub {
+  font-size: 0.7rem; color: rgba(255,255,255,.6);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.bar-back, .menu-toggle {
+  flex: none; background: rgba(255,255,255,.12); border: none; border-radius: 8px;
+  color: #fff; cursor: pointer; padding: 7px 11px; font-size: 1.05rem; line-height: 1;
+}
+.bar-back:hover, .menu-toggle:hover { background: rgba(255,255,255,.22); }
+header.app-header .save-status {
+  flex: none; background: rgba(255,255,255,.12); color: #9FE1CB;
+  border-radius: 20px; padding: 4px 10px; font-size: 0.7rem;
+}
+header.app-header #btn-new-record {
+  flex: none; background: var(--tangerine); border-color: var(--tangerine); color: #fff;
+  padding: 8px 14px; font-size: 0.82rem; white-space: nowrap;
+}
+.app-menu {
+  border-top: 1px solid rgba(255,255,255,.18); margin-top: 10px; padding-top: 12px;
+  max-width: 1400px; margin-left: auto; margin-right: auto;
+}
+header.app-header .app-menu .btn {
+  background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.25); color: #fff;
+}
+header.app-header .app-menu .btn:hover { background: rgba(255,255,255,.2); }
+header.app-header .app-menu .btn-danger { background: var(--flower); border-color: var(--flower); }
+header.app-header .lang-btn { color: rgba(255,255,255,.7); }
+header.app-header .lang-switch { background: rgba(255,255,255,.12); }
+header.app-header .lang-btn.active { background: #fff; color: var(--night); }
+
+/* Search lives in the bar rather than in a grey panel below the tabs. */
+header.app-header .search-bar {
+  background: rgba(255,255,255,.12); border: none; border-radius: 22px;
+  padding: 5px 6px 5px 14px; margin: 9px auto 2px; max-width: 1400px; gap: 8px;
+}
+header.app-header .search-field label { display: none; }
+header.app-header .search-field input {
+  background: transparent; border: none; color: #fff; padding: 6px 0; font-size: 0.9rem;
+}
+header.app-header .search-field input::placeholder { color: rgba(255,255,255,.6); }
+header.app-header .search-bar .btn {
+  background: rgba(255,255,255,.15); border-color: transparent; color: #fff;
+  border-radius: 18px; padding: 5px 12px; font-size: 0.78rem;
+}
+
+/* ---------- comparison filter chips ---------- */
+.filter-bar {
+  display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+  background: none; border: none; padding: 0; margin: 12px 0;
+}
+.filter-chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: #fff; border: 1px solid var(--border); border-radius: 22px;
+  padding: 6px 12px; font-size: 0.8rem; color: var(--text-light); cursor: pointer;
+}
+.filter-chip.is-on {
+  background: var(--night); border-color: var(--night); color: #fff; font-weight: 600;
+}
+.filter-chip .chip-x { font-size: 0.95rem; line-height: 1; }
+.filter-chip select {
+  border: none; background: none; font-size: 0.8rem; padding: 0 2px;
+  color: var(--text-light); cursor: pointer; min-height: 0; height: auto;
+}
+.filter-chip-label { pointer-events: none; }
+.filter-count { font-size: 0.75rem; color: var(--text-light); margin-left: auto; }
+
+@media (max-width: 720px), (max-height: 520px) and (orientation: landscape) {
+  header.app-header { padding: 9px 12px; }
+  .bar-context { font-size: 0.92rem; }
+  header.app-header #btn-new-record { padding: 8px 11px; font-size: 0.76rem; }
+  header.app-header .save-status { display: none; }
+  .filter-count { width: 100%; margin-left: 0; }
+}
+
+
+/* The .field focus ring is a pale cream halo built for white backgrounds. On
+   the navy bar it reads as a grey box, so the search field gets its own: the
+   whole pill lifts instead of the input drawing a frame inside it. */
+header.app-header .search-field input:focus,
+header.app-header .search-field input:focus-visible {
+  outline: none; box-shadow: none; border-color: transparent;
+}
+header.app-header .search-bar:focus-within {
+  background: rgba(255,255,255,.2);
+  box-shadow: 0 0 0 2px rgba(255,255,255,.4);
+}
+
+
+/* ---------- colour restraint pass ----------
+   Tangerine now means one thing: the primary action on the screen. Everything
+   that used it for emphasis alone moves to navy outline or grey. */
+
+/* Step navigation is not the primary action on a capture screen. */
+.step-footer-actions .btn-secondary {
+  background: #fff; border-color: var(--night); color: var(--night);
+}
+.step-footer-actions .btn-secondary:hover { background: var(--card-alt); }
+
+/* Six orange "add row" buttons on one screen was six primary actions. */
+.table-actions .btn, button[data-action="add-row"] {
+  background: #fff; border: 1px solid var(--border); color: var(--night);
+  font-weight: 600;
+}
+.table-actions .btn:hover, button[data-action="add-row"]:hover {
+  border-color: var(--night); background: var(--card-alt);
+}
+
+/* A summary row is not a warning. Grey carries it. */
+table.compare-table .total-row td,
+.results-table .total-row td {
+  background: var(--card-alt); color: var(--text);
+  border-top: 1px solid var(--grey); font-weight: 700;
+}
+table.compare-table .total-row td:first-child { color: var(--text-light); }
+table.compare-table .total-row td.negative { color: var(--flower); }
+
+/* Income source chips: eggplant, tinted rather than filled. Still unmistakably
+   on at arm's length, which matters because these answers decide whether whole
+   sections are counted. */
+.chip.is-on {
+  background: var(--eggplant-tint); border-color: var(--eggplant);
+  color: var(--eggplant); font-weight: 600;
+}
+
+
+/* The menu was a child of the navy bar, so opening it doubled the ribbon and
+   pushed the page down. Now it drops over the content as a white panel. */
+header.app-header { position: sticky; }
+.app-menu {
+  position: absolute; right: 16px; top: 100%;
+  background: #fff; border: 1px solid var(--border); border-top: none;
+  border-radius: 0 0 12px 12px; box-shadow: 0 8px 24px rgba(0,0,0,.14);
+  padding: 14px; margin: 0; width: min(340px, calc(100vw - 32px));
+  display: flex; flex-direction: column; gap: 12px; z-index: 30;
+}
+header.app-header .app-menu .btn {
+  background: #fff; border-color: var(--border); color: var(--night);
+}
+header.app-header .app-menu .btn:hover { background: var(--card-alt); border-color: var(--night); }
+header.app-header .app-menu .btn-danger {
+  background: #fff; border-color: var(--flower); color: var(--flower);
+}
+header.app-header .app-menu .lang-switch { background: var(--card-alt); align-self: flex-start; }
+header.app-header .app-menu .lang-btn { color: var(--text-light); }
+header.app-header .app-menu .lang-btn.active { background: var(--night); color: #fff; }
+
+/* Filter chips: the label alone when unset, the value when set. */
+.filter-chip { position: relative; padding-right: 26px; }
+.filter-chip.is-on { padding-right: 12px; }
+.filter-chip select {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  opacity: 0; cursor: pointer;
+}
+.filter-chip-caret {
+  position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+  font-size: 0.7rem; color: var(--text-light); pointer-events: none;
+}
+/* Touch devices keep :hover on the last tapped element, so an active chip was
+   left with navy text on its navy background and the label vanished. Hover is
+   now limited to pointers that can actually hover, and to inactive chips. */
+@media (hover: hover) {
+  .filter-chip:not(.is-on):hover { border-color: var(--night); color: var(--night); }
+  .chip:not(.is-on):hover { border-color: var(--eggplant); }
+}
+
+
+/* ==========================================================================
+   Phone layout pass: stacked tables, bottom navigation, footer, sticky offset
+
+   The phone breakpoint is width OR a short landscape viewport. A phone on its
+   side is about 930px wide and 430px tall: wide enough to fall through a
+   width-only rule into the desktop grid, far too short to use it.
+
+   The display cutout sits in that landscape gutter, so everything that spans
+   the full width has to reserve the safe area or the first column disappears
+   under it.
+   ========================================================================== */
+/* The bar is fixed height and everything scrolls beneath it, so a field the
+   browser scrolls into view on focus used to land half behind it. This is the
+   offset that stops that, and it is why the bar needs a hard z-index rather
+   than relying on source order against the sticky table headers. */
+html { scroll-padding-top: 84px; }
+header.app-header { z-index: 40; }
+table.data-table thead th { z-index: 1; }
+
+.stacked-actions { display: flex; flex-direction: column; gap: 10px; margin: 12px 0; }
+.stacked-actions .btn { width: 100%; }
+.btn:disabled { opacity: .45; cursor: default; }
+
+/* ---------- bottom navigation ----------
+   List screen only. During capture the step footer owns the bottom, and two
+   stacked bars would take about a third of a phone screen. */
+.bottom-nav {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;
+  display: none; background: #fff; border-top: 1px solid var(--border);
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+.bottom-nav-btn {
+  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px;
+  background: none; border: none; cursor: pointer;
+  padding: 8px 2px 9px; min-height: 56px;
+  color: var(--text-light); font-family: 'Inter', sans-serif;
+  font-size: 0.68rem; font-weight: 600; letter-spacing: .01em;
+}
+.bottom-nav-btn svg { width: 22px; height: 22px; }
+.bottom-nav-btn.active { color: var(--night); }
+.bottom-nav-btn.active svg { stroke-width: 2.1; }
+
+@media (max-width: 720px), (max-height: 520px) and (orientation: landscape) {
+  header.app-header, main, .bottom-nav {
+    padding-left: max(14px, env(safe-area-inset-left));
+    padding-right: max(14px, env(safe-area-inset-right));
+  }
+  .bottom-nav { display: flex; }
+  nav#list-nav { display: none; }
+  body.screen-list { padding-bottom: 72px; }
+
+  /* ---------- stacked tables ----------
+     Below this width a row is a card and every cell states its own label. The
+     results table keeps its grid: it is a read-only comparison of whole farm
+     against cocoa only, and stacking it would destroy the comparison. */
+  .stack-wrap { overflow-x: visible; border: none; border-radius: 0; }
+  .stack-wrap table.data-table { min-width: 0; display: block; }
+  .stack-wrap thead { display: none; }
+  .stack-wrap tbody { display: block; }
+  .stack-wrap tr {
+    display: block; position: relative;
+    border: 1px solid var(--border); border-radius: 10px;
+    background: var(--card); padding: 10px 12px 12px; margin-bottom: 10px;
+  }
+  .stack-wrap td {
+    display: block; width: 100%; border-bottom: none; padding: 7px 0 0;
+  }
+  .stack-wrap td[data-label]::before {
+    content: attr(data-label);
+    display: block; margin-bottom: 3px;
+    font-size: 0.68rem; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.04em; color: var(--text-light);
+  }
+  .stack-wrap td .field { width: 100%; min-width: 0; }
+  .stack-wrap td.idx-cell {
+    padding: 0 44px 8px 0; border-bottom: 1px solid var(--border);
+    font-family: 'Exo 2', sans-serif; font-size: 0.95rem; color: var(--night);
+  }
+  .stack-wrap td.idx-cell .idx-short { display: none; }
+  .stack-wrap td.idx-cell .idx-full { display: inline; }
+  /* A tinted full-width strip reads as a button. Computed values keep the
+     weight and lose the fill. */
+  .stack-wrap td.computed-cell {
+    background: none; font-size: 1.05rem;
+  }
+  /* Cards built from a table with no index column had no heading, so the
+     remove button sat on top of the first field's label. Every card now opens
+     with a heading band and the button sits in it. */
+  .stack-wrap tr[data-rownum]::before {
+    content: attr(data-rownum);
+    display: block; padding: 0 44px 8px 0; margin-bottom: 2px;
+    border-bottom: 1px solid var(--border);
+    font-family: 'Exo 2', sans-serif; font-size: 0.95rem;
+    font-weight: 700; color: var(--night);
+  }
+  .stack-wrap td.col-remove {
+    position: absolute; top: 10px; right: 12px; width: auto; padding: 0;
+  }
+  .stack-wrap tr.months-more { display: flex; justify-content: space-between; align-items: baseline; }
+  .stack-wrap tr.months-more td { width: auto; padding: 0; }
+  .stack-wrap tr.months-more td::before { content: none; }
+
+  /* Results keeps four columns at 390px by giving up padding, not structure. */
+  .results-table { min-width: 0; font-size: 0.78rem; }
+  .results-table th, .results-table td { padding: 6px 4px; }
+  .results-table td:last-child, .results-table th:last-child {
+    font-size: 0.68rem; color: var(--text-light);
+  }
+}
+
+/* ---------- step footer at phone width ----------
+   Three buttons on one row put "Marked complete" on two lines at 390px. The
+   mark sits on its own row, back and next share the one below. */
+@media (max-width: 430px) {
+  .step-footer-actions {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+  }
+  .step-footer-actions .btn-complete { grid-column: 1 / -1; }
+  .step-footer-actions .btn { width: 100%; padding: 8px 6px; }
+}
+
+
+/* ---------- month picker ----------
+   The labour tab on a phone. Twelve stacked month cards ran to about twelve
+   screens before any data existed, so the months become a row of chips and only
+   the chosen one is on screen. Months already filled are marked, so what is
+   left to do stays visible without scrolling to find it. */
+.month-picker {
+  display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 6px;
+}
+.month-chip {
+  border: 1px solid var(--border); background: #fff; color: var(--text-light);
+  border-radius: 999px; padding: 7px 13px; min-height: 38px;
+  font-family: 'Inter', sans-serif; font-size: 0.8rem; font-weight: 600;
+  cursor: pointer;
+}
+.month-chip.has-data { color: var(--night); border-color: var(--night); }
+.month-chip.is-on {
+  background: var(--night); border-color: var(--night); color: #fff;
+}
+.month-picker-count { margin: 0 0 4px; }
+@media (hover: hover) {
+  .month-chip:not(.is-on):hover { border-color: var(--night); }
+}
+
+.season-note {
+  font-size: 0.78rem; color: var(--text-light); font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.04em; margin: 10px 0 0;
+}
+
+
+/* ---------- update bar ----------
+   Sits above the bottom navigation so it cannot be mistaken for a tab, and
+   above the step footer so it is visible mid-interview. It never covers the
+   Next button: the coach can ignore it and keep working. */
+.update-bar {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 60;
+  display: flex; align-items: center; gap: 10px;
+  background: var(--night); color: #fff;
+  padding: 11px 14px calc(11px + env(safe-area-inset-bottom, 0px));
+  font-size: 0.86rem;
+}
+.update-bar span { flex: 1; }
+.update-bar button {
+  background: var(--tangerine); border: none; color: #fff;
+  font-family: 'Inter', sans-serif; font-size: 0.84rem; font-weight: 600;
+  padding: 8px 14px; border-radius: 8px; cursor: pointer;
+}
+.update-bar button.update-later {
+  background: none; color: #fff; opacity: 0.75;
+  padding: 8px 4px; font-size: 1rem;
+}

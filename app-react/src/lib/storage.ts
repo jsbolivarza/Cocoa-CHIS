@@ -153,6 +153,24 @@ export function saveLangPref(lang: string): void {
   }
 }
 
+/** Strips accents so "Kouame" finds "Kouamé", which matters when the name
+ *  on the tablet keyboard rarely matches the name in the record exactly. */
+export function normalizeSearch(v: unknown): string {
+  return String(v == null ? "" : v)
+    .normalize("NFD")
+    .replace(new RegExp("[\\u0300-\\u036f]", "g"), "")
+    .toLowerCase()
+    .trim();
+}
+
+export function recordMatchesSearch(summary: RecordSummary, needle: string): boolean {
+  if (!needle) return true;
+  const haystack = normalizeSearch(
+    [summary.producerName, summary.coopName, summary.village, summary.floId, summary.producerCode, summary.respondentName].join(" ")
+  );
+  return needle.split(/\s+/).every((word) => haystack.includes(word));
+}
+
 export interface RecordSummary {
   id: string;
   producerName: string;

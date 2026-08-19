@@ -4,11 +4,11 @@
    One store instead of scattered globals, but the same shape of state. */
 
 import { create } from "zustand";
-import type { HouseholdRecord } from "../lib/dataModel";
-import { emptyRecord } from "../lib/dataModel";
+import type { HouseholdRecord, TableRow } from "../lib/dataModel";
+import { emptyRecord, emptyRow, TABLE_SCHEMAS } from "../lib/dataModel";
 import * as storage from "../lib/storage";
-import type { Lang } from "../lib/i18n";
-import { setPathImmutable } from "../lib/paths";
+import { t, type Lang } from "../lib/i18n";
+import { getPath, setPathImmutable } from "../lib/paths";
 import type { ListTab } from "../lib/tabs";
 
 export type Screen = "list" | "editor";
@@ -46,6 +46,9 @@ interface AppState {
   switchTab: (tab: string) => void;
   switchListTab: (tab: ListTab) => void;
   updateField: (path: string, value: unknown) => void;
+  addRow: (schemaKey: string, arrPath: string) => void;
+  removeRow: (arrPath: string, idx: number) => void;
+  toggleStepComplete: (tab: string) => void;
   askConfirm: (message: string, onConfirm: () => void) => void;
   closeConfirm: () => void;
   setRecordSearch: (v: string) => void;
@@ -123,8 +126,17 @@ export const useAppStore = create<AppState>((set, get) => ({
     });
   },
 
-  switchTab: (tab) => set({ currentTab: tab }),
-  switchListTab: (tab) => set({ listTab: tab }),
+  // Ported from switchTab()/switchListTab() in docs/js/app.js, which scroll
+  // to the top on every tab change so a step opened mid-scroll on the
+  // previous one doesn't land the user in the middle of the new one.
+  switchTab: (tab) => {
+    set({ currentTab: tab });
+    window.scrollTo(0, 0);
+  },
+  switchListTab: (tab) => {
+    set({ listTab: tab });
+    window.scrollTo(0, 0);
+  },
 
   askConfirm: (message, onConfirm) => set({ confirmRequest: { message, onConfirm } }),
   closeConfirm: () => set({ confirmRequest: null }),
@@ -147,5 +159,37 @@ export const useAppStore = create<AppState>((set, get) => ({
         if (get().currentRecordId === updated.meta.id) set({ saveStatus: "saved" });
       });
     }, 400);
+  },
+
+  // Ported from doAddRow()/doRemoveRow() in docs/js/app.js. Removal asks for
+  // confirmation there via showConfirmModal(); this reuses the same
+  // ConfirmModal/askConfirm plumbing the rest of the shell already has.
+  addRow: (schemaKey, arrPath) => {
+    const current = get().record;
+    if (!current) return;
+    const schema = TABLE_SCHEMAS[schemaKey];
+    const rows = (getPath<TableRow[]>(current, arrPath) || []).slice();
+    rows.push(emptyRow(schema.columns));
+    get().updateField(arrPath, rows);
+  },
+  removeRow: (arrPath, idx) => {
+    get().askConfirm(t("confirm_remove_row", get().currentLang), () => {
+      const current = get().record;
+      if (!current) return;
+      const rows = (getPath<TableRow[]>(current, arrPath) || []).slice();
+      rows.splice(idx, 1);
+      get().updateField(arrPath, rows);
+    });
+  },
+
+  // Ported from toggleStepComplete() in docs/js/app.js. Kept on the record
+  // (meta.completedSteps) rather than derived, since nothing in this form is
+  // strictly required — completion is an explicit act, not inferred.
+  toggleStepComplete: (tab) => {
+    const current = get().record;
+    if (!current) return;
+    const done = Array.isArray(current.meta.completedSteps) ? current.meta.completedSteps : [];
+    const next = done.includes(tab) ? done.filter((d) => d !== tab) : [...done, tab];
+    get().updateField("meta.completedSteps", next);
   },
 }));

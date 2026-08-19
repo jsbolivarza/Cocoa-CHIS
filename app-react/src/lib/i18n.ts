@@ -151,6 +151,7 @@ export const STR: Record<string, StrEntry> = {
   months_less: { en: "Show only months with sales", fr: "Afficher seulement les mois avec des ventes", es: "Mostrar solo los meses con ventas" },
   season_note: { en: "Cocoa season, October to September", fr: "Campagne cacaoyère, d'octobre à septembre", es: "Campaña cacaotera, de octubre a septiembre" },
   months_filled_label: { en: "months with labour recorded", fr: "mois avec de la main d'œuvre saisie", es: "meses con mano de obra registrada" },
+  months_sales_filled_label: { en: "months with sales recorded", fr: "mois avec des ventes enregistrées", es: "meses con ventas registradas" },
   row_word: { en: "Row", fr: "Ligne", es: "Fila" },
 
   cmp_worst_first: { en: "per year, worst first", fr: "par an, du plus faible au plus élevé", es: "por año, del más bajo al más alto" },

@@ -93,7 +93,12 @@ export function RecordsScreen() {
               }}
             >
               <div className="record-card-main">
-                <div className="record-card-title">{r.producerName || t("unnamed_household", lang)}</div>
+                <div className="record-card-title">
+                  {r.producerName || t("unnamed_household", lang)}
+                  {r.language && r.language.toUpperCase() !== lang.toUpperCase() && (
+                    <span className="lang-tag">{r.language.toUpperCase()}</span>
+                  )}
+                </div>
                 <div className="record-card-sub">
                   {r.coopName || t("unnamed_coop", lang)}
                   {r.respondentName ? " · " + r.respondentName : ""}

@@ -180,6 +180,7 @@ export interface RecordSummary {
   producerCode: string;
   village: string;
   updatedAt: string;
+  language: string;
 }
 
 /** Summary rows for the records list screen, most recently updated first. */
@@ -194,6 +195,7 @@ export function summarizeRecords(recordsMap: Record<string, HouseholdRecord>): R
       producerCode: r.profile.producerCode,
       village: r.profile.village,
       updatedAt: r.meta.updatedAt,
+      language: r.meta.language,
     }))
     .sort((a, b) => (b.updatedAt || "").localeCompare(a.updatedAt || ""));
 }

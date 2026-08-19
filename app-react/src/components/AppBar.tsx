@@ -59,7 +59,7 @@ export function AppBar() {
           <span className="bar-sub">{sub}</span>
         </div>
         {isEditor && seasonsCount > 1 && record && (
-          <button type="button" className="save-status" onClick={() => openFarmerHistory(record.meta.farmerId)}>
+          <button type="button" className="bar-chip" onClick={() => openFarmerHistory(record.meta.farmerId)}>
             {t("farmer_history_view_cta", currentLang)} ({seasonsCount})
           </button>
         )}

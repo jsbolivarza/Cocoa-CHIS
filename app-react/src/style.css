@@ -523,6 +523,15 @@ header.app-header .save-status {
   flex: none; background: rgba(255,255,255,.12); color: #9FE1CB;
   border-radius: 20px; padding: 4px 10px; font-size: 0.7rem;
 }
+/* Same look as .save-status, but its own class: .save-status is hidden on
+   phones below (freeing space, since "Saved" is decorative there), but
+   this chip is a real navigation link to Farmer History and must stay
+   reachable at every width. */
+header.app-header .bar-chip {
+  flex: none; background: rgba(255,255,255,.12); color: #9FE1CB;
+  border-radius: 20px; padding: 4px 10px; font-size: 0.7rem; border: none; cursor: pointer;
+}
+header.app-header .bar-chip:hover { background: rgba(255,255,255,.22); }
 header.app-header #btn-new-record {
   flex: none; background: var(--tangerine); border-color: var(--tangerine); color: #fff;
   padding: 8px 14px; font-size: 0.82rem; white-space: nowrap;

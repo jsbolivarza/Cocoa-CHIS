@@ -1,23 +1,48 @@
 /* ProfileTab.tsx
    Ported from renderProfileTab() in docs/js/app.js. */
 
+import { useState } from "react";
 import { useAppStore } from "../store/appStore";
 import { t } from "../lib/i18n";
 import { calcProfile } from "../lib/calc";
+import { findPotentialDuplicate } from "../lib/duplicates";
+import { seasonOptionsWithCurrent } from "../lib/seasons";
 import { TextField, NumberField, SelectField } from "./fields";
 import { KpiCard, StatBox } from "./Kpi";
 import { DataTable } from "./DataTable";
 
 export function ProfileTab() {
   const record = useAppStore((s) => s.record);
+  const records = useAppStore((s) => s.records);
   const lang = useAppStore((s) => s.currentLang);
+  const linkToExistingFarmer = useAppStore((s) => s.linkToExistingFarmer);
+  const [dismissedFarmerId, setDismissedFarmerId] = useState<string | null>(null);
   if (!record) return null;
   const p = record.profile;
   const res = calcProfile(p);
   const area = record.meta.areaUnit;
+  const duplicate = findPotentialDuplicate(records, record);
+  const showDuplicateWarning = duplicate && duplicate.farmerId !== dismissedFarmerId;
 
   return (
     <div className="panel">
+      {showDuplicateWarning && (
+        <div className="warn-note">
+          <p>
+            {t("duplicate_warning", lang)}{" "}
+            <strong>{duplicate.producerName || t("unnamed_household", lang)}</strong>
+            {duplicate.coopName ? ` · ${duplicate.coopName}` : ""}
+          </p>
+          <div className="table-actions">
+            <button type="button" className="btn btn-secondary" onClick={() => linkToExistingFarmer(duplicate.farmerId)}>
+              {t("btn_link_as_season", lang)}
+            </button>
+            <button type="button" className="btn" onClick={() => setDismissedFarmerId(duplicate.farmerId)}>
+              {t("btn_different_farmer", lang)}
+            </button>
+          </div>
+        </div>
+      )}
       <h3>{t("profile_ims_heading", lang)}</h3>
       <p className="section-help">{t("profile_ims_help", lang)}</p>
       <div className="form-grid form-grid-3">
@@ -54,6 +79,11 @@ export function ProfileTab() {
         <label className="optional">
           {t("gps", lang)}
           <TextField path="profile.gps" value={p.gps} />
+        </label>
+        <label>
+          {t("season_label", lang)}
+          <SelectField path="meta.season" value={record.meta.season} lang={lang} staticOptions={seasonOptionsWithCurrent(record.meta.season)} />
+          <span className="field-hint">{t("season_help", lang)}</span>
         </label>
       </div>
 

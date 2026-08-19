@@ -249,6 +249,15 @@ export interface RecordMeta {
   /** Steps the enumerator has explicitly marked done. Nothing in this form
    *  is strictly required, so completion cannot be inferred from the data. */
   completedSteps: string[];
+  /** Groups every season captured for the same farmer. Equal to this
+   *  record's own id until "Start new season" copies an existing farmer's
+   *  id onto a new record — never null, so grouping is always a plain
+   *  equality filter with no null-handling elsewhere in the app. */
+  farmerId: string;
+  /** Free-text season label the coach enters (e.g. "2024/2025"); blank
+   *  until they set it. Not derived automatically — data entry can happen
+   *  well after the season it describes. */
+  season: string;
 }
 
 export interface ConsentData {
@@ -342,18 +351,29 @@ export interface HouseholdRecord {
   expenditures: ExpendituresData;
 }
 
-export function emptyRecord(): HouseholdRecord {
+/** `linkTo` starts a new season for a farmer already on this device: the
+ *  new record shares `linkTo`'s farmerId (instead of getting its own) and
+ *  carries over the profile fields least likely to change season to
+ *  season, as an editable starting point. Consent, revenues, costs,
+ *  labour, expenditures and the season label itself always start blank —
+ *  consent must be reconfirmed, and this season's figures haven't
+ *  happened yet. */
+export function emptyRecord(linkTo?: HouseholdRecord): HouseholdRecord {
+  const id = generateRecordId();
+  const p = linkTo?.profile;
   return {
     meta: {
-      id: generateRecordId(),
+      id,
       formatVersion: 2,
       language: "en",
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
-      areaUnit: "acre",
-      volumeUnit: "kg",
-      currencyUnit: "",
+      areaUnit: linkTo?.meta.areaUnit ?? "acre",
+      volumeUnit: linkTo?.meta.volumeUnit ?? "kg",
+      currencyUnit: linkTo?.meta.currencyUnit ?? "",
       completedSteps: [],
+      farmerId: linkTo?.meta.farmerId ?? id,
+      season: "",
     },
     consent: {
       respondentName: "", date: "",
@@ -361,16 +381,16 @@ export function emptyRecord(): HouseholdRecord {
       oralConsent: "", explanation: "",
     },
     profile: {
-      coopName: "", floId: "", coachName: "", programme: "",
-      producerName: "", producerCode: "", village: "", gps: "",
+      coopName: p?.coopName ?? "", floId: p?.floId ?? "", coachName: p?.coachName ?? "", programme: p?.programme ?? "",
+      producerName: p?.producerName ?? "", producerCode: p?.producerCode ?? "", village: p?.village ?? "", gps: p?.gps ?? "",
       cocoaAreaIms: "", cocoaAreaImsMeasured: "measured",
       cocoaVolumeProduced: "", totalFarmAreaIms: "", totalFarmAreaImsMeasured: "measured",
       cocoaVolumeSoldCoop: "", farmgatePriceMain: "", fpDistributed: "",
       farmgatePriceMid: "", otherDiffDistributed: "",
-      plots: makeEmptyTable("plots"),
-      fallowLand: "", minorFoodCrops: "", livestockKept: "",
-      householdWorking: makeEmptyTable("householdWorking"),
-      householdNotWorking: makeEmptyTable("householdNotWorking"),
+      plots: p ? p.plots.map((row) => ({ ...row })) : makeEmptyTable("plots"),
+      fallowLand: p?.fallowLand ?? "", minorFoodCrops: p?.minorFoodCrops ?? "", livestockKept: p?.livestockKept ?? "",
+      householdWorking: p ? p.householdWorking.map((row) => ({ ...row })) : makeEmptyTable("householdWorking"),
+      householdNotWorking: p ? p.householdNotWorking.map((row) => ({ ...row })) : makeEmptyTable("householdNotWorking"),
     },
     revenues: {
       has: {

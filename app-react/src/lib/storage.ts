@@ -26,6 +26,24 @@ class CocoaDatabase extends Dexie {
       // of truth rather than introducing a second, parallel identifier.
       households: "meta.id, meta.updatedAt",
     });
+    // v2 adds meta.farmerId so records from the same farmer across seasons
+    // are a real indexed relationship in the DB, not just an in-memory
+    // convention. upgrade() backfills any record already on a device: a
+    // record with no farmerId yet is a group of one (its own id), same as
+    // emptyRecord()'s default for a fresh record.
+    this.version(2)
+      .stores({
+        households: "meta.id, meta.updatedAt, meta.farmerId",
+      })
+      .upgrade((tx) =>
+        tx
+          .table("households")
+          .toCollection()
+          .modify((r: HouseholdRecord) => {
+            if (!r.meta.farmerId) r.meta.farmerId = r.meta.id;
+            if (r.meta.season == null) r.meta.season = "";
+          })
+      );
   }
 }
 
@@ -181,6 +199,8 @@ export interface RecordSummary {
   village: string;
   updatedAt: string;
   language: string;
+  season: string;
+  farmerId: string;
 }
 
 /** Summary rows for the records list screen, most recently updated first. */
@@ -196,6 +216,8 @@ export function summarizeRecords(recordsMap: Record<string, HouseholdRecord>): R
       village: r.profile.village,
       updatedAt: r.meta.updatedAt,
       language: r.meta.language,
+      season: r.meta.season,
+      farmerId: r.meta.farmerId,
     }))
     .sort((a, b) => (b.updatedAt || "").localeCompare(a.updatedAt || ""));
 }

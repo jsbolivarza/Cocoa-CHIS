@@ -13,8 +13,9 @@ interface Filters {
   programme: string;
   areaUnit: string;
   currency: string;
+  season: string;
 }
-const EMPTY_FILTERS: Filters = { coop: "", programme: "", areaUnit: "", currency: "" };
+const EMPTY_FILTERS: Filters = { coop: "", programme: "", areaUnit: "", currency: "", season: "" };
 
 // Filter options come from the records actually on the device, so a dropdown
 // never offers a cooperative or currency nobody captured.
@@ -99,6 +100,7 @@ export function CompareScreen() {
     programme: uniqSorted(summaries, "programme"),
     areaUnit: uniqSorted(summaries, "areaUnit"),
     currency: uniqSorted(summaries, "currency"),
+    season: uniqSorted(summaries, "season"),
   };
 
   // Drop any filter whose value no longer exists, e.g. after deleting a record.
@@ -112,7 +114,8 @@ export function CompareScreen() {
       (!effective.coop || s.coop.trim() === effective.coop) &&
       (!effective.programme || s.programme.trim() === effective.programme) &&
       (!effective.areaUnit || s.areaUnit === effective.areaUnit) &&
-      (!effective.currency || s.currency === effective.currency)
+      (!effective.currency || s.currency === effective.currency) &&
+      (!effective.season || s.season === effective.season)
   );
 
   const setFilter = (key: keyof Filters, value: string) => setFilters((f) => ({ ...f, [key]: value }));
@@ -120,6 +123,7 @@ export function CompareScreen() {
 
   const filterBar = (
     <div className="filter-bar">
+      <FilterChip labelKey="filter_season" lang={lang} options={opts.season} value={effective.season} onSelect={(v) => setFilter("season", v)} onClear={() => clearFilter("season")} />
       <FilterChip labelKey="filter_currency" lang={lang} options={opts.currency} value={effective.currency} onSelect={(v) => setFilter("currency", v)} onClear={() => clearFilter("currency")} />
       <FilterChip labelKey="filter_area_unit" lang={lang} options={opts.areaUnit} value={effective.areaUnit} onSelect={(v) => setFilter("areaUnit", v)} onClear={() => clearFilter("areaUnit")} />
       <FilterChip labelKey="filter_coop" lang={lang} options={opts.coop} value={effective.coop} onSelect={(v) => setFilter("coop", v)} onClear={() => clearFilter("coop")} />
@@ -154,7 +158,7 @@ export function CompareScreen() {
     suppressed ? "—" : cell(avg(pick));
 
   const headKeys = [
-    "cmp_producer", "cmp_coop", "cmp_units", "cmp_cocoa_area", "cmp_yield",
+    "cmp_producer", "cmp_coop", "col_season", "cmp_units", "cmp_cocoa_area", "cmp_yield",
     "cmp_cost_per_kg", "cmp_price_per_kg", "cmp_margin_per_kg", "cmp_net_farm",
     "cmp_expenditure", "cmp_gap", "cmp_per_person", "cmp_labour_days",
   ];
@@ -173,7 +177,7 @@ export function CompareScreen() {
           <thead>
             <tr>
               {headKeys.map((k, i) => (
-                <th key={k} className={i >= 3 ? "num" : undefined}>
+                <th key={k} className={i >= 4 ? "num" : undefined}>
                   {t(k, lang)}
                 </th>
               ))}
@@ -184,6 +188,7 @@ export function CompareScreen() {
               <tr key={s.id}>
                 <td className="row-head">{s.producer || t("unnamed_household", lang)}</td>
                 <td>{s.coop || "—"}</td>
+                <td>{s.season || "—"}</td>
                 <td>{(s.currency || "—") + " / " + (s.areaUnit || "—")}</td>
                 <td className="num">{cell(s.cocoaArea)}</td>
                 <td className="num">{cell(s.yieldPerArea)}</td>
@@ -201,6 +206,7 @@ export function CompareScreen() {
               <td className="row-head">
                 {t("compare_avg", lang)} ({list.length})
               </td>
+              <td></td>
               <td></td>
               <td></td>
               <td className="num">{avgCell((s) => s.cocoaArea, mixedUnits)}</td>

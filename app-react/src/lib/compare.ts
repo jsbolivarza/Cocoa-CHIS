@@ -12,6 +12,9 @@ export function currencyKey(rec: HouseholdRecord): string {
 
 export interface CompareSummary {
   id: string;
+  farmerId: string;
+  season: string;
+  createdAt: string;
   producer: string;
   coop: string;
   village: string;
@@ -45,6 +48,9 @@ export function compareSummary(rec: HouseholdRecord): CompareSummary {
   const costKg = r.costOfProductionPerKg;
   return {
     id: rec.meta.id,
+    farmerId: rec.meta.farmerId,
+    season: rec.meta.season,
+    createdAt: rec.meta.createdAt,
     producer: rec.profile.producerName,
     coop: rec.profile.coopName,
     village: rec.profile.village,

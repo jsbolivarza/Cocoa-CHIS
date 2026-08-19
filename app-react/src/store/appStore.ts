@@ -11,10 +11,21 @@ import { t, type Lang } from "../lib/i18n";
 import { getPath, setPathImmutable } from "../lib/paths";
 import type { ListTab } from "../lib/tabs";
 
-export type Screen = "list" | "editor";
+export type Screen = "list" | "editor" | "history";
 export type SaveStatus = "saved" | "saving";
 
-interface ConfirmRequest {
+interface ConfirmOptions {
+  /** i18n key for the confirm button. Defaults to "btn_delete_record" — the
+   *  vanilla app's showConfirmModal() only ever confirmed deletions, so
+   *  that was a safe hardcode there; callers for anything else (e.g.
+   *  "Start new season") must pass their own. */
+  confirmLabel?: string;
+  /** Red/destructive styling. Defaults to true, matching the delete-only
+   *  assumption above. */
+  danger?: boolean;
+}
+
+interface ConfirmRequest extends ConfirmOptions {
   message: string;
   onConfirm: () => void;
 }
@@ -35,21 +46,28 @@ interface AppState {
   // component state) because the search box renders in the header bar while
   // the results it filters render in the records screen below it.
   recordSearch: string;
+  // Which farmer's group is open on the "history" screen. Set by
+  // openFarmerHistory(), cleared by goToList() same as currentRecordId.
+  historyFarmerId: string | null;
 
   init: () => Promise<void>;
   setLang: (lang: Lang) => void;
   createRecord: () => Promise<void>;
+  startNewSeason: (sourceId: string) => Promise<void>;
   openRecord: (id: string) => void;
+  openFarmerHistory: (farmerId: string) => void;
   goToList: () => void;
   deleteRecordById: (id: string) => Promise<void>;
   clearAll: () => Promise<void>;
+  importRecords: (parsed: unknown) => Promise<string[]>;
   switchTab: (tab: string) => void;
   switchListTab: (tab: ListTab) => void;
   updateField: (path: string, value: unknown) => void;
   addRow: (schemaKey: string, arrPath: string) => void;
   removeRow: (arrPath: string, idx: number) => void;
   toggleStepComplete: (tab: string) => void;
-  askConfirm: (message: string, onConfirm: () => void) => void;
+  linkToExistingFarmer: (farmerId: string) => void;
+  askConfirm: (message: string, onConfirm: () => void, options?: ConfirmOptions) => void;
   closeConfirm: () => void;
   setRecordSearch: (v: string) => void;
 }
@@ -70,6 +88,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   loaded: false,
   confirmRequest: null,
   recordSearch: "",
+  historyFarmerId: null,
 
   init: async () => {
     const records = await storage.loadAllRecords();
@@ -91,16 +110,38 @@ export const useAppStore = create<AppState>((set, get) => ({
       record: rec,
       screen: "editor",
       currentTab: "consent",
+      historyFarmerId: null,
+    }));
+  },
+
+  // "Start new season for this household" on a record card. Ported nowhere
+  // from the vanilla app — new feature — but follows createRecord()'s exact
+  // shape, just seeded from an existing record via emptyRecord(linkTo).
+  startNewSeason: async (sourceId) => {
+    const source = get().records[sourceId];
+    if (!source) return;
+    const rec = emptyRecord(source);
+    rec.meta.language = get().currentLang;
+    await storage.saveRecord(rec);
+    set((s) => ({
+      records: { ...s.records, [rec.meta.id]: rec },
+      currentRecordId: rec.meta.id,
+      record: rec,
+      screen: "editor",
+      currentTab: "consent",
+      historyFarmerId: null,
     }));
   },
 
   openRecord: (id) => {
     const rec = get().records[id];
     if (!rec) return;
-    set({ currentRecordId: id, record: rec, screen: "editor", currentTab: "consent" });
+    set({ currentRecordId: id, record: rec, screen: "editor", currentTab: "consent", historyFarmerId: null });
   },
 
-  goToList: () => set({ screen: "list", currentRecordId: null, record: null }),
+  openFarmerHistory: (farmerId) => set({ screen: "history", historyFarmerId: farmerId }),
+
+  goToList: () => set({ screen: "list", currentRecordId: null, record: null, historyFarmerId: null }),
 
   deleteRecordById: async (id) => {
     await storage.deleteRecord(id);
@@ -126,6 +167,25 @@ export const useAppStore = create<AppState>((set, get) => ({
     });
   },
 
+  // Ported from the import-file-input "change" handler in docs/js/app.js.
+  // Returns the imported ids so the caller can decide where to land: open
+  // the record directly for a single-record import, otherwise stay on the
+  // list (same call either way — the vanilla app doesn't switch listTab
+  // for this either).
+  importRecords: async (parsed) => {
+    const imported = await storage.importRecords(parsed);
+    if (imported.length) {
+      set((s) => {
+        const records = { ...s.records };
+        imported.forEach((r) => {
+          records[r.meta.id] = r;
+        });
+        return { records };
+      });
+    }
+    return imported.map((r) => r.meta.id);
+  },
+
   // Ported from switchTab()/switchListTab() in docs/js/app.js, which scroll
   // to the top on every tab change so a step opened mid-scroll on the
   // previous one doesn't land the user in the middle of the new one.
@@ -138,7 +198,7 @@ export const useAppStore = create<AppState>((set, get) => ({
     window.scrollTo(0, 0);
   },
 
-  askConfirm: (message, onConfirm) => set({ confirmRequest: { message, onConfirm } }),
+  askConfirm: (message, onConfirm, options) => set({ confirmRequest: { message, onConfirm, ...options } }),
   closeConfirm: () => set({ confirmRequest: null }),
   setRecordSearch: (v) => set({ recordSearch: v }),
 
@@ -191,5 +251,12 @@ export const useAppStore = create<AppState>((set, get) => ({
     const done = Array.isArray(current.meta.completedSteps) ? current.meta.completedSteps : [];
     const next = done.includes(tab) ? done.filter((d) => d !== tab) : [...done, tab];
     get().updateField("meta.completedSteps", next);
+  },
+
+  // Retroactively folds the current record into an existing farmer's group
+  // — for when a coach created a fresh record instead of using "Start new
+  // season" and confirms findPotentialDuplicate()'s warning on Profile.
+  linkToExistingFarmer: (farmerId) => {
+    get().updateField("meta.farmerId", farmerId);
   },
 }));

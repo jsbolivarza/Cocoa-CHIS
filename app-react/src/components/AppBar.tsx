@@ -21,8 +21,14 @@ export function AppBar() {
   const listTab = useAppStore((s) => s.listTab);
   const recordSearch = useAppStore((s) => s.recordSearch);
   const setRecordSearch = useAppStore((s) => s.setRecordSearch);
+  const openFarmerHistory = useAppStore((s) => s.openFarmerHistory);
 
   const isEditor = screen === "editor" && !!record;
+  // So a coach editing this season can jump straight to the farmer's other
+  // seasons without first going back to the records list.
+  const seasonsCount = record
+    ? Object.values(records).filter((r) => r.meta.farmerId === record.meta.farmerId).length
+    : 0;
 
   let context: string;
   let sub: string;
@@ -52,6 +58,11 @@ export function AppBar() {
           <span className="bar-context">{context}</span>
           <span className="bar-sub">{sub}</span>
         </div>
+        {isEditor && seasonsCount > 1 && record && (
+          <button type="button" className="save-status" onClick={() => openFarmerHistory(record.meta.farmerId)}>
+            {t("farmer_history_view_cta", currentLang)} ({seasonsCount})
+          </button>
+        )}
         {isEditor && (
           <span className={`save-status ${saveStatus === "saving" ? "saving" : ""}`}>
             {t(saveStatus === "saving" ? "btn_saving" : "btn_save", currentLang)}

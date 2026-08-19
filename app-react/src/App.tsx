@@ -16,9 +16,11 @@ import { StepIcon } from "./components/StepIcon";
 import { StepFooter } from "./components/StepFooter";
 import { BottomNav } from "./components/BottomNav";
 import { RecordsScreen } from "./components/RecordsScreen";
+import { FarmerHistoryScreen } from "./components/FarmerHistoryScreen";
 import { CompareScreen } from "./components/CompareScreen";
 import { ExportScreen } from "./components/ExportScreen";
 import { SettingsScreen } from "./components/SettingsScreen";
+import { UpdateBar } from "./components/UpdateBar";
 import "./style.css";
 
 export default function App() {
@@ -116,9 +118,16 @@ export default function App() {
         </div>
       )}
 
+      {screen === "history" && (
+        <main>
+          <FarmerHistoryScreen />
+        </main>
+      )}
+
       <footer className="app-footer">Fairtrade International — Digital Solutions Unit · cocoa household data capture tool</footer>
 
       <ConfirmModal />
+      <UpdateBar />
     </>
   );
 }

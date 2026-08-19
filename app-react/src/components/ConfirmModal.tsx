@@ -31,8 +31,8 @@ export function ConfirmModal() {
           <button type="button" className="btn" onClick={closeConfirm}>
             {t("btn_cancel", lang)}
           </button>
-          <button type="button" className="btn btn-danger" onClick={onOk}>
-            {t("btn_delete_record", lang)}
+          <button type="button" className={`btn ${confirmRequest.danger === false ? "btn-secondary" : "btn-danger"}`} onClick={onOk}>
+            {t(confirmRequest.confirmLabel ?? "btn_delete_record", lang)}
           </button>
         </div>
       </div>

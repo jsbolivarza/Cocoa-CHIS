@@ -107,6 +107,7 @@ export const STR: Record<string, StrEntry> = {
   filter_programme: { en: "Programme", fr: "Programme", es: "Programa" },
   filter_area_unit: { en: "Area unit", fr: "Unité de surface", es: "Unidad de área" },
   filter_currency: { en: "Currency", fr: "Devise", es: "Moneda" },
+  filter_season: { en: "Season", fr: "Saison", es: "Temporada" },
   filter_reset: { en: "Reset filters", fr: "Réinitialiser", es: "Restablecer" },
   cmp_producer: { en: "Producer", fr: "Producteur", es: "Productor" },
   cmp_coop: { en: "Cooperative", fr: "Coopérative", es: "Cooperativa" },
@@ -123,6 +124,19 @@ export const STR: Record<string, StrEntry> = {
   cmp_per_person: { en: "Income per person", fr: "Revenu par personne", es: "Ingreso por persona" },
   cmp_labour_days: { en: "Labour days (cocoa)", fr: "Jours de travail (cacao)", es: "Días de trabajo (cacao)" },
   cmp_gap_help: { en: "Income minus expenditure is net farm income less total household expenditure. A negative figure means the farm did not cover what the household spent.", fr: "Revenu moins dépenses correspond au revenu net de l'exploitation moins les dépenses totales du ménage. Un chiffre négatif signifie que l'exploitation n'a pas couvert les dépenses du ménage.", es: "Ingreso menos gastos es el ingreso neto de la finca menos el gasto total del hogar. Una cifra negativa significa que la finca no cubrió lo que gastó el hogar." },
+
+  // Farmer history: seasonal records linked to the same farmer via "Start new season"
+  btn_start_new_season: { en: "Start new season for this household", fr: "Démarrer une nouvelle saison pour ce ménage", es: "Iniciar una nueva temporada para este hogar" },
+  btn_confirm_start_new_season: { en: "Start season", fr: "Démarrer la saison", es: "Iniciar temporada" },
+  confirm_start_new_season: { en: "Start a new season for this household? Cooperative, producer and household details will be copied over as a starting point; this season's consent, revenues, costs, labour and expenditures will be blank.", fr: "Démarrer une nouvelle saison pour ce ménage ? Les informations sur la coopérative, le producteur et le ménage seront reprises comme point de départ ; le consentement, les revenus, les coûts, la main-d'œuvre et les dépenses de cette saison seront vides.", es: "¿Iniciar una nueva temporada para este hogar? Los datos de la cooperativa, el productor y el hogar se copiarán como punto de partida; el consentimiento, los ingresos, los costos, la mano de obra y los gastos de esta temporada quedarán en blanco." },
+  farmer_history_view_cta: { en: "Compare seasons", fr: "Comparer les saisons", es: "Comparar temporadas" },
+  farmer_history_heading: { en: "Farmer history", fr: "Historique du producteur", es: "Historial del productor" },
+  farmer_history_help: { en: "This household's seasons, side by side.", fr: "Les saisons de ce ménage, côte à côte.", es: "Las temporadas de este hogar, una junto a otra." },
+  farmer_history_mixed_currency: { en: "This household's records do not all use the same currency or area unit, so the averages below are left blank.", fr: "Les fiches de ce ménage n'utilisent pas toutes la même devise ou unité de surface : les moyennes ci-dessous sont laissées vides.", es: "Los registros de este hogar no usan todos la misma moneda o unidad de área, así que los promedios de abajo se dejan en blanco." },
+  duplicate_warning: { en: "A record already looks like this farmer:", fr: "Une fiche ressemble déjà à ce producteur :", es: "Un registro ya se parece a este productor:" },
+  btn_link_as_season: { en: "Link as a new season", fr: "Lier comme nouvelle saison", es: "Vincular como nueva temporada" },
+  btn_different_farmer: { en: "No, different farmer", fr: "Non, producteur différent", es: "No, es otro productor" },
+  col_season: { en: "Season", fr: "Saison", es: "Temporada" },
 
   // Revenues tab: non-cocoa income screening questions
   rev_sources_heading: { en: "Other income sources", fr: "Autres sources de revenus", es: "Otras fuentes de ingresos" },
@@ -209,6 +223,9 @@ export const STR: Record<string, StrEntry> = {
   producer_code_help: { en: "Use the same code as in the cooperative's other records so data can be cross-checked.", fr: "Utilisez le même code que dans les autres registres de la coopérative pour permettre le recoupement.", es: "Use el mismo código que en los demás registros de la cooperativa para permitir la verificación cruzada." },
   village: { en: "Village / community", fr: "Village / communauté", es: "Aldea / comunidad" },
   gps: { en: "GPS coordinates", fr: "Coordonnées GPS", es: "Coordenadas GPS" },
+  season_label: { en: "Season", fr: "Saison", es: "Temporada" },
+  season_not_set: { en: "Not set", fr: "Non définie", es: "No definida" },
+  season_help: { en: "Pick the cocoa season this record covers — used to tell this farmer's seasons apart, and to filter comparisons.", fr: "Choisissez la saison cacaoyère couverte par cette fiche — sert à distinguer les saisons de ce producteur et à filtrer les comparaisons.", es: "Elija la temporada cacaotera que cubre este registro; sirve para distinguir las temporadas de este productor y para filtrar comparaciones." },
   cocoa_area_ims: { en: "Cocoa area (IMS)", fr: "Superficie cacao (IMS)", es: "Área de cacao (IMS)" },
   measured_or_estimated: { en: "Measured / estimated", fr: "Mesuré / estimé", es: "Medido / estimado" },
   measured: { en: "measured", fr: "mesuré", es: "medido" },

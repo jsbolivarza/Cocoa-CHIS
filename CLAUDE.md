@@ -5,7 +5,7 @@ Two things currently coexist in this repo:
 
 - **`docs/`** — the live vanilla JS/HTML PWA. GitHub Pages serves this folder
   directly (no build step) from the `jsbolivarza-patch-2` branch, at
-  `jsbolivarza.github.io/Cocoa-CHIS/`. This is the source of truth for
+  `jsbolivarza.github.io/Cocoa-CHIS/`. This is the source for
   behavior/formulas until the migration below reaches parity — do not treat
   `docs/` as legacy-to-delete yet.
 - **`app-react/`** — the React + Vite + TypeScript migration of that app,

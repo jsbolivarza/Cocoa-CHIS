@@ -49,44 +49,7 @@ class CocoaDatabase extends Dexie {
 
 export const db = new CocoaDatabase();
 
-// The vanilla app's old localStorage keys — migrated in once, then cleared,
-// so a stale key can never resurrect a record after "delete all data".
-const OLD_STORAGE_KEY = "cocoa_capture_records_v2";
-const OLD_STORAGE_KEY_LEGACY_V1 = "cocoa_capture_active_record_v1";
-
-export async function migrateFromLocalStorageIfNeeded(): Promise<void> {
-  const existingCount = await db.households.count();
-  if (existingCount > 0) return; // IndexedDB already has data; nothing to migrate
-
-  try {
-    const raw = localStorage.getItem(OLD_STORAGE_KEY);
-    if (raw) {
-      const map = JSON.parse(raw) as Record<string, HouseholdRecord>;
-      const records = Object.values(map).map(ensureRevenueFlags);
-      if (records.length) await db.households.bulkPut(records);
-      localStorage.removeItem(OLD_STORAGE_KEY);
-      return;
-    }
-  } catch (e) {
-    console.error("Migration from localStorage (v2) failed", e);
-  }
-
-  try {
-    const legacyRaw = localStorage.getItem(OLD_STORAGE_KEY_LEGACY_V1);
-    if (legacyRaw) {
-      const legacyRecord = JSON.parse(legacyRaw) as HouseholdRecord;
-      if (!legacyRecord.meta.id) legacyRecord.meta.id = generateRecordId();
-      ensureRevenueFlags(legacyRecord);
-      await db.households.put(legacyRecord);
-      localStorage.removeItem(OLD_STORAGE_KEY_LEGACY_V1);
-    }
-  } catch (e) {
-    console.error("Migration from localStorage (legacy v1) failed", e);
-  }
-}
-
 export async function loadAllRecords(): Promise<Record<string, HouseholdRecord>> {
-  await migrateFromLocalStorageIfNeeded();
   const all = await db.households.toArray();
   const map: Record<string, HouseholdRecord> = {};
   all.forEach((r) => {
@@ -107,16 +70,12 @@ export async function deleteRecord(id: string): Promise<void> {
 
 /** Wipe every record on this device. Used by "Delete all data", for when a
  *  round has been exported and the tablet is being handed to the next
- *  enumerator. Also drops the old localStorage keys so a migration can never
- *  resurrect a record the user just asked to remove. */
+ *  enumerator — and as the mandatory step before a test device goes into real
+ *  field use, since IndexedDB is scoped to the origin, not the path: records
+ *  captured while testing /react-preview/ are the same rows the root app will
+ *  open after cutover. */
 export async function clearAllRecords(): Promise<void> {
   await db.households.clear();
-  try {
-    localStorage.removeItem(OLD_STORAGE_KEY);
-    localStorage.removeItem(OLD_STORAGE_KEY_LEGACY_V1);
-  } catch {
-    /* ignore */
-  }
 }
 
 /** Every parsed record gets a fresh id on import, even if it already had
@@ -379,4 +338,116 @@ export function exportAllCsv(recordsMap: Record<string, HouseholdRecord>): void 
   const csv = header + "\n" + dataLines.join("\n") + "\n";
   const date = new Date().toISOString().slice(0, 10);
   downloadDataUri(`cocoa_all_households_${date}.csv`, "text/csv", csv);
+}
+
+/* ---------------------------------------------------------------------------
+   Device storage diagnostics
+
+   Field devices are phones and tablets that will never be cabled to a laptop
+   with DevTools open, so "is the data really on this device?" has to be
+   answerable from inside the app — something a coach can read out over the
+   phone. Every field is deliberately null/"unsupported"-tolerant: iOS Safari
+   in particular implements only part of the Storage API, and a diagnostics
+   panel that throws is worse than no panel.
+--------------------------------------------------------------------------- */
+
+export type ServiceWorkerState = "active" | "waiting" | "none" | "unsupported";
+
+export interface StorageDiagnostics {
+  recordCount: number;
+  /** Dexie's current schema version (2 at time of writing). */
+  dbVersion: number;
+  /** null where navigator.storage.estimate() is unavailable. */
+  usageBytes: number | null;
+  quotaBytes: number | null;
+  /** Whether the browser promised not to evict this origin's data. null = can't tell. */
+  persisted: boolean | null;
+  serviceWorker: ServiceWorkerState;
+  /** Installed to the home screen rather than running in a browser tab. On
+   *  iOS this is the difference between data surviving a week of disuse and
+   *  Safari evicting it, so it's worth showing even though it isn't storage. */
+  installed: boolean;
+}
+
+export async function getStorageDiagnostics(): Promise<StorageDiagnostics> {
+  const recordCount = await db.households.count();
+
+  let usageBytes: number | null = null;
+  let quotaBytes: number | null = null;
+  if (navigator.storage?.estimate) {
+    try {
+      const est = await navigator.storage.estimate();
+      usageBytes = est.usage ?? null;
+      quotaBytes = est.quota ?? null;
+    } catch {
+      /* leave null */
+    }
+  }
+
+  let persisted: boolean | null = null;
+  if (navigator.storage?.persisted) {
+    try {
+      persisted = await navigator.storage.persisted();
+    } catch {
+      /* leave null */
+    }
+  }
+
+  let serviceWorker: ServiceWorkerState = "unsupported";
+  if ("serviceWorker" in navigator) {
+    serviceWorker = "none";
+    try {
+      const reg = await navigator.serviceWorker.getRegistration();
+      if (reg?.waiting) serviceWorker = "waiting";
+      else if (reg?.active) serviceWorker = "active";
+    } catch {
+      /* leave "none" */
+    }
+  }
+
+  return {
+    recordCount,
+    dbVersion: db.verno,
+    usageBytes,
+    quotaBytes,
+    persisted,
+    serviceWorker,
+    installed: isInstalled(),
+  };
+}
+
+/** iOS Safari never shipped display-mode: standalone for home-screen apps and
+ *  uses a non-standard navigator.standalone instead, so both are checked. */
+function isInstalled(): boolean {
+  try {
+    if (window.matchMedia?.("(display-mode: standalone)").matches) return true;
+  } catch {
+    /* fall through */
+  }
+  return (navigator as Navigator & { standalone?: boolean }).standalone === true;
+}
+
+/** Ask the browser to exempt this origin from storage eviction. Safari ignores
+ *  this entirely (returns false or throws), which is exactly why the panel
+ *  reports the result rather than assuming success. */
+export async function requestPersistentStorage(): Promise<boolean> {
+  if (!navigator.storage?.persist) return false;
+  try {
+    return await navigator.storage.persist();
+  } catch {
+    return false;
+  }
+}
+
+export function formatBytes(bytes: number | null): string {
+  if (bytes == null) return "—";
+  if (bytes < 1024) return `${bytes} B`;
+  const units = ["KB", "MB", "GB"];
+  let value = bytes / 1024;
+  let unit = 0;
+  while (value >= 1024 && unit < units.length - 1) {
+    value /= 1024;
+    unit += 1;
+  }
+  return `${value < 10 ? value.toFixed(1) : Math.round(value)} ${units[unit]}`;
 }

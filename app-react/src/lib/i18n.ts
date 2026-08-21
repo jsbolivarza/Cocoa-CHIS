@@ -95,6 +95,29 @@ export const STR: Record<string, StrEntry> = {
   update_later: { en: "Later", fr: "Plus tard", es: "Más tarde" },
   settings_delete_note: { en: "Deleting wipes every household on this device and cannot be undone. Export first.", fr: "La suppression efface tous les ménages de cet appareil et est irréversible. Exportez d'abord.", es: "Borrar elimina todos los hogares de este dispositivo y no se puede deshacer. Exporte primero." },
 
+  // Storage diagnostics — read out over the phone when a field device can't be
+  // connected to a laptop, so every label has to make sense spoken aloud.
+  settings_storage: { en: "Storage on this device", fr: "Stockage sur cet appareil", es: "Almacenamiento en este dispositivo" },
+  storage_help: { en: "Check that this device is saving data properly. Read these values out if you are asked for them.", fr: "Vérifiez que cet appareil enregistre bien les données. Communiquez ces valeurs si on vous les demande.", es: "Compruebe que este dispositivo guarda los datos correctamente. Comunique estos valores si se los piden." },
+  storage_records: { en: "Households saved on this device", fr: "Ménages enregistrés sur cet appareil", es: "Hogares guardados en este dispositivo" },
+  storage_db_version: { en: "Database version", fr: "Version de la base de données", es: "Versión de la base de datos" },
+  storage_used: { en: "Space used", fr: "Espace utilisé", es: "Espacio utilizado" },
+  storage_persisted: { en: "Protected from automatic deletion", fr: "Protégé contre la suppression automatique", es: "Protegido contra el borrado automático" },
+  storage_installed: { en: "Installed to home screen", fr: "Installé sur l'écran d'accueil", es: "Instalado en la pantalla de inicio" },
+  storage_offline: { en: "Offline mode ready", fr: "Mode hors ligne prêt", es: "Modo sin conexión listo" },
+  storage_install_warning: { en: "Open from the home screen icon, not the browser. In a browser tab this phone may delete saved households after about a week unused.", fr: "Ouvrez l'application depuis l'icône de l'écran d'accueil, pas depuis le navigateur. Dans un onglet, ce téléphone peut supprimer les ménages enregistrés après environ une semaine sans utilisation.", es: "Abra la aplicación desde el icono de la pantalla de inicio, no desde el navegador. En una pestaña, este teléfono puede borrar los hogares guardados tras aproximadamente una semana sin uso." },
+  btn_storage_refresh: { en: "Refresh", fr: "Actualiser", es: "Actualizar" },
+  btn_storage_protect: { en: "Protect data on this device", fr: "Protéger les données de cet appareil", es: "Proteger los datos de este dispositivo" },
+  storage_protect_ok: { en: "Protection granted", fr: "Protection accordée", es: "Protección concedida" },
+  storage_protect_no: { en: "This device does not allow it", fr: "Cet appareil ne le permet pas", es: "Este dispositivo no lo permite" },
+  storage_sw_active: { en: "Yes", fr: "Oui", es: "Sí" },
+  storage_sw_waiting: { en: "Yes — update waiting", fr: "Oui — mise à jour en attente", es: "Sí — actualización pendiente" },
+  storage_sw_none: { en: "Not yet", fr: "Pas encore", es: "Todavía no" },
+  storage_sw_unsupported: { en: "Not supported by this browser", fr: "Non pris en charge par ce navigateur", es: "No compatible con este navegador" },
+  val_yes: { en: "Yes", fr: "Oui", es: "Sí" },
+  val_no: { en: "No", fr: "Non", es: "No" },
+  val_unknown: { en: "Cannot tell", fr: "Indéterminé", es: "No se puede determinar" },
+
   // Comparison tab
   compare_heading: { en: "Compare households", fr: "Comparer les ménages", es: "Comparar hogares" },
   compare_help: { en: "Every household saved on this device, side by side. Use the filters to compare like with like: figures in different currencies or area units cannot be averaged together.", fr: "Tous les ménages enregistrés sur cet appareil, côte à côte. Utilisez les filtres pour comparer ce qui est comparable : des montants dans des devises ou des unités de surface différentes ne peuvent pas être moyennés ensemble.", es: "Todos los hogares guardados en este dispositivo, uno al lado del otro. Use los filtros para comparar lo comparable: cifras en monedas o unidades de área distintas no se pueden promediar juntas." },

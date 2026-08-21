@@ -5,6 +5,7 @@
 import { useRef, useState } from "react";
 import { useAppStore } from "../store/appStore";
 import { parseImportFile } from "../lib/storage";
+import { StorageDiagnostics } from "./StorageDiagnostics";
 import { t, type Lang } from "../lib/i18n";
 
 export function SettingsScreen() {
@@ -90,6 +91,8 @@ export function SettingsScreen() {
         </button>
       </div>
       <p className="field-hint">{t("settings_delete_note", lang)}</p>
+
+      <StorageDiagnostics />
 
       <h4>{t("settings_about", lang)}</h4>
       <p className="field-hint">

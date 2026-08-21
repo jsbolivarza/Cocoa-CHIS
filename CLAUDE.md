@@ -40,6 +40,16 @@ Built beyond parity with the vanilla app (new features, not ports):
   the last major gap and is now closed.
 - **Import JSON**: wired up in Settings (the storage.ts logic existed
   unused for a while before this).
+- **Storage diagnostics**: `StorageDiagnostics.tsx`, a read-only block on
+  Settings showing household count, space used/quota, whether the service
+  worker is active, whether the app is installed to the home screen, whether
+  eviction protection was granted, and the Dexie schema version — plus a
+  button to request `navigator.storage.persist()`. Exists because field
+  devices are phones that will never be cabled to a laptop with DevTools
+  open: this makes "is this device actually saving the data?" something a
+  coach can read out over the phone. Every field is null/"unsupported"
+  tolerant — iOS Safari implements only part of the Storage API, and
+  "couldn't ask" must never render as "no".
 
 Known gaps / deliberately deferred, in rough priority order:
 - **`producer_code` is still free text.** It's the one durable, real-world
@@ -80,17 +90,18 @@ Known gaps / deliberately deferred, in rough priority order:
   vanilla app's single-`localStorage`-blob approach. One row per household
   instead of one JSON string for the whole collection. Schema is at
   **v2** (`meta.farmerId` indexed; `.upgrade()` backfills older records).
-  Includes a one-time migration that reads the old
-  `cocoa_capture_records_v2` (and legacy `v1`) localStorage keys into
-  IndexedDB on first load, then **clears them**.
-  ⚠️ **This migration runs unconditionally on every app load, and
-  `localStorage` is scoped to the *origin*, not the path.** Any build of
-  this app served from `jsbolivarza.github.io` — root, `react-preview/`,
-  anywhere — will silently consume and delete real data sitting in that
-  key on a device that has used the live vanilla app. This was flagged and
-  knowingly accepted for the current preview (not yet in real field use),
-  but **must be revisited before the real cutover** if there's any chance
-  a device has real vanilla-app data in local storage by then.
+  `localStorage` is now used for exactly one thing, the language preference
+  (`cocoa_capture_lang`) — a single small string with no growth risk.
+  There is **no** localStorage→IndexedDB migration: one existed for the
+  vanilla app's `cocoa_capture_records_v2` key, but the vanilla app never
+  went into field use, so the code could only ever find nothing. Removed
+  rather than carried as a permanent caveat on the cutover checklist.
+  ⚠️ **IndexedDB is scoped to the *origin*, not the path.** `react-preview/`
+  and the eventual root deploy share one `cocoa_capture_db`, so every test
+  household captured during device testing is a row the production app will
+  open after cutover — no warning, no separation. **"Delete all data" on
+  every test device is a mandatory cutover step**, not a nice-to-have.
+  Convenient side effect: no data migration is needed at cutover.
 - **`farmerId` is per-device, not a cross-device identifier.** It only
   links records already present in one device's own IndexedDB (via "Start
   new season" or the duplicate-warning's "link" action). Two different
@@ -164,3 +175,16 @@ assume iOS-only or desktop-only behavior when building a tab. Real PWA
 install/offline testing needs HTTPS (or localhost) — the LAN dev-server
 trick used earlier in the migration doesn't exercise the service worker at
 all; use the published `docs/react-preview/` URL for that.
+
+What's on a phone from `docs/react-preview/` is not a limited build — it is
+the same code, service worker and IndexedDB layer a production deploy has.
+Only the URL path differs (that's all `VITE_APP_BASE` handles), so testing
+storage behavior there is testing what ships.
+
+⚠️ **iOS storage eviction**: Safari drops IndexedDB for origins unused for
+~7 days *unless* the app was installed to the home screen. For a coach who
+captures a round and doesn't reopen the app for two weeks, that is silent
+data loss with no error. Coaches must install to the home screen, not use a
+Safari tab — the Settings diagnostics panel warns when the app is running
+in a tab. Worth confirming once with a real >7-day gap on a real iPhone,
+both installed and in-tab, before field use.

@@ -292,6 +292,24 @@ table.data-table .computed-cell { font-weight: 700; color: var(--night); backgro
   background: var(--tangerine-tint); border-left: 4px solid var(--tangerine);
   border-radius: 8px; padding: 9px 12px; font-size: 0.85rem; margin: 10px 0;
 }
+
+/* Storage diagnostics on Settings. Its own classes rather than reusing
+   .stat-row/.stat-box: those lay out horizontally and these values are meant
+   to be read down the screen and spoken aloud, label then value. */
+.diag-list {
+  background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(30,30,30,.06); padding: 4px 16px; margin: 0 0 12px;
+}
+.diag-row {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 16px;
+  padding: 9px 0; border-bottom: 1px solid var(--border);
+}
+.diag-row:last-child { border-bottom: none; }
+.diag-label { font-size: 0.85rem; color: var(--text-light); }
+.diag-value {
+  margin: 0; font-size: 0.9rem; font-weight: 600; color: var(--night);
+  font-variant-numeric: tabular-nums; text-align: right;
+}
 table.compare-table { min-width: 1020px; }
 table.compare-table .row-head { font-weight: 600; white-space: nowrap; }
 table.compare-table td.negative { color: var(--flower); font-weight: 700; }

@@ -1,83 +1,16 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<title>Cocoa Household Data Capture</title>
-<meta name="theme-color" content="#001B6E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="manifest" href="manifest.json">
-<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="icons/icon-192.png">
-<link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-<header class="app-header">
-  <div class="header-top">
-    <div class="header-title">
-      <h1 id="app-title">Cocoa Household Data Capture</h1>
-      <p id="app-subtitle">Fairtrade Living Income data collection tool</p>
-    </div>
-    <div class="header-actions">
-      <div class="lang-switch">
-        <button type="button" class="lang-btn" data-lang="en">EN</button>
-        <button type="button" class="lang-btn" data-lang="fr">FR</button>
-        <button type="button" class="lang-btn" data-lang="es">ES</button>
-      </div>
-      <span id="save-status" class="save-status editor-only">Saved</span>
-    </div>
-  </div>
-  <div class="header-actions" style="margin-top:8px;">
-    <button type="button" id="btn-my-records" class="btn editor-only">My records</button>
-    <button type="button" id="btn-new-record" class="btn btn-secondary">New household record</button>
-    <button type="button" id="btn-export-json" class="btn editor-only">Export JSON</button>
-    <button type="button" id="btn-export-csv" class="btn editor-only">Export CSV</button>
-    <button type="button" id="btn-export-all-csv" class="btn">Export all as CSV</button>
-    <button type="button" id="btn-export-all-json" class="btn">Export all as JSON</button>
-    <button type="button" id="btn-import-json" class="btn">Import JSON</button>
-    <input type="file" id="import-file-input" accept="application/json" style="display:none">
-    <button type="button" id="btn-delete-all" class="btn btn-danger list-only">Delete all data</button>
-  </div>
-  <p id="offline-badge" class="offline-badge">Working offline — data stays on this device until exported</p>
-</header>
-
-<nav id="tab-nav" class="editor-only"></nav>
-<nav id="list-nav" class="list-only"></nav>
-
-<main>
-  <p id="required-hint" class="required-hint editor-only"></p>
-
-  <!-- Deliberately outside #tab-content: that container is rebuilt on every render,
-       and an input inside it would be destroyed and lose focus on each keystroke. -->
-  <div id="record-search-bar" class="search-bar list-only" style="display:none">
-    <div class="search-field">
-      <label for="record-search" id="record-search-label">Search</label>
-      <input type="search" id="record-search" class="field" autocomplete="off"
-        placeholder="Producer, cooperative, village, FLO ID">
-    </div>
-    <button type="button" id="record-search-clear" class="btn">Clear</button>
-  </div>
-
-  <div id="tab-content"></div>
-</main>
-
-<footer class="app-footer">Fairtrade International — Digital Solutions Unit · cocoa household data capture tool</footer>
-
-<div id="confirm-modal" class="modal-overlay" style="display:none">
-  <div class="modal-box">
-    <p id="confirm-modal-message"></p>
-    <div class="modal-actions">
-      <button type="button" id="confirm-modal-cancel" class="btn">Cancel</button>
-      <button type="button" id="confirm-modal-ok" class="btn btn-danger">Delete</button>
-    </div>
-  </div>
-</div>
-
-<script src="js/i18n.js"></script>
-<script src="js/data-model.js"></script>
-<script src="js/calc.js"></script>
-<script src="js/storage.js"></script>
-<script src="js/app.js"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/Cocoa-CHIS/icons/icon.svg" />
+    <link rel="apple-touch-icon" href="/Cocoa-CHIS/icons/icon-192.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#001B6E" />
+    <title>Cocoa Household Data Capture</title>
+    <script type="module" crossorigin src="/Cocoa-CHIS/assets/index-D1piwi7Y.js"></script>
+    <link rel="stylesheet" crossorigin href="/Cocoa-CHIS/assets/index-h-pYdbGz.css">
+  <link rel="manifest" href="/Cocoa-CHIS/manifest.webmanifest"></head>
+  <body>
+    <div id="root"></div>
+  </body>
 </html>

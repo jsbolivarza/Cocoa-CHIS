@@ -1,20 +1,40 @@
-# Cocoa Household Data Capture — project notes
+# Cocoa Household Data Capture — vanilla app (project notes)
+
+> ## ⚠️ The React app is no longer on this branch
+>
+> `app-react/` and `docs/react-preview/` were removed from
+> `jsbolivarza-patch-2` and now live on the **`react-app`** branch, where
+> `docs/` is the built React app served at the root. New work happens there —
+> read that branch's CLAUDE.md for the app under active development.
+>
+> **Everything below about React, Vite, Dexie, Zustand and publishing is
+> retained as design rationale, but describes code that is on `react-app`.**
+> File paths like `src/lib/storage.ts` mean `app-react/src/…` *there*, not
+> here. Nothing below can be edited from this branch.
+>
+> Which app is live is a repo setting, not a code change: GitHub Pages serves
+> one branch at a time from its `/docs`, and both branches target the same URL
+> (`jsbolivarza.github.io/Cocoa-CHIS/`). Flipping the Pages source branch
+> between `jsbolivarza-patch-2` and `react-app` *is* the cutover.
 
 Fairtrade Living Income data collection PWA for cocoa farmer households.
-Two things currently coexist in this repo:
 
-- **`docs/`** — the live vanilla JS/HTML PWA. GitHub Pages serves this folder
-  directly (no build step) from the `jsbolivarza-patch-2` branch, at
-  `jsbolivarza.github.io/Cocoa-CHIS/`. This is the source for
-  behavior/formulas until the migration below reaches parity — do not treat
-  `docs/` as legacy-to-delete yet.
-- **`app-react/`** — the React + Vite + TypeScript migration of that app,
-  built incrementally alongside `docs/` rather than replacing it in place.
-- **`docs/react-preview/`** — a *built* (not source) copy of `app-react/`,
-  published to a subfolder so it can be tested on real devices at
-  `jsbolivarza.github.io/Cocoa-CHIS/react-preview/` without touching the
-  still-live vanilla app at the root. See "Publishing the preview" below —
-  regenerate it, never hand-edit it.
+**This branch holds the original vanilla JS/HTML PWA.** `docs/` is its
+*source* — no build step; GitHub Pages serves the folder as-is.
+
+It is kept as the **behavioral and formula reference** for the React port:
+`docs/js/calc.js`, `data-model.js` and `i18n.js` were ported near-verbatim
+into the React app. If a formula changes on either side, port it across.
+Don't delete this branch — it's the only record of what the ported logic was
+checked against.
+
+⚠️ Because both branches share one origin *and* one path, this app's
+hand-written `docs/service-worker.js` stays registered on any device that
+opened it, under a different filename from the React app's generated `sw.js`.
+Switching the Pages branch does **not** unregister it, so a stale cached
+shell can keep being served and make the switch look broken. Unregister it
+(DevTools → Application → Service Workers) or clear site data on any device
+that has run this app.
 
 ## Migration status
 

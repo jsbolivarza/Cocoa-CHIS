@@ -167,6 +167,22 @@ A plain `npm run build` (no `VITE_APP_BASE`) defaults to the root path and
 will break every asset/manifest/service-worker link if dropped into
 `docs/react-preview/` directly — always pass the env var for this target.
 
+⚠️ **On Windows, do not run that env-var prefix in Git Bash.** MSYS path
+conversion rewrites any value starting with `/` into a Windows path, so
+`VITE_APP_BASE="/Cocoa-CHIS/react-preview/"` silently becomes
+`/Users/<user>/AppData/Local/Programs/Git/Cocoa-CHIS/react-preview/` and
+every path in the build is garbage. The only visible hint is a
+`"base" option should start with a slash` warning from Vite. Use PowerShell:
+
+```powershell
+$env:VITE_APP_BASE = "/Cocoa-CHIS/react-preview/"; npm run build
+```
+
+(or `MSYS_NO_PATHCONV=1` in Git Bash). **Always check `dist/index.html`
+before copying** — the asset hrefs must start with `/Cocoa-CHIS/react-preview/`.
+`dist/manifest.webmanifest` (`start_url`/`scope`) and the
+`createHandlerBoundToURL(...)` call in `dist/sw.js` must match it.
+
 ## Testing devices
 
 Desktop (Windows/Mac), iPhone/iPad (via Mac + Safari Web Inspector for

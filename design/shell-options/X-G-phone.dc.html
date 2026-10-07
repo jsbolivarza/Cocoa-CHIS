@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Pictograms, soft phone</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#2f5d3a}a:hover{color:#1f4028}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.rise{animation:rise .7s cubic-bezier(.32,.72,0,1) both}
+.tile{transition:transform .35s cubic-bezier(.32,.72,0,1)}
+.tile:active{transform:scale(.97)}
+@media (prefers-reduced-motion:reduce){.rise{animation:none}.tile{transition:none}}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; display: flex; flex-direction: column; background: #eef0ec; color: #1c211d; font-family: 'Plus Jakarta Sans', sans-serif; overflow: hidden">
+  <header style="padding: 14px 16px 0; display: flex; align-items: center; justify-content: space-between">
+    <a href="#" aria-label="Back to records" style="width: 44px; height: 44px; border-radius: 999px; background: rgba(28,33,29,0.05); display: flex; align-items: center; justify-content: center; text-decoration: none; color: #1c211d; font-size: 20px">‹</a>
+    <span style="padding: 6px 12px; border-radius: 999px; background: rgba(28,33,29,0.05); font-size: 12px; font-weight: 500; color: #4a524c">Kwame Asante · revenues</span>
+  </header>
+
+  <section class="rise" style="padding: 22px 20px 18px; display: flex; flex-direction: column; gap: 10px">
+    <h1 style="margin: 0; font-size: 34px; line-height: 1.05; letter-spacing: -0.035em; font-weight: 800; text-wrap: balance">Besides cocoa, what brings money in?</h1>
+    <p style="margin: 0; font-size: 15px; line-height: 1.5; color: #4a524c">Tap every one that applies. We only ask about the ones you pick.</p>
+  </section>
+
+  <main role="group" aria-label="Income sources" style="flex-grow: 1; padding: 0 16px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: 112px 112px 112px 64px; gap: 10px">
+    <div class="rise" style="animation-delay: 60ms; grid-row: span 2; padding: 6px; border-radius: 30px; background: rgba(47,93,58,0.14); box-shadow: inset 0 0 0 1px rgba(47,93,58,0.2)">
+      <button type="button" class="tile" aria-pressed="true" style="width: 100%; height: 100%; border: 0; border-radius: 24px; background: #2f5d3a; color: #f3f6f1; box-shadow: inset 0 1px 1px rgba(255,255,255,0.18), 0 18px 40px -18px rgba(47,93,58,0.55); display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start; padding: 18px; font: inherit; text-align: left; cursor: pointer">
+        <span style="width: 28px; height: 28px; border-radius: 999px; background: rgba(255,255,255,0.16); display: flex; align-items: center; justify-content: center; font-size: 14px; align-self: flex-end">✓</span>
+        <svg width="56" height="56" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="24" cy="25" rx="10" ry="15"></ellipse><path d="M24 10c-3 6-3 24 0 30"></path><path d="M21 5c2 0 4 2 3 5"></path></svg>
+        <span style="font-size: 20px; font-weight: 700; letter-spacing: -0.02em">Coffee</span>
+      </button>
+    </div>
+    <div class="rise" style="animation-delay: 120ms; padding: 6px; border-radius: 30px; background: rgba(28,33,29,0.04); box-shadow: inset 0 0 0 1px rgba(28,33,29,0.05)">
+      <button type="button" class="tile" aria-pressed="false" style="width: 100%; height: 100%; border: 0; border-radius: 24px; background: #ffffff; box-shadow: inset 0 1px 1px rgba(255,255,255,0.9), 0 10px 30px -16px rgba(28,33,29,0.18); display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start; padding: 14px 16px; font: inherit; color: #1c211d; text-align: left; cursor: pointer">
+        <svg width="34" height="34" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 42V16"></path><path d="M24 24c-7 0-11-5-11-11 7 0 11 5 11 11z"></path><path d="M24 30c7 0 11-5 11-11-7 0-11 5-11 11z"></path></svg>
+        <span style="font-size: 15px; font-weight: 600">Other cash crops</span>
+      </button>
+    </div>
+    <div class="rise" style="animation-delay: 180ms; padding: 6px; border-radius: 30px; background: rgba(47,93,58,0.14); box-shadow: inset 0 0 0 1px rgba(47,93,58,0.2)">
+      <button type="button" class="tile" aria-pressed="true" style="width: 100%; height: 100%; border: 0; border-radius: 24px; background: #2f5d3a; color: #f3f6f1; box-shadow: inset 0 1px 1px rgba(255,255,255,0.18); display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start; padding: 14px 16px; font: inherit; text-align: left; cursor: pointer; position: relative">
+        <span style="position: absolute; top: 12px; right: 12px; width: 24px; height: 24px; border-radius: 999px; background: rgba(255,255,255,0.16); display: flex; align-items: center; justify-content: center; font-size: 12px">✓</span>
+        <svg width="34" height="34" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 32h32l-4 9H12z"></path><path d="M16 32c0-9 3-15 8-19 5 4 8 10 8 19"></path></svg>
+        <span style="font-size: 15px; font-weight: 600">Food crops</span>
+      </button>
+    </div>
+    <div class="rise" style="animation-delay: 240ms; padding: 6px; border-radius: 30px; background: rgba(28,33,29,0.04); box-shadow: inset 0 0 0 1px rgba(28,33,29,0.05)">
+      <button type="button" class="tile" aria-pressed="false" style="width: 100%; height: 100%; border: 0; border-radius: 24px; background: #ffffff; box-shadow: inset 0 1px 1px rgba(255,255,255,0.9), 0 10px 30px -16px rgba(28,33,29,0.18); display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start; padding: 14px 16px; font: inherit; color: #1c211d; text-align: left; cursor: pointer">
+        <svg width="34" height="34" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 30c0-7 5-12 12-12h7c5 0 9 3 9 8v4"></path><path d="M38 22l4-4"></path><path d="M14 30v10M21 30v10M30 30v10M37 30v10"></path></svg>
+        <span style="font-size: 15px; font-weight: 600">Livestock</span>
+      </button>
+    </div>
+    <div class="rise" style="animation-delay: 300ms; padding: 6px; border-radius: 30px; background: rgba(28,33,29,0.04); box-shadow: inset 0 0 0 1px rgba(28,33,29,0.05)">
+      <button type="button" class="tile" aria-pressed="false" style="width: 100%; height: 100%; border: 0; border-radius: 24px; background: #ffffff; box-shadow: inset 0 1px 1px rgba(255,255,255,0.9), 0 10px 30px -16px rgba(28,33,29,0.18); display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start; padding: 14px 16px; font: inherit; color: #1c211d; text-align: left; cursor: pointer">
+        <svg width="34" height="34" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 22l16-12 16 12"></path><path d="M12 20v20h24V20"></path><path d="M20 40V30h8v10"></path></svg>
+        <span style="font-size: 15px; font-weight: 600">Other farm income</span>
+      </button>
+    </div>
+    <div class="rise" style="animation-delay: 360ms; grid-column: span 2; padding: 6px; border-radius: 999px; background: rgba(28,33,29,0.04)">
+      <button type="button" class="tile" aria-pressed="false" style="width: 100%; height: 100%; border: 0; border-radius: 999px; background: transparent; font: inherit; font-size: 15px; font-weight: 500; color: #4a524c; cursor: pointer">None of these</button>
+    </div>
+  </main>
+
+  <footer style="padding: 16px 16px 24px; display: flex; align-items: center; justify-content: space-between">
+    <span style="padding-left: 6px; font-size: 14px; color: #4a524c">2 picked</span>
+    <a href="#" style="display: flex; align-items: center; gap: 14px; padding: 8px 8px 8px 26px; border-radius: 999px; background: #1c211d; color: #f3f6f1; text-decoration: none; font-size: 16px; font-weight: 600; box-shadow: 0 16px 34px -14px rgba(28,33,29,0.5)">Continue <span aria-hidden="true" style="width: 40px; height: 40px; border-radius: 999px; background: rgba(255,255,255,0.12); display: flex; align-items: center; justify-content: center; font-size: 18px">→</span></a>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

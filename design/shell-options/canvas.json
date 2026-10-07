@@ -1,0 +1,212 @@
+{
+  "v": 3,
+  "attachments": {},
+  "boards": {
+    "A-tablet.dc.html": {
+      "h": 820,
+      "title": "A · Step rail — tablet",
+      "w": 1180,
+      "x": 470,
+      "y": 260
+    },
+    "B-phone.dc.html": {
+      "h": 844,
+      "title": "B · Guided focus — phone",
+      "w": 390,
+      "x": 0,
+      "y": 1450
+    },
+    "B-tablet.dc.html": {
+      "h": 820,
+      "title": "B · Guided focus — tablet",
+      "w": 1180,
+      "x": 470,
+      "y": 1450
+    },
+    "C-phone.dc.html": {
+      "h": 844,
+      "title": "C · Household hub — phone",
+      "w": 390,
+      "x": 0,
+      "y": 2640
+    },
+    "C-tablet.dc.html": {
+      "h": 820,
+      "title": "C · Household hub — tablet",
+      "w": 1180,
+      "x": 470,
+      "y": 2640
+    },
+    "D-phone.dc.html": {
+      "h": 844,
+      "title": "D · Money-flow story — phone",
+      "w": 390,
+      "x": 0,
+      "y": 3830
+    },
+    "D-tablet.dc.html": {
+      "h": 820,
+      "title": "D · Money-flow story — tablet",
+      "w": 1180,
+      "x": 470,
+      "y": 3830
+    },
+    "E-phone.dc.html": {
+      "h": 844,
+      "title": "E · Workbook ledger — phone",
+      "w": 390,
+      "x": 0,
+      "y": 5020
+    },
+    "E-tablet.dc.html": {
+      "h": 820,
+      "title": "E · Workbook ledger — tablet",
+      "w": 1180,
+      "x": 470,
+      "y": 5020
+    },
+    "F-phone.dc.html": {
+      "h": 844,
+      "title": "F · Conversational interview — phone",
+      "w": 390,
+      "x": 0,
+      "y": 6210
+    },
+    "G-phone.dc.html": {
+      "h": 844,
+      "title": "G · Pictogram choices — phone",
+      "w": 390,
+      "x": 470,
+      "y": 6210
+    },
+    "Main.dc.html": {
+      "h": 844,
+      "title": "A · Step rail — phone",
+      "w": 390,
+      "x": 0,
+      "y": 260
+    },
+    "X-D-phone.dc.html": {
+      "h": 844,
+      "title": "Remix D · Swiss brutalist — phone",
+      "w": 390,
+      "x": 0,
+      "y": 7400
+    },
+    "X-D-tablet.dc.html": {
+      "h": 820,
+      "title": "Remix D · Swiss brutalist — tablet",
+      "w": 1180,
+      "x": 470,
+      "y": 7400
+    },
+    "X-F-phone.dc.html": {
+      "h": 844,
+      "title": "Remix F · Editorial minimal, farmer alone — phone",
+      "w": 390,
+      "x": 2200,
+      "y": 7400
+    },
+    "X-G-phone.dc.html": {
+      "h": 844,
+      "title": "Remix G · Soft structuralism — phone",
+      "w": 390,
+      "x": 1730,
+      "y": 7400
+    }
+  },
+  "createdOnFiles": {
+    "at": "2026-10-07T12:00:00Z",
+    "v": 1
+  },
+  "designSystems": [
+    {
+      "artifact": "https://claude.ai/artifact/K6yTWvBB5Jj5JLPBTNth4A",
+      "copiedAt": "2026-10-07T12:00:00Z",
+      "namespace": "fairtradedesignsystem_5dc08b",
+      "title": "Fairtrade Slides",
+      "version": "1791352204-7fa6"
+    }
+  ],
+  "launch": {
+    "view": "canvas"
+  },
+  "notes": {
+    "tA": {
+      "kind": "title1",
+      "maxW": 1650,
+      "text": "A · Step rail — the current shell, refined",
+      "w": 240,
+      "x": 0,
+      "y": 20
+    },
+    "tB": {
+      "kind": "title1",
+      "maxW": 1650,
+      "text": "B · Guided focus — one step at a time, live result",
+      "w": 240,
+      "x": 0,
+      "y": 1210
+    },
+    "tC": {
+      "kind": "title1",
+      "maxW": 1650,
+      "text": "C · Household hub — overview first, steps as cards",
+      "w": 240,
+      "x": 0,
+      "y": 2400
+    },
+    "tD": {
+      "kind": "title1",
+      "maxW": 1650,
+      "text": "D · Money-flow story — the interview is the income waterfall",
+      "w": 240,
+      "x": 0,
+      "y": 3590
+    },
+    "tE": {
+      "kind": "title1",
+      "maxW": 1650,
+      "text": "E · Workbook ledger — closest to the Excel facilitators know",
+      "w": 240,
+      "x": 0,
+      "y": 4780
+    },
+    "tF": {
+      "kind": "title1",
+      "maxW": 860,
+      "text": "F · Conversational  ·  G · Pictograms",
+      "w": 240,
+      "x": 0,
+      "y": 5970
+    },
+    "tX": {
+      "kind": "title1",
+      "maxW": 2590,
+      "text": "Taste-skill remix · D brutalist · G soft · F editorial — free of the slide style",
+      "w": 240,
+      "x": 0,
+      "y": 7160
+    }
+  },
+  "order": [
+    "Main.dc.html",
+    "A-tablet.dc.html",
+    "B-phone.dc.html",
+    "B-tablet.dc.html",
+    "C-phone.dc.html",
+    "C-tablet.dc.html",
+    "D-phone.dc.html",
+    "D-tablet.dc.html",
+    "E-phone.dc.html",
+    "E-tablet.dc.html",
+    "F-phone.dc.html",
+    "G-phone.dc.html",
+    "X-D-phone.dc.html",
+    "X-D-tablet.dc.html",
+    "X-G-phone.dc.html",
+    "X-F-phone.dc.html"
+  ],
+  "pages": [],
+  "title": "Cocoa Capture Shell Options"
+}

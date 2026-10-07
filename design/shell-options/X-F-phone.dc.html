@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Self-interview, editorial phone</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&amp;family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#1f6c9f}a:hover{color:#174f74}
+.num{font-variant-numeric:tabular-nums}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.rise{animation:rise .6s cubic-bezier(.16,1,.3,1) both}
+button:active{transform:scale(.98)}
+@media (prefers-reduced-motion:reduce){.rise{animation:none}}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; display: flex; flex-direction: column; background: #f7f6f3; color: #2f3437; font-family: 'Geist', sans-serif; overflow: hidden">
+  <header style="padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #eaeaea">
+    <span style="font-family: 'Geist Mono', monospace; font-size: 12px; color: #787774">Your farm money · about 6 min left</span>
+    <label style="display: flex; align-items: center; gap: 6px; font-size: 13px; color: #2f3437">
+      <span style="position: absolute; left: -9999px">Language</span>
+      <select style="height: 36px; border: 1px solid #eaeaea; border-radius: 6px; background: #ffffff; font: inherit; font-size: 13px; padding: 0 8px; color: #2f3437">
+        <option>English</option><option>Twi</option><option>Français</option>
+      </select>
+    </label>
+  </header>
+
+  <section aria-label="Earlier answers" style="padding: 18px 20px 0; display: flex; flex-direction: column; gap: 14px">
+    <div style="display: flex; flex-direction: column; gap: 2px; border-bottom: 1px solid #eaeaea; padding-bottom: 12px">
+      <span style="font-size: 13px; color: #787774">Did you sell cocoa this season?</span>
+      <span style="font-size: 15px; display: flex; justify-content: space-between">Yes, to the cooperative <a href="#" style="font-size: 13px">Change</a></span>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 2px; border-bottom: 1px solid #eaeaea; padding-bottom: 12px">
+      <span style="font-size: 13px; color: #787774">How much dry cocoa, in total?</span>
+      <span class="num" style="font-size: 15px; display: flex; justify-content: space-between">1 240 kg <a href="#" style="font-size: 13px">Change</a></span>
+    </div>
+  </section>
+
+  <main class="rise" style="flex-grow: 1; padding: 28px 20px 0; display: flex; flex-direction: column; gap: 18px">
+    <div style="display: flex; align-items: center; gap: 10px">
+      <span style="padding: 3px 10px; border-radius: 999px; background: #e1f3fe; color: #1f6c9f; font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; font-weight: 600">Question 4 of 11</span>
+      <button type="button" aria-label="Read the question aloud" style="height: 36px; padding: 0 12px; border: 1px solid #eaeaea; border-radius: 6px; background: #ffffff; font: inherit; font-size: 13px; color: #2f3437; display: flex; align-items: center; gap: 6px; cursor: pointer">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9z"></path><path d="M16.5 8.5a5 5 0 0 1 0 7"></path></svg>
+        Listen
+      </button>
+    </div>
+    <h1 style="margin: 0; font-family: 'Newsreader', serif; font-weight: 400; font-size: 36px; line-height: 1.1; letter-spacing: -0.02em; color: #111111; text-wrap: balance">On average, how much did they pay you for one kilo?</h1>
+    <div style="display: flex; flex-direction: column; gap: 6px">
+      <label for="xf-price" style="font-size: 14px; color: #787774">Cedis per kilo</label>
+      <input id="xf-price" class="num" inputmode="decimal" placeholder="0.00" style="height: 64px; border: 1px solid #2f3437; border-radius: 8px; background: #ffffff; padding: 0 16px; font-family: 'Geist Mono', monospace; font-size: 28px; color: #111111">
+      <span class="num" style="font-size: 13px; color: #787774">Last season you said 13.90</span>
+    </div>
+    <div style="display: flex; gap: 8px; flex-wrap: wrap">
+      <button type="button" style="height: 44px; padding: 0 14px; border: 1px solid #eaeaea; border-radius: 6px; background: #ffffff; font: inherit; font-size: 14px; color: #2f3437; cursor: pointer">Same as last season</button>
+      <button type="button" style="height: 44px; padding: 0 14px; border: 1px solid #eaeaea; border-radius: 6px; background: #fbf3db; font: inherit; font-size: 14px; color: #956400; cursor: pointer">I'm not sure</button>
+    </div>
+  </main>
+
+  <footer style="padding: 16px 20px 24px; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #eaeaea">
+    <a href="#" style="font-size: 14px; color: #787774; min-height: 44px; display: flex; align-items: center">Back</a>
+    <button type="button" style="height: 52px; padding: 0 28px; border: 0; border-radius: 6px; background: #111111; color: #ffffff; font: inherit; font-size: 16px; font-weight: 500; cursor: pointer">Next question</button>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

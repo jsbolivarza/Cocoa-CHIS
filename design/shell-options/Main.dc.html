@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Step rail, phone</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/fairtradedesignsystem_5dc08b/tokens.css">
+<link rel="stylesheet" href="ds/fairtradedesignsystem_5dc08b/components/bundle.css">
+<script src="ds/fairtradedesignsystem_5dc08b/components/bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@500;700;800&amp;family=Exo:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#7b1dab}a:hover{color:#5a1380}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; display: flex; flex-direction: column; background: #f8f9fb; font-family: 'Exo', 'Segoe UI', sans-serif; color: #0e1733; overflow: hidden">
+  <header style="background: #001b6e; color: #ffffff; padding: 14px 16px 12px; display: flex; flex-direction: column; gap: 12px">
+    <div style="display: flex; align-items: center; gap: 10px">
+      <button type="button" aria-label="Back to my records" style="width: 44px; height: 44px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.18); background: transparent; color: #ffffff; font-size: 20px; cursor: pointer">‹</button>
+      <div style="display: flex; flex-direction: column; flex-grow: 1; min-width: 0">
+        <span style="font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #d4ff47; font-weight: 600">Step 2 of 6 · Revenues</span>
+        <span style="font-family: 'Alegreya Sans', sans-serif; font-weight: 800; font-size: 22px; line-height: 1.15">Producer A-014</span>
+        <span style="font-size: 12px; color: rgba(255,255,255,0.75)">[Coop name] · [Village] · 2025/26 main crop</span>
+      </div>
+      <span style="font-size: 11px; padding: 4px 10px; border-radius: 999px; background: rgba(255,255,255,0.12); white-space: nowrap">Saved</span>
+    </div>
+    <nav aria-label="Steps" style="display: flex; gap: 6px; overflow: hidden">
+      <a href="#" style="display: flex; align-items: center; gap: 6px; padding: 8px 12px; border-radius: 999px; background: rgba(255,255,255,0.10); color: #ffffff; text-decoration: none; font-size: 13px; white-space: nowrap"><span style="width: 8px; height: 8px; border-radius: 999px; background: #09fbd3"></span>Consent</a>
+      <a href="#" style="display: flex; align-items: center; gap: 6px; padding: 8px 12px; border-radius: 999px; background: rgba(255,255,255,0.10); color: #ffffff; text-decoration: none; font-size: 13px; white-space: nowrap"><span style="width: 8px; height: 8px; border-radius: 999px; background: #09fbd3"></span>Profile</a>
+      <a href="#" aria-current="step" style="display: flex; align-items: center; gap: 6px; padding: 8px 12px; border-radius: 999px; background: #d4ff47; color: #001b6e; text-decoration: none; font-size: 13px; font-weight: 600; white-space: nowrap"><span style="width: 8px; height: 8px; border-radius: 999px; background: #001b6e"></span>Revenues</a>
+      <a href="#" style="display: flex; align-items: center; gap: 6px; padding: 8px 12px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.18); color: rgba(255,255,255,0.8); text-decoration: none; font-size: 13px; white-space: nowrap"><span style="width: 8px; height: 8px; border-radius: 999px; border: 1.5px solid rgba(255,255,255,0.6)"></span>Costs</a>
+    </nav>
+  </header>
+
+  <main style="flex-grow: 1; padding: 20px 16px; display: flex; flex-direction: column; gap: 16px; overflow: hidden">
+    <h1 style="margin: 0; font-family: 'Alegreya Sans', sans-serif; font-weight: 800; font-size: 28px; color: #001b6e">Revenues</h1>
+    <section style="background: #ffffff; border: 1px solid #e4e7ec; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,27,110,0.08), 0 2px 4px rgba(0,27,110,0.06); padding: 16px; display: flex; flex-direction: column; gap: 14px">
+      <h2 style="margin: 0; font-size: 15px; font-weight: 600; color: #001b6e">Cocoa sales</h2>
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <label for="a-kg" style="font-size: 14px; font-weight: 500">Dry cocoa sold (kg) *</label>
+        <input id="a-kg" value="1 240" style="height: 48px; border: 1.5px solid #c9cdd6; border-radius: 10px; padding: 0 14px; font: inherit; font-size: 17px">
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <label for="a-price" style="font-size: 14px; font-weight: 500">Average price per kg *</label>
+        <input id="a-price" value="[price]" style="height: 48px; border: 1.5px solid #c9cdd6; border-radius: 10px; padding: 0 14px; font: inherit; font-size: 17px">
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <label for="a-prem" style="font-size: 14px; font-weight: 500">Fairtrade premium received</label>
+        <input id="a-prem" value="" placeholder="0" style="height: 48px; border: 1.5px solid #c9cdd6; border-radius: 10px; padding: 0 14px; font: inherit; font-size: 17px">
+      </div>
+    </section>
+    <section style="background: #ffffff; border: 1px solid #e4e7ec; border-radius: 16px; padding: 16px; display: flex; align-items: center; justify-content: space-between">
+      <h2 style="margin: 0; font-size: 15px; font-weight: 600; color: #001b6e">Other crops &amp; income</h2>
+      <span style="font-size: 13px; color: #6b7280">2 entries ›</span>
+    </section>
+  </main>
+
+  <footer style="background: #ffffff; border-top: 1px solid #e4e7ec; padding: 12px 16px 20px; display: flex; gap: 10px; justify-content: space-between">
+    <x-import component-from-global-scope="FairtradeDesignSystem_5dc08b.Button" variant="outline">‹ Profile</x-import>
+    <x-import component-from-global-scope="FairtradeDesignSystem_5dc08b.Button" variant="primary">Next: Costs ›</x-import>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

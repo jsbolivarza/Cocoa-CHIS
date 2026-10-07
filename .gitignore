@@ -1,0 +1,4 @@
+# Impeccable: machine-specific binary (recreate with: npx impeccable install --project --providers=claude --yes)
+.claude/skills/impeccable/scripts/bin/
+# Local Claude Code settings (Impeccable hooks)
+.claude/settings.local.json

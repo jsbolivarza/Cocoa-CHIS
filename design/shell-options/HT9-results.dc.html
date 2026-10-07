@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>6. Results, tablet</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/fairtradedesignsystem_5dc08b/tokens.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@500;700;800&amp;family=Exo:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#001b6e}
+input,select,button{font:inherit}
+.num{font-variant-numeric:tabular-nums}
+.card{background:#ffffff;border:1px solid #e4e7ec;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:14px}
+.h2{margin:0;font-family:'Alegreya Sans',sans-serif;font-weight:800;font-size:22px;color:#001b6e;line-height:1.15}
+.h3{margin:4px 0 0;font-family:'Alegreya Sans',sans-serif;font-weight:800;font-size:18px;color:#001b6e}
+.help{margin:0;font-size:14px;line-height:1.5;color:#4b5563;max-width:72ch}
+.g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 16px}
+.g4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px 16px}
+.fld{display:flex;flex-direction:column;gap:6px;min-width:0}
+.lbl{font-size:14px;font-weight:600;color:#1f2a44}
+.req{color:#b42318}
+.opt{display:inline-block;margin-left:6px;padding:1px 7px;border-radius:999px;background:#eef1f6;color:#4b5563;font-size:12px;font-weight:500}
+.hint{font-size:13px;color:#4b5563;line-height:1.4}
+.inp{min-height:44px;box-sizing:border-box;border:1.5px solid #9aa3b5;border-radius:10px;padding:0 10px;font-size:16px;background:#ffffff;color:#0e1733;width:100%}
+.inp:focus{outline:3px solid #0fc0fc;outline-offset:1px;border-color:#001b6e}
+.r{text-align:right}
+.strip{display:flex;flex-wrap:wrap;gap:10px 28px;background:#f3f5f9;border-radius:12px;padding:12px 16px}
+.st{display:flex;flex-direction:column;gap:2px;min-width:120px}
+.st span:first-child{font-size:13px;color:#4b5563}
+.st span:last-child{font-size:18px;font-weight:700;color:#001b6e}
+.kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.kpi{border:1px solid #e4e7ec;border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:4px;background:#ffffff}
+.kpi span:first-child{font-size:14px;color:#3a4256}
+.kpi b{font-family:'Alegreya Sans',sans-serif;font-weight:800;font-size:28px;color:#001b6e;line-height:1.05}
+.kpi small{font-size:14px;font-weight:600;color:#3a4256}
+.kpi.main{background:#001b6e;border-color:#001b6e}
+.kpi.main span:first-child,.kpi.main small{color:#d9e0f5}
+.kpi.main b{color:#d4ff47}
+.tw{border:1px solid #e4e7ec;border-radius:14px;overflow-x:auto;background:#ffffff}
+table{border-collapse:collapse;width:100%}
+th{font-size:13px;font-weight:600;color:#3a4256;text-align:left;padding:10px 4px;background:#f3f5f9;vertical-align:bottom;line-height:1.25}
+td{padding:6px 4px;border-top:1px solid #eef0f4;vertical-align:middle;font-size:15px}
+th:first-child,td:first-child{padding-left:14px}
+th:last-child,td:last-child{padding-right:14px}
+.cmp{font-weight:600;color:#001b6e;text-align:right;white-space:nowrap}
+.del{width:44px;height:44px;border-radius:10px;border:1px solid #e4e7ec;background:#ffffff;color:#4b5563;display:flex;align-items:center;justify-content:center}
+.add{align-self:flex-start;min-height:44px;padding:0 16px;border-radius:10px;border:1.5px dashed #9aa3b5;background:#ffffff;color:#001b6e;font-weight:600;font-size:15px;display:flex;align-items:center;gap:6px}
+.dk{min-height:44px;padding:0 12px;border-radius:10px;border:1.5px solid #f0b429;background:#fff4d6;color:#3d2600;font-size:14px;font-weight:600;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.warn{display:flex;gap:12px;align-items:center;background:#fffaeb;border:1.5px solid #f0b429;border-radius:12px;padding:10px 14px;font-size:14px;color:#5c3a00}
+.note{display:flex;gap:10px;align-items:flex-start;background:#fff4d6;border-radius:12px;padding:10px 14px;font-size:14px;color:#5c3a00}
+.tg{min-height:48px;padding:0 16px;border-radius:999px;font-size:15px;font-weight:600;display:inline-flex;align-items:center;gap:8px}
+.tg.on{background:#001b6e;color:#ffffff;border:2px solid #001b6e}
+.tg.off{background:#ffffff;color:#001b6e;border:1.5px solid #9aa3b5}
+.sub{border-top:1px solid #e4e7ec;padding-top:16px;display:flex;flex-direction:column;gap:12px}
+::selection{background:#d4ff47;color:#001b6e}
+</style>
+</helmet>
+<div style="width: 1180px; height: 2027px; box-sizing: border-box; display: flex; align-items: stretch; background: #f8f9fb; font-family: 'Exo', 'Segoe UI', sans-serif; color: #0e1733; overflow: hidden">
+  <dc-import name="TRail" active="results" phase="complete" saved="15:06" flow-in="2566400" flow-out="761000" h="2027" compact="0" hint-size="320px,2027px"></dc-import>
+  <div id="col" style="flex-grow: 1; min-width: 0; display: flex; flex-direction: column">
+    <header style="padding: 22px 32px 18px; background: #ffffff; border-bottom: 1px solid #e4e7ec; display: flex; align-items: center; justify-content: space-between; gap: 24px">
+      <div style="display: flex; flex-direction: column; gap: 4px; min-width: 0">
+        <h1 style="margin: 0; font-family: 'Alegreya Sans', sans-serif; font-weight: 800; font-size: 30px; color: #001b6e; line-height: 1.1">6. Results</h1>
+        <span style="font-size: 15px; color: #4b5563">SCOOPCA · Daloa · XOF / acre · kg</span>
+      </div>
+      <div style="display: flex; flex-direction: column; align-items: flex-end; flex: none"><span style="font-size: 14px; color: #3a4256">Profit, whole farm</span><span class="num" style="font-family: 'Alegreya Sans', sans-serif; font-weight: 800; font-size: 40px; line-height: 1; color: #001b6e">1 805 400</span></div>
+    </header>
+    <main style="flex-grow: 1; padding: 22px 32px 28px; display: flex; flex-direction: column; gap: 18px">
+<p class="help">These results are calculated automatically and are meant to be discussed with the household. Take time to review them together and identify how farm income could be improved.</p>
+<div style="display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 18px; align-items: start">
+  <section class="card" style="gap: 2px">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px"><h2 class="h2">How the money flows</h2><div role="group" aria-label="View" style="display: flex; background: #e9ecf2; border-radius: 10px; padding: 3px"><button type="button" aria-pressed="true" style="min-height: 38px; padding: 0 12px; border: 0; border-radius: 8px; background: #ffffff; color: #001b6e; font-weight: 600; font-size: 14px; box-shadow: 0 1px 3px rgba(14,23,51,0.15)">Whole farm</button><button type="button" aria-pressed="false" style="min-height: 38px; padding: 0 12px; border: 0; background: none; color: #3a4256; font-weight: 600; font-size: 14px">Cocoa only</button></div></div>
+    <a href="HT4-revenues.dc.html" style="display: grid; grid-template-columns: 170px minmax(0, 1fr) 92px; gap: 12px; align-items: center; min-height: 42px; text-decoration: none; color: inherit; font-size: 15px;"><span>+ Cocoa sales</span><span style="height: 16px; position: relative"><span style="position: absolute; top: 0; height: 16px; border-radius: 3px; left: 0%; width: 82.3%; background: #12a389"></span></span><span class="num" style="text-align: right">2 111 400</span></a><a href="HT4-revenues.dc.html" style="display: grid; grid-template-columns: 170px minmax(0, 1fr) 92px; gap: 12px; align-items: center; min-height: 42px; text-decoration: none; color: inherit; font-size: 15px;"><span>+ Sales of other crops</span><span style="height: 16px; position: relative"><span style="position: absolute; top: 0; height: 16px; border-radius: 3px; left: 82.3%; width: 8.2%; background: #12a389"></span></span><span class="num" style="text-align: right">210 000</span></a><a href="HT4-revenues.dc.html" style="display: grid; grid-template-columns: 170px minmax(0, 1fr) 92px; gap: 12px; align-items: center; min-height: 42px; text-decoration: none; color: inherit; font-size: 15px;"><span>+ Food crops</span><span style="height: 16px; position: relative"><span style="position: absolute; top: 0; height: 16px; border-radius: 3px; left: 90.5%; width: 3.9%; background: #12a389"></span></span><span class="num" style="text-align: right">100 000</span></a><a href="HT4-revenues.dc.html" style="display: grid; grid-template-columns: 170px minmax(0, 1fr) 92px; gap: 12px; align-items: center; min-height: 42px; text-decoration: none; color: inherit; font-size: 15px;"><span>+ Livestock</span><span style="height: 16px; position: relative"><span style="position: absolute; top: 0; height: 16px; border-radius: 3px; left: 94.4%; width: 5.6%; background: #12a389"></span></span><span class="num" style="text-align: right">145 000</span></a><div style="display: grid; grid-template-columns: 170px minmax(0, 1fr) 92px; gap: 12px; align-items: center; min-height: 42px; text-decoration: none; color: inherit; font-size: 15px; font-weight: 700; color: #001b6e; border-top: 1.5px solid #001b6e;"><span>Total revenues</span><span style="height: 16px; position: relative"><span style="position: absolute; top: 0; height: 16px; border-radius: 3px; left: 0%; width: 100%; background: #001b6e"></span></span><span class="num" style="text-align: right">2 566 400</span></div><a href="HT5-costs.dc.html" style="display: grid; grid-template-columns: 170px minmax(0, 1fr) 92px; gap: 12px; align-items: center; min-height: 42px; text-decoration: none; color: inherit; font-size: 15px;"><span>− Agricultural inputs</span><span style="height: 16px; position: relative"><span style="position: absolute; top: 0; height: 16px; border-radius: 3px; left: 84.7%; width: 15.3%; background: #e2663a"></span></span><span class="num" style="text-align: right">392 000</span></a><a href="HT5-costs.dc.html" style="display: grid; grid-template-columns: 170px minmax(0, 1fr) 92px; gap: 12px; align-items: center; min-height: 42px; text-decoration: none; color: inherit; font-size: 15px;"><span>− Tools &amp; equipment</span><span style="height: 16px; position: relative"><span style="position: absolute; top: 0; height: 16px; border-radius: 3px; left: 82.8%; width: 1.9%; background: #e2663a"></span></span><span class="num" style="text-align: right">48 000</span></a><a href="HT5-costs.dc.html" style="display: grid; grid-template-columns: 170px minmax(0, 1fr) 92px; gap: 12px; align-items: center; min-height: 42px; text-decoration: none; color: inherit; font-size: 15px;"><span>− Other costs</span><span style="height: 16px; position: relative"><span style="position: absolute; top: 0; height: 16px; border-radius: 3px; left: 81.5%; width: 1.4%; background: #e2663a"></span></span><span class="num" style="text-align: right">35 000</span></a><a href="HT6-labour.dc.html" style="display: grid; grid-template-columns: 170px minmax(0, 1fr) 92px; gap: 12px; align-items: center; min-height: 42px; text-decoration: none; color: inherit; font-size: 15px;"><span>− Hired labour</span><span style="height: 16px; position: relative"><span style="position: absolute; top: 0; height: 16px; border-radius: 3px; left: 70.3%; width: 11.2%; background: #e2663a"></span></span><span class="num" style="text-align: right">286 000</span></a><div style="display: grid; grid-template-columns: 170px minmax(0, 1fr) 92px; gap: 12px; align-items: center; min-height: 42px; text-decoration: none; color: inherit; font-size: 15px; font-weight: 700; color: #001b6e; border-top: 1.5px solid #001b6e;"><span>Profit</span><span style="height: 16px; position: relative"><span style="position: absolute; top: 0; height: 16px; border-radius: 3px; left: 0%; width: 70.3%; background: #001b6e"></span></span><span class="num" style="text-align: right">1 805 400</span></div>
+    <div class="note" style="margin-top: 10px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v5M12 16v.5"></path></svg><span>Fairtrade Premium amount unknown, so revenues may be higher. Tap a row to correct it.</span></div>
+  </section>
+  <div style="display: flex; flex-direction: column; gap: 18px">
+    <section class="card">
+      <h2 class="h2">Against household expenditures</h2>
+      <div style="display: flex; flex-direction: column; gap: 8px" aria-hidden="true"><div style="display: flex; align-items: center; gap: 8px; font-size: 14px"><span style="width: 74px">Profit</span><span style="flex: 1; height: 16px; border-radius: 4px; background: #001b6e"></span></div><div style="display: flex; align-items: center; gap: 8px; font-size: 14px"><span style="width: 74px">Spending</span><span style="flex: 1; display: flex"><span style="width: 77%; height: 16px; border-radius: 4px 0 0 4px; background: #e2663a"></span><span style="width: 6%; height: 16px; border-radius: 0 4px 4px 0; background: repeating-linear-gradient(135deg, #e2663a 0 3px, #ffffff 3px 6px); border: 1px solid #e2663a; box-sizing: border-box"></span></span></div></div>
+      <div style="display: flex; justify-content: space-between; align-items: baseline; font-weight: 700; color: #001b6e"><span>Income minus expenditure</span><span class="num" style="font-size: 20px; white-space: nowrap">at most 415 400</span></div>
+      <p class="hint" style="margin: 0">"At most", because healthcare for the 3rd quarter is unknown.</p>
+    </section>
+    <div class="kpis" style="grid-template-columns: 1fr">
+      <div class="kpi main"><span>Profit</span><b class="num">1 805 400 <small>XOF</small></b></div>
+    </div>
+    <div class="kpis" style="grid-template-columns: repeat(2, minmax(0, 1fr))">
+      <div class="kpi"><span>Cost of cocoa production, per kg</span><b class="num">513 <small>XOF/kg</small></b></div>
+      <div class="kpi"><span>Price / kg</span><b class="num">1 800 <small>XOF/kg</small></b></div>
+    </div>
+  </div>
+</div>
+<div class="strip"><div class="st"><span>Cocoa yield</span><span class="num">586.5 kg/acre</span></div><div class="st"><span>Total revenues</span><span class="num">2 566 400 XOF</span></div><div class="st"><span>Total costs</span><span class="num">761 000 XOF</span></div><div class="st"><span>Net cocoa income</span><span class="num">1 509 450 XOF</span></div><div class="st"><span>Total household expenditures</span><span class="num">≥ 1 390 000 XOF</span></div><div class="st"><span>Income minus expenditure</span><span class="num">≤ 415 400 XOF</span></div><div class="st"><span>Household labour</span><span class="num">214 days</span></div></div>
+<div class="tw"><table><thead><tr><th></th><th class="r" style="width: 150px">Whole farm</th><th class="r" style="width: 150px">Cocoa only</th><th style="width: 90px"></th></tr></thead><tbody>
+<tr><td colspan="4" style="background: #001b6e; color: #ffffff; font-weight: 700; font-size: 16px">Revenues</td></tr><tr><td>Cocoa sales</td><td class="num" style="text-align: right">2 111 400</td><td class="num" style="text-align: right">2 111 400</td><td style="color: #4b5563">XOF</td></tr><tr><td>Coffee sales</td><td class="num" style="text-align: right">0</td><td class="num" style="text-align: right"></td><td style="color: #4b5563">XOF</td></tr><tr><td>Sales of other crops</td><td class="num" style="text-align: right">210 000</td><td class="num" style="text-align: right"></td><td style="color: #4b5563">XOF</td></tr><tr><td>Food crops</td><td class="num" style="text-align: right">100 000</td><td class="num" style="text-align: right"></td><td style="color: #4b5563">XOF</td></tr><tr><td>Livestock</td><td class="num" style="text-align: right">145 000</td><td class="num" style="text-align: right"></td><td style="color: #4b5563">XOF</td></tr><tr><td>Other income</td><td class="num" style="text-align: right">0</td><td class="num" style="text-align: right"></td><td style="color: #4b5563">XOF</td></tr><tr style="background: #f3f5f9"><td style="font-weight: 700">Total revenues</td><td class="cmp num">2 566 400</td><td class="cmp num">2 111 400</td><td style="color: #4b5563">XOF</td></tr><tr><td colspan="4" style="background: #001b6e; color: #ffffff; font-weight: 700; font-size: 16px">Costs</td></tr><tr><td>Agricultural inputs</td><td class="num" style="text-align: right">392 000</td><td class="num" style="text-align: right">348 800</td><td style="color: #4b5563">XOF</td></tr><tr><td>Tools &amp; equipment</td><td class="num" style="text-align: right">48 000</td><td class="num" style="text-align: right">44 400</td><td style="color: #4b5563">XOF</td></tr><tr><td>Other costs</td><td class="num" style="text-align: right">35 000</td><td class="num" style="text-align: right">22 750</td><td style="color: #4b5563">XOF</td></tr><tr><td>Land sharing related costs</td><td class="num" style="text-align: right">0</td><td class="num" style="text-align: right">0</td><td style="color: #4b5563">XOF</td></tr><tr><td>Hired labour</td><td class="num" style="text-align: right">286 000</td><td class="num" style="text-align: right">186 000</td><td style="color: #4b5563">XOF</td></tr><tr style="background: #f3f5f9"><td style="font-weight: 700">Total costs</td><td class="cmp num">761 000</td><td class="cmp num">601 950</td><td style="color: #4b5563">XOF</td></tr><tr><td colspan="4" style="background: #001b6e; color: #ffffff; font-weight: 700; font-size: 16px">Results</td></tr><tr style="background: #f3f5f9"><td style="font-weight: 700">Profit</td><td class="cmp num">1 805 400</td><td class="cmp num">1 509 450</td><td style="color: #4b5563">XOF</td></tr><tr><td>Cocoa yield</td><td class="num" style="text-align: right"></td><td class="num" style="text-align: right">586.5</td><td style="color: #4b5563">kg/acre</td></tr><tr><td>Cost of cocoa production, per unit of area</td><td class="num" style="text-align: right"></td><td class="num" style="text-align: right">300 975</td><td style="color: #4b5563">XOF/acre</td></tr><tr><td>Cost of cocoa production, per kg</td><td class="num" style="text-align: right"></td><td class="num" style="text-align: right">513</td><td style="color: #4b5563">XOF/kg</td></tr><tr><td>Household labour</td><td class="num" style="text-align: right">214</td><td class="num" style="text-align: right">168</td><td style="color: #4b5563">days</td></tr><tr><td>Return on labour</td><td class="num" style="text-align: right">8 436</td><td class="num" style="text-align: right">8 985</td><td style="color: #4b5563">XOF</td></tr><tr><td colspan="4" style="background: #001b6e; color: #ffffff; font-weight: 700; font-size: 16px">Household expenditures</td></tr><tr><td>Food costs</td><td class="num" style="text-align: right">860 000</td><td class="num" style="text-align: right"></td><td style="color: #4b5563">XOF</td></tr><tr><td>Educational costs</td><td class="num" style="text-align: right">310 000</td><td class="num" style="text-align: right"></td><td style="color: #4b5563">XOF</td></tr><tr><td>Healthcare costs</td><td class="num" style="text-align: right">90 000 + ?</td><td class="num" style="text-align: right"></td><td style="color: #4b5563">XOF</td></tr><tr><td>Other costs</td><td class="num" style="text-align: right">130 000</td><td class="num" style="text-align: right"></td><td style="color: #4b5563">XOF</td></tr><tr style="background: #f3f5f9"><td style="font-weight: 700">Total household expenditures</td><td class="cmp num">≥ 1 390 000</td><td class="cmp num"></td><td style="color: #4b5563">XOF</td></tr>
+</tbody></table></div>
+    </main>
+    <footer style="padding: 16px 32px; background: #ffffff; border-top: 1px solid #e4e7ec; display: flex; align-items: center; gap: 12px">
+      <a href="HT7-expenditures.dc.html" style="min-height: 52px; padding: 0 20px; border-radius: 14px; border: 1.5px solid #9aa3b5; color: #001b6e; font-weight: 600; font-size: 16px; display: flex; align-items: center; gap: 6px; text-decoration: none"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg>Back</a>
+      <span style="flex-grow: 1"></span>
+      <button type="button" aria-pressed="false" style="min-height: 52px; padding: 0 20px; border-radius: 14px; background: #ffffff; border: 1.5px solid #001b6e; color: #001b6e; font-weight: 600; font-size: 16px; display: flex; align-items: center; gap: 8px"><span style="width: 18px; height: 18px; border: 2px solid currentColor; border-radius: 4px; box-sizing: border-box"></span>Mark as complete</button>
+      
+    </footer>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1180,"height":2027}}'>
+class Component extends DCLogic {
+renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

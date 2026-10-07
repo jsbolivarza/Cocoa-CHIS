@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Consent, tablet</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/fairtradedesignsystem_5dc08b/tokens.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@500;700;800&amp;family=Exo:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#001b6e}
+input,select,button{font:inherit}
+.num{font-variant-numeric:tabular-nums}
+.card{background:#ffffff;border:1px solid #e4e7ec;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:14px}
+.h2{margin:0;font-family:'Alegreya Sans',sans-serif;font-weight:800;font-size:22px;color:#001b6e;line-height:1.15}
+.h3{margin:4px 0 0;font-family:'Alegreya Sans',sans-serif;font-weight:800;font-size:18px;color:#001b6e}
+.help{margin:0;font-size:14px;line-height:1.5;color:#4b5563;max-width:72ch}
+.g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 16px}
+.g4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px 16px}
+.fld{display:flex;flex-direction:column;gap:6px;min-width:0}
+.lbl{font-size:14px;font-weight:600;color:#1f2a44}
+.req{color:#b42318}
+.opt{display:inline-block;margin-left:6px;padding:1px 7px;border-radius:999px;background:#eef1f6;color:#4b5563;font-size:12px;font-weight:500}
+.hint{font-size:13px;color:#4b5563;line-height:1.4}
+.inp{min-height:44px;box-sizing:border-box;border:1.5px solid #9aa3b5;border-radius:10px;padding:0 10px;font-size:16px;background:#ffffff;color:#0e1733;width:100%}
+.inp:focus{outline:3px solid #0fc0fc;outline-offset:1px;border-color:#001b6e}
+.r{text-align:right}
+.strip{display:flex;flex-wrap:wrap;gap:10px 28px;background:#f3f5f9;border-radius:12px;padding:12px 16px}
+.st{display:flex;flex-direction:column;gap:2px;min-width:120px}
+.st span:first-child{font-size:13px;color:#4b5563}
+.st span:last-child{font-size:18px;font-weight:700;color:#001b6e}
+.kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.kpi{border:1px solid #e4e7ec;border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:4px;background:#ffffff}
+.kpi span:first-child{font-size:14px;color:#3a4256}
+.kpi b{font-family:'Alegreya Sans',sans-serif;font-weight:800;font-size:28px;color:#001b6e;line-height:1.05}
+.kpi small{font-size:14px;font-weight:600;color:#3a4256}
+.kpi.main{background:#001b6e;border-color:#001b6e}
+.kpi.main span:first-child,.kpi.main small{color:#d9e0f5}
+.kpi.main b{color:#d4ff47}
+.tw{border:1px solid #e4e7ec;border-radius:14px;overflow-x:auto;background:#ffffff}
+table{border-collapse:collapse;width:100%}
+th{font-size:13px;font-weight:600;color:#3a4256;text-align:left;padding:10px 4px;background:#f3f5f9;vertical-align:bottom;line-height:1.25}
+td{padding:6px 4px;border-top:1px solid #eef0f4;vertical-align:middle;font-size:15px}
+th:first-child,td:first-child{padding-left:14px}
+th:last-child,td:last-child{padding-right:14px}
+.cmp{font-weight:600;color:#001b6e;text-align:right;white-space:nowrap}
+.del{width:44px;height:44px;border-radius:10px;border:1px solid #e4e7ec;background:#ffffff;color:#4b5563;display:flex;align-items:center;justify-content:center}
+.add{align-self:flex-start;min-height:44px;padding:0 16px;border-radius:10px;border:1.5px dashed #9aa3b5;background:#ffffff;color:#001b6e;font-weight:600;font-size:15px;display:flex;align-items:center;gap:6px}
+.dk{min-height:44px;padding:0 12px;border-radius:10px;border:1.5px solid #f0b429;background:#fff4d6;color:#3d2600;font-size:14px;font-weight:600;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.warn{display:flex;gap:12px;align-items:center;background:#fffaeb;border:1.5px solid #f0b429;border-radius:12px;padding:10px 14px;font-size:14px;color:#5c3a00}
+.note{display:flex;gap:10px;align-items:flex-start;background:#fff4d6;border-radius:12px;padding:10px 14px;font-size:14px;color:#5c3a00}
+.tg{min-height:48px;padding:0 16px;border-radius:999px;font-size:15px;font-weight:600;display:inline-flex;align-items:center;gap:8px}
+.tg.on{background:#001b6e;color:#ffffff;border:2px solid #001b6e}
+.tg.off{background:#ffffff;color:#001b6e;border:1.5px solid #9aa3b5}
+.sub{border-top:1px solid #e4e7ec;padding-top:16px;display:flex;flex-direction:column;gap:12px}
+::selection{background:#d4ff47;color:#001b6e}
+</style>
+</helmet>
+<div style="width: 1180px; height: 1150px; box-sizing: border-box; display: flex; align-items: stretch; background: #f8f9fb; font-family: 'Exo', 'Segoe UI', sans-serif; color: #0e1733; overflow: hidden">
+  <dc-import name="TRail" active="consent" phase="capturing" saved="14:20" flow-in="0" flow-out="0" h="1150" compact="0" hint-size="320px,1150px"></dc-import>
+  <div id="col" style="flex-grow: 1; min-width: 0; display: flex; flex-direction: column">
+    <header style="padding: 22px 32px 18px; background: #ffffff; border-bottom: 1px solid #e4e7ec; display: flex; align-items: center; justify-content: space-between; gap: 24px">
+      <div style="display: flex; flex-direction: column; gap: 4px; min-width: 0">
+        <h1 style="margin: 0; font-family: 'Alegreya Sans', sans-serif; font-weight: 800; font-size: 30px; color: #001b6e; line-height: 1.1">Fairtrade farm record data capture</h1>
+        <span style="font-size: 15px; color: #4b5563">Consent · read this with the respondent before step 1</span>
+      </div>
+      
+    </header>
+    <main style="flex-grow: 1; padding: 22px 32px 28px; display: flex; flex-direction: column; gap: 18px">
+<div style="display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 18px; align-items: start">
+  <section class="card" style="background: #ffffff">
+    <h2 class="h2">Read this with the respondent</h2>
+    <p style="margin: 0; font-size: 15px; line-height: 1.6; color: #1f2a44">Your cooperative has signed up to a Living Income project in cocoa, in which the incomes and expenditures of cocoa farmer households are measured and analysed, in order to gain insights into the effectiveness of Fairtrade's Living Income Strategy. The records will be used to monitor how household incomes improve over time and help your cooperative identify appropriate support services to bridge the income gap.</p><p style="margin: 0; font-size: 15px; line-height: 1.6; color: #1f2a44">This tool captures the data you have entered in your farm record book, and is intended to facilitate the analysis of aggregated data of all participating cooperatives and their members. The farm record data are captured by trained coaches from your cooperative. Your data can be shared with Fairtrade International, Fairtrade Africa and your buyers, based on your consent.</p><p style="margin: 0; font-size: 15px; line-height: 1.6; color: #1f2a44">Fairtrade International will treat all information you provide as confidential. It will be stored securely and not shared without your permission. Findings from across all participating organizations will only be communicated externally in a combined and anonymous manner.</p><p style="margin: 0; font-size: 15px; line-height: 1.6; color: #1f2a44">Participation in this project is entirely voluntary. If you agree to participate, you can still decide not to share specific data, and this will not affect you or your cooperative in any way. However, we encourage you to share your complete records to allow for realistic measurement of the results of this project and help Fairtrade improve its strategy design.</p>
+    <button type="button" class="add" style="border-style: solid">Print consent sheet</button>
+  </section>
+  <section class="card">
+    <h2 class="h2">Consent to release</h2>
+    <div style="display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 12px"><label class="fld"><span class="lbl">Respondent name <span class="req" aria-hidden="true">*</span></span><input class="inp" value="Kouadio Kone"></label><label class="fld"><span class="lbl">Date <span class="req" aria-hidden="true">*</span></span><input class="inp" type="date" value="2026-10-07"></label></div>
+    <div><p class="lbl" style="margin: 4px 0 2px">I consent to release my data to:</p><label style="display: flex; align-items: center; gap: 14px; min-height: 52px; font-size: 16px; border-bottom: 1px solid #eef0f4"><input type="checkbox" checked style="width: 24px; height: 24px; accent-color: #001b6e; margin: 0">Fairtrade International</label><label style="display: flex; align-items: center; gap: 14px; min-height: 52px; font-size: 16px; border-bottom: 1px solid #eef0f4"><input type="checkbox" checked style="width: 24px; height: 24px; accent-color: #001b6e; margin: 0">my cooperative</label><label style="display: flex; align-items: center; gap: 14px; min-height: 52px; font-size: 16px; border-bottom: 1px solid #eef0f4"><input type="checkbox" checked style="width: 24px; height: 24px; accent-color: #001b6e; margin: 0">my Producer Network</label><label style="display: flex; align-items: center; gap: 14px; min-height: 52px; font-size: 16px; border-bottom: 1px solid #eef0f4"><input type="checkbox" style="width: 24px; height: 24px; accent-color: #001b6e; margin: 0">buyers in my supply chain</label></div>
+    <label class="fld"><span class="lbl">Only for cases where signing was not possible: was oral consent obtained?<span class="opt">optional</span></span><select class="inp"><option>— select —</option><option selected>Yes</option><option>No</option></select></label>
+    <label class="fld"><span class="lbl">Explanation<span class="opt">optional</span></span><input class="inp" value="Respondent cannot write; consent read aloud in Baoulé."></label>
+  </section>
+</div>
+    </main>
+    <footer style="padding: 16px 32px; background: #ffffff; border-top: 1px solid #e4e7ec; display: flex; align-items: center; gap: 12px">
+      
+      <span style="flex-grow: 1"></span>
+      <button type="button" aria-pressed="true" style="min-height: 52px; padding: 0 20px; border-radius: 14px; background: #e7f8f1; border: 1.5px solid #12a389; color: #0b5e46; font-weight: 600; font-size: 16px; display: flex; align-items: center; gap: 8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg>Marked complete</button>
+      <a href="HT3-profile.dc.html" style="min-height: 52px; min-width: 260px; padding: 0 24px; box-sizing: border-box; border-radius: 14px; background: #001b6e; color: #ffffff; font-weight: 600; font-size: 16px; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none">Next: 1. Profile<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></a>
+    </footer>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1180,"height":1150}}'>
+class Component extends DCLogic {
+renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

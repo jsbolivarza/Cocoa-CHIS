@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Consent</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/fairtradedesignsystem_5dc08b/tokens.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@500;700;800&amp;family=Exo:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#001b6e}
+input{font:inherit}
+.ic{width:20px;height:20px;flex:none}
+.card{background:#ffffff;border:1px solid #e4e7ec;border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:12px}
+.h2{margin:0;font-family:'Alegreya Sans',sans-serif;font-weight:800;font-size:21px;color:#001b6e}
+.lbl{font-size:14px;font-weight:600}
+.inp{min-height:48px;box-sizing:border-box;border:1.5px solid #9aa3b5;border-radius:12px;padding:0 14px;font-size:16px;background:#ffffff;color:#0e1733;width:100%}
+.inp:focus,.chk:focus{outline:3px solid #0fc0fc;outline-offset:1px}
+.row{display:flex;align-items:center;gap:12px;min-height:48px;font-size:15px}
+.chk{width:24px;height:24px;accent-color:#001b6e;flex:none;margin:0}
+.seg{min-height:48px;flex:1;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:16px;font-weight:600}
+::selection{background:#d4ff47;color:#001b6e}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; display: flex; flex-direction: column; background: #f8f9fb; font-family: 'Exo', 'Segoe UI', sans-serif; color: #0e1733; overflow: hidden">
+  <header style="background: #001b6e; color: #ffffff; padding: 4px 16px 14px; display: flex; flex-direction: column; gap: 8px">
+    <div style="display: flex; align-items: center; justify-content: space-between">
+      <a href="H1-hub.dc.html" style="color: #ffffff; text-decoration: none; font-size: 15px; min-height: 44px; display: flex; align-items: center; gap: 4px"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg>Household</a>
+      <span style="display: flex; align-items: center; gap: 6px; font-size: 13px; color: #d9e0f5"><span style="width: 8px; height: 8px; border-radius: 999px; background: #d4ff47"></span>Offline · Saved 14:32</span>
+    </div>
+    <h1 style="margin: 0; font-family: 'Alegreya Sans', sans-serif; font-weight: 800; font-size: 26px; line-height: 1.1">Consent</h1>
+    <span style="font-size: 14px; color: #d9e0f5; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">Kouadio Kone · 2025/26 · before step 1</span>
+  </header>
+
+  <main style="flex-grow: 1; padding: 16px; display: flex; flex-direction: column; gap: 12px; overflow-y: auto">
+    <section class="card" style="background: #e2f8fe; border-color: #b9ecfb">
+      <h2 class="h2">Read this to the respondent</h2>
+      <p style="margin: 0; font-size: 15px; line-height: 1.5; color: #0e1733">We are collecting information about your household's income and costs from cocoa and other activities. It helps Fairtrade understand what a fair living income looks like for cocoa farmers. You can stop at any time, and you can skip any question.</p>
+    </section>
+
+    <section class="card">
+      <label style="display: flex; flex-direction: column; gap: 6px"><span class="lbl">Respondent's name</span><input class="inp" value="Kouadio Kone"></label>
+      <label style="display: flex; flex-direction: column; gap: 6px"><span class="lbl">Date of interview</span><input class="inp" type="date" value="2026-10-07"></label>
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <span class="lbl" id="oc">Oral consent given?</span>
+        <div role="radiogroup" aria-labelledby="oc" style="display: flex; gap: 8px">
+          <button type="button" role="radio" aria-checked="true" class="seg" style="background: #001b6e; color: #ffffff; border: 1.5px solid #001b6e"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg>Yes</button>
+          <button type="button" role="radio" aria-checked="false" class="seg" style="background: #ffffff; color: #001b6e; border: 1.5px solid #9aa3b5">No</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 class="h2">Who may see this household's data?</h2>
+      <label class="row"><input class="chk" type="checkbox" checked>Fairtrade International</label>
+      <label class="row"><input class="chk" type="checkbox" checked>The cooperative</label>
+      <label class="row"><input class="chk" type="checkbox" checked>Producer network</label>
+      <label class="row"><input class="chk" type="checkbox">Buyers, without the farmer's name</label>
+    </section>
+  </main>
+
+  <footer style="background: #ffffff; border-top: 1px solid #e4e7ec; padding: 12px 16px 16px">
+    <a href="H3-profile.dc.html" style="min-height: 52px; border-radius: 14px; background: #001b6e; color: #ffffff; font-weight: 600; font-size: 16px; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none">Save · Next: Profile<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></a>
+    <p style="margin: 8px 0 0; font-size: 14px; color: #4b5563; text-align: center">If the answer is No, the interview stops here and nothing is saved.</p>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>3. Costs</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/fairtradedesignsystem_5dc08b/tokens.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@500;700;800&amp;family=Exo:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#001b6e}
+input,select{font:inherit}
+.num{font-variant-numeric:tabular-nums}
+.ic{width:20px;height:20px;flex:none}
+.card{background:#ffffff;border:1px solid #e4e7ec;border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.h2{margin:0;font-family:'Alegreya Sans',sans-serif;font-weight:800;font-size:19px;color:#001b6e}
+.fld{display:flex;flex-direction:column;gap:4px;min-width:0}
+.lbl{font-size:13px;font-weight:600;color:#3a4256}
+.inp{min-height:48px;box-sizing:border-box;border:1.5px solid #9aa3b5;border-radius:10px;padding:0 10px;font-size:16px;background:#ffffff;color:#0e1733;width:100%}
+.inp:focus{outline:3px solid #0fc0fc;outline-offset:1px}
+.tab{min-height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;text-decoration:none}
+::selection{background:#d4ff47;color:#001b6e}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; display: flex; flex-direction: column; background: #f8f9fb; font-family: 'Exo', 'Segoe UI', sans-serif; color: #0e1733; overflow: hidden">
+  <header style="background: #001b6e; color: #ffffff; padding: 4px 16px 14px; display: flex; flex-direction: column; gap: 8px">
+    <div style="display: flex; align-items: center; justify-content: space-between">
+      <a href="H1-hub.dc.html" style="color: #ffffff; text-decoration: none; font-size: 15px; min-height: 44px; display: flex; align-items: center; gap: 4px"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg>Household</a>
+      <span style="display: flex; align-items: center; gap: 6px; font-size: 13px; color: #d9e0f5"><span style="width: 8px; height: 8px; border-radius: 999px; background: #d4ff47"></span>Offline · Saved 14:41</span>
+    </div>
+    <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px">
+      <h1 style="margin: 0; font-family: 'Alegreya Sans', sans-serif; font-weight: 800; font-size: 26px; line-height: 1.1">3 · Costs</h1>
+      <span style="font-size: 14px; color: #d9e0f5">Step 3 of 5</span>
+    </div>
+    <div aria-hidden="true" style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px">
+      <span style="height: 6px; border-radius: 999px; background: #d4ff47"></span>
+      <span style="height: 6px; border-radius: 999px; background: #d4ff47"></span>
+      <span style="height: 6px; border-radius: 999px; background: #ffffff"></span>
+      <span style="height: 6px; border-radius: 999px; background: rgba(255,255,255,0.2)"></span>
+      <span style="height: 6px; border-radius: 999px; background: rgba(255,255,255,0.2)"></span>
+    </div>
+  </header>
+
+  <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 16px; background: #e2f8fe; border-bottom: 1px solid #b9ecfb; color: #001b6e; font-size: 14px">
+    <span style="font-weight: 600">Money flow so far</span>
+    <span class="num"><b>+2 566 400</b> in · <b>−392 000</b> out</span>
+  </div>
+
+  <main style="flex-grow: 1; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; overflow-y: auto">
+    <nav aria-label="Cost sections" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; background: #e9ecf2; border-radius: 12px; padding: 4px">
+      <a href="#" aria-current="true" class="tab" style="background: #ffffff; color: #001b6e; box-shadow: 0 1px 3px rgba(14,23,51,0.15)">Inputs</a>
+      <a href="#" class="tab" style="color: #3a4256">Tools</a>
+      <a href="#" class="tab" style="color: #3a4256">Other</a>
+      <a href="#" class="tab" style="color: #3a4256">Sharecrop</a>
+    </nav>
+
+    <section class="card">
+      <div style="display: flex; justify-content: space-between; align-items: baseline"><h2 class="h2">Fertiliser</h2><span class="num" style="font-weight: 700; color: #001b6e">216 000</span></div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1.3fr; gap: 8px">
+        <label class="fld"><span class="lbl">Quantity</span><input class="inp num" inputmode="decimal" value="8"></label>
+        <label class="fld"><span class="lbl">Unit</span><select class="inp"><option selected>bag</option><option>litre</option><option>kg</option></select></label>
+        <label class="fld"><span class="lbl">Total cost XOF</span><input class="inp num" inputmode="decimal" value="216 000"></label>
+      </div>
+      <label class="fld"><span class="lbl">Share used on cocoa</span><select class="inp"><option selected>75–100%</option><option>50–74%</option><option>25–49%</option><option>Less than 25%</option></select></label>
+    </section>
+
+    <section class="card">
+      <div style="display: flex; justify-content: space-between; align-items: baseline"><h2 class="h2">Pesticide</h2><span class="num" style="font-weight: 700; color: #001b6e">96 000</span></div>
+      <div style="font-size: 14px; color: #4b5563">4 litre · 75–100% on cocoa</div>
+    </section>
+
+    <section class="card">
+      <div style="display: flex; justify-content: space-between; align-items: baseline"><h2 class="h2">Seedlings</h2><span class="num" style="font-weight: 700; color: #001b6e">80 000</span></div>
+      <div style="font-size: 14px; color: #4b5563">200 plants · 75–100% on cocoa</div>
+    </section>
+
+    <section class="card" role="alert" style="border: 1.5px solid #f0b429; background: #fffaeb">
+      <div style="display: flex; justify-content: space-between; align-items: baseline"><h2 class="h2">Herbicide</h2><span class="num" style="font-weight: 700; color: #7a4b00">9 500 000</span></div>
+      <div style="display: flex; gap: 8px; align-items: flex-start; font-size: 14px; color: #5c3a00">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9 16H3z"></path><path d="M12 10v4M12 17v.5"></path></svg>
+        <span>2 litres for 9 500 000 is far above the other inputs. Check for an extra zero. It isn't counted until you confirm.</span>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+        <button type="button" style="min-height: 44px; border-radius: 10px; border: 0; background: #001b6e; color: #ffffff; font: inherit; font-size: 15px; font-weight: 600">Fix amount</button>
+        <button type="button" style="min-height: 44px; border-radius: 10px; border: 1.5px solid #7a4b00; background: #ffffff; color: #5c3a00; font: inherit; font-size: 15px; font-weight: 600">It's correct</button>
+      </div>
+    </section>
+
+    <a href="#" style="min-height: 48px; border-radius: 12px; border: 1.5px dashed #9aa3b5; color: #001b6e; font-weight: 600; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>Add input</a>
+
+    <section style="display: flex; flex-direction: column; gap: 6px; padding: 4px 2px; font-size: 15px">
+      <div style="display: flex; justify-content: space-between"><span>Inputs</span><span class="num">392 000</span></div>
+      <div style="display: flex; justify-content: space-between"><span>Tools, per year of use</span><span class="num">48 000</span></div>
+      <div style="display: flex; justify-content: space-between"><span>Other costs</span><span class="num">35 000</span></div>
+      <div style="display: flex; justify-content: space-between"><span>Sharecrop payments</span><span class="num">0</span></div>
+      <div style="display: flex; justify-content: space-between; border-top: 2px solid #001b6e; padding-top: 8px; font-weight: 700; color: #001b6e"><span>Production costs</span><span class="num">475 000</span></div>
+    </section>
+  </main>
+
+  <footer style="background: #ffffff; border-top: 1px solid #e4e7ec; padding: 12px 16px 12px; display: flex; flex-direction: column; gap: 4px">
+    <a href="H6-labour.dc.html" style="min-height: 52px; border-radius: 14px; background: #001b6e; color: #ffffff; font-weight: 600; font-size: 16px; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none">Save · Next: Labour<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></a>
+    <a href="H1-hub.dc.html" style="min-height: 44px; display: flex; align-items: center; justify-content: center; font-size: 15px; color: #001b6e; text-underline-offset: 3px">Skip for now, mark as missing</a>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

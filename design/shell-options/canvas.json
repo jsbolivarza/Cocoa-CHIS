@@ -79,12 +79,337 @@
       "x": 470,
       "y": 6210
     },
+    "H0-records.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "page": "hub",
+      "title": "Phone · Records",
+      "w": 390,
+      "x": 0,
+      "y": 3640
+    },
+    "H1-hub.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "page": "hub",
+      "title": "Phone · Household hub · in progress",
+      "w": 390,
+      "x": 470,
+      "y": 3640
+    },
+    "H2-consent.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "page": "hub",
+      "title": "Phone · Consent",
+      "w": 390,
+      "x": 940,
+      "y": 3640
+    },
+    "H3-profile.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "page": "hub",
+      "title": "Phone · 1. Profile",
+      "w": 390,
+      "x": 1410,
+      "y": 3640
+    },
+    "H4-revenues.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "page": "hub",
+      "title": "Phone · 2. Revenues",
+      "w": 390,
+      "x": 1880,
+      "y": 3640
+    },
+    "H5-costs.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "page": "hub",
+      "title": "Phone · 3. Costs",
+      "w": 390,
+      "x": 2350,
+      "y": 3640
+    },
+    "H6-labour.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "page": "hub",
+      "title": "Phone · 4. Labour",
+      "w": 390,
+      "x": 2820,
+      "y": 3640
+    },
+    "H7-expenditures.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "page": "hub",
+      "title": "Phone · 5. Household expenditures",
+      "w": 390,
+      "x": 3290,
+      "y": 3640
+    },
+    "H8-hub-complete.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "page": "hub",
+      "title": "Phone · Household hub · complete",
+      "w": 390,
+      "x": 3760,
+      "y": 3640
+    },
+    "H9-results.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "page": "hub",
+      "title": "Phone · 6. Results · money flow",
+      "w": 390,
+      "x": 4230,
+      "y": 3640
+    },
+    "HT0-records.dc.html": {
+      "h": 820,
+      "is_interactive": true,
+      "page": "hub",
+      "title": "Tablet · Records",
+      "w": 1180,
+      "x": 0,
+      "y": 240
+    },
+    "HT1-hub.dc.html": {
+      "h": 820,
+      "is_interactive": true,
+      "page": "hub",
+      "title": "Tablet · Household hub · in progress",
+      "w": 1180,
+      "x": 1260,
+      "y": 240
+    },
+    "HT2-consent.dc.html": {
+      "h": 1150,
+      "is_interactive": true,
+      "page": "hub",
+      "title": "Tablet · Consent",
+      "w": 1180,
+      "x": 2520,
+      "y": 240
+    },
+    "HT3-profile.dc.html": {
+      "h": 3084,
+      "is_interactive": true,
+      "page": "hub",
+      "title": "Tablet · 1. Profile",
+      "w": 1180,
+      "x": 3780,
+      "y": 240
+    },
+    "HT4-revenues.dc.html": {
+      "h": 3144,
+      "is_interactive": true,
+      "page": "hub",
+      "title": "Tablet · 2. Revenues",
+      "w": 1180,
+      "x": 5040,
+      "y": 240
+    },
+    "HT5-costs.dc.html": {
+      "h": 2176,
+      "is_interactive": true,
+      "page": "hub",
+      "title": "Tablet · 3. Costs",
+      "w": 1180,
+      "x": 6300,
+      "y": 240
+    },
+    "HT6-labour.dc.html": {
+      "h": 1308,
+      "is_interactive": true,
+      "page": "hub",
+      "title": "Tablet · 4. Labour",
+      "w": 1180,
+      "x": 7560,
+      "y": 240
+    },
+    "HT7-expenditures.dc.html": {
+      "h": 1000,
+      "is_interactive": true,
+      "page": "hub",
+      "title": "Tablet · 5. Household expenditures",
+      "w": 1180,
+      "x": 8820,
+      "y": 240
+    },
+    "HT8-hub-complete.dc.html": {
+      "h": 820,
+      "is_interactive": true,
+      "page": "hub",
+      "title": "Tablet · Household hub · complete",
+      "w": 1180,
+      "x": 10080,
+      "y": 240
+    },
+    "HT9-results.dc.html": {
+      "h": 2027,
+      "is_interactive": true,
+      "page": "hub",
+      "title": "Tablet · 6. Results · money flow",
+      "w": 1180,
+      "x": 11340,
+      "y": 240
+    },
     "Main.dc.html": {
       "h": 844,
       "title": "A · Step rail — phone",
       "w": 390,
       "x": 0,
       "y": 260
+    },
+    "P-D.dc.html": {
+      "expand": "fill",
+      "h": 1100,
+      "is_interactive": true,
+      "page": "proto",
+      "title": "Source · Money-flow prototype (embedded above)",
+      "w": 1440,
+      "x": 1520,
+      "y": 2760
+    },
+    "P-G.dc.html": {
+      "expand": "fill",
+      "h": 1100,
+      "is_interactive": true,
+      "page": "proto",
+      "title": "Source · Soft G prototype (embedded above)",
+      "w": 1440,
+      "x": 0,
+      "y": 2760
+    },
+    "PD-laptop.dc.html": {
+      "h": 900,
+      "is_interactive": true,
+      "page": "proto",
+      "title": "Money flow · laptop 1440",
+      "w": 1440,
+      "x": 1730,
+      "y": 1500
+    },
+    "PD-phone.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "page": "proto",
+      "title": "Money flow · phone 390",
+      "w": 390,
+      "x": 0,
+      "y": 1500
+    },
+    "PD-tablet.dc.html": {
+      "h": 820,
+      "is_interactive": true,
+      "page": "proto",
+      "title": "Money flow · tablet 1180",
+      "w": 1180,
+      "x": 470,
+      "y": 1500
+    },
+    "PG-laptop.dc.html": {
+      "h": 900,
+      "is_interactive": true,
+      "page": "proto",
+      "title": "Soft G flow · laptop 1440",
+      "w": 1440,
+      "x": 1730,
+      "y": 240
+    },
+    "PG-phone.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "page": "proto",
+      "title": "Soft G flow · phone 390",
+      "w": 390,
+      "x": 0,
+      "y": 240
+    },
+    "PG-tablet.dc.html": {
+      "h": 820,
+      "is_interactive": true,
+      "page": "proto",
+      "title": "Soft G flow · tablet 1180",
+      "w": 1180,
+      "x": 470,
+      "y": 240
+    },
+    "T1-consent.dc.html": {
+      "expand": "fill",
+      "h": 1260,
+      "page": "softg",
+      "title": "Tablet 1180 · Consent",
+      "w": 1180,
+      "x": 0,
+      "y": 1580
+    },
+    "T2-profile.dc.html": {
+      "expand": "fill",
+      "h": 1260,
+      "page": "softg",
+      "title": "Tablet 1180 · 1. Profile",
+      "w": 1180,
+      "x": 1260,
+      "y": 1580
+    },
+    "T3-revenues.dc.html": {
+      "expand": "fill",
+      "h": 1260,
+      "page": "softg",
+      "title": "Tablet 1180 · 2. Revenues",
+      "w": 1180,
+      "x": 2520,
+      "y": 1580
+    },
+    "T4-costs.dc.html": {
+      "expand": "fill",
+      "h": 1260,
+      "page": "softg",
+      "title": "Tablet 1180 · 3. Costs",
+      "w": 1180,
+      "x": 3780,
+      "y": 1580
+    },
+    "T5-labour.dc.html": {
+      "expand": "fill",
+      "h": 1260,
+      "page": "softg",
+      "title": "Tablet 1180 · 4. Labour",
+      "w": 1180,
+      "x": 5040,
+      "y": 1580
+    },
+    "T6-expenditures.dc.html": {
+      "expand": "fill",
+      "h": 1260,
+      "page": "softg",
+      "title": "Tablet 1180 · 5. Household expenditures",
+      "w": 1180,
+      "x": 6300,
+      "y": 1580
+    },
+    "T7-results.dc.html": {
+      "expand": "fill",
+      "h": 1260,
+      "page": "softg",
+      "title": "Tablet 1180 · 6. Results",
+      "w": 1180,
+      "x": 7560,
+      "y": 1580
+    },
+    "TRail.dc.html": {
+      "h": 820,
+      "page": "hub",
+      "title": "Shared · tablet household rail",
+      "w": 320,
+      "x": 0,
+      "y": 4720
     },
     "X-D-phone.dc.html": {
       "h": 844,
@@ -113,6 +438,134 @@
       "w": 390,
       "x": 1730,
       "y": 7400
+    },
+    "Y1-consent.dc.html": {
+      "h": 844,
+      "title": "Soft G · Consent — phone",
+      "w": 390,
+      "x": 0,
+      "y": 8590
+    },
+    "Y2-profile.dc.html": {
+      "h": 844,
+      "title": "Soft G · 1. Profile — phone",
+      "w": 390,
+      "x": 470,
+      "y": 8590
+    },
+    "Y3-costs.dc.html": {
+      "h": 844,
+      "title": "Soft G · 3. Costs — phone",
+      "w": 390,
+      "x": 940,
+      "y": 8590
+    },
+    "Y4-labour.dc.html": {
+      "h": 844,
+      "title": "Soft G · 4. Labour — phone",
+      "w": 390,
+      "x": 1410,
+      "y": 8590
+    },
+    "Y5-expenditures.dc.html": {
+      "h": 844,
+      "title": "Soft G · 5. Household expenditures — phone",
+      "w": 390,
+      "x": 1880,
+      "y": 8590
+    },
+    "Y6-results.dc.html": {
+      "h": 844,
+      "title": "Soft G · 6. Results — phone",
+      "w": 390,
+      "x": 2350,
+      "y": 8590
+    },
+    "Y7-results-tablet.dc.html": {
+      "h": 820,
+      "title": "Soft G · 6. Results — tablet",
+      "w": 1180,
+      "x": 2820,
+      "y": 8590
+    },
+    "Z-summary.dc.html": {
+      "h": 660,
+      "page": "softg",
+      "title": "Shared · live summary",
+      "w": 360,
+      "x": 1520,
+      "y": 3200
+    },
+    "Z-topbar.dc.html": {
+      "h": 170,
+      "page": "softg",
+      "title": "Shared · top bar + ProcessRail",
+      "w": 1440,
+      "x": 0,
+      "y": 3200
+    },
+    "Z1-consent.dc.html": {
+      "expand": "fill",
+      "h": 980,
+      "page": "softg",
+      "title": "Laptop 1440 · Consent",
+      "w": 1440,
+      "x": 0,
+      "y": 240
+    },
+    "Z2-profile.dc.html": {
+      "expand": "fill",
+      "h": 980,
+      "page": "softg",
+      "title": "Laptop 1440 · 1. Profile",
+      "w": 1440,
+      "x": 1520,
+      "y": 240
+    },
+    "Z3-revenues.dc.html": {
+      "expand": "fill",
+      "h": 980,
+      "page": "softg",
+      "title": "Laptop 1440 · 2. Revenues",
+      "w": 1440,
+      "x": 3040,
+      "y": 240
+    },
+    "Z4-costs.dc.html": {
+      "expand": "fill",
+      "h": 980,
+      "page": "softg",
+      "title": "Laptop 1440 · 3. Costs",
+      "w": 1440,
+      "x": 4560,
+      "y": 240
+    },
+    "Z5-labour.dc.html": {
+      "expand": "fill",
+      "h": 980,
+      "page": "softg",
+      "title": "Laptop 1440 · 4. Labour",
+      "w": 1440,
+      "x": 6080,
+      "y": 240
+    },
+    "Z6-expenditures.dc.html": {
+      "expand": "fill",
+      "h": 980,
+      "page": "softg",
+      "title": "Laptop 1440 · 5. Household expenditures",
+      "w": 1440,
+      "x": 7600,
+      "y": 240
+    },
+    "Z7-results.dc.html": {
+      "expand": "fill",
+      "h": 980,
+      "page": "softg",
+      "title": "Laptop 1440 · 6. Results",
+      "w": 1440,
+      "x": 9120,
+      "y": 240
     }
   },
   "createdOnFiles": {
@@ -126,12 +579,129 @@
       "namespace": "fairtradedesignsystem_5dc08b",
       "title": "Fairtrade Slides",
       "version": "1791352204-7fa6"
+    },
+    {
+      "artifact": "https://claude.ai/artifact/8FRyuRwYEh5N5pdQ9FU6jW",
+      "copiedAt": "2026-10-07T13:00:00Z",
+      "namespace": "fairtradeguidesdesignsystem_fdaa35",
+      "title": "Fairtrade Guides",
+      "version": "1790931348-5546"
     }
   ],
   "launch": {
     "view": "canvas"
   },
   "notes": {
+    "hP": {
+      "kind": "title1",
+      "maxW": 4620,
+      "page": "hub",
+      "text": "Phone · the same flow, stacked",
+      "w": 240,
+      "x": 0,
+      "y": 3400
+    },
+    "hT": {
+      "kind": "title1",
+      "maxW": 8000,
+      "page": "hub",
+      "text": "Tablet first · built on the React app's real fields · C hub + money flow · tap through: Records › hub › each step › Results",
+      "w": 240,
+      "x": 0,
+      "y": 0
+    },
+    "pD": {
+      "kind": "title1",
+      "maxW": 3170,
+      "page": "proto",
+      "text": "Prototype · Money flow — tap a row of the waterfall to open it",
+      "w": 240,
+      "x": 0,
+      "y": 1260
+    },
+    "pG": {
+      "kind": "title1",
+      "maxW": 3170,
+      "page": "proto",
+      "text": "Prototype · Soft G flow — tap the rail, type, toggle; totals update live",
+      "w": 240,
+      "x": 0,
+      "y": 0
+    },
+    "pS": {
+      "kind": "title1",
+      "maxW": 2960,
+      "page": "proto",
+      "text": "Prototype sources — one adaptive file each, embedded in the device frames",
+      "w": 240,
+      "x": 0,
+      "y": 2520
+    },
+    "rv0": {
+      "fill": "gray",
+      "maxH": 1100,
+      "size": 24,
+      "text": "ASSESSMENT · 7 Oct 2026 · score 22/40 (Acceptable)\n\nJudged against PRODUCT.md: coaches type the answers, the farmer never operates the app, success = clean data for COSP/LIRP.\n\nRANKING\n1. C hub, with A- or E-style entry inside each step\n2. E ledger (tablet)\n3. A step rail\n4. B guided focus\n5. G, as a pattern inside steps\n6. D money flow (keep the live gap, fix the spending row)\n7. F: keep only the \"Doesn't know\" chip\n8–10. X-D, X-G, X-F (reject)\n\nACROSS ALL OPTIONS\n• No error or warning states drawn: mixed currency, implausible yield, missing required field.\n• Skipped steps leave no trace. Every skip should leave a \"missing\" marker.\n• Saved is 12px grey everywhere. No offline indicator.\n• Targets under 44px, 11px labels, #9aa0ad grey at 2.6:1. Too small for outdoor phones.\n• Step count says 6 in places and 7 in others.\n• No Consent screen in A–G.\n\nNot yet assessed: the Soft G rows (Y1–Y7) and the Soft G and Prototypes pages.",
+      "w": 600,
+      "x": 2330,
+      "y": 260
+    },
+    "rvA": {
+      "fill": "teal",
+      "maxH": 820,
+      "text": "A · STEP RAIL · rank 3\n\n+ Familiar and solid. A good baseline.\n− Phone rail is clipped after \"Costs\" with no sign that 3 more steps exist.\n− Rail chips are about 33px tall (44px minimum).\n− \"Step 2 of 6\" while there are 7 steps.\n− 11px eyebrow labels.",
+      "w": 520,
+      "x": 1730,
+      "y": 260
+    },
+    "rvB": {
+      "fill": "blue",
+      "maxH": 820,
+      "text": "B · GUIDED FOCUS · rank 4\n\n+ Easiest for a first-time coach. The receipts tip is the only help in the whole set.\n+ \"☰ Steps\" is a good way out of the linear flow.\n− Slow for dense tables: 12 monthly rows become many screens.\n− Hides the other fields in a step, so a farmer who jumps ahead can't be followed.\n− 7 progress segments under \"Step 2 of 6\".",
+      "w": 520,
+      "x": 1730,
+      "y": 1450
+    },
+    "rvC": {
+      "fill": "green",
+      "maxH": 820,
+      "text": "C · HOUSEHOLD HUB · rank 1 (recommended)\n\n+ Each step shows its own status: \"In progress · 1 240 kg cocoa · price missing\".\n+ \"Resume ›\" answers \"where was I?\" after an interruption. No other option does.\n+ Results \"unlocks when steps 1–5 are done\": data integrity built in.\n+ Season chips fit multi-season farmers.\n− \"3 of 7 complete\" but 6 cards drawn.\n− Needs a dense entry layout inside each step (A or E style).\n→ Make it the place where skipped and \"doesn't know\" fields show up.",
+      "w": 520,
+      "x": 1730,
+      "y": 2640
+    },
+    "rvD": {
+      "fill": "orange",
+      "maxH": 820,
+      "text": "D · MONEY-FLOW STORY · rank 6\n\n+ The most product-specific idea in the set.\n+ Rows double as navigation, so the coach can jump to any part of the money flow.\n• Live gap (\"1 832 below\") stays: confirmed as intended for the coaching conversation.\n− Household spending is drawn as a minus inside the income waterfall. The app's results compute profit as revenue minus costs and keep spending separate. Label the last line \"income minus household spending\" (as Compare does), not net income.\n− The 56px hero figure, the waterfall and the inputs all compete. Entry fields lose.\n− \"Skip for now\" sits next to the main button and leaves no trace.\n− Long household names aren't truncated in the header.",
+      "w": 520,
+      "x": 1730,
+      "y": 3830
+    },
+    "rvE": {
+      "fill": "teal",
+      "maxH": 820,
+      "text": "E · WORKBOOK LEDGER · rank 2 (tablet)\n\n+ Most faithful to the data: monthly detail and the workbook's column logic.\n+ The only layout fast enough for the 30th household of a round.\n− Cramped on a phone. Inputs are 34px tall, tablet rows 30–34px.\n− Empty months in #9aa0ad on white (2.6:1).\n− 6 sub-tabs plus 7 sheet tabs: too many choices at once.\n− Numbered sheets assume the coach knows the workbook.\n→ Check against the real workbook before building.",
+      "w": 520,
+      "x": 1730,
+      "y": 5020
+    },
+    "rvFG": {
+      "fill": "purple",
+      "maxH": 820,
+      "text": "F · CONVERSATIONAL · rank 7\n− Built for a farmer answering alone. The coach is the user, so one tap per answer is too slow, even for a 12-month table.\n− Chat history scrolls out of view. A container clips its own content.\n+ Keep the \"Doesn't know\" chip: not knowing is different from zero.\n\nG · PICTOGRAMS · rank 5\n+ The gate question (\"Only the ones you pick get their own questions\") is real progressive disclosure.\n− 6 tiles is too many. Use 4 plus \"Other\" and \"None\".\n− Selection shown only by a navy border and a small tick.\n→ Use G as a pattern inside steps, not as the shell.",
+      "w": 520,
+      "x": 940,
+      "y": 6210
+    },
+    "rvX": {
+      "fill": "red",
+      "maxH": 820,
+      "text": "REMIXES · rank 8–10\n\nX-D brutalist: the clearest status (\"Saved 14:32\", worth keeping). Body text in all caps (up to 65 characters) and spaced-out mono are hard to read. French and Spanish labels will break the all-caps buttons (\"SUIVANT : MAIN-D'ŒUVRE SALARIÉE\").\n\nX-G soft: the decorative softness costs density. Inherits G's issues.\n\nX-F editorial: REJECT. Farmer-facing (\"you\" copy, Listen button, time-remaining countdown) and offers Twi, which the app doesn't support.",
+      "w": 520,
+      "x": 2670,
+      "y": 7400
+    },
     "tA": {
       "kind": "title1",
       "maxW": 1650,
@@ -180,6 +750,33 @@
       "x": 0,
       "y": 5970
     },
+    "tL": {
+      "kind": "title1",
+      "maxW": 8000,
+      "page": "softg",
+      "text": "Laptop 1440 · summary beside the form, tiles in more columns",
+      "w": 240,
+      "x": 0,
+      "y": 0
+    },
+    "tS": {
+      "kind": "title1",
+      "maxW": 1880,
+      "page": "softg",
+      "text": "Shared parts reused by every tab",
+      "w": 240,
+      "x": 0,
+      "y": 2960
+    },
+    "tT": {
+      "kind": "title1",
+      "maxW": 8000,
+      "page": "softg",
+      "text": "Tablet 1180 · same tab files, reflowed: summary drops below, tiles regroup",
+      "w": 240,
+      "x": 0,
+      "y": 1340
+    },
     "tX": {
       "kind": "title1",
       "maxW": 2590,
@@ -187,6 +784,14 @@
       "w": 240,
       "x": 0,
       "y": 7160
+    },
+    "tY": {
+      "kind": "title1",
+      "maxW": 4000,
+      "text": "Soft structuralism G, every tab · Fairtrade Slides + Fairtrade Guides · 2. Revenues = Remix G above",
+      "w": 240,
+      "x": 0,
+      "y": 8350
     }
   },
   "order": [
@@ -205,8 +810,77 @@
     "X-D-phone.dc.html",
     "X-D-tablet.dc.html",
     "X-G-phone.dc.html",
-    "X-F-phone.dc.html"
+    "X-F-phone.dc.html",
+    "Y1-consent.dc.html",
+    "Y2-profile.dc.html",
+    "Y3-costs.dc.html",
+    "Y4-labour.dc.html",
+    "Y5-expenditures.dc.html",
+    "Y6-results.dc.html",
+    "Y7-results-tablet.dc.html",
+    "Z1-consent.dc.html",
+    "T1-consent.dc.html",
+    "Z2-profile.dc.html",
+    "T2-profile.dc.html",
+    "Z3-revenues.dc.html",
+    "T3-revenues.dc.html",
+    "Z4-costs.dc.html",
+    "T4-costs.dc.html",
+    "Z5-labour.dc.html",
+    "T5-labour.dc.html",
+    "Z6-expenditures.dc.html",
+    "T6-expenditures.dc.html",
+    "Z7-results.dc.html",
+    "T7-results.dc.html",
+    "Z-topbar.dc.html",
+    "Z-summary.dc.html",
+    "PG-phone.dc.html",
+    "PG-tablet.dc.html",
+    "PG-laptop.dc.html",
+    "PD-phone.dc.html",
+    "PD-tablet.dc.html",
+    "PD-laptop.dc.html",
+    "P-G.dc.html",
+    "P-D.dc.html",
+    "H0-records.dc.html",
+    "H1-hub.dc.html",
+    "H2-consent.dc.html",
+    "H3-profile.dc.html",
+    "H4-revenues.dc.html",
+    "H5-costs.dc.html",
+    "H6-labour.dc.html",
+    "H7-expenditures.dc.html",
+    "H8-hub-complete.dc.html",
+    "H9-results.dc.html",
+    "HT0-records.dc.html",
+    "HT1-hub.dc.html",
+    "HT2-consent.dc.html",
+    "HT3-profile.dc.html",
+    "HT4-revenues.dc.html",
+    "HT5-costs.dc.html",
+    "HT6-labour.dc.html",
+    "HT7-expenditures.dc.html",
+    "HT8-hub-complete.dc.html",
+    "HT9-results.dc.html",
+    "TRail.dc.html"
   ],
-  "pages": [],
+  "pages": [
+    {
+      "id": "explore",
+      "name": "All explorations"
+    },
+    {
+      "id": "softg",
+      "name": "Soft G — tablet & laptop"
+    },
+    {
+      "id": "proto",
+      "name": "Prototypes — 3 devices"
+    },
+    {
+      "id": "hub",
+      "name": "C hub + money flow prototype"
+    }
+  ],
   "title": "Cocoa Capture Shell Options"
 }

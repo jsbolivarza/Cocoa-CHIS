@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Tablet household rail</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/fairtradedesignsystem_5dc08b/tokens.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@500;700;800&amp;family=Exo:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<aside aria-label="Household" style="width: {{ w }}px; flex: none; height: {{ h }}px; box-sizing: border-box; display: flex; flex-direction: column; background: #f3f5f9; border-right: 1px solid #dfe3ea; font-family: 'Exo', 'Segoe UI', sans-serif; color: #0e1733">
+  <sc-if value="{{ full }}" hint-placeholder-val="{{ true }}">  <div style="background: #001b6e; color: #ffffff; padding: 4px 18px 16px; display: flex; flex-direction: column; gap: 8px">
+    <div style="display: flex; align-items: center; justify-content: space-between">
+      <a href="HT0-records.dc.html" style="color: #ffffff; text-decoration: none; font-size: 15px; min-height: 44px; display: flex; align-items: center; gap: 4px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg>Records</a>
+      <span style="display: flex; align-items: center; gap: 6px; font-size: 13px; color: #d9e0f5"><span style="width: 8px; height: 8px; border-radius: 999px; background: #d4ff47"></span>Offline · Saved {{ saved }}</span>
+    </div>
+    <a href="{{ hubHref }}" style="display: flex; flex-direction: column; gap: 2px; color: #ffffff; text-decoration: none; min-width: 0">
+      <span style="font-family: 'Alegreya Sans', sans-serif; font-weight: 800; font-size: 26px; line-height: 1.1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">Kouadio Kone</span>
+      <span style="font-size: 14px; color: #d9e0f5">SCO641 · SCOOPCA · Daloa</span>
+    </a>
+    <div role="group" aria-label="Season" style="display: flex; gap: 8px">
+      <span style="min-height: 34px; padding: 0 12px; border-radius: 999px; background: #d4ff47; color: #001b6e; font-size: 14px; font-weight: 700; display: flex; align-items: center">2025/2026</span>
+      <a href="#" style="min-height: 34px; padding: 0 12px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.4); color: #ffffff; font-size: 14px; display: flex; align-items: center; text-decoration: none">2024/2025</a>
+    </div>
+  </div></sc-if>
+  <sc-if value="{{ compact }}" hint-placeholder-val="{{ false }}"><div style="background: #001b6e; color: #ffffff; padding: 4px 0 14px; display: flex; flex-direction: column; align-items: center; gap: 8px"><a href="HT0-records.dc.html" aria-label="Records" style="color: #ffffff; min-height: 44px; min-width: 44px; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></a><a href="{{ hubHref }}" aria-label="Kouadio Kone, household overview" style="width: 44px; height: 44px; border-radius: 999px; background: #d4ff47; color: #001b6e; font-weight: 800; font-size: 16px; display: flex; align-items: center; justify-content: center; text-decoration: none">KK</a><span style="width: 8px; height: 8px; border-radius: 999px; background: #d4ff47" title="Offline · Saved {{ saved }}"></span></div></sc-if>
+
+  <nav aria-label="Interview steps" style="flex-grow: 0; padding: 12px {{ navPad }}px 8px; display: flex; flex-direction: column; gap: 6px; overflow-y: auto">
+    <sc-for list="{{ steps }}" as="s" hint-placeholder-count="7">
+      <a href="{{ s.href }}" aria-label="{{ s.label }}" aria-current="{{ s.current }}" style="{{ s.box }}">
+        <span style="{{ s.dot }}">
+          <sc-if value="{{ s.isDone }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg></sc-if>
+          <sc-if value="{{ s.isNum }}" hint-placeholder-val="{{ false }}">{{ s.num }}</sc-if>
+          <sc-if value="{{ s.isSkipped }}" hint-placeholder-val="{{ false }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M12 6v8M12 18v.5"></path></svg></sc-if>
+          <sc-if value="{{ s.isLocked }}" hint-placeholder-val="{{ false }}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg></sc-if>
+        </span>
+        <sc-if value="{{ s.full }}" hint-placeholder-val="{{ true }}">        <span style="flex-grow: 1; display: flex; flex-direction: column; min-width: 0">
+          <span style="font-weight: 600; font-size: 15px; color: {{ s.titleColor }}">{{ s.label }}</span>
+          <span style="font-size: 13px; color: {{ s.subColor }}; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ s.sub }}</span>
+        </span></sc-if>
+      </a>
+    </sc-for>
+  </nav>
+
+  <sc-if value="{{ showFlow }}" hint-placeholder-val="{{ true }}">  <section aria-label="Money flow" style="margin: 0 12px 12px; background: #ffffff; border: 1px solid #dfe3ea; border-radius: 14px; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px">
+    <span style="font-weight: 700; font-size: 14px; color: #001b6e">{{ flowTitle }}</span>
+    <div style="display: grid; grid-template-columns: 40px minmax(0, 1fr) 84px; gap: 8px; align-items: center; font-size: 13px">
+      <span>In</span><span style="height: 10px; border-radius: 3px; background: #e9ecf2; position: relative"><span style="{{ inBar }}"></span></span><span style="text-align: right; font-variant-numeric: tabular-nums">{{ inTxt }}</span>
+      <span>Out</span><span style="height: 10px; border-radius: 3px; background: #e9ecf2; position: relative"><span style="{{ outBar }}"></span></span><span style="text-align: right; font-variant-numeric: tabular-nums">{{ outTxt }}</span>
+      <span style="font-weight: 700; color: #001b6e">Net</span><span style="height: 10px; border-radius: 3px; background: #e9ecf2; position: relative"><span style="{{ netBar }}"></span></span><span style="text-align: right; font-weight: 700; color: #001b6e; font-variant-numeric: tabular-nums">{{ netTxt }}</span>
+    </div>
+    <span style="font-size: 13px; color: #4b5563">{{ flowNote }}</span>
+  </section></sc-if>
+  <sc-if value="{{ noFlow }}" hint-placeholder-val="{{ false }}"><p style="margin: 0 16px 12px; font-size: 13px; color: #4b5563">The money flow appears here once revenues are entered.</p></sc-if>
+  <div style="flex-grow: 1"></div>
+</aside>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"active":{"editor":"enum","options":["hub","consent","profile","revenues","costs","labour","expenditures","results"],"default":"hub"},"phase":{"editor":"enum","options":["progress","capturing","complete"],"default":"progress"},"saved":{"editor":"text","default":"14:32"},"h":{"editor":"int","default":820},"compact":{"editor":"enum","options":["0","1"],"default":"0"},"flowIn":{"editor":"int","default":2421400},"flowOut":{"editor":"int","default":0},"$preview":{"width":320,"height":820}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const active = this.props.active ?? 'hub';
+    this.cmp = String(this.props.compact ?? '0') === '1';
+    const phase = this.props.phase ?? 'progress';
+    const fin = Number(this.props.flowIn ?? 2421400);
+    const fout = Number(this.props.flowOut ?? 0);
+    const fmt = (n) => String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    const defs = [
+      { key: 'consent', label: 'Consent', num: '', href: 'HT2-consent.dc.html', done: 'Marked complete · 3 of 4 releases' },
+      { key: 'profile', label: '1. Profile', num: '1', href: 'HT3-profile.dc.html', done: '4 members · 2 acres cocoa' },
+      { key: 'revenues', label: '2. Revenues', num: '2', href: 'HT4-revenues.dc.html', done: '2 566 400 XOF · premium unknown' },
+      { key: 'costs', label: '3. Costs', num: '3', href: 'HT5-costs.dc.html', done: '475 000 XOF' },
+      { key: 'labour', label: '4. Labour', num: '4', href: 'HT6-labour.dc.html', done: '214 household · 58 hired days' },
+      { key: 'expenditures', label: '5. Household expenditures', num: '5', href: 'HT7-expenditures.dc.html', done: 'At least 1 390 000 · 1 unknown' }
+    ];
+    const ai = defs.findIndex((d) => d.key === active);
+    const progressState = { consent: 'done', profile: 'done', revenues: 'current', costs: 'skipped', labour: 'todo', expenditures: 'todo' };
+    const steps = defs.map((d, i) => {
+      let st;
+      if (phase === 'complete') st = 'done';
+      else if (phase === 'progress') st = progressState[d.key];
+      else st = i < ai ? 'done' : (i === ai ? 'current' : 'todo');
+      let sub = d.done;
+      if (st === 'current') sub = phase === 'progress' ? 'In progress · livestock to do' : 'Filling in now';
+      if (st === 'skipped') sub = 'Not marked complete · receipts to come';
+      if (st === 'todo') sub = 'Not started';
+      if (st === 'done' && d.key === 'revenues' && phase !== 'complete') sub = '2 566 400 XOF';
+      return this.item(d.label, d.num, d.href, st, sub, d.key === active);
+    });
+    const resDone = phase === 'complete';
+    steps.push(this.item('6. Results', '6', resDone ? 'HT9-results.dc.html' : '#', resDone ? 'results' : 'locked', resDone ? 'Net farm income 1 805 400' : 'Unlocks after steps 1–5', active === 'results'));
+    const pct = (v) => fin > 0 ? Math.max(0, Math.min(100, v / fin * 100)) : 0;
+    const bar = (left, w, c) => 'position: absolute; top: 0; height: 10px; border-radius: 3px; left: ' + left + '%; width: ' + w + '%; background: ' + c;
+    const net = fin - fout;
+    return {
+      navPad: this.cmp ? 10 : 12, compact: this.cmp, full: !this.cmp, w: this.cmp ? 76 : 320, showFlow: !this.cmp && fin > 0, noFlow: !this.cmp && fin <= 0, saved: this.props.saved ?? '14:32', h: Number(this.props.h ?? 820),
+      hubHref: phase === 'complete' ? 'HT8-hub-complete.dc.html' : 'HT1-hub.dc.html',
+      steps,
+      flowTitle: phase === 'complete' ? 'Money flow' : 'Money flow so far',
+      inBar: bar(0, pct(fin), '#12a389'),
+      outBar: bar(100 - pct(fout), pct(fout), '#e2663a'),
+      netBar: bar(0, pct(net), '#001b6e'),
+      inTxt: '+' + fmt(fin),
+      outTxt: fout > 0 ? '−' + fmt(fout) : '—',
+      netTxt: fmt(net),
+      flowNote: fout > 0 ? 'XOF · household spending is compared in Results' : 'XOF · costs not captured yet'
+    };
+  }
+  item(label, num, href, st, sub, sel) {
+    const base = 'display: flex; align-items: center; gap: 10px; min-height: 52px; box-sizing: border-box; padding: ' + (this.cmp ? '8px 0; justify-content: center;' : '8px 12px;') + ' border-radius: 12px; text-decoration: none; ';
+    const boxes = {
+      done: 'background: #ffffff; border: 1px solid #e4e7ec;',
+      current: 'background: #e2f8fe; border: 1.5px solid #0fc0fc;',
+      skipped: 'background: #fffaeb; border: 1.5px solid #f0b429;',
+      todo: 'background: #ffffff; border: 1px solid #e4e7ec;',
+      locked: 'background: #eceff4; border: 1px dashed #9aa3b5;',
+      results: 'background: #ffffff; border: 1.5px solid #001b6e;'
+    };
+    const dots = {
+      done: 'background: #09fbd3; color: #001b6e;',
+      current: 'background: #001b6e; color: #ffffff;',
+      skipped: 'background: #f0b429; color: #3d2600;',
+      todo: 'border: 1.5px solid #9aa3b5; color: #3a4256; box-sizing: border-box;',
+      locked: 'color: #3a4256;',
+      results: 'background: #d4ff47; color: #001b6e;'
+    };
+    const ring = sel ? ' box-shadow: 0 0 0 2px #001b6e;' : '';
+    const isResults = st === 'results';
+    return {
+      label, num, href, sub, full: !this.cmp,
+      current: sel ? 'page' : 'false',
+      box: base + boxes[st] + ring,
+      dot: 'width: 28px; height: 28px; border-radius: 999px; display: flex; align-items: center; justify-content: center; flex: none; font-weight: 700; font-size: 13px; ' + dots[st],
+      isDone: st === 'done',
+      isNum: st === 'current' || st === 'todo' || isResults || (st === 'done' && false),
+      isSkipped: st === 'skipped',
+      isLocked: st === 'locked',
+      titleColor: isResults ? '#001b6e' : (st === 'locked' ? '#3a4256' : '#001b6e'),
+      subColor: isResults ? '#1a6b4f' : (st === 'skipped' ? '#7a4b00' : (st === 'current' ? '#00517a' : '#4b5563'))
+    };
+  }
+}
+</script>
+</body>
+</html>

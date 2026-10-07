@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>1. Profile</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/fairtradedesignsystem_5dc08b/tokens.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@500;700;800&amp;family=Exo:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#001b6e}
+input,select{font:inherit}
+.num{font-variant-numeric:tabular-nums}
+.ic{width:20px;height:20px;flex:none}
+.card{background:#ffffff;border:1px solid #e4e7ec;border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:12px}
+.h2{margin:0;font-family:'Alegreya Sans',sans-serif;font-weight:800;font-size:21px;color:#001b6e}
+.fld{display:flex;flex-direction:column;gap:6px;min-width:0}
+.lbl{font-size:14px;font-weight:600}
+.inp{min-height:48px;box-sizing:border-box;border:1.5px solid #9aa3b5;border-radius:12px;padding:0 12px;font-size:16px;background:#ffffff;color:#0e1733;width:100%}
+.inp:focus{outline:3px solid #0fc0fc;outline-offset:1px}
+.unit{font-size:14px;color:#4b5563}
+::selection{background:#d4ff47;color:#001b6e}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; display: flex; flex-direction: column; background: #f8f9fb; font-family: 'Exo', 'Segoe UI', sans-serif; color: #0e1733; overflow: hidden">
+  <header style="background: #001b6e; color: #ffffff; padding: 4px 16px 14px; display: flex; flex-direction: column; gap: 8px">
+    <div style="display: flex; align-items: center; justify-content: space-between">
+      <a href="H1-hub.dc.html" style="color: #ffffff; text-decoration: none; font-size: 15px; min-height: 44px; display: flex; align-items: center; gap: 4px"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg>Household</a>
+      <span style="display: flex; align-items: center; gap: 6px; font-size: 13px; color: #d9e0f5"><span style="width: 8px; height: 8px; border-radius: 999px; background: #d4ff47"></span>Offline · Saved 14:32</span>
+    </div>
+    <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px">
+      <h1 style="margin: 0; font-family: 'Alegreya Sans', sans-serif; font-weight: 800; font-size: 26px; line-height: 1.1">1 · Profile</h1>
+      <span style="font-size: 14px; color: #d9e0f5">Step 1 of 5</span>
+    </div>
+    <div aria-hidden="true" style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px">
+      <span style="height: 6px; border-radius: 999px; background: #ffffff"></span>
+      <span style="height: 6px; border-radius: 999px; background: rgba(255,255,255,0.2)"></span>
+      <span style="height: 6px; border-radius: 999px; background: rgba(255,255,255,0.2)"></span>
+      <span style="height: 6px; border-radius: 999px; background: rgba(255,255,255,0.2)"></span>
+      <span style="height: 6px; border-radius: 999px; background: rgba(255,255,255,0.2)"></span>
+    </div>
+  </header>
+
+  <main style="flex-grow: 1; padding: 16px; display: flex; flex-direction: column; gap: 12px; overflow-y: auto">
+    <section class="card">
+      <h2 class="h2">Farmer</h2>
+      <label class="fld"><span class="lbl">Producer name</span><input class="inp" value="Kouadio Kone"></label>
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+        <label class="fld"><span class="lbl">Producer code</span><input class="inp" value="SCO641"></label>
+        <label class="fld"><span class="lbl">Season</span><select class="inp"><option selected>2025/26</option><option>2024/25</option></select></label>
+      </div>
+      <div role="status" style="display: flex; gap: 10px; align-items: flex-start; background: #e2f8fe; border-radius: 12px; padding: 12px; font-size: 14px; color: #00405f">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"></path><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"></path></svg>
+        <span>Linked to this farmer's 2024/25 record. Name, coop and plots were copied from it.</span>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+        <label class="fld"><span class="lbl">Cooperative</span><input class="inp" value="SCOOPCA"></label>
+        <label class="fld"><span class="lbl">Village</span><input class="inp" value="Daloa"></label>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 class="h2">Farm</h2>
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+        <label class="fld"><span class="lbl">Cocoa area</span><input class="inp num" inputmode="decimal" value="2"><span class="unit">acres · measured (GPS)</span></label>
+        <label class="fld"><span class="lbl">Total farm area</span><input class="inp num" inputmode="decimal" value="5"><span class="unit">acres · declared</span></label>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+        <label class="fld"><span class="lbl">Cocoa produced</span><input class="inp num" inputmode="decimal" value="1 358"><span class="unit">kg this season</span></label>
+        <label class="fld"><span class="lbl">Farmgate price</span><input class="inp num" inputmode="decimal" value="1 800"><span class="unit">XOF per kg</span></label>
+      </div>
+    </section>
+
+    <section class="card">
+      <div style="display: flex; justify-content: space-between; align-items: center">
+        <h2 class="h2">Household</h2>
+        <span style="font-size: 14px; color: #4b5563">4 members</span>
+      </div>
+      <div style="display: flex; flex-direction: column; border-top: 1px solid #e4e7ec">
+        <div style="display: flex; justify-content: space-between; min-height: 48px; align-items: center; border-bottom: 1px solid #e4e7ec; font-size: 15px"><span>Kouadio Kone · head</span><span style="color: #4b5563">48 · works on farm</span></div>
+        <div style="display: flex; justify-content: space-between; min-height: 48px; align-items: center; border-bottom: 1px solid #e4e7ec; font-size: 15px"><span>Spouse</span><span style="color: #4b5563">41 · trader</span></div>
+        <div style="display: flex; justify-content: space-between; min-height: 48px; align-items: center; border-bottom: 1px solid #e4e7ec; font-size: 15px"><span>Child</span><span style="color: #4b5563">14 · at school</span></div>
+        <div style="display: flex; justify-content: space-between; min-height: 48px; align-items: center; font-size: 15px"><span>Child</span><span style="color: #4b5563">9 · at school</span></div>
+      </div>
+      <a href="#" style="min-height: 48px; border-radius: 12px; border: 1.5px dashed #9aa3b5; color: #001b6e; font-weight: 600; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>Add member</a>
+    </section>
+  </main>
+
+  <footer style="background: #ffffff; border-top: 1px solid #e4e7ec; padding: 12px 16px 12px; display: flex; flex-direction: column; gap: 4px">
+    <a href="H4-revenues.dc.html" style="min-height: 52px; border-radius: 14px; background: #001b6e; color: #ffffff; font-weight: 600; font-size: 16px; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none">Save · Next: Revenues<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></a>
+    <a href="H1-hub.dc.html" style="min-height: 44px; display: flex; align-items: center; justify-content: center; font-size: 15px; color: #001b6e; text-underline-offset: 3px">Skip for now, mark as missing</a>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>5. Household expenditures, tablet</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/fairtradedesignsystem_5dc08b/tokens.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@500;700;800&amp;family=Exo:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#001b6e}
+input,select,button{font:inherit}
+.num{font-variant-numeric:tabular-nums}
+.card{background:#ffffff;border:1px solid #e4e7ec;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:14px}
+.h2{margin:0;font-family:'Alegreya Sans',sans-serif;font-weight:800;font-size:22px;color:#001b6e;line-height:1.15}
+.h3{margin:4px 0 0;font-family:'Alegreya Sans',sans-serif;font-weight:800;font-size:18px;color:#001b6e}
+.help{margin:0;font-size:14px;line-height:1.5;color:#4b5563;max-width:72ch}
+.g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 16px}
+.g4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px 16px}
+.fld{display:flex;flex-direction:column;gap:6px;min-width:0}
+.lbl{font-size:14px;font-weight:600;color:#1f2a44}
+.req{color:#b42318}
+.opt{display:inline-block;margin-left:6px;padding:1px 7px;border-radius:999px;background:#eef1f6;color:#4b5563;font-size:12px;font-weight:500}
+.hint{font-size:13px;color:#4b5563;line-height:1.4}
+.inp{min-height:44px;box-sizing:border-box;border:1.5px solid #9aa3b5;border-radius:10px;padding:0 10px;font-size:16px;background:#ffffff;color:#0e1733;width:100%}
+.inp:focus{outline:3px solid #0fc0fc;outline-offset:1px;border-color:#001b6e}
+.r{text-align:right}
+.strip{display:flex;flex-wrap:wrap;gap:10px 28px;background:#f3f5f9;border-radius:12px;padding:12px 16px}
+.st{display:flex;flex-direction:column;gap:2px;min-width:120px}
+.st span:first-child{font-size:13px;color:#4b5563}
+.st span:last-child{font-size:18px;font-weight:700;color:#001b6e}
+.kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.kpi{border:1px solid #e4e7ec;border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:4px;background:#ffffff}
+.kpi span:first-child{font-size:14px;color:#3a4256}
+.kpi b{font-family:'Alegreya Sans',sans-serif;font-weight:800;font-size:28px;color:#001b6e;line-height:1.05}
+.kpi small{font-size:14px;font-weight:600;color:#3a4256}
+.kpi.main{background:#001b6e;border-color:#001b6e}
+.kpi.main span:first-child,.kpi.main small{color:#d9e0f5}
+.kpi.main b{color:#d4ff47}
+.tw{border:1px solid #e4e7ec;border-radius:14px;overflow-x:auto;background:#ffffff}
+table{border-collapse:collapse;width:100%}
+th{font-size:13px;font-weight:600;color:#3a4256;text-align:left;padding:10px 4px;background:#f3f5f9;vertical-align:bottom;line-height:1.25}
+td{padding:6px 4px;border-top:1px solid #eef0f4;vertical-align:middle;font-size:15px}
+th:first-child,td:first-child{padding-left:14px}
+th:last-child,td:last-child{padding-right:14px}
+.cmp{font-weight:600;color:#001b6e;text-align:right;white-space:nowrap}
+.del{width:44px;height:44px;border-radius:10px;border:1px solid #e4e7ec;background:#ffffff;color:#4b5563;display:flex;align-items:center;justify-content:center}
+.add{align-self:flex-start;min-height:44px;padding:0 16px;border-radius:10px;border:1.5px dashed #9aa3b5;background:#ffffff;color:#001b6e;font-weight:600;font-size:15px;display:flex;align-items:center;gap:6px}
+.dk{min-height:44px;padding:0 12px;border-radius:10px;border:1.5px solid #f0b429;background:#fff4d6;color:#3d2600;font-size:14px;font-weight:600;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.warn{display:flex;gap:12px;align-items:center;background:#fffaeb;border:1.5px solid #f0b429;border-radius:12px;padding:10px 14px;font-size:14px;color:#5c3a00}
+.note{display:flex;gap:10px;align-items:flex-start;background:#fff4d6;border-radius:12px;padding:10px 14px;font-size:14px;color:#5c3a00}
+.tg{min-height:48px;padding:0 16px;border-radius:999px;font-size:15px;font-weight:600;display:inline-flex;align-items:center;gap:8px}
+.tg.on{background:#001b6e;color:#ffffff;border:2px solid #001b6e}
+.tg.off{background:#ffffff;color:#001b6e;border:1.5px solid #9aa3b5}
+.sub{border-top:1px solid #e4e7ec;padding-top:16px;display:flex;flex-direction:column;gap:12px}
+::selection{background:#d4ff47;color:#001b6e}
+</style>
+</helmet>
+<div style="width: 1180px; height: 1000px; box-sizing: border-box; display: flex; align-items: stretch; background: #f8f9fb; font-family: 'Exo', 'Segoe UI', sans-serif; color: #0e1733; overflow: hidden">
+  <dc-import name="TRail" active="expenditures" phase="capturing" saved="15:04" flow-in="2566400" flow-out="761000" h="1000" compact="0" hint-size="320px,1000px"></dc-import>
+  <div id="col" style="flex-grow: 1; min-width: 0; display: flex; flex-direction: column">
+    <header style="padding: 22px 32px 18px; background: #ffffff; border-bottom: 1px solid #e4e7ec; display: flex; align-items: center; justify-content: space-between; gap: 24px">
+      <div style="display: flex; flex-direction: column; gap: 4px; min-width: 0">
+        <h1 style="margin: 0; font-family: 'Alegreya Sans', sans-serif; font-weight: 800; font-size: 30px; color: #001b6e; line-height: 1.1">5. Household expenditures</h1>
+        <span style="font-size: 15px; color: #4b5563">SCOOPCA · Daloa · XOF / acre · kg</span>
+      </div>
+      <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex: none"><span style="font-size: 14px; color: #3a4256">Step 5 of 5</span><div aria-hidden="true" style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px; width: 200px"><span style="height: 8px; border-radius: 999px; background: #12a389"></span><span style="height: 8px; border-radius: 999px; background: #12a389"></span><span style="height: 8px; border-radius: 999px; background: #12a389"></span><span style="height: 8px; border-radius: 999px; background: #12a389"></span><span style="height: 8px; border-radius: 999px; background: #0fc0fc"></span></div></div>
+    </header>
+    <main style="flex-grow: 1; padding: 22px 32px 28px; display: flex; flex-direction: column; gap: 18px">
+<div style="display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 12px; align-items: stretch">
+  <div class="kpi main"><span>Total household expenditures</span><b class="num">≥ 1 390 000 <small>XOF</small></b></div>
+  <div class="strip"><div class="st"><span>Food costs</span><span class="num">860 000 XOF</span></div><div class="st"><span>Educational costs</span><span class="num">310 000 XOF</span></div><div class="st"><span>Healthcare costs</span><span class="num">90 000 XOF + unknown</span></div><div class="st"><span>Other costs</span><span class="num">130 000 XOF</span></div></div>
+</div>
+<section class="card">
+  <h2 class="h2">Household spending by quarter</h2>
+  <div class="tw"><table><thead><tr><th>Category</th><th class="r">1st quarter</th><th class="r">2nd quarter</th><th class="r">3rd quarter</th><th class="r">4th quarter</th><th class="r" style="width: 130px">Season</th></tr></thead><tbody>
+  <tr><td style="font-weight: 700; color: #001b6e; font-size: 16px">Food costs</td><td><input class="inp num r" value="190 000" aria-label="Food costs quarter 1"></td><td><input class="inp num r" value="220 000" aria-label="Food costs quarter 2"></td><td><input class="inp num r" value="230 000" aria-label="Food costs quarter 3"></td><td><input class="inp num r" value="220 000" aria-label="Food costs quarter 4"></td><td class="cmp num" style="font-size: 16px">860 000</td></tr><tr><td style="font-weight: 700; color: #001b6e; font-size: 16px">Educational costs</td><td><input class="inp num r" value="180 000" aria-label="Educational costs quarter 1"></td><td><input class="inp num r" value="60 000" aria-label="Educational costs quarter 2"></td><td><input class="inp num r" value="40 000" aria-label="Educational costs quarter 3"></td><td><input class="inp num r" value="30 000" aria-label="Educational costs quarter 4"></td><td class="cmp num" style="font-size: 16px">310 000</td></tr><tr><td style="font-weight: 700; color: #001b6e; font-size: 16px">Healthcare costs</td><td><input class="inp num r" value="25 000" aria-label="Healthcare costs quarter 1"></td><td><input class="inp num r" value="30 000" aria-label="Healthcare costs quarter 2"></td><td><button type="button" class="dk" aria-pressed="true" style="width: 100%; justify-content: center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg>Doesn't know</button></td><td><input class="inp num r" value="35 000" aria-label="Healthcare costs quarter 4"></td><td class="cmp num" style="font-size: 16px">90 000 + ?</td></tr><tr><td style="font-weight: 700; color: #001b6e; font-size: 16px">Other costs</td><td><input class="inp num r" value="40 000" aria-label="Other costs quarter 1"></td><td><input class="inp num r" value="30 000" aria-label="Other costs quarter 2"></td><td><input class="inp num r" value="25 000" aria-label="Other costs quarter 3"></td><td><input class="inp num r" value="35 000" aria-label="Other costs quarter 4"></td><td class="cmp num" style="font-size: 16px">130 000</td></tr>
+  <tr><td colspan="5" style="font-weight: 700; color: #001b6e; border-top: 2px solid #001b6e">Total household expenditures</td><td class="cmp num" style="font-size: 17px; border-top: 2px solid #001b6e">≥ 1 390 000</td></tr>
+  </tbody></table></div>
+  <div class="note"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v5M12 16v.5"></path></svg><span>Healthcare, 3rd quarter is unknown. Results show household expenditures as "at least 1 390 000" instead of guessing.</span></div>
+</section>
+    </main>
+    <footer style="padding: 16px 32px; background: #ffffff; border-top: 1px solid #e4e7ec; display: flex; align-items: center; gap: 12px">
+      <a href="HT6-labour.dc.html" style="min-height: 52px; padding: 0 20px; border-radius: 14px; border: 1.5px solid #9aa3b5; color: #001b6e; font-weight: 600; font-size: 16px; display: flex; align-items: center; gap: 6px; text-decoration: none"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg>Back</a>
+      <span style="flex-grow: 1"></span>
+      <button type="button" aria-pressed="false" style="min-height: 52px; padding: 0 20px; border-radius: 14px; background: #ffffff; border: 1.5px solid #001b6e; color: #001b6e; font-weight: 600; font-size: 16px; display: flex; align-items: center; gap: 8px"><span style="width: 18px; height: 18px; border: 2px solid currentColor; border-radius: 4px; box-sizing: border-box"></span>Mark as complete</button>
+      <a href="HT8-hub-complete.dc.html" style="min-height: 52px; min-width: 260px; padding: 0 24px; box-sizing: border-box; border-radius: 14px; background: #001b6e; color: #ffffff; font-weight: 600; font-size: 16px; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none">Next: 6. Results<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></a>
+    </footer>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1180,"height":1000}}'>
+class Component extends DCLogic {
+renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

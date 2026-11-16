@@ -156,7 +156,7 @@ body.layout-wide input, body.layout-wide select, body.layout-wide textarea { fon
   background: #fffaeb; border: 1.5px solid #f0b429; color: #5c3a00; border-radius: 12px;
   padding: 12px 16px; margin: 0 0 16px; font-size: 0.95rem;
 }
-.waterfall-grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 18px; align-items: start; margin-bottom: 20px; }
+.waterfall-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 18px; align-items: start; margin-bottom: 20px; }
 .wf-card { border: 1px solid #e4e7ec; border-radius: 16px; padding: 18px; display: flex; flex-direction: column; gap: 2px; background: #fff; }
 .wf-card h2 { margin: 0 0 8px; font-size: 1.3rem; color: var(--night); }
 .wf-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 8px; }
@@ -168,7 +168,7 @@ body.layout-wide input, body.layout-wide select, body.layout-wide textarea { fon
 }
 .wf-toggle button[aria-pressed="true"] { background: #fff; color: var(--night); box-shadow: 0 1px 3px rgba(14, 23, 51, 0.15); }
 .wf-row {
-  display: grid; grid-template-columns: minmax(120px, 190px) minmax(0, 1fr) minmax(84px, auto); gap: 12px; align-items: center;
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(84px, auto); gap: 12px; align-items: center;
   min-height: 44px; font: inherit; font-size: 15px; color: inherit; text-align: left;
   background: none; border: 0; border-radius: 8px; padding: 0 4px; width: 100%; box-sizing: border-box;
 }
@@ -177,16 +177,44 @@ button.wf-row { cursor: pointer; }
 .wf-row .num { text-align: right; }
 .wf-row.is-total, .wf-row.is-net { font-weight: 700; color: var(--night); border-top: 1.5px solid var(--night); border-radius: 0; }
 .wf-row.is-net.is-negative .num { color: #b3123e; }
-.wf-track { position: relative; height: 16px; }
-.wf-bar { position: absolute; top: 0; height: 16px; border-radius: 3px; }
+/* Waterfall columns, left to right. Colours checked with the dataviz
+   validator (light): in #12a389, out #e2663a, totals #4a62a8. */
+.wf-legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 13px; color: var(--hh-muted, #4b5563); margin: 0 0 12px; }
+.wf-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.wf-legend i { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+.wf-legend i.is-in { background: #12a389; }
+.wf-legend i.is-out { background: #e2663a; }
+.wf-legend i.is-total { background: #4a62a8; }
+.wf-chart { display: grid; gap: 2px; align-items: stretch; overflow-x: auto; padding-bottom: 4px; }
+.wf-col {
+  display: flex; flex-direction: column; gap: 8px; min-width: 0; padding: 0 2px 4px; border: 0; background: none;
+  font: inherit; color: inherit; border-radius: 8px;
+}
+button.wf-col { cursor: pointer; }
+@media (hover: hover) { button.wf-col:hover { background: #f3f5f9; } }
+.wf-col:focus-visible { outline: 3px solid var(--sky); outline-offset: 2px; }
+.wf-plot { position: relative; height: 240px; margin-top: 22px; border-bottom: 1px solid #c9ced8; }
+.wf-zero { position: absolute; left: 0; right: 0; border-top: 1px dashed #9aa3b5; }
+.wf-bar { position: absolute; left: 50%; transform: translateX(-50%); width: min(70%, 56px); border-radius: 4px; }
 .wf-bar.is-in { background: #12a389; }
 .wf-bar.is-out { background: #e2663a; }
-.wf-bar.is-total, .wf-bar.is-net { background: var(--night); }
+.wf-bar.is-total, .wf-bar.is-net { background: #4a62a8; }
 .wf-bar.is-neg { background: var(--flower); }
+.wf-value {
+  position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); margin-bottom: 4px;
+  font-size: 13px; font-weight: 600; color: var(--hh-ink, #0e1733); white-space: nowrap;
+}
+.wf-label { font-size: 12px; line-height: 1.25; text-align: center; color: var(--hh-ink, #0e1733); overflow-wrap: normal; }
+.wf-label.is-strong { font-weight: 700; color: var(--night); }
 
-@media (max-width: 1100px) { .waterfall-grid { grid-template-columns: minmax(0, 1fr); } }
 @media (max-width: 1050px) { .hub-grid { grid-template-columns: minmax(0, 1fr); } }
 @media print {
   .hh-rail, .page-head .hub-btn { display: none; }
   .hh-shell { display: block; }
 }
+
+/* No coloured stripe on the left of cards and notes (JB 16.11.26). */
+body.layout-wide .kpi-card, body.layout-wide .kpi-card.night, body.layout-wide .warn-note,
+body.layout-wide .record-card { border-left-width: 1px; border-left-color: var(--border); }
+body.layout-wide .kpi-card.night { border-left-color: var(--night); }
+body.layout-wide .warn-note { border: 1px solid #f0b429; }

@@ -1,6 +1,6 @@
 /* MoneyWaterfall.tsx
-   Top of Results (design/shell-options/HT9-results): revenues stacked up,
-   costs taken off, profit left — the same figures as the results table
+   Top of Results (design/shell-options/HT9-results), drawn left to right:
+   revenues stacked up, costs taken off, profit left — the same figures as the results table
    below, drawn so the household can follow them. Household spending is
    kept out of the waterfall and compared with profit in its own block,
    because calcResults() computes profit as revenues minus costs only. */
@@ -38,7 +38,6 @@ export function MoneyWaterfall({ res }: { res: Results }) {
     { labelKey: "res_hired_labour", value: cocoa ? res.labour.totalLabourCostCocoa : res.labour.totalLabourCost, tab: "labour", kind: "out" },
   ];
   const totalRevenue = cocoa ? res.totalRevenueCocoa : res.totalRevenueFarm;
-  const totalCost = cocoa ? res.totalCostCocoa : res.totalCostFarm;
   const profit = cocoa ? res.profitCocoa : res.profitFarm;
 
   const rows: Row[] = [
@@ -48,27 +47,21 @@ export function MoneyWaterfall({ res }: { res: Results }) {
     { labelKey: "res_profit", value: profit, kind: "net" },
   ];
 
-  // Bars run on one scale so a cost reads against the revenue it eats into.
-  // Revenues stack left to right; costs come off the right end of the total.
-  const scale = Math.max(totalRevenue, totalCost, 1);
-  const pct = (v: number) => Math.max(0, Math.min(100, (v / scale) * 100));
-  let inAt = 0;
-  let outAt = totalRevenue;
-  const bars = rows.map((r) => {
-    if (r.kind === "in") {
-      const b = { left: pct(inAt), width: pct(r.value) };
-      inAt += r.value;
-      return b;
-    }
-    if (r.kind === "out") {
-      outAt -= r.value;
-      return { left: pct(outAt), width: pct(r.value) };
-    }
-    return { left: 0, width: pct(Math.abs(r.value)) };
+  // Each column floats between the running total before and after it, so
+  // the eye walks left to right from revenues down to profit. The domain
+  // includes 0 and any negative running total, so a loss reads below the base.
+  let run = 0;
+  const spans = rows.map((r) => {
+    if (r.kind === "in") { const a = run; run += r.value; return [a, run]; }
+    if (r.kind === "out") { const a = run; run -= r.value; return [run, a]; }
+    return [Math.min(0, r.value), Math.max(0, r.value)];
   });
+  const lo = Math.min(0, ...spans.map((s) => s[0]));
+  const hi = Math.max(1, ...spans.map((s) => s[1]));
+  const y = (v: number) => ((v - lo) / (hi - lo)) * 100;
 
   const spending = res.expenditures.total;
-  const sign = (r: Row) => (r.kind === "in" ? "+ " : r.kind === "out" ? "− " : "");
+  const sign = (r: Row) => (r.kind === "in" ? "+ " : r.kind === "out" ? "− " : "");
 
   return (
     <div className="waterfall-grid">
@@ -80,33 +73,46 @@ export function MoneyWaterfall({ res }: { res: Results }) {
             <button type="button" aria-pressed={cocoa} onClick={() => setView("cocoa")}>{t("col_cocoa_only", lang)}</button>
           </div>
         </div>
-        {rows.map((r, i) => {
-          const body = (
-            <>
-              <span>{sign(r)}{t(r.labelKey, lang)}</span>
-              <span className="wf-track">
-                <span className={`wf-bar is-${r.kind === "net" && r.value < 0 ? "neg" : r.kind}`} style={{ left: `${bars[i].left}%`, width: `${bars[i].width}%` }} />
-              </span>
-              <span className="num">{fmt(r.value)}</span>
-            </>
-          );
-          return r.tab ? (
-            <button key={r.labelKey} type="button" className={`wf-row is-${r.kind}`} onClick={() => switchTab(r.tab!)}>{body}</button>
-          ) : (
-            <div key={r.labelKey} className={`wf-row is-${r.kind}`}>{body}</div>
-          );
-        })}
+        <div className="wf-legend" aria-hidden="true">
+          <span><i className="is-in" />{t("res_revenues", lang)}</span>
+          <span><i className="is-out" />{t("res_costs", lang)}</span>
+          <span><i className="is-total" />{t("res_total_revenues", lang)} · {t("res_profit", lang)}</span>
+        </div>
+        <div className="wf-chart" style={{ gridTemplateColumns: `repeat(${rows.length}, minmax(min-content, 1fr))` }}>
+          {rows.map((r, i) => {
+            const [a, b] = spans[i];
+            const kind = r.kind === "net" && r.value < 0 ? "neg" : r.kind;
+            const label = t(r.labelKey, lang);
+            const value = `${sign(r)}${fmt(r.value)}`;
+            const col = (
+              <>
+                <span className="wf-plot">
+                  {lo < 0 && <span className="wf-zero" style={{ bottom: `${y(0)}%` }} />}
+                  <span className={`wf-bar is-${kind}`} style={{ bottom: `${y(a)}%`, height: `${Math.max(0.6, y(b) - y(a))}%` }}>
+                    <span className="wf-value num">{value}</span>
+                  </span>
+                </span>
+                <span className={`wf-label${r.kind === "total" || r.kind === "net" ? " is-strong" : ""}`}>{label}</span>
+              </>
+            );
+            return r.tab ? (
+              <button key={r.labelKey} type="button" className="wf-col" title={`${label}: ${value}`} onClick={() => switchTab(r.tab!)}>{col}</button>
+            ) : (
+              <div key={r.labelKey} className="wf-col" title={`${label}: ${value}`}>{col}</div>
+            );
+          })}
+        </div>
       </section>
 
       {!cocoa && (
         <section className="wf-card">
           <h2>{t("waterfall_spending_heading", lang)}</h2>
-          <div className="wf-row is-total"><span>{t("res_profit", lang)}</span><span /><span className="num">{fmt(res.profitFarm)}</span></div>
+          <div className="wf-row is-total"><span>{t("res_profit", lang)}</span><span className="num">{fmt(res.profitFarm)}</span></div>
           <button type="button" className="wf-row is-out" onClick={() => switchTab("expenditures")}>
-            <span>− {t("res_total_expenditures", lang)}</span><span /><span className="num">{fmt(spending)}</span>
+            <span>− {t("res_total_expenditures", lang)}</span><span className="num">{fmt(spending)}</span>
           </button>
           <div className={`wf-row is-net${res.profitFarm - spending < 0 ? " is-negative" : ""}`}>
-            <span>{t("cmp_gap", lang)}</span><span /><span className="num">{fmt(res.profitFarm - spending)}</span>
+            <span>{t("cmp_gap", lang)}</span><span className="num">{fmt(res.profitFarm - spending)}</span>
           </div>
           <p className="section-help">{t("cmp_gap_help", lang)}</p>
         </section>

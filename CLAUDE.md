@@ -72,6 +72,22 @@ Built beyond parity with the vanilla app (new features, not ports):
   tolerant — iOS Safari implements only part of the Storage API, and
   "couldn't ask" must never render as "no".
 
+**Tablet/laptop layout (branch `hub-layout`, 16 Nov 2026, not merged or
+published):** the C hub + money flow direction from `design/shell-options`
+(HT*). Wide screens (`WIDE_QUERY` in `lib/layout.ts`, min 901 x 521 px)
+get `HouseholdRail.tsx` (step status, per-step summaries from
+`lib/stepSummary.ts`, season chips, money flow; collapses to an icon strip
+on Profile/Revenues/Costs/Labour below 1366 px), `HubScreen.tsx` as the
+first screen of a record (`currentTab === "hub"`), and on Results an
+incomplete-steps warning plus `MoneyWaterfall.tsx` (columns left to right).
+Styles in `src/wide.css`, scoped to `body.layout-wide`. Phones keep the
+old shell. Record format, `calc.ts` and exports unchanged. Exo and
+Alegreya Sans bundled via @fontsource (precached). Decisions by JB:
+layout first; Results always opens (warning, not locked); no coloured left
+stripe on cards and notes; waterfall horizontal. Next: test on a real
+iPad (installed, offline); "Doesn't know" markers and implausible-amount
+warning (data model change); phone pass of the layout.
+
 Known gaps / deliberately deferred, in rough priority order:
 - **`producer_code` is still free text.** It's the one durable, real-world
   identifier that could link a farmer's records *across devices* (unlike

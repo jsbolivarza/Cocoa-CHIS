@@ -55,3 +55,8 @@ results table come from `app-react/` (`*Tab.tsx`, `dataModel.ts`,
 - "Offline · Saved hh:mm" and Step N of 5 progress
 
 Amounts are illustrative but internally consistent with `calc.ts`.
+
+**Implemented** for tablet and laptop on branch `hub-layout` (16 Nov 2026),
+layout only; see CLAUDE.md "Migration status". Changes against the
+mockups: the Results waterfall runs left to right as columns, cards and
+notes have no coloured left stripe, Results is not locked.

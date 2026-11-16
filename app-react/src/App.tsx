@@ -21,7 +21,16 @@ import { CompareScreen } from "./components/CompareScreen";
 import { ExportScreen } from "./components/ExportScreen";
 import { SettingsScreen } from "./components/SettingsScreen";
 import { UpdateBar } from "./components/UpdateBar";
+import { HouseholdRail } from "./components/HouseholdRail";
+import { HubScreen } from "./components/HubScreen";
+import { useMediaQuery } from "./lib/useMediaQuery";
+import { WIDE_QUERY, ROOMY_QUERY } from "./lib/layout";
+
+// Steps whose tables need the width: on a tablet the rail collapses to an
+// icon strip while they are open (design/shell-options HT3 to HT6).
+const WIDE_TABLE_TABS = ["profile", "revenues", "costs", "labour"];
 import "./style.css";
+import "./wide.css";
 
 export default function App() {
   const loaded = useAppStore((s) => s.loaded);
@@ -33,6 +42,14 @@ export default function App() {
   const listTab = useAppStore((s) => s.listTab);
   const switchListTab = useAppStore((s) => s.switchListTab);
   const record = useAppStore((s) => s.record);
+  const wide = useMediaQuery(WIDE_QUERY);
+  const roomy = useMediaQuery(ROOMY_QUERY);
+
+  // The hub only exists in the wide layout; a tablet turned or resized
+  // down to phone width falls back to the first step instead of a blank page.
+  useEffect(() => {
+    if (!wide && screen === "editor" && currentTab === "hub") switchTab("consent");
+  }, [wide, screen, currentTab, switchTab]);
 
   useEffect(() => {
     init();
@@ -45,13 +62,27 @@ export default function App() {
   useEffect(() => {
     document.body.classList.toggle("screen-list", screen === "list");
     document.body.classList.toggle("screen-editor", screen === "editor");
-  }, [screen]);
+    document.body.classList.toggle("layout-wide", wide);
+  }, [screen, wide]);
 
   if (!loaded) return <div className="panel">…</div>;
 
+  const tabContent = (
+    <>
+      {currentTab === "consent" && <ConsentTab />}
+      {currentTab === "profile" && <ProfileTab />}
+      {currentTab === "revenues" && <RevenuesTab />}
+      {currentTab === "costs" && <CostsTab />}
+      {currentTab === "labour" && <LabourTab />}
+      {currentTab === "expenditures" && <ExpendituresTab />}
+      {currentTab === "results" && <ResultsTab />}
+    </>
+  );
+  const wideEditor = wide && screen === "editor" && !!record;
+
   return (
     <>
-      <AppBar />
+      {!wideEditor && <AppBar />}
 
       {screen === "list" && (
         <>
@@ -77,7 +108,41 @@ export default function App() {
         </>
       )}
 
-      {screen === "editor" && record && (
+      {wideEditor && record && (
+        <div className="hh-shell">
+          <HouseholdRail compact={!roomy && WIDE_TABLE_TABS.includes(currentTab)} />
+          <div className="hh-main">
+            {currentTab === "hub" ? (
+              <HubScreen />
+            ) : (
+              <>
+                <header className="page-head">
+                  <div className="page-head-titles">
+                    <h1>{t(TAB_LABEL_KEY[currentTab], currentLang)}</h1>
+                    <span className="page-head-sub">
+                      {[record.profile.producerName || t("unnamed_household", currentLang), record.meta.season, record.profile.coopName]
+                        .filter(Boolean)
+                        .join(" · ")}
+                    </span>
+                  </div>
+                  <button type="button" className="hub-btn" onClick={() => switchTab("hub")}>
+                    {t("hub_back_overview", currentLang)}
+                  </button>
+                </header>
+                <div className="hh-content">
+                  <p className="required-hint">{t("required_hint", currentLang)}</p>
+                  <div id="tab-content">
+                    {tabContent}
+                    <StepFooter />
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+
+      {!wide && screen === "editor" && record && (
         // Ported from buildWorkspaceLayout() in docs/js/app.js, which wraps
         // #tab-nav + <main> in a ".workspace" div at runtime so the rail and
         // content share one flex parent. React needs that wrapper in the
@@ -105,13 +170,7 @@ export default function App() {
           <main>
             <p className="required-hint">{t("required_hint", currentLang)}</p>
             <div id="tab-content">
-              {currentTab === "consent" && <ConsentTab />}
-              {currentTab === "profile" && <ProfileTab />}
-              {currentTab === "revenues" && <RevenuesTab />}
-              {currentTab === "costs" && <CostsTab />}
-              {currentTab === "labour" && <LabourTab />}
-              {currentTab === "expenditures" && <ExpendituresTab />}
-              {currentTab === "results" && <ResultsTab />}
+              {tabContent}
               <StepFooter />
             </div>
           </main>
@@ -124,7 +183,7 @@ export default function App() {
         </main>
       )}
 
-      <footer className="app-footer">Fairtrade International — Digital Solutions Unit · cocoa household data capture tool</footer>
+      {!wideEditor && <footer className="app-footer">Fairtrade International — Digital Solutions Unit · cocoa household data capture tool</footer>}
 
       <ConfirmModal />
       <UpdateBar />

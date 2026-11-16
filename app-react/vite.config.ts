@@ -60,7 +60,7 @@ export default defineConfig({
         // back to the shell when offline (client-side routing has no other
         // real pages to navigate to).
         navigateFallback: `${BASE}index.html`,
-        globPatterns: ['**/*.{js,css,html,svg,png,ico}'],
+        globPatterns: ['**/*.{js,css,html,svg,png,ico,woff2}'],
       },
     }),
   ],

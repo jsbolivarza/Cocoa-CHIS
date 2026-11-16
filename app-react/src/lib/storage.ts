@@ -88,6 +88,11 @@ export async function importRecords(parsed: unknown): Promise<HouseholdRecord[]>
     if (!r || !r.meta) return;
     ensureRevenueFlags(r);
     r.meta.id = generateRecordId();
+    // Same backfill as the v2 upgrade above: a file exported before
+    // farmerId existed has none, and every such record would otherwise
+    // share `undefined` and be grouped as one farmer's seasons.
+    if (!r.meta.farmerId) r.meta.farmerId = r.meta.id;
+    if (r.meta.season == null) r.meta.season = "";
     imported.push(r);
   });
   if (imported.length) await db.households.bulkPut(imported);

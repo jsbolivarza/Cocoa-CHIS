@@ -10,6 +10,13 @@ import * as storage from "../lib/storage";
 import { t, type Lang } from "../lib/i18n";
 import { getPath, setPathImmutable } from "../lib/paths";
 import type { ListTab } from "../lib/tabs";
+import { WIDE_QUERY } from "../lib/layout";
+
+// Tablet and laptop open a record on its hub; phones keep the step tabs
+// and start on Consent, since their layout has no hub entry point.
+function firstTab(): string {
+  return window.matchMedia(WIDE_QUERY).matches ? "hub" : "consent";
+}
 
 export type Screen = "list" | "editor" | "history";
 export type SaveStatus = "saved" | "saving";
@@ -39,6 +46,8 @@ interface AppState {
   listTab: ListTab;
   currentLang: Lang;
   saveStatus: SaveStatus;
+  /** When the open record last reached IndexedDB, for "Saved hh:mm". */
+  savedAt: string | null;
   loaded: boolean;
   confirmRequest: ConfirmRequest | null;
   // In memory only, like the vanilla app: a search that survived a restart
@@ -54,7 +63,7 @@ interface AppState {
   setLang: (lang: Lang) => void;
   createRecord: () => Promise<void>;
   startNewSeason: (sourceId: string) => Promise<void>;
-  openRecord: (id: string) => void;
+  openRecord: (id: string, tab?: string) => void;
   openFarmerHistory: (farmerId: string) => void;
   goToList: () => void;
   deleteRecordById: (id: string) => Promise<void>;
@@ -85,6 +94,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   listTab: "records",
   currentLang: ((storage.loadLangPref() as Lang) || "en"),
   saveStatus: "saved",
+  savedAt: null,
   loaded: false,
   confirmRequest: null,
   recordSearch: "",
@@ -109,7 +119,8 @@ export const useAppStore = create<AppState>((set, get) => ({
       currentRecordId: rec.meta.id,
       record: rec,
       screen: "editor",
-      currentTab: "consent",
+      currentTab: firstTab(),
+      savedAt: rec.meta.updatedAt,
       historyFarmerId: null,
     }));
   },
@@ -128,15 +139,16 @@ export const useAppStore = create<AppState>((set, get) => ({
       currentRecordId: rec.meta.id,
       record: rec,
       screen: "editor",
-      currentTab: "consent",
+      currentTab: firstTab(),
+      savedAt: rec.meta.updatedAt,
       historyFarmerId: null,
     }));
   },
 
-  openRecord: (id) => {
+  openRecord: (id, tab) => {
     const rec = get().records[id];
     if (!rec) return;
-    set({ currentRecordId: id, record: rec, screen: "editor", currentTab: "consent", historyFarmerId: null });
+    set({ currentRecordId: id, record: rec, screen: "editor", currentTab: tab ?? firstTab(), savedAt: rec.meta.updatedAt, historyFarmerId: null });
   },
 
   openFarmerHistory: (farmerId) => set({ screen: "history", historyFarmerId: farmerId }),
@@ -216,7 +228,7 @@ export const useAppStore = create<AppState>((set, get) => ({
       storage.saveRecord(updated).then(() => {
         // Guards against a stale timer landing after the record was closed
         // or replaced by another edit's own timer.
-        if (get().currentRecordId === updated.meta.id) set({ saveStatus: "saved" });
+        if (get().currentRecordId === updated.meta.id) set({ saveStatus: "saved", savedAt: new Date().toISOString() });
       });
     }, 400);
   },

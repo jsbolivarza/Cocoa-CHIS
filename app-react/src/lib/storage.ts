@@ -130,6 +130,57 @@ export async function clearAllRecords(): Promise<void> {
   await db.syncLog.clear();
 }
 
+export interface MergeResult {
+  /** Records stored on this device by the merge (new or replaced). */
+  stored: HouseholdRecord[];
+  added: number;
+  updated: number;
+  /** Same version on both sides. */
+  unchanged: number;
+  /** This device's copy was saved more recently; kept, uploads later. */
+  keptLocal: number;
+}
+
+/** Merges records downloaded from the server (see sync.ts). Unlike
+ *  importRecords(), ids are KEPT: a server row is the same household as
+ *  the local record with that id, so re-uploading updates it instead of
+ *  duplicating it. Rule: the most recently saved version wins (compared on
+ *  meta.updatedAt). Writes go straight to Dexie, not via saveRecord(),
+ *  which would stamp a new updatedAt and make every downloaded record look
+ *  freshly edited. Downloaded versions are logged as uploaded, since the
+ *  server already has exactly them. */
+export async function mergeServerRecords(
+  serverRecords: HouseholdRecord[],
+  local: Record<string, HouseholdRecord>
+): Promise<MergeResult> {
+  const result: MergeResult = { stored: [], added: 0, updated: 0, unchanged: 0, keptLocal: 0 };
+  serverRecords.forEach((r) => {
+    if (!r || !r.meta || !r.meta.id) return;
+    normalizeRecord(r);
+    const mine = local[r.meta.id];
+    const theirs = r.meta.updatedAt || "";
+    if (!mine) {
+      result.added++;
+      result.stored.push(r);
+    } else if (theirs > (mine.meta.updatedAt || "")) {
+      result.updated++;
+      result.stored.push(r);
+    } else if (theirs === mine.meta.updatedAt) {
+      result.unchanged++;
+    } else {
+      result.keptLocal++;
+    }
+  });
+  if (result.stored.length) {
+    const now = new Date().toISOString();
+    await db.transaction("rw", db.households, db.syncLog, async () => {
+      await db.households.bulkPut(result.stored);
+      await db.syncLog.bulkPut(result.stored.map((r) => ({ id: r.meta.id, uploadedUpdatedAt: r.meta.updatedAt, uploadedAt: now })));
+    });
+  }
+  return result;
+}
+
 /** Every parsed record gets a fresh id on import, even if it already had
  *  one — matches the vanilla app's behavior, so importing the same export
  *  twice creates two records rather than silently overwriting. */

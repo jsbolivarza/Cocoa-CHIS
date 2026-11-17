@@ -1,13 +1,17 @@
 /* sync.ts
    Upload household records to a Supabase (hosted PostgreSQL) project, so
-   they can be read from Python, R and Power BI (see analysis/README.md).
+   they can be read from Python, R and Power BI (see analysis/README.md),
+   and download a coach's own uploads onto another device.
 
-   Upload only, one way: the device stays the place where data is captured
-   and edited; the server is a copy for analysis. Nothing is downloaded, and
-   deleting a record on the device does not delete it on the server.
+   Both directions are manual taps, never automatic. Upload sends records
+   changed since their last upload. Download fetches every household the
+   signed-in coach uploaded (from any device) and merges them with
+   storage.mergeServerRecords(): ids are kept, and the most recently saved
+   version of a household wins. Deleting a record on a device does not
+   delete it on the server, so a later download brings it back.
 
-   Plain fetch against Supabase's REST endpoints instead of supabase-js: two
-   calls (sign in, upsert) don't justify the dependency, and the session is
+   Plain fetch against Supabase's REST endpoints instead of supabase-js: a
+   few calls (sign in, upsert, select) don't justify the dependency, and the session is
    kept in IndexedDB with everything else rather than in localStorage.
 
    Configuration is build-time, from app-react/.env.local:
@@ -200,4 +204,40 @@ export async function uploadRecords(records: HouseholdRecord[]): Promise<number>
     done += batch.length;
   }
   return done;
+}
+
+const PAGE = 200;
+
+/** Every household this coach has uploaded, from any device. Row-level
+ *  security on the server (coach_select_own in supabase/schema.sql) limits
+ *  the rows to the signed-in coach's own uploads, so no filter is needed
+ *  here. Paged, because the server returns at most 1000 rows per request. */
+export async function downloadRecords(): Promise<HouseholdRecord[]> {
+  if (!syncConfigured()) throw new SyncError("not_configured");
+  const out: HouseholdRecord[] = [];
+  for (let from = 0; ; from += PAGE) {
+    const token = await accessToken();
+    let res: Response;
+    try {
+      res = await fetch(`${URL_BASE}/rest/v1/households?select=record&order=id`, {
+        headers: {
+          apikey: ANON_KEY,
+          Authorization: `Bearer ${token}`,
+          Range: `${from}-${from + PAGE - 1}`,
+          "Range-Unit": "items",
+        },
+      });
+    } catch {
+      throw new SyncError("offline");
+    }
+    if (res.status === 401) {
+      await saveSession(null);
+      throw new SyncError("not_signed_in");
+    }
+    if (!res.ok) throw new SyncError("server", await res.text());
+    const rows = (await res.json()) as { record: HouseholdRecord }[];
+    rows.forEach((row) => row.record && out.push(row.record));
+    if (rows.length < PAGE) break;
+  }
+  return out;
 }

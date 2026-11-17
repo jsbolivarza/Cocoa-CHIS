@@ -166,9 +166,17 @@ compact two-value rows (`wide.css`, phone media query; selectors need
 Next: Fairtrade logo file; phone pass of the household screens (H1–H9).
 
 Known gaps / deliberately deferred, in rough priority order:
-- **Sync is upload-only.** No download to a device, no server-side delete
-  when a record is deleted on a device, no per-coop read access.
-  `producer_code` (roster) is the cross-device key; `farmer_id` is not.
+- **Sync is manual, upload + "Download my households" (0.4.0,
+  17.11.26).** Download (`sync.ts` `downloadRecords()`,
+  paged 200) fetches the signed-in coach's own uploads (RLS
+  `coach_select_own`) and merges via `storage.mergeServerRecords()`: ids
+  KEPT (unlike Import JSON, which re-ids), newest `meta.updatedAt` wins,
+  written straight to Dexie so `updatedAt` isn't re-stamped, and logged in
+  `syncLog` as already uploaded. Known limits: an edit on the losing
+  device is dropped silently; deleting on a device doesn't delete on the
+  server (a later download brings it back); no per-coop / coordinator read
+  access. `producer_code` (roster) is the cross-device key; `farmer_id` is
+  not.
 - **Roster is per device.** Each coach imports the CSV; nothing checks that
   two devices hold the same version.
 - **Records list is still a flat list of farmer cards** — fine at current
@@ -288,7 +296,7 @@ date, both in `vite.config.ts`'s `define`), and uploads record it as
 so coaches couldn't tell builds apart. Patch (0.3.1) for fixes, minor
 (0.4.0) for new features. History: 0.2.0 = hub layout, "Doesn't know",
 roster, Supabase upload; 0.3.0 = tablet/phone list screens, brand row,
-phone Results (both 17.11.26).
+phone Results (both 17.11.26); 0.4.0 = "Download my households" (17.11.26).
 
 `git add -A` matters: Vite fingerprints filenames, so every build *deletes*
 the previous `assets/index-*.js` and adds a new one. A plain `git add docs`

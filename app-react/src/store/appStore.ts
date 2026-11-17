@@ -73,6 +73,8 @@ interface AppState {
   deleteRecordById: (id: string) => Promise<void>;
   clearAll: () => Promise<void>;
   importRecords: (parsed: unknown) => Promise<string[]>;
+  /** Merges households downloaded from the server (most recent wins). */
+  mergeDownloaded: (serverRecords: HouseholdRecord[]) => Promise<storage.MergeResult>;
   switchTab: (tab: string) => void;
   switchListTab: (tab: ListTab) => void;
   updateField: (path: string, value: unknown) => void;
@@ -216,6 +218,23 @@ export const useAppStore = create<AppState>((set, get) => ({
       });
     }
     return imported.map((r) => r.meta.id);
+  },
+
+  mergeDownloaded: async (serverRecords) => {
+    const result = await storage.mergeServerRecords(serverRecords, get().records);
+    if (result.stored.length) {
+      set((s) => {
+        const records = { ...s.records };
+        result.stored.forEach((r) => {
+          records[r.meta.id] = r;
+        });
+        // A record open in the editor is replaced too, so the screen never
+        // shows an older version than the one just stored.
+        const open = s.currentRecordId ? records[s.currentRecordId] : null;
+        return open ? { records, record: open } : { records };
+      });
+    }
+    return result;
   },
 
   // Ported from switchTab()/switchListTab() in docs/js/app.js, which scroll

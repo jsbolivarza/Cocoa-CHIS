@@ -6,13 +6,14 @@ import { useCallback, useEffect, useState } from "react";
 import { useAppStore } from "../store/appStore";
 import { t } from "../lib/i18n";
 import {
-  SyncError, signIn, signOut, signedInEmail, syncConfigured, syncStatus, uploadRecords,
+  SyncError, downloadRecords, signIn, signOut, signedInEmail, syncConfigured, syncStatus, uploadRecords,
   type SyncStatus,
 } from "../lib/sync";
 
 export function SyncPanel() {
   const lang = useAppStore((s) => s.currentLang);
   const records = useAppStore((s) => s.records);
+  const mergeDownloaded = useAppStore((s) => s.mergeDownloaded);
   const [email, setEmail] = useState<string | null>(null);
   const [status, setStatus] = useState<SyncStatus | null>(null);
   const [formEmail, setFormEmail] = useState("");
@@ -72,6 +73,26 @@ export function SyncPanel() {
     }
   };
 
+  const handleDownload = async () => {
+    setBusy(true);
+    setMsg(null);
+    try {
+      const r = await mergeDownloaded(await downloadRecords());
+      const parts = [
+        `${t("sync_dl_added", lang)} ${r.added}`,
+        `${t("sync_dl_updated", lang)} ${r.updated}`,
+        `${t("sync_dl_unchanged", lang)} ${r.unchanged}`,
+      ];
+      if (r.keptLocal) parts.push(`${t("sync_dl_kept_local", lang)} ${r.keptLocal}`);
+      setMsg(parts.join(" · "));
+    } catch (err) {
+      setMsg(errorText(err));
+    } finally {
+      await refresh();
+      setBusy(false);
+    }
+  };
+
   const handleSignOut = async () => {
     await signOut();
     setMsg(null);
@@ -121,9 +142,13 @@ export function SyncPanel() {
               </div>
             </dl>
           )}
+          <p className="field-hint">{t("sync_download_help", lang)}</p>
           <div className="stacked-actions">
             <button type="button" className="btn" onClick={handleUpload} disabled={busy || !status?.pending.length}>
               {busy ? t("sync_uploading", lang) : t("sync_upload", lang)}
+            </button>
+            <button type="button" className="btn btn-secondary" onClick={handleDownload} disabled={busy}>
+              {t("sync_download", lang)}
             </button>
             <button type="button" className="btn btn-secondary" onClick={handleSignOut} disabled={busy}>
               {t("sync_sign_out", lang)}

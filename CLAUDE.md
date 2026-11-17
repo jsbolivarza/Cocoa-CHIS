@@ -11,6 +11,16 @@ Fairtrade Living Income data collection PWA for cocoa farmer households.
   (see "Publishing" below), never hand-edit it. Every file in here is
   generated and fingerprinted; its diffs are noise.
 
+### Branches (cleaned 17.11.26)
+
+Long-lived: `react-app` (this app, the live Pages source),
+`jsbolivarza-patch-2` (vanilla app: formula reference and fallback),
+`main` (GitHub default; still the old vanilla app). Work happens on a short
+branch off `react-app`; **once it is merged and published, delete it**
+locally and on GitHub. Releases are tagged instead (`v0.3.0-prototype` =
+the 0.3.0 shown as prototype), so a finished branch is never needed to get
+back to a version.
+
 ### Why the branch split
 
 The original vanilla JS/HTML PWA lives on **`jsbolivarza-patch-2`**, where its
@@ -72,8 +82,8 @@ Built beyond parity with the vanilla app (new features, not ports):
   tolerant — iOS Safari implements only part of the Storage API, and
   "couldn't ask" must never render as "no".
 
-**Tablet/laptop layout (branch `hub-layout`, 16 Nov 2026, merged and
-published 17.11.26):** the C hub + money flow direction from `design/shell-options`
+**Tablet/laptop layout (16.11.26, published 17.11.26 in 0.2.0):** the C hub
++ money flow direction from `design/shell-options`
 (HT*). Wide screens (`WIDE_QUERY` in `lib/layout.ts`, min 901 x 521 px)
 get `HouseholdRail.tsx` (step status, per-step summaries from
 `lib/stepSummary.ts`, season chips, money flow; collapses to an icon strip
@@ -88,8 +98,7 @@ stripe on cards and notes; waterfall horizontal. Next: test on a real
 iPad (installed, offline); "Doesn't know" markers and implausible-amount
 warning (data model change); phone pass of the layout.
 
-**Data features (branch `data-features`, off `hub-layout`, 17 Nov 2026,
-merged into `react-app` and published to `docs/` 17.11.26, with the
+**Data features (17.11.26, published in 0.2.0, with the
 Supabase config baked in):**
 - **"Doesn't know" marker** on every number field (`NumberField` in
   `fields.tsx`, a "?" toggle). Marked paths live in `meta.unknownFields`;
@@ -127,8 +136,8 @@ Supabase config baked in):**
   with the analyst login;
   data-protection sign-off before any real household goes up.
 
-**List screens, tablet/laptop + phone (branch `records-layout`, off
-`react-app`, merged and published 17.11.26):** HT0 applied to everything outside a
+**List screens, tablet/laptop + phone (17.11.26, published in 0.3.0):**
+HT0 applied to everything outside a
 record. `ListShell.tsx`: 96 px navy menu (Records, Compare, Export,
 Settings) replacing AppBar, tab strip and BottomNav on wide screens; shared
 `ListHeader` (large title, online/offline + "saved on this device").

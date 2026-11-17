@@ -2,3 +2,5 @@
 .claude/skills/impeccable/scripts/bin/
 # Local Claude Code settings (Impeccable hooks)
 .claude/settings.local.json
+# Screenshots shared with Claude Code during sessions
+.claude/screenshots/

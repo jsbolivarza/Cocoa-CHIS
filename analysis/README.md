@@ -50,11 +50,13 @@ devices; `farmer_id` only links seasons captured on the same tablet.
 
 ## 3. Connection details for Python, R and Power BI
 
-In Supabase, **Connect** (top bar) > **Session pooler**:
+In Supabase, **Connect** (top bar) > **Direct** tab > set **Method** to
+**Session pooler** (the **Type** dropdown, URI/PSQL/…, is only the format;
+pick URI). The host is the part of the URI between `@` and `:5432`.
 
 | Setting | Value |
 |---|---|
-| Host | `aws-0-<region>.pooler.supabase.com` |
+| Host | `aws-<n>-<region>.pooler.supabase.com` (this project: `aws-1-eu-west-1.pooler.supabase.com`) |
 | Port | `5432` |
 | Database | `postgres` |
 | User | `analyst.<project-ref>` (the part after `analyst.` is in the project URL) |
@@ -92,12 +94,31 @@ source("analysis/read_households.R")   # reads PG* variables from ~/.Renviron
 1. **Get data > PostgreSQL database**.
 2. Server: `aws-0-<region>.pooler.supabase.com:5432`, Database: `postgres`,
    Data connectivity mode: **Import**.
-3. Credentials: **Database** tab, user `analyst.<project-ref>`, the analyst
-   password.
+3. Credentials: user `analyst.<project-ref>` and the analyst password.
+   Not your Supabase website login (email): that one is for the dashboard,
+   not the database.
+
+   **"The remote certificate is invalid according to the validation
+   procedure"**: Windows doesn't know Supabase's certificate authority.
+   Fix once per laptop: Supabase > Project Settings > Database > SSL
+   Configuration > **Download certificate**; double-click the `.crt` >
+   Install Certificate > Current User > place in **Trusted Root
+   Certification Authorities**; restart Power BI. Keep "Use encrypted
+   connection" ticked; unticking it sends the password unencrypted.
 4. Pick `public.households_flat` > Load. Each household is a row; build
    visuals on `coop_name`, `season`, `net_cocoa_income`,
    `cost_of_cocoa_production_per_kg`, etc.
 5. **Refresh** pulls newly uploaded households.
+
+Prototype dashboard (17.11.26): `Cocoa prototype dashboard - redesigned.pbix`
+on JB's desktop (not in git: a .pbix contains the data). One page: navy
+header with Season/Cooperative slicers, 4 cards (households, median net
+farm and cocoa income, "Doesn't know" answers), money in/out per
+household, price vs cost per kg, household table. Medians, not averages:
+with few households per group an average is one farmer's number.
+If a .pbix is edited outside Power BI (its `Report/definition/*.json`),
+remove `SecurityBindings` and its line in `[Content_Types].xml` when
+repacking, or Power BI reports the file as corrupted.
 
 For monthly detail, add a second query via **Advanced options > SQL
 statement**, using the `jsonb_array_elements` query in `read_households.py`.

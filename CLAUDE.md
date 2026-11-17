@@ -132,9 +132,15 @@ Supabase config baked in):**
   present bakes the server into the published app.
 - Next: try on device; check the roster format with a real coop list;
   Supabase project `rvpwquzuknwcntzosqlr` created and an upload from
-  the dev server confirmed by JB (17.11.26); next connect Python/Power BI
-  with the analyst login;
-  data-protection sign-off before any real household goes up.
+  the dev server confirmed by JB (17.11.26). Power BI reads
+  `households_flat` via the analyst login (session pooler; Windows needed
+  the Supabase CA cert, see `analysis/README.md`). End-to-end test done
+  17.11.26: 50 generated test households (34 farmers, 4 coops, 2 seasons)
+  imported, uploaded, shown in Power BI after Refresh. **Supabase holds ~51
+  test rows; delete them before real data** (`delete from
+  public.households;`). Generated test data must use the app's option
+  keys (`hectare`, not `ha`). Next: data-protection sign-off before any
+  real household goes up.
 
 **List screens, tablet/laptop + phone (17.11.26, published in 0.3.0):**
 HT0 applied to everything outside a

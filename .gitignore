@@ -4,3 +4,6 @@
 .claude/settings.local.json
 # Screenshots shared with Claude Code during sessions
 .claude/screenshots/
+# Generated test data and the copied app modules it needs
+analysis/test-data/_lib/
+analysis/test-data/*.json

@@ -133,3 +133,54 @@ Desktop is enough.
 - Deleting on the server when a record is deleted on a tablet.
 - A coach seeing only their own coop: today each coach can write only their
   own uploads, and analysts see everything.
+
+## 7. Raw data (for analysts)
+
+`households_flat` has one row per household with totals. For everything
+behind those totals (each plot, member, input purchase, month of sales and
+labour, quarter of spending), run **`supabase/raw_views.sql`** once in the
+Supabase SQL Editor. It creates one tidy, typed view per table:
+
+| View | One row per |
+|---|---|
+| `raw_plots`, `raw_household_working`, `raw_household_not_working` | plot / household member |
+| `raw_cocoa_sales`, `raw_coffee_sales`, `raw_labour` | month (all 12, `month_no` 1 = October) |
+| `raw_cocoa_other_income`, `raw_coffee_other_income`, `raw_other_cash_crops`, `raw_staple_crops`, `raw_other_food_crops`, `raw_livestock`, `raw_other_income` | income row |
+| `raw_agri_inputs`, `raw_tools`, `raw_other_costs`, `raw_sharecrop_payments` | cost row |
+| `raw_expenditures` | spending category x quarter |
+| `raw_unknown_answers` | answer marked "Doesn't know" |
+
+Every view starts with `household_id, farmer_id, producer_code, season,
+coop_name`; join to `households_flat` on `household_id`.
+
+Things the analyst must know:
+- **Codes, not labels.** Answers are stored as codes (`fertilizer`,
+  `owner_sharecropper`, `75_99`). `codebook/options.csv` gives the EN/FR/ES
+  label and, for `cocoa_share`, the **weight** the app uses to split a
+  cost between cocoa and other crops. `codebook/columns.csv` describes
+  every column and which code list it uses.
+- **`included_in_totals`** (coffee, other cash crops, staple, other food,
+  livestock, other income): `false` means the household answered "No" on
+  the Revenues step. Those rows stay in the record but the app's totals
+  ignore them. Do the same.
+- **"Doesn't know"**: those fields are blank (NULL), and the app counts
+  them as 0. `raw_unknown_answers.field_path` lists them; its row numbers
+  start at 0, while `row_no` in the views starts at 1.
+- Empty table rows are dropped, except the monthly tables, which keep all
+  12 months.
+- The app's own calculations (`app-react/src/lib/calc.ts`) are already
+  applied in `households_flat`. Recompute from the raw views only to check
+  them or to answer new questions.
+
+Load everything at once:
+- **Python**: `python analysis/export_raw.py --labels --csv raw_export`
+  (or `from export_raw import load_all` in a notebook).
+- **R**: `install.packages(c("DBI", "RPostgres"))`, then
+  `Rscript analysis/export_raw.R raw_export` (or
+  `source("analysis/export_raw.R"); t <- load_all(labels = TRUE)`).
+
+Both read the PG* environment variables from section 3 and find the
+`raw_*` views automatically. **When the app's record format changes**, run
+`node analysis/tools/run.mjs` to regenerate `raw_views.sql` and the
+codebook from the app's data model, then re-run `raw_views.sql` in
+Supabase.

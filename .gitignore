@@ -7,3 +7,5 @@
 # Generated test data and the copied app modules it needs
 analysis/test-data/_lib/
 analysis/test-data/*.json
+analysis/tools/_lib/
+raw_export/

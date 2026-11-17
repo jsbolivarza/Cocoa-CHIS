@@ -1,0 +1,121 @@
+view,column,type,label,code_list,note
+raw_plots,crop,text,Crop,crop,
+raw_plots,other_crop_name,text,"If other crop, which",other_crop_name,
+raw_plots,area,numeric,Area,,
+raw_plots,measured,text,Measured / estimated,static,
+raw_plots,land_arrangement,text,Land sharing arrangement,land_management,
+raw_plots,observation,text,Observation,observation,
+raw_plots,tree_age,text,Age of trees,,
+raw_plots,*,,,,Land plots.
+raw_household_working,name,text,Name,,
+raw_household_working,relationship,text,Family relationship,family_relationship,
+raw_household_working,age,numeric,Age,,
+raw_household_working,gender,text,Gender,static,
+raw_household_working,occupation,text,Occupation,occupation_working,
+raw_household_working,other_occupation,text,"If parttime farm work, what other occupation?",,
+raw_household_working,pct_time,numeric,% of time on farm work,,
+raw_household_working,*,,,,Household members who work on the farm. pct_time is a 0-1 share.
+raw_household_not_working,name,text,Name,,
+raw_household_not_working,relationship,text,Family relationship,family_relationship,
+raw_household_not_working,age,numeric,Age,,
+raw_household_not_working,gender,text,Gender,static,
+raw_household_not_working,occupation,text,Occupation,occupation_not_working,
+raw_household_not_working,contributes_income,text,Contributes to household income?,static,
+raw_household_not_working,*,,,,Household members who do not work on the farm.
+raw_cocoa_sales,month,text,Month,months,
+raw_cocoa_sales,volume,numeric,Volume sold,,
+raw_cocoa_sales,price,numeric,Price per unit,,
+raw_cocoa_sales,*,,,,One row per month (Oct-Sep season). Revenue = volume x price.
+raw_cocoa_other_income,type,text,Type of income,cocoa_other_income_type,
+raw_cocoa_other_income,amount,numeric,Amount,,
+raw_cocoa_other_income,*,,,,"Other cocoa income (premiums, differentials, subsidies)."
+raw_coffee_sales,month,text,Month,months,
+raw_coffee_sales,volume,numeric,Volume sold,,
+raw_coffee_sales,price,numeric,Price per unit,,
+raw_coffee_sales,included_in_totals,boolean,Section answered Yes on the Revenues step,,Rows with false are kept in the record but excluded from all totals
+raw_coffee_sales,*,,,,One row per month (Oct-Sep season). Revenue = volume x price.
+raw_coffee_other_income,type,text,Type of income,,
+raw_coffee_other_income,amount,numeric,Amount,,
+raw_coffee_other_income,included_in_totals,boolean,Section answered Yes on the Revenues step,,Rows with false are kept in the record but excluded from all totals
+raw_coffee_other_income,*,,,,Other coffee income.
+raw_other_cash_crops,crop,text,Product,cash_crop,
+raw_other_cash_crops,unit,text,Unit of measure,unit_measure_cash_crop,
+raw_other_cash_crops,q1,numeric,1st quarter,,
+raw_other_cash_crops,q2,numeric,2nd quarter,,
+raw_other_cash_crops,q3,numeric,3rd quarter,,
+raw_other_cash_crops,q4,numeric,4th quarter,,
+raw_other_cash_crops,total_volume_sold,numeric,Total volume sold,,
+raw_other_cash_crops,total_revenue_override,numeric,Total revenue,,
+raw_other_cash_crops,included_in_totals,boolean,Section answered Yes on the Revenues step,,Rows with false are kept in the record but excluded from all totals
+raw_other_cash_crops,*,,,,Other cash crops; q1-q4 = quarterly volume sold.
+raw_staple_crops,crop,text,Product,staple_crop,
+raw_staple_crops,unit,text,Unit of measure,unit_measure_staple,
+raw_staple_crops,q1,numeric,1st quarter,,
+raw_staple_crops,q2,numeric,2nd quarter,,
+raw_staple_crops,q3,numeric,3rd quarter,,
+raw_staple_crops,q4,numeric,4th quarter,,
+raw_staple_crops,qty_consumed,numeric,Quantity consumed,,
+raw_staple_crops,qty_sold,numeric,Quantity sold,,
+raw_staple_crops,included_in_totals,boolean,Section answered Yes on the Revenues step,,Rows with false are kept in the record but excluded from all totals
+raw_staple_crops,*,,,,Staple food crops; q1-q4 = quarterly production.
+raw_other_food_crops,crop,text,Product,other_food_crop,
+raw_other_food_crops,consumption,text,Domestic consumption,household_consumption_level,
+raw_other_food_crops,sales,text,Sales,sales_level,
+raw_other_food_crops,total_qty_produced,numeric,Total quantity produced,,
+raw_other_food_crops,total_market_value,numeric,Total estimated market value,,
+raw_other_food_crops,included_in_totals,boolean,Section answered Yes on the Revenues step,,Rows with false are kept in the record but excluded from all totals
+raw_other_food_crops,*,,,,Other food crops.
+raw_livestock,product,text,Product,livestock,
+raw_livestock,consumption,text,Domestic consumption,household_consumption_level,
+raw_livestock,sales,text,Sales,sales_level,
+raw_livestock,total_qty_produced,numeric,Total quantity produced,,
+raw_livestock,total_market_value,numeric,Total estimated market value,,
+raw_livestock,included_in_totals,boolean,Section answered Yes on the Revenues step,,Rows with false are kept in the record but excluded from all totals
+raw_livestock,*,,,,Livestock products.
+raw_other_income,product,text,Product,,
+raw_other_income,unit_of_sales,text,Unit of sales,,
+raw_other_income,total_sales,numeric,Total sales,,
+raw_other_income,avg_price,numeric,Average price per unit,,
+raw_other_income,revenue_override,numeric,Revenue,,
+raw_other_income,included_in_totals,boolean,Section answered Yes on the Revenues step,,Rows with false are kept in the record but excluded from all totals
+raw_other_income,*,,,,Other farm income.
+raw_agri_inputs,product_type,text,Product type,agri_input_type,
+raw_agri_inputs,unit,text,Unit of measure,,
+raw_agri_inputs,qty,numeric,Amount purchased,,
+raw_agri_inputs,total_cost,numeric,Total cost,,
+raw_agri_inputs,used_for_cocoa,text,Used for cocoa?,cocoa_share,
+raw_agri_inputs,subsidy_value,numeric,Value of subsidized amount,,
+raw_agri_inputs,*,,,,Agricultural inputs. used_for_cocoa is a share code (see options.csv weight).
+raw_tools,tool,text,Tool,,
+raw_tools,lifespan,numeric,Lifespan (years),,
+raw_tools,quantity,numeric,Quantity,,
+raw_tools,total_cost,numeric,Total cost,,
+raw_tools,depreciated_cost,numeric,Depreciated cost (this year),,
+raw_tools,used_for_cocoa,text,Used for cocoa?,cocoa_share,
+raw_tools,subsidy_value,numeric,Value of subsidized amount,,
+raw_tools,*,,,,Tools and equipment. Cost per year = total_cost / lifespan unless depreciated_cost is given.
+raw_other_costs,cost_type,text,Cost type,other_cost_type,
+raw_other_costs,details,text,Details,,
+raw_other_costs,total_cost,numeric,Total cost,,
+raw_other_costs,used_for_cocoa,text,Used for cocoa?,cocoa_share,
+raw_other_costs,subsidy_value,numeric,Value of subsidized amount,,
+raw_other_costs,*,,,,Other costs.
+raw_sharecrop_payments,payment_type,text,Type of payment,sharecrop_payment_type,
+raw_sharecrop_payments,cash_or_kind,text,Cash or in-kind,static,
+raw_sharecrop_payments,cocoa_volume_in_kind,numeric,Cocoa volume if in-kind (kg),,
+raw_sharecrop_payments,cost_or_value,numeric,Cost or value,,
+raw_sharecrop_payments,cocoa_share,text,Used for cocoa?,cocoa_share,
+raw_sharecrop_payments,*,,,,Land-sharing / sharecropping payments.
+raw_labour,month,text,Month,months,
+raw_labour,hh_days,numeric,Household labour days,,
+raw_labour,hh_days_cocoa,numeric,Household labour days on cocoa,,
+raw_labour,hired_days,numeric,Hired labour days,,
+raw_labour,hired_days_cocoa,numeric,Hired labour days on cocoa,,
+raw_labour,daily_wage,numeric,Daily wage,,
+raw_labour,other_service,text,Other hired service,labour_service_type,
+raw_labour,service_used_for,text,Service used for,static,
+raw_labour,service_cost,numeric,Service cost,,
+raw_labour,subsidized_labour,numeric,Subsidized labour value,,
+raw_labour,*,,,,One row per month. Hired labour cost = hired_days x daily_wage + service_cost.
+raw_expenditures,amount,numeric,Amount spent,,category: food/education/healthcare/other; quarter: q1-q4
+raw_unknown_answers,field_path,text,"Field answered ""Doesn't know""",,"Record path, e.g. costs.agriInputs.1.totalCost (row index from 0)"

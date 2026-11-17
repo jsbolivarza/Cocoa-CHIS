@@ -136,11 +136,20 @@ Supabase config baked in):**
   `households_flat` via the analyst login (session pooler; Windows needed
   the Supabase CA cert, see `analysis/README.md`). End-to-end test done
   17.11.26: 50 generated test households (34 farmers, 4 coops, 2 seasons)
-  imported, uploaded, shown in Power BI after Refresh. **Supabase holds ~51
-  test rows; delete them before real data** (`delete from
-  public.households;`). Generated test data must use the app's option
-  keys (`hectare`, not `ha`). Next: data-protection sign-off before any
-  real household goes up.
+  imported, uploaded, shown in Power BI after Refresh. **Supabase holds 59
+  test rows (50 generated + JB's 9); delete them before real data**
+  (`delete from public.households;`). Generated test data must use the
+  app's option keys (`hectare`, not `ha`). Import JSON re-ids records, so
+  importing and uploading the same households twice duplicates them on
+  the server (happened once, 17.11.26); use Download to move data between
+  devices. **Raw data for analysts** (17.11.26): `supabase/raw_views.sql`
+  (18 typed `raw_*` views + `to_num()`, run in Supabase) and
+  `analysis/codebook/*.csv` are GENERATED from the app's data model by
+  `node analysis/tools/run.mjs`; re-run both after any record-format
+  change. `analysis/export_raw.R` tested end to end (cocoa sales from raw
+  rows = app totals for all 59); `export_raw.py` untested (no Python on
+  JB's laptop). Analyst password in `~/.Renviron`, never in the repo.
+  Next: data-protection sign-off before any real household goes up.
 
 **List screens, tablet/laptop + phone (17.11.26, published in 0.3.0):**
 HT0 applied to everything outside a

@@ -148,7 +148,12 @@ Supabase config baked in):**
   `node analysis/tools/run.mjs`; re-run both after any record-format
   change. `analysis/export_raw.R` tested end to end (cocoa sales from raw
   rows = app totals for all 59); `export_raw.py` untested (no Python on
-  JB's laptop). Analyst password in `~/.Renviron`, never in the repo.
+  JB's laptop). JB is also the analyst for the prototype and confirmed
+  `load_all()` working in RStudio (17.11.26). Analyst password in
+  `.Renviron` in R's home, never in the repo. On Windows R's home is
+  **Documents** (`C:\Users\<user>\Documents\.Renviron`), not the user
+  folder; Git Bash sets a different HOME, so a test run from the terminal
+  can pass while RStudio finds nothing. Check with `path.expand("~")`.
   Next: data-protection sign-off before any real household goes up.
 
 **List screens, tablet/laptop + phone (17.11.26, published in 0.3.0):**

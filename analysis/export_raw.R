@@ -7,6 +7,10 @@
 # Setup (once):
 #   install.packages(c("DBI", "RPostgres"))
 #
+# Create it from RStudio with file.edit("~/.Renviron") (on Windows that is
+# Documents\.Renviron), end the last line with Enter, then Session >
+# Restart R. Check: Sys.getenv("PGUSER").
+#
 # Connection from environment variables, e.g. in ~/.Renviron (never in a
 # file that goes into git):
 #   PGHOST=aws-1-eu-west-1.pooler.supabase.com

@@ -9,3 +9,4 @@ analysis/test-data/_lib/
 analysis/test-data/*.json
 analysis/tools/_lib/
 raw_export/
+.Rhistory

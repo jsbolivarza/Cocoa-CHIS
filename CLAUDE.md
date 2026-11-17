@@ -88,18 +88,37 @@ stripe on cards and notes; waterfall horizontal. Next: test on a real
 iPad (installed, offline); "Doesn't know" markers and implausible-amount
 warning (data model change); phone pass of the layout.
 
+**Data features (branch `data-features`, off `hub-layout`, 17 Nov 2026, not
+merged or published):**
+- **"Doesn't know" marker** on every number field (`NumberField` in
+  `fields.tsx`, a "?" toggle). Marked paths live in `meta.unknownFields`;
+  the value stays `""`, so `calc.ts` is unchanged and counts it as 0.
+  `removeRow` remaps markers (`unknownFieldsAfterRowRemoval`); "Start new
+  season" carries markers on the copied profile tables. Results shows a
+  per-step count. `formatVersion` 3; `normalizeRecord()` backfills on load
+  and import.
+- **CSV export** now has `farmer_id`, `season`, `unknown_field_count`,
+  `unknown_fields`.
+- **Producer roster** (`lib/roster.ts`, Settings → Producer roster): CSV
+  with header `producer_code` (required), `producer_name`, `village`,
+  `coop_name`; comma or semicolon. Format defined by us, not by a coop yet.
+  Stored in Dexie table `roster` (schema **v3**), replaced wholesale per
+  import, not cleared by "Delete all data". With a roster loaded, Profile's
+  member code offers the codes (datalist), picking one fills name, village
+  and coop; an unlisted code is allowed with a warning.
+- Next: try on device; check the roster format with a real coop list;
+  decide on sync (below).
+
 Known gaps / deliberately deferred, in rough priority order:
-- **`producer_code` is still free text.** It's the one durable, real-world
-  identifier that could link a farmer's records *across devices* (unlike
-  `farmerId`, which is generated per-device and never coordinates between
-  coaches' phones — see "Architecture decisions"). A typo breaks that.
-  The proper fix is a coop-roster import so the field becomes a picklist,
-  same pattern as `seasons.ts` — deferred until a real roster format
-  exists to import from.
-- **CSV export doesn't include `farmerId` or `season`** (`lib/storage.ts`,
-  `csvRowForRecord()`) — JSON export does (it just serializes the whole
-  record). Worth adding if a backend ever needs to reconcile seasons from
-  a CSV consolidation rather than raw JSON.
+- **No sync; data leaves a device only by export.** Decision deferred by
+  JB (17.11.26). Options: Supabase (Postgres + login per coach; needs a
+  Fairtrade account and data-protection sign-off), Google Sheet via Apps
+  Script (quick, weak access control for personal data), Kobo/ODK server,
+  or a Fairtrade-hosted API. Any of them needs consent rules applied
+  (`consent.release*` flags) before upload, and `producer_code` from the
+  roster as the cross-device key.
+- **Roster is per device.** Each coach imports the CSV; nothing checks that
+  two devices hold the same version.
 - **Records list is still a flat list of farmer cards** — fine at current
   test scale, untested at "100 farmers × several seasons."
 - **GitHub Actions build+deploy is still manual** — see "Publishing" below.
@@ -128,7 +147,8 @@ Known gaps / deliberately deferred, in rough priority order:
 - **Storage**: Dexie / IndexedDB (`src/lib/storage.ts`), replacing the
   vanilla app's single-`localStorage`-blob approach. One row per household
   instead of one JSON string for the whole collection. Schema is at
-  **v2** (`meta.farmerId` indexed; `.upgrade()` backfills older records).
+  **v3** (v2 indexed `meta.farmerId`; v3 adds the `roster` table and
+  `meta.unknownFields`; each `.upgrade()` backfills older records).
   `localStorage` is now used for exactly one thing, the language preference
   (`cocoa_capture_lang`) — a single small string with no growth risk.
   There is **no** localStorage→IndexedDB migration: one existed for the

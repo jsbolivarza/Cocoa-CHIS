@@ -5,7 +5,8 @@
 
 import { create } from "zustand";
 import type { HouseholdRecord, TableRow } from "../lib/dataModel";
-import { emptyRecord, emptyRow, TABLE_SCHEMAS } from "../lib/dataModel";
+import { emptyRecord, emptyRow, TABLE_SCHEMAS, unknownFieldsAfterRowRemoval } from "../lib/dataModel";
+import type { RosterEntry } from "../lib/storage";
 import * as storage from "../lib/storage";
 import { t, type Lang } from "../lib/i18n";
 import { getPath, setPathImmutable } from "../lib/paths";
@@ -58,6 +59,9 @@ interface AppState {
   // Which farmer's group is open on the "history" screen. Set by
   // openFarmerHistory(), cleared by goToList() same as currentRecordId.
   historyFarmerId: string | null;
+  /** Producer roster imported on Settings; empty means producer code stays
+   *  free text. */
+  roster: RosterEntry[];
 
   init: () => Promise<void>;
   setLang: (lang: Lang) => void;
@@ -72,6 +76,12 @@ interface AppState {
   switchTab: (tab: string) => void;
   switchListTab: (tab: ListTab) => void;
   updateField: (path: string, value: unknown) => void;
+  /** Several path/value pairs as one edit and one save. */
+  updateFields: (changes: [string, unknown][]) => void;
+  /** Marks or unmarks a number field as "Doesn't know"; marking clears it. */
+  toggleUnknown: (path: string) => void;
+  setRoster: (entries: RosterEntry[]) => Promise<void>;
+  clearRoster: () => Promise<void>;
   addRow: (schemaKey: string, arrPath: string) => void;
   removeRow: (arrPath: string, idx: number) => void;
   toggleStepComplete: (tab: string) => void;
@@ -99,10 +109,20 @@ export const useAppStore = create<AppState>((set, get) => ({
   confirmRequest: null,
   recordSearch: "",
   historyFarmerId: null,
+  roster: [],
 
   init: async () => {
-    const records = await storage.loadAllRecords();
-    set({ records, loaded: true });
+    const [records, roster] = await Promise.all([storage.loadAllRecords(), storage.loadRoster()]);
+    set({ records, roster, loaded: true });
+  },
+
+  setRoster: async (entries) => {
+    await storage.replaceRoster(entries);
+    set({ roster: [...entries].sort((a, b) => a.producerCode.localeCompare(b.producerCode)) });
+  },
+  clearRoster: async () => {
+    await storage.clearRoster();
+    set({ roster: [] });
   },
 
   setLang: (lang) => {
@@ -214,10 +234,12 @@ export const useAppStore = create<AppState>((set, get) => ({
   closeConfirm: () => set({ confirmRequest: null }),
   setRecordSearch: (v) => set({ recordSearch: v }),
 
-  updateField: (path, value) => {
+  updateField: (path, value) => get().updateFields([[path, value]]),
+
+  updateFields: (changes) => {
     const current = get().record;
     if (!current) return;
-    const updated = setPathImmutable(current, path, value);
+    const updated = changes.reduce((rec, [path, value]) => setPathImmutable(rec, path, value), current);
     set((s) => ({
       record: updated,
       records: { ...s.records, [updated.meta.id]: updated },
@@ -250,7 +272,8 @@ export const useAppStore = create<AppState>((set, get) => ({
       if (!current) return;
       const rows = (getPath<TableRow[]>(current, arrPath) || []).slice();
       rows.splice(idx, 1);
-      get().updateField(arrPath, rows);
+      const unknown = unknownFieldsAfterRowRemoval(current.meta.unknownFields || [], arrPath, idx);
+      get().updateFields([[arrPath, rows], ["meta.unknownFields", unknown]]);
     });
   },
 
@@ -263,6 +286,14 @@ export const useAppStore = create<AppState>((set, get) => ({
     const done = Array.isArray(current.meta.completedSteps) ? current.meta.completedSteps : [];
     const next = done.includes(tab) ? done.filter((d) => d !== tab) : [...done, tab];
     get().updateField("meta.completedSteps", next);
+  },
+
+  toggleUnknown: (path) => {
+    const current = get().record;
+    if (!current) return;
+    const list = current.meta.unknownFields || [];
+    if (list.includes(path)) get().updateField("meta.unknownFields", list.filter((p) => p !== path));
+    else get().updateFields([[path, ""], ["meta.unknownFields", [...list, path]]]);
   },
 
   // Retroactively folds the current record into an existing farmer's group

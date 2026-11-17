@@ -45,6 +45,13 @@ export function ResultsTab() {
   const vol = record.meta.volumeUnit;
   const daysUnit = t("days_unit", lang);
   const open = incompleteSteps(record);
+  // "Doesn't know" answers per step; the path's first segment is the step.
+  const unknownCounts = new Map<string, number>();
+  (record.meta.unknownFields || []).forEach((path) => {
+    const step = path.split(".", 1)[0];
+    if (TAB_LABEL_KEY[step]) unknownCounts.set(step, (unknownCounts.get(step) ?? 0) + 1);
+  });
+  const unknownByStep = [...unknownCounts.entries()];
 
   return (
     <div className="panel">
@@ -57,6 +64,13 @@ export function ResultsTab() {
         <div className="results-warning" role="note">
           <strong>{t("results_incomplete", lang)}</strong> {open.map((tab) => t(TAB_LABEL_KEY[tab], lang)).join(", ")}.{" "}
           {t("results_incomplete_help", lang)}
+        </div>
+      )}
+      {unknownByStep.length > 0 && (
+        <div className="results-warning" role="note">
+          <strong>{t("results_unknown", lang)}</strong>{" "}
+          {unknownByStep.map(([tab, n]) => `${t(TAB_LABEL_KEY[tab], lang)} (${n})`).join(", ")}.{" "}
+          {t("results_unknown_help", lang)}
         </div>
       )}
       <MoneyWaterfall res={res} />

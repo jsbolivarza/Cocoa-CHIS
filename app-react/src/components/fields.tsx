@@ -38,17 +38,42 @@ export function DateField({ path, value }: { path: string; value: string }) {
   );
 }
 
+/** Every number field carries a "Doesn't know" toggle. Marking one clears
+ *  the value and records the path in meta.unknownFields (see dataModel.ts),
+ *  so a blank caused by "doesn't know" can be told apart from a blank that
+ *  was never asked. */
 export function NumberField({ path, value, step = "any" }: { path: string; value: NumStr; step?: string }) {
   const updateField = useUpdateField();
+  const toggleUnknown = useAppStore((s) => s.toggleUnknown);
+  const lang = useAppStore((s) => s.currentLang);
+  const unknown = useAppStore((s) => !!s.record?.meta.unknownFields?.includes(path));
+  const dkLabel = t("dk_label", lang);
   return (
-    <input
-      type="number"
-      inputMode="decimal"
-      step={step}
-      className="field field-num"
-      value={value === "" || value == null ? "" : value}
-      onChange={(e) => updateField(path, e.target.value === "" ? "" : parseFloat(e.target.value))}
-    />
+    <span className={`num-wrap${unknown ? " is-unknown" : ""}`}>
+      <input
+        type="number"
+        inputMode="decimal"
+        step={step}
+        className="field field-num"
+        disabled={unknown}
+        placeholder={unknown ? dkLabel : undefined}
+        value={unknown || value === "" || value == null ? "" : value}
+        onChange={(e) => updateField(path, e.target.value === "" ? "" : parseFloat(e.target.value))}
+      />
+      <button
+        type="button"
+        className="dk-btn"
+        aria-pressed={unknown}
+        aria-label={dkLabel}
+        title={unknown ? t("dk_undo", lang) : dkLabel}
+        onClick={(e) => {
+          e.preventDefault();
+          toggleUnknown(path);
+        }}
+      >
+        ?
+      </button>
+    </span>
   );
 }
 

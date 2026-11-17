@@ -185,6 +185,20 @@ main { max-width: 1400px; margin: 0 auto; padding: 26px 32px; }
 .field:focus { outline: none; border-color: var(--tangerine); box-shadow: 0 0 0 3px var(--tangerine-tint); }
 .field-select { appearance: auto; }
 
+/* Number field + "Doesn't know" toggle */
+.num-wrap { display: flex; align-items: stretch; gap: 4px; width: 100%; }
+.num-wrap .field { flex: 1 1 auto; min-width: 0; }
+.dk-btn {
+  flex: 0 0 auto; min-width: 36px; min-height: 42px; border-radius: 8px;
+  border: 1px solid var(--border); background: var(--card-alt); color: var(--text-light);
+  font: 600 0.95rem 'Inter', sans-serif; cursor: pointer; text-transform: none;
+}
+.dk-btn:focus-visible { outline: none; border-color: var(--tangerine); box-shadow: 0 0 0 3px var(--tangerine-tint); }
+.num-wrap.is-unknown .dk-btn { background: var(--eggplant); border-color: var(--eggplant); color: #fff; }
+.num-wrap.is-unknown .field { background: var(--eggplant-tint); border-style: dashed; }
+.field-hint.field-warn { color: #8a4b00; font-weight: 600; text-transform: none; letter-spacing: normal; }
+.num-wrap.is-unknown .field::placeholder { color: var(--eggplant); opacity: 1; font-style: italic; }
+
 .checkbox-row { display: flex; flex-wrap: wrap; gap: 16px; margin: 10px 0 18px; }
 .check { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; }
 .check input { width: 20px; height: 20px; accent-color: var(--tangerine); }

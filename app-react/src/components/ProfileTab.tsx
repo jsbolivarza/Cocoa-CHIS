@@ -10,12 +10,54 @@ import { seasonOptionsWithCurrent } from "../lib/seasons";
 import { TextField, NumberField, SelectField } from "./fields";
 import { KpiCard, StatBox } from "./Kpi";
 import { DataTable } from "./DataTable";
+import { findRosterEntry } from "../lib/roster";
+
+/** Member code. Plain text until a roster is imported (Settings); then the
+ *  roster's codes are offered as suggestions, and picking a code fills in
+ *  the member's name, village and cooperative from the roster. Typing a code
+ *  that isn't listed is still allowed (a new member may not be on the roster
+ *  yet), with a warning under the field. */
+function ProducerCodeField({ value }: { value: string }) {
+  const roster = useAppStore((s) => s.roster);
+  const updateFields = useAppStore((s) => s.updateFields);
+  if (!roster.length) return <TextField path="profile.producerCode" value={value} />;
+  return (
+    <>
+      <input
+        type="text"
+        className="field"
+        list="roster-codes"
+        autoComplete="off"
+        value={value ?? ""}
+        onChange={(e) => {
+          const code = e.target.value;
+          const entry = findRosterEntry(roster, code);
+          const changes: [string, unknown][] = [["profile.producerCode", code]];
+          if (entry) {
+            if (entry.producerName) changes.push(["profile.producerName", entry.producerName]);
+            if (entry.village) changes.push(["profile.village", entry.village]);
+            if (entry.coopName) changes.push(["profile.coopName", entry.coopName]);
+          }
+          updateFields(changes);
+        }}
+      />
+      <datalist id="roster-codes">
+        {roster.map((e) => (
+          <option key={e.producerCode} value={e.producerCode}>
+            {[e.producerName, e.village].filter(Boolean).join(" · ")}
+          </option>
+        ))}
+      </datalist>
+    </>
+  );
+}
 
 export function ProfileTab() {
   const record = useAppStore((s) => s.record);
   const records = useAppStore((s) => s.records);
   const lang = useAppStore((s) => s.currentLang);
   const linkToExistingFarmer = useAppStore((s) => s.linkToExistingFarmer);
+  const roster = useAppStore((s) => s.roster);
   const [dismissedFarmerId, setDismissedFarmerId] = useState<string | null>(null);
   if (!record) return null;
   const p = record.profile;
@@ -23,6 +65,7 @@ export function ProfileTab() {
   const area = record.meta.areaUnit;
   const duplicate = findPotentialDuplicate(records, record);
   const showDuplicateWarning = duplicate && duplicate.farmerId !== dismissedFarmerId;
+  const codeNotInRoster = roster.length > 0 && p.producerCode.trim() !== "" && !findRosterEntry(roster, p.producerCode);
 
   return (
     <div className="panel">
@@ -69,8 +112,12 @@ export function ProfileTab() {
         </label>
         <label>
           {t("producer_code", lang)}
-          <TextField path="profile.producerCode" value={p.producerCode} />
-          <span className="field-hint">{t("producer_code_help", lang)}</span>
+          <ProducerCodeField value={p.producerCode} />
+          {codeNotInRoster ? (
+            <span className="field-hint field-warn">{t("roster_not_found", lang)}</span>
+          ) : (
+            <span className="field-hint">{t("producer_code_help", lang)}</span>
+          )}
         </label>
         <label className="optional">
           {t("village", lang)}

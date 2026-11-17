@@ -13,11 +13,21 @@
 
 import Dexie, { type Table } from "dexie";
 import type { HouseholdRecord } from "./dataModel";
-import { ensureRevenueFlags, generateRecordId } from "./dataModel";
+import { normalizeRecord, generateRecordId } from "./dataModel";
 import { calcResults } from "./calc";
+
+/** One cooperative member from an imported roster CSV. producerCode is the
+ *  key: it's the identifier the roster exists to standardize. */
+export interface RosterEntry {
+  producerCode: string;
+  producerName: string;
+  village: string;
+  coopName: string;
+}
 
 class CocoaDatabase extends Dexie {
   households!: Table<HouseholdRecord, string>;
+  roster!: Table<RosterEntry, string>;
 
   constructor() {
     super("cocoa_capture_db");
@@ -44,6 +54,22 @@ class CocoaDatabase extends Dexie {
             if (r.meta.season == null) r.meta.season = "";
           })
       );
+    // v3 adds the producer roster (its own table, replaced wholesale on each
+    // import) and backfills meta.unknownFields ("Doesn't know" markers) so
+    // every stored record has the list.
+    this.version(3)
+      .stores({
+        households: "meta.id, meta.updatedAt, meta.farmerId",
+        roster: "producerCode",
+      })
+      .upgrade((tx) =>
+        tx
+          .table("households")
+          .toCollection()
+          .modify((r: HouseholdRecord) => {
+            if (!Array.isArray(r.meta.unknownFields)) r.meta.unknownFields = [];
+          })
+      );
   }
 }
 
@@ -53,7 +79,7 @@ export async function loadAllRecords(): Promise<Record<string, HouseholdRecord>>
   const all = await db.households.toArray();
   const map: Record<string, HouseholdRecord> = {};
   all.forEach((r) => {
-    ensureRevenueFlags(r);
+    normalizeRecord(r);
     map[r.meta.id] = r;
   });
   return map;
@@ -86,17 +112,44 @@ export async function importRecords(parsed: unknown): Promise<HouseholdRecord[]>
   const imported: HouseholdRecord[] = [];
   list.forEach((r) => {
     if (!r || !r.meta) return;
-    ensureRevenueFlags(r);
     r.meta.id = generateRecordId();
-    // Same backfill as the v2 upgrade above: a file exported before
-    // farmerId existed has none, and every such record would otherwise
-    // share `undefined` and be grouped as one farmer's seasons.
+    // Same backfills as the upgrades above. A file exported before farmerId
+    // existed has none, and every such record would otherwise share
+    // `undefined` and be grouped as one farmer's seasons.
     if (!r.meta.farmerId) r.meta.farmerId = r.meta.id;
-    if (r.meta.season == null) r.meta.season = "";
+    normalizeRecord(r);
     imported.push(r);
   });
   if (imported.length) await db.households.bulkPut(imported);
   return imported;
+}
+
+/* Producer roster (see roster.ts for the file format). Stored on this
+   device only; each import replaces the whole list, so a coop's updated
+   roster never leaves stale codes behind. Records keep whatever code they
+   were captured with. */
+export async function loadRoster(): Promise<RosterEntry[]> {
+  return db.roster.orderBy("producerCode").toArray();
+}
+
+export async function replaceRoster(entries: RosterEntry[]): Promise<void> {
+  await db.transaction("rw", db.roster, async () => {
+    await db.roster.clear();
+    await db.roster.bulkPut(entries);
+  });
+}
+
+export async function clearRoster(): Promise<void> {
+  await db.roster.clear();
+}
+
+export function readTextFile(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = () => reject(reader.error);
+    reader.readAsText(file);
+  });
 }
 
 export function parseImportFile(file: File): Promise<unknown> {
@@ -232,6 +285,10 @@ function csvRowForRecord(record: HouseholdRecord): [string, unknown][] {
   const push = (label: string, value: unknown) => cols.push([label, value]);
 
   push("household_id", record.meta.id);
+  // farmer_id links one farmer's seasons on this device only; producer_code
+  // is the identifier that holds across devices.
+  push("farmer_id", record.meta.farmerId);
+  push("season", record.meta.season);
   push("coop_name", p.coopName);
   push("flo_id", p.floId);
   push("coach_name", p.coachName);
@@ -319,6 +376,11 @@ function csvRowForRecord(record: HouseholdRecord): [string, unknown][] {
   push("consent_release_coop", c.releaseCoop);
   push("consent_release_pn", c.releasePN);
   push("consent_release_buyers", c.releaseBuyers);
+  // Fields answered "Doesn't know". Their value columns above are blank and
+  // the totals count them as 0, so analysts need this to tell them apart.
+  const unknown = record.meta.unknownFields || [];
+  push("unknown_field_count", unknown.length);
+  push("unknown_fields", unknown.join("; "));
   push("record_updated_at", record.meta.updatedAt);
 
   return cols;

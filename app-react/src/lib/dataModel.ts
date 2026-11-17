@@ -258,6 +258,13 @@ export interface RecordMeta {
    *  until they set it. Not derived automatically — data entry can happen
    *  well after the season it describes. */
   season: string;
+  /** Record paths of number fields the respondent could not answer
+   *  ("Doesn't know"), e.g. "profile.cocoaAreaIms" or "costs.tools.2.totalCost".
+   *  Kept beside the data rather than inside it so every field keeps its
+   *  NumStr type: a marked field stays "" and calc.ts counts it as 0, exactly
+   *  as before. The list is what tells "doesn't know" apart from "not asked"
+   *  or "zero" in the exports. */
+  unknownFields: string[];
 }
 
 export interface ConsentData {
@@ -364,7 +371,7 @@ export function emptyRecord(linkTo?: HouseholdRecord): HouseholdRecord {
   return {
     meta: {
       id,
-      formatVersion: 2,
+      formatVersion: 3,
       language: "en",
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
@@ -374,6 +381,7 @@ export function emptyRecord(linkTo?: HouseholdRecord): HouseholdRecord {
       completedSteps: [],
       farmerId: linkTo?.meta.farmerId ?? id,
       season: "",
+      unknownFields: linkTo ? carriedUnknownFields(linkTo) : [],
     },
     consent: {
       respondentName: "", date: "",
@@ -458,5 +466,47 @@ export function ensureRevenueFlags(record: HouseholdRecord): HouseholdRecord {
       rev.has[section.key] = section.arrays.some((name) => tableHasData(rev[name]));
     }
   });
+  return record;
+}
+
+/* ---------------------------------------------------------------------------
+   "Doesn't know" markers (meta.unknownFields)
+--------------------------------------------------------------------------- */
+
+/** Profile parts that emptyRecord(linkTo) copies into a new season; their
+ *  markers come along with them, everything else starts unmarked. */
+const CARRIED_PREFIXES = ["profile.plots.", "profile.householdWorking.", "profile.householdNotWorking.", "profile.fallowLand"];
+
+function carriedUnknownFields(source: HouseholdRecord): string[] {
+  return (source.meta.unknownFields || []).filter((path) => CARRIED_PREFIXES.some((pre) => path.startsWith(pre)));
+}
+
+/** Markers after row `idx` of the table at `arrPath` is removed: that row's
+ *  markers go, and markers on later rows move up one index with their row. */
+export function unknownFieldsAfterRowRemoval(fields: string[], arrPath: string, idx: number): string[] {
+  const prefix = arrPath + ".";
+  const out: string[] = [];
+  fields.forEach((path) => {
+    if (!path.startsWith(prefix)) {
+      out.push(path);
+      return;
+    }
+    const rest = path.slice(prefix.length);
+    const dot = rest.indexOf(".");
+    const rowIdx = parseInt(dot === -1 ? rest : rest.slice(0, dot), 10);
+    if (Number.isNaN(rowIdx) || rowIdx < idx) out.push(path);
+    else if (rowIdx > idx) out.push(prefix + (rowIdx - 1) + (dot === -1 ? "" : rest.slice(dot)));
+  });
+  return out;
+}
+
+/** Brings a record from storage or a JSON import up to the current format.
+ *  Mutates and returns it, like ensureRevenueFlags(). */
+export function normalizeRecord(record: HouseholdRecord): HouseholdRecord {
+  if (!record || !record.meta) return record;
+  ensureRevenueFlags(record);
+  if (!record.meta.farmerId) record.meta.farmerId = record.meta.id;
+  if (record.meta.season == null) record.meta.season = "";
+  if (!Array.isArray(record.meta.unknownFields)) record.meta.unknownFields = [];
   return record;
 }

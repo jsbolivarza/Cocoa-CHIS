@@ -159,7 +159,7 @@ export function SettingsScreen() {
 
       <h4>{t("settings_about", lang)}</h4>
       <p className="field-hint">
-        {t("settings_version", lang)} {__APP_VERSION__}
+        {t("settings_version", lang)} {__APP_VERSION__} · {t("settings_built", lang)} {__APP_BUILT__}
       </p>
       <div className="stacked-actions">
         <button type="button" className="btn btn-secondary" onClick={handleCheckUpdate}>

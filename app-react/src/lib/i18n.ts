@@ -96,6 +96,7 @@ export const STR: Record<string, StrEntry> = {
   settings_data: { en: "Data on this device", fr: "Données sur cet appareil", es: "Datos en este dispositivo" },
   settings_about: { en: "About this app", fr: "À propos de l'application", es: "Acerca de la aplicación" },
   settings_version: { en: "Version", fr: "Version", es: "Versión" },
+  settings_built: { en: "built", fr: "compilée le", es: "compilada el" },
   btn_check_update: { en: "Check for updates", fr: "Rechercher des mises à jour", es: "Buscar actualizaciones" },
   update_checking: { en: "Checking…", fr: "Recherche…", es: "Buscando…" },
   update_none: { en: "You are on the latest version", fr: "Vous avez la dernière version", es: "Tiene la última versión" },

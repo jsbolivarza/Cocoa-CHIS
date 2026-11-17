@@ -256,6 +256,7 @@ Not automated yet (no GitHub Actions workflow). To regenerate:
 
 ```
 cd app-react
+npm version 0.X.Y --no-git-tag-version   # ALWAYS bump first (see below)
 rm -rf dist
 npm run build
 cd ..
@@ -264,6 +265,15 @@ cp -r app-react/dist/* docs/
 git add -A docs app-react
 git commit -m "..."
 ```
+
+**Bump the version on every publish.** Settings shows "Version X · built
+dd.mm.yy" (`__APP_VERSION__` from `package.json`, `__APP_BUILT__` = build
+date, both in `vite.config.ts`'s `define`), and uploads record it as
+`app_version`. It stayed at 0.1.0 through several releases before 17.11.26,
+so coaches couldn't tell builds apart. Patch (0.3.1) for fixes, minor
+(0.4.0) for new features. History: 0.2.0 = hub layout, "Doesn't know",
+roster, Supabase upload; 0.3.0 = tablet/phone list screens, brand row,
+phone Results (both 17.11.26).
 
 `git add -A` matters: Vite fingerprints filenames, so every build *deletes*
 the previous `assets/index-*.js` and adds a new one. A plain `git add docs`

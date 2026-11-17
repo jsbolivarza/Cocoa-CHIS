@@ -23,8 +23,13 @@ export default defineConfig({
   // "Check for updates" button, same purpose as APP_VERSION in
   // docs/js/app.js: a coach can confirm they're on the version they were
   // told to be on, without a hard reload or a developer.
+  // __APP_BUILT__ (dd.mm.yy) tells two builds apart even when someone
+  // forgot to bump package.json's version before publishing.
   define: {
     __APP_VERSION__: JSON.stringify(pkg.version),
+    __APP_BUILT__: JSON.stringify(
+      new Date().toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: '2-digit' }).replace(/\//g, '.')
+    ),
   },
   plugins: [
     react(),

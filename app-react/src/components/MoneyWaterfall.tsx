@@ -78,7 +78,7 @@ export function MoneyWaterfall({ res }: { res: Results }) {
           <span><i className="is-out" />{t("res_costs", lang)}</span>
           <span><i className="is-total" />{t("res_total_revenues", lang)} · {t("res_profit", lang)}</span>
         </div>
-        <div className="wf-chart" style={{ gridTemplateColumns: `repeat(${rows.length}, minmax(min-content, 1fr))` }}>
+        <div className="wf-chart" style={{ "--cols": rows.length } as React.CSSProperties}>
           {rows.map((r, i) => {
             const [a, b] = spans[i];
             const kind = r.kind === "net" && r.value < 0 ? "neg" : r.kind;
@@ -87,12 +87,16 @@ export function MoneyWaterfall({ res }: { res: Results }) {
             const col = (
               <>
                 <span className="wf-plot">
-                  {lo < 0 && <span className="wf-zero" style={{ bottom: `${y(0)}%` }} />}
-                  <span className={`wf-bar is-${kind}`} style={{ bottom: `${y(a)}%`, height: `${Math.max(0.6, y(b) - y(a))}%` }}>
+                  {lo < 0 && <span className="wf-zero" style={{ "--z": `${y(0)}%` } as React.CSSProperties} />}
+                  <span
+                    className={`wf-bar is-${kind}`}
+                    style={{ "--s": `${y(a)}%`, "--len": `${Math.max(0.6, y(b) - y(a))}%` } as React.CSSProperties}
+                  >
                     <span className="wf-value num">{value}</span>
                   </span>
                 </span>
                 <span className={`wf-label${r.kind === "total" || r.kind === "net" ? " is-strong" : ""}`}>{label}</span>
+                <span className={`wf-num num${r.kind === "total" || r.kind === "net" ? " is-strong" : ""}`}>{value}</span>
               </>
             );
             return r.tab ? (

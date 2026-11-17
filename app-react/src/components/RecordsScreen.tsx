@@ -18,8 +18,39 @@
 import { useState } from "react";
 import { useAppStore } from "../store/appStore";
 import { summarizeRecords, normalizeSearch, recordMatchesSearch, exportJson, exportCsv, type RecordSummary } from "../lib/storage";
-import { recordProgress, formatUpdatedAt } from "../lib/recordProgress";
+import { recordProgress } from "../lib/recordProgress";
 import { t } from "../lib/i18n";
+import { useMediaQuery } from "../lib/useMediaQuery";
+import { WIDE_QUERY } from "../lib/layout";
+import { ListHeader } from "./ListShell";
+
+/** The "⋮" actions, shared by the phone cards and the tablet rows. */
+function RecordMenu({ id, onClose, onStartNewSeason, onDelete }: {
+  id: string; onClose: () => void; onStartNewSeason: (id: string) => void; onDelete: (id: string) => void;
+}) {
+  const records = useAppStore((s) => s.records);
+  const lang = useAppStore((s) => s.currentLang);
+  const openRecord = useAppStore((s) => s.openRecord);
+  return (
+    <div className="card-menu" onClick={(e) => e.stopPropagation()}>
+      <button type="button" className="btn" onClick={() => openRecord(id)}>
+        {t("btn_open_record", lang)}
+      </button>
+      <button type="button" className="btn" onClick={() => { onClose(); onStartNewSeason(id); }}>
+        {t("btn_start_new_season", lang)}
+      </button>
+      <button type="button" className="btn" onClick={() => { exportJson(records[id]); onClose(); }}>
+        {t("btn_export_json", lang)}
+      </button>
+      <button type="button" className="btn" onClick={() => { exportCsv(records[id]); onClose(); }}>
+        {t("btn_export_csv", lang)}
+      </button>
+      <button type="button" className="btn btn-danger" onClick={() => { onClose(); onDelete(id); }}>
+        {t("btn_delete_record", lang)}
+      </button>
+    </div>
+  );
+}
 
 export function RecordsScreen() {
   const records = useAppStore((s) => s.records);
@@ -32,6 +63,7 @@ export function RecordsScreen() {
   const recordSearch = useAppStore((s) => s.recordSearch);
   const setRecordSearch = useAppStore((s) => s.setRecordSearch);
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+  const wide = useMediaQuery(WIDE_QUERY);
 
   // summarizeRecords() sorts newest-updated-first overall, so grouping by
   // farmerId while walking that order keeps both each farmer's own seasons,
@@ -65,6 +97,133 @@ export function RecordsScreen() {
     });
   };
 
+  // Tablet and laptop: one table row per farmer (design/shell-options HT0).
+  if (wide) {
+    return (
+      <>
+        <ListHeader
+          title={t("nav_records", lang)}
+          sub={`${farmerOrder.length} ${t("ls_households", lang)} · ${all.length} ${t("ls_seasons_on_device", lang)}`}
+        >
+          {all.length > 0 && (
+            <label className="ls-search">
+              <span className="visually-hidden">{t("search_label", lang)}</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+                <circle cx="11" cy="11" r="7" />
+                <path d="M20 20l-3.5-3.5" />
+              </svg>
+              <input
+                type="search"
+                autoComplete="off"
+                placeholder={t("search_placeholder", lang)}
+                value={recordSearch}
+                onChange={(e) => setRecordSearch(e.target.value)}
+              />
+            </label>
+          )}
+          <button type="button" className="ls-primary" onClick={() => createRecord()}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+              <path d="M12 5v14M5 12h14" />
+            </svg>
+            {t("btn_new_record", lang)}
+          </button>
+        </ListHeader>
+        <div className="ls-content">
+          {!all.length ? (
+            <div className="ls-empty">
+              <h2>{t("records_empty_title", lang)}</h2>
+              <p>{t("records_empty_body", lang)}</p>
+            </div>
+          ) : !groups.length ? (
+            <div className="ls-empty">
+              <p>
+                {t("search_no_match", lang)}{" "}
+                <button type="button" className="ls-link" onClick={() => setRecordSearch("")}>
+                  {t("search_clear_link", lang)}
+                </button>
+              </p>
+            </div>
+          ) : (
+            <div className="ls-table" role="table">
+              <div className="ls-row ls-row-head" role="row">
+                <span role="columnheader">{t("ls_col_farmer", lang)}</span>
+                <span role="columnheader">{t("ls_col_code", lang)}</span>
+                <span role="columnheader">{t("ls_col_place", lang)}</span>
+                <span role="columnheader">{t("ls_col_seasons", lang)}</span>
+                <span role="columnheader" />
+              </div>
+              {groups.map((seasons) => {
+                const r = seasons[0];
+                const menuOpen = openMenuId === r.id;
+                return (
+                  <div
+                    key={r.id}
+                    className="ls-row"
+                    role="row"
+                    tabIndex={0}
+                    onClick={() => openRecord(r.id)}
+                    onKeyDown={(e) => {
+                      if (e.target === e.currentTarget && (e.key === "Enter" || e.key === " ")) {
+                        e.preventDefault();
+                        openRecord(r.id);
+                      }
+                    }}
+                  >
+                    <span role="cell" className="ls-farmer">
+                      {r.producerName || t("unnamed_household", lang)}
+                      {r.language && r.language.toUpperCase() !== lang.toUpperCase() && (
+                        <span className="lang-tag">{r.language.toUpperCase()}</span>
+                      )}
+                    </span>
+                    <span role="cell" className="num">{r.producerCode || "—"}</span>
+                    <span role="cell" className="ls-place">
+                      {[r.village, r.coopName].filter(Boolean).join(" · ") || "—"}
+                    </span>
+                    <span role="cell" className="ls-tags">
+                      {seasons.map((season, i) => {
+                        const p = recordProgress(records[season.id]);
+                        const complete = p.done === p.total;
+                        const label = complete ? t("record_complete", lang) : `${p.done} ${t("record_of_steps", lang)} ${p.total}`;
+                        return (
+                          <button
+                            key={season.id}
+                            type="button"
+                            className={`ls-tag${i === 0 && !complete ? " is-current" : ""}`}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              openRecord(season.id);
+                            }}
+                          >
+                            {(season.season || t("season_not_set", lang)) + " · " + label}
+                          </button>
+                        );
+                      })}
+                    </span>
+                    <span role="cell" className="ls-menu-cell">
+                      <button
+                        type="button"
+                        className="ls-menu-btn"
+                        aria-label={t("btn_more_actions", lang)}
+                        aria-expanded={menuOpen}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setOpenMenuId(menuOpen ? null : r.id);
+                        }}
+                      >
+                        &#8942;
+                      </button>
+                      {menuOpen && <RecordMenu id={r.id} onClose={() => setOpenMenuId(null)} onStartNewSeason={handleStartNewSeason} onDelete={handleDelete} />}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      </>
+    );
+  }
+
   if (all.length && !groups.length) {
     return (
       <div className="panel">
@@ -94,80 +253,54 @@ export function RecordsScreen() {
     );
   }
 
+  // Phone (design/shell-options H0): one card per farmer with code, place
+  // and a tag per season carrying its progress.
   return (
-    <div className="panel">
-      <div className="stacked-actions">
-        <button type="button" className="btn btn-secondary btn-new-cta" onClick={() => createRecord()}>
-          + {t("btn_new_record", lang)}
-        </button>
-      </div>
-      <p className="section-help">{t("records_help", lang)}</p>
-      <p className="records-count">
+    <div className="ph-records">
+      <button type="button" className="ph-new" onClick={() => createRecord()}>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+          <path d="M12 5v14M5 12h14" />
+        </svg>
+        {t("btn_new_record", lang)}
+      </button>
+      <p className="ph-count">
         {needle
-          ? `${groups.length} ${t("search_showing", lang)} ${farmerOrder.length} ${t("records_count_suffix", lang)}`
-          : `${farmerOrder.length} ${t("records_count_suffix", lang)}`}
+          ? `${groups.length} ${t("search_showing", lang)} ${farmerOrder.length} ${t("ls_households", lang)}`
+          : `${farmerOrder.length} ${t("ls_households", lang)} · ${all.length} ${t("ls_seasons_on_device", lang)}`}
       </p>
-      <div className="records-list">
-        {groups.map((seasons) => {
-          const r = seasons[0]; // newest season represents the card
-          const p = recordProgress(records[r.id]);
-          const menuOpen = openMenuId === r.id;
-          return (
-            <div
-              key={r.id}
-              className="record-card"
-              role="button"
-              tabIndex={0}
-              onClick={() => openRecord(r.id)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault();
-                  openRecord(r.id);
-                }
-              }}
-            >
-              <div className="record-card-main">
-                <div className="record-card-title">
+      {groups.map((seasons) => {
+        const r = seasons[0]; // newest season represents the card
+        const menuOpen = openMenuId === r.id;
+        const place = [r.producerCode, r.village, r.coopName].filter(Boolean).join(" · ");
+        return (
+          <div
+            key={r.id}
+            className="ph-card"
+            role="button"
+            tabIndex={0}
+            onClick={() => openRecord(r.id)}
+            onKeyDown={(e) => {
+              if (e.target === e.currentTarget && (e.key === "Enter" || e.key === " ")) {
+                e.preventDefault();
+                openRecord(r.id);
+              }
+            }}
+          >
+            <div className="ph-card-top">
+              <div className="ph-card-titles">
+                <span className="ph-card-name">
                   {r.producerName || t("unnamed_household", lang)}
                   {r.language && r.language.toUpperCase() !== lang.toUpperCase() && (
                     <span className="lang-tag">{r.language.toUpperCase()}</span>
                   )}
-                </div>
-                <div className="record-card-sub">
-                  {r.coopName || t("unnamed_coop", lang)}
-                  {r.respondentName ? " · " + r.respondentName : ""}
-                </div>
-                <div className="record-card-date">
-                  {t("col_updated", lang)}: {formatUpdatedAt(r.updatedAt)}
-                </div>
-                {seasons.length > 1 && (
-                  <div className="chip-row">
-                    {seasons.map((season, i) => (
-                      <button
-                        key={season.id}
-                        type="button"
-                        className={`chip ${i === 0 ? "is-on" : ""}`}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          openRecord(season.id);
-                        }}
-                      >
-                        {season.season || t("season_not_set", lang)}
-                      </button>
-                    ))}
-                  </div>
-                )}
-                <div className="record-progress" title={`${p.done} / ${p.total}`}>
-                  <span style={{ width: `${p.pct}%` }} className={p.done === p.total ? "is-complete" : ""} />
-                </div>
-                <div className="record-progress-label">
-                  {p.done === p.total ? t("record_complete", lang) : `${p.done} ${t("record_of_steps", lang)} ${p.total}`}
-                </div>
+                </span>
+                <span className="ph-card-sub">{place || t("unnamed_coop", lang)}</span>
               </div>
               <button
                 type="button"
-                className="btn-icon card-menu-toggle"
+                className="ls-menu-btn"
                 aria-label={t("btn_more_actions", lang)}
+                aria-expanded={menuOpen}
                 onClick={(e) => {
                   e.stopPropagation();
                   setOpenMenuId(menuOpen ? null : r.id);
@@ -175,57 +308,31 @@ export function RecordsScreen() {
               >
                 &#8942;
               </button>
-              {menuOpen && (
-                <div className="card-menu" onClick={(e) => e.stopPropagation()}>
-                  <button type="button" className="btn" onClick={() => openRecord(r.id)}>
-                    {t("btn_open_record", lang)}
-                  </button>
-                  <button
-                    type="button"
-                    className="btn"
-                    onClick={() => {
-                      setOpenMenuId(null);
-                      handleStartNewSeason(r.id);
-                    }}
-                  >
-                    {t("btn_start_new_season", lang)}
-                  </button>
-                  <button
-                    type="button"
-                    className="btn"
-                    onClick={() => {
-                      exportJson(records[r.id]);
-                      setOpenMenuId(null);
-                    }}
-                  >
-                    {t("btn_export_json", lang)}
-                  </button>
-                  <button
-                    type="button"
-                    className="btn"
-                    onClick={() => {
-                      exportCsv(records[r.id]);
-                      setOpenMenuId(null);
-                    }}
-                  >
-                    {t("btn_export_csv", lang)}
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-danger"
-                    onClick={() => {
-                      setOpenMenuId(null);
-                      handleDelete(r.id);
-                    }}
-                  >
-                    {t("btn_delete_record", lang)}
-                  </button>
-                </div>
-              )}
             </div>
-          );
-        })}
-      </div>
+            <div className="ls-tags">
+              {seasons.map((season, i) => {
+                const p = recordProgress(records[season.id]);
+                const complete = p.done === p.total;
+                const label = complete ? t("record_complete", lang) : `${p.done} ${t("record_of_steps", lang)} ${p.total}`;
+                return (
+                  <button
+                    key={season.id}
+                    type="button"
+                    className={`ls-tag${i === 0 && !complete ? " is-current" : ""}`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      openRecord(season.id);
+                    }}
+                  >
+                    {(season.season || t("season_not_set", lang)) + " · " + label}
+                  </button>
+                );
+              })}
+            </div>
+            {menuOpen && <RecordMenu id={r.id} onClose={() => setOpenMenuId(null)} onStartNewSeason={handleStartNewSeason} onDelete={handleDelete} />}
+          </div>
+        );
+      })}
     </div>
   );
 }

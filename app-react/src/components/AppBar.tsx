@@ -1,14 +1,18 @@
 /* AppBar.tsx
-   Ported from buildAppBar() + renderBarContext() in docs/js/app.js. The bar
-   says where you are rather than carrying a fixed title: on the list screen
-   that's the record count, inside a record it's who you're interviewing and
-   which step you're on. Language switching lives on the Settings screen, not
-   here — the vanilla app moved it there too (buildAppBar stashes the old
-   header lang-switch into a hidden container), it isn't an omission. */
+   Phone header (wide screens use ListShell / HouseholdRail instead).
+   Ported from buildAppBar() + renderBarContext() in docs/js/app.js, then
+   redesigned after design/shell-options H0: the brand row (Fairtrade logo,
+   app icon, "Cocoa Capture") sits on top of every screen so a coach always
+   knows which app this is; below it, the list screens get a large title,
+   the device-save status and (on Records) the search box. Inside a record
+   the bar names the household and the step. Language switching lives on
+   the Settings screen, as in the vanilla app. */
 
 import { useAppStore } from "../store/appStore";
 import { t } from "../lib/i18n";
-import { TABS, TAB_LABEL_KEY } from "../lib/tabs";
+import { TABS, TAB_LABEL_KEY, LIST_TAB_SHORT_KEY } from "../lib/tabs";
+import { useOnline } from "../lib/useOnline";
+import { Brand } from "./Brand";
 
 export function AppBar() {
   const screen = useAppStore((s) => s.screen);
@@ -22,75 +26,74 @@ export function AppBar() {
   const recordSearch = useAppStore((s) => s.recordSearch);
   const setRecordSearch = useAppStore((s) => s.setRecordSearch);
   const openFarmerHistory = useAppStore((s) => s.openFarmerHistory);
+  const online = useOnline();
 
   const isEditor = screen === "editor" && !!record;
-  // So a coach editing this season can jump straight to the farmer's other
-  // seasons without first going back to the records list.
-  const seasonsCount = record
-    ? Object.values(records).filter((r) => r.meta.farmerId === record.meta.farmerId).length
-    : 0;
 
-  let context: string;
-  let sub: string;
-  if (isEditor && record) {
-    context = record.profile.producerName || t("unnamed_household", currentLang);
-    const idx = TABS.indexOf(currentTab as (typeof TABS)[number]) + 1;
-    const bits = [record.profile.coopName, record.profile.village].filter(Boolean);
-    const units = [record.meta.currencyUnit, record.meta.areaUnit].filter(Boolean).join(" / ");
-    if (units) bits.push(units);
-    sub = `${idx} ${t("record_of_steps", currentLang)} ${TABS.length} · ${t(TAB_LABEL_KEY[currentTab], currentLang)}`
-      + (bits.length ? " · " + bits.join(" · ") : "");
-  } else {
-    context = t("records_heading", currentLang);
-    sub = `${Object.keys(records).length} ${t("records_count_suffix", currentLang)}`;
-  }
-
-  return (
-    <header className="app-header">
-      <div className="bar-row">
-        {isEditor && (
-          <button type="button" className="btn-icon bar-back" aria-label={t("btn_my_records", currentLang)} onClick={goToList}>
-            &#8592;
-          </button>
-        )}
-        <div className="bar-titles">
-          <span className="bar-product">{t("app_title", currentLang)}</span>
-          <span className="bar-context">{context}</span>
-          <span className="bar-sub">{sub}</span>
-        </div>
-        {isEditor && seasonsCount > 1 && record && (
-          <button type="button" className="bar-chip" onClick={() => openFarmerHistory(record.meta.farmerId)}>
-            {t("farmer_history_view_cta", currentLang)} ({seasonsCount})
-          </button>
-        )}
-        {isEditor && (
-          <span className={`save-status ${saveStatus === "saving" ? "saving" : ""}`}>
-            {t(saveStatus === "saving" ? "btn_saving" : "btn_save", currentLang)}
+  if (!isEditor) {
+    const title =
+      screen === "history" ? t("farmer_history_heading", currentLang) : t(LIST_TAB_SHORT_KEY[listTab], currentLang);
+    return (
+      <header className="app-header ph-head">
+        <Brand tone="dark" />
+        <div className="ph-title-row">
+          <h1>{title}</h1>
+          <span className="ph-status">
+            <span className="ph-status-dot" aria-hidden="true" />
+            {t(online ? "ls_online_saved" : "ls_offline_saved", currentLang)}
           </span>
-        )}
-      </div>
-
-      {screen === "list" && listTab === "records" && Object.keys(records).length > 0 && (
-        <div className="search-bar">
-          <div className="search-field">
-            <label htmlFor="record-search">{t("search_label", currentLang)}</label>
+        </div>
+        {screen === "list" && listTab === "records" && Object.keys(records).length > 0 && (
+          <label className="ph-search">
+            <span className="visually-hidden">{t("search_label", currentLang)}</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="7" />
+              <path d="M20 20l-3.5-3.5" />
+            </svg>
             <input
               id="record-search"
               type="search"
-              className="field"
               autoComplete="off"
               placeholder={t("search_placeholder", currentLang)}
               value={recordSearch}
               onChange={(e) => setRecordSearch(e.target.value)}
             />
-          </div>
-          {recordSearch && (
-            <button type="button" className="btn" onClick={() => setRecordSearch("")}>
-              {t("search_clear", currentLang)}
-            </button>
-          )}
+          </label>
+        )}
+      </header>
+    );
+  }
+
+  const seasonsCount = Object.values(records).filter((r) => r.meta.farmerId === record.meta.farmerId).length;
+  const context = record.profile.producerName || t("unnamed_household", currentLang);
+  const idx = TABS.indexOf(currentTab as (typeof TABS)[number]) + 1;
+  const bits = [record.profile.coopName, record.profile.village].filter(Boolean);
+  const units = [record.meta.currencyUnit, record.meta.areaUnit].filter(Boolean).join(" / ");
+  if (units) bits.push(units);
+  const sub =
+    `${idx} ${t("record_of_steps", currentLang)} ${TABS.length} · ${t(TAB_LABEL_KEY[currentTab], currentLang)}` +
+    (bits.length ? " · " + bits.join(" · ") : "");
+
+  return (
+    <header className="app-header">
+      <Brand tone="dark" compact />
+      <div className="bar-row">
+        <button type="button" className="btn-icon bar-back" aria-label={t("btn_my_records", currentLang)} onClick={goToList}>
+          &#8592;
+        </button>
+        <div className="bar-titles">
+          <span className="bar-context">{context}</span>
+          <span className="bar-sub">{sub}</span>
         </div>
-      )}
+        {seasonsCount > 1 && (
+          <button type="button" className="bar-chip" onClick={() => openFarmerHistory(record.meta.farmerId)}>
+            {t("farmer_history_view_cta", currentLang)} ({seasonsCount})
+          </button>
+        )}
+        <span className={`save-status ${saveStatus === "saving" ? "saving" : ""}`}>
+          {t(saveStatus === "saving" ? "btn_saving" : "btn_save", currentLang)}
+        </span>
+      </div>
     </header>
   );
 }

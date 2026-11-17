@@ -127,6 +127,29 @@ Supabase config baked in):**
   with the analyst login;
   data-protection sign-off before any real household goes up.
 
+**List screens, tablet/laptop + phone (branch `records-layout`, off
+`react-app`, merged and published 17.11.26):** HT0 applied to everything outside a
+record. `ListShell.tsx`: 96 px navy menu (Records, Compare, Export,
+Settings) replacing AppBar, tab strip and BottomNav on wide screens; shared
+`ListHeader` (large title, online/offline + "saved on this device").
+Records: search + New household in the header, one table row per farmer
+(name, code, village · coop, season tags with progress, "⋮" menu, now the
+shared `RecordMenu`). Compare/Export/Settings/season history render in the
+same shell; their own first h3 is hidden there. Phones (H0): `AppBar`
+redone (navy header: brand, large title, status, search), farmer cards
+with season tags, dashed "New household". **Brand row** (`Brand.tsx`,
+"Cocoa Capture" + subtitle + app icon) on every screen incl. the household
+rail. Fairtrade logo: drop the official file in
+`src/assets/brand/fairtrade-logo.svg|png` and it appears (glob import);
+not in the repo yet, deliberately not hand-drawn (protected mark). Phone
+household screens (H1–H9) still the old shell. Also: no coloured left
+stripes anywhere (removed in `style.css`, not overridden); all fonts are
+the bundled Exo / Alegreya Sans (Inter and "Exo 2" were never bundled);
+Results on phones: waterfall as labelled horizontal bars, results table as
+compact two-value rows (`wide.css`, phone media query; selectors need
+`table.data-table.results-table` to beat the 640 px table min-width).
+Next: Fairtrade logo file; phone pass of the household screens (H1–H9).
+
 Known gaps / deliberately deferred, in rough priority order:
 - **Sync is upload-only.** No download to a device, no server-side delete
   when a record is deleted on a device, no per-coop read access.

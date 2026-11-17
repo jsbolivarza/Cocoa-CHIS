@@ -28,9 +28,9 @@ function ResultsRow({
   return (
     <tr className={total ? "total-row" : undefined}>
       <td>{t(labelKey, lang)}</td>
-      <td className="num">{farmVal == null ? "" : fmt(farmVal)}</td>
-      <td className="num">{cocoaVal == null ? "" : fmt(cocoaVal)}</td>
-      <td>{unit}</td>
+      <td className="num" data-label={t("col_whole_farm", lang)}>{farmVal == null ? "" : <>{fmt(farmVal)}<span className="res-unit"> {unit}</span></>}</td>
+      <td className="num" data-label={t("col_cocoa_only", lang)}>{cocoaVal == null ? "" : <>{fmt(cocoaVal)}<span className="res-unit"> {unit}</span></>}</td>
+      <td className="res-unit-col">{unit}</td>
     </tr>
   );
 }

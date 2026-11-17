@@ -10,6 +10,7 @@ import { useAppStore } from "../store/appStore";
 import { t } from "../lib/i18n";
 import { TAB_LABEL_KEY } from "../lib/tabs";
 import { stepState } from "../lib/recordProgress";
+import { Brand } from "./Brand";
 import { calcResults } from "../lib/calc";
 import { fmt } from "../lib/format";
 import { CAPTURE_TABS, incompleteSteps, stepSummary } from "../lib/stepSummary";
@@ -98,6 +99,9 @@ export function HouseholdRail({ compact }: { compact: boolean }) {
   return (
     <aside className={`hh-rail${compact ? " is-compact" : ""}`} aria-label={t("hub_household_heading", lang)}>
       <div className="hh-rail-head">
+        <div className="hh-rail-brand">
+          <Brand tone="dark" compact />
+        </div>
         <div className="hh-rail-top">
           <button type="button" className="hh-rail-back" onClick={goToList} aria-label={t("btn_my_records", lang)}>
             <BackIcon />

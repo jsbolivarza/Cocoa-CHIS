@@ -23,6 +23,7 @@ import { SettingsScreen } from "./components/SettingsScreen";
 import { UpdateBar } from "./components/UpdateBar";
 import { HouseholdRail } from "./components/HouseholdRail";
 import { HubScreen } from "./components/HubScreen";
+import { ListShell, ListHeader } from "./components/ListShell";
 import { useMediaQuery } from "./lib/useMediaQuery";
 import { WIDE_QUERY, ROOMY_QUERY } from "./lib/layout";
 
@@ -79,12 +80,34 @@ export default function App() {
     </>
   );
   const wideEditor = wide && screen === "editor" && !!record;
+  // Page title for the wide list shell; each screen's own first heading is
+  // hidden there (wide.css) so the title doesn't appear twice.
+  const wideListTitleKey =
+    screen === "history" ? "farmer_history_heading" : { records: "nav_records", compare: "compare_heading", export: "export_heading", settings: "settings_heading" }[listTab];
 
   return (
     <>
-      {!wideEditor && <AppBar />}
+      {!wide && <AppBar />}
 
-      {screen === "list" && (
+      {wide && (screen === "list" || screen === "history") && (
+        <ListShell>
+          {screen === "list" && listTab === "records" ? (
+            <RecordsScreen />
+          ) : (
+            <>
+              <ListHeader title={t(wideListTitleKey, currentLang)} />
+              <div className="ls-content">
+                {screen === "history" && <FarmerHistoryScreen />}
+                {screen === "list" && listTab === "compare" && <CompareScreen />}
+                {screen === "list" && listTab === "export" && <ExportScreen />}
+                {screen === "list" && listTab === "settings" && <SettingsScreen />}
+              </div>
+            </>
+          )}
+        </ListShell>
+      )}
+
+      {!wide && screen === "list" && (
         <>
           <nav id="list-nav">
             {LIST_TABS.map((tab) => (
@@ -177,13 +200,13 @@ export default function App() {
         </div>
       )}
 
-      {screen === "history" && (
+      {!wide && screen === "history" && (
         <main>
           <FarmerHistoryScreen />
         </main>
       )}
 
-      {!wideEditor && <footer className="app-footer">Fairtrade International — Digital Solutions Unit · cocoa household data capture tool</footer>}
+      {!wide && <footer className="app-footer">Fairtrade International — Digital Solutions Unit · cocoa household data capture tool</footer>}
 
       <ConfirmModal />
       <UpdateBar />

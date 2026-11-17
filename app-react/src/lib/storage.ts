@@ -25,9 +25,25 @@ export interface RosterEntry {
   coopName: string;
 }
 
+/** What was last uploaded for a record: its meta.updatedAt at upload time.
+ *  A record is pending when its current updatedAt differs. */
+export interface SyncLogEntry {
+  id: string;
+  uploadedUpdatedAt: string;
+  uploadedAt: string;
+}
+
+/** Small key-value store for the sync session (tokens, signed-in email). */
+export interface KvEntry {
+  key: string;
+  value: unknown;
+}
+
 class CocoaDatabase extends Dexie {
   households!: Table<HouseholdRecord, string>;
   roster!: Table<RosterEntry, string>;
+  syncLog!: Table<SyncLogEntry, string>;
+  kv!: Table<KvEntry, string>;
 
   constructor() {
     super("cocoa_capture_db");
@@ -70,6 +86,14 @@ class CocoaDatabase extends Dexie {
             if (!Array.isArray(r.meta.unknownFields)) r.meta.unknownFields = [];
           })
       );
+    // v4: sync bookkeeping (see sync.ts). Kept out of the record itself so
+    // uploading never changes a record's updatedAt or its exports.
+    this.version(4).stores({
+      households: "meta.id, meta.updatedAt, meta.farmerId",
+      roster: "producerCode",
+      syncLog: "id",
+      kv: "key",
+    });
   }
 }
 
@@ -92,6 +116,7 @@ export async function saveRecord(record: HouseholdRecord): Promise<void> {
 
 export async function deleteRecord(id: string): Promise<void> {
   await db.households.delete(id);
+  await db.syncLog.delete(id);
 }
 
 /** Wipe every record on this device. Used by "Delete all data", for when a
@@ -102,6 +127,7 @@ export async function deleteRecord(id: string): Promise<void> {
  *  open after cutover. */
 export async function clearAllRecords(): Promise<void> {
   await db.households.clear();
+  await db.syncLog.clear();
 }
 
 /** Every parsed record gets a fresh id on import, even if it already had
@@ -277,7 +303,7 @@ function csvEscape(v: unknown): string {
 
 /** One flattened row per household, mirroring the spirit of the workbook's
  *  own "dataset" tab: every input field plus every calculated result. */
-function csvRowForRecord(record: HouseholdRecord): [string, unknown][] {
+export function csvRowForRecord(record: HouseholdRecord): [string, unknown][] {
   const results = calcResults(record);
   const p = record.profile;
   const c = record.consent;
@@ -384,6 +410,18 @@ function csvRowForRecord(record: HouseholdRecord): [string, unknown][] {
   push("record_updated_at", record.meta.updatedAt);
 
   return cols;
+}
+
+/** The CSV row as an object, column name -> value. This is what sync
+ *  uploads as `summary`, so the server's flat view has exactly the CSV
+ *  export's columns and the calculated results come from calc.ts, not from
+ *  a second implementation in SQL. */
+export function flatRowForRecord(record: HouseholdRecord): Record<string, unknown> {
+  const out: Record<string, unknown> = {};
+  csvRowForRecord(record).forEach(([k, v]) => {
+    out[k] = typeof v === "number" && !Number.isFinite(v) ? null : v;
+  });
+  return out;
 }
 
 export function exportCsv(record: HouseholdRecord): void {

@@ -7,6 +7,7 @@ import { useAppStore } from "../store/appStore";
 import { parseImportFile, readTextFile } from "../lib/storage";
 import { parseRosterCsv } from "../lib/roster";
 import { StorageDiagnostics } from "./StorageDiagnostics";
+import { SyncPanel } from "./SyncPanel";
 import { t, type Lang } from "../lib/i18n";
 
 export function SettingsScreen() {
@@ -151,6 +152,8 @@ export function SettingsScreen() {
           </button>
         )}
       </div>
+
+      <SyncPanel />
 
       <StorageDiagnostics />
 

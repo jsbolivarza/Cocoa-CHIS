@@ -196,6 +196,8 @@ main { max-width: 1400px; margin: 0 auto; padding: 26px 32px; }
 .dk-btn:focus-visible { outline: none; border-color: var(--tangerine); box-shadow: 0 0 0 3px var(--tangerine-tint); }
 .num-wrap.is-unknown .dk-btn { background: var(--eggplant); border-color: var(--eggplant); color: #fff; }
 .num-wrap.is-unknown .field { background: var(--eggplant-tint); border-style: dashed; }
+.sync-form { display: grid; gap: 10px; max-width: 420px; margin: 10px 0; }
+.sync-form label { display: flex; flex-direction: column; gap: 4px; font-size: 0.78rem; font-weight: 600; color: var(--text-light); }
 .field-hint.field-warn { color: #8a4b00; font-weight: 600; text-transform: none; letter-spacing: normal; }
 .num-wrap.is-unknown .field::placeholder { color: var(--eggplant); opacity: 1; font-style: italic; }
 

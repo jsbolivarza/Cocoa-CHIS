@@ -106,17 +106,28 @@ merged or published):**
   import, not cleared by "Delete all data". With a roster loaded, Profile's
   member code offers the codes (datalist), picking one fills name, village
   and coop; an unlisted code is allowed with a warning.
+- **Upload to server (prototype, Supabase free tier; JB 17.11.26: free/
+  low-cost, readable from Python, R, Power BI).** `lib/sync.ts` (plain
+  fetch, no supabase-js), `SyncPanel.tsx` on Settings: coach signs in
+  (Supabase Auth email/password), "Upload now" upserts changed records.
+  One way, manual; only records with `consent.releaseFI`. Bookkeeping in
+  Dexie **v4** tables `syncLog` (uploaded `updatedAt` per record) and `kv`
+  (session), not in the record. Config from `app-react/.env.local`
+  (`.env.example`); without it the panel says "not connected". Server:
+  `supabase/schema.sql` (table `households` with full record jsonb +
+  `summary` = CSV row; view `households_flat` = typed CSV columns,
+  generated from `csvRowForRecord()`, so keep them in step; RLS: coaches
+  write own rows, `analyst` role reads). `analysis/`: README (setup,
+  Power BI), Python and R examples. ⚠️ Building `docs/` with `.env.local`
+  present bakes the server into the published app.
 - Next: try on device; check the roster format with a real coop list;
-  decide on sync (below).
+  create the Supabase project and test an upload end to end;
+  data-protection sign-off before any real household goes up.
 
 Known gaps / deliberately deferred, in rough priority order:
-- **No sync; data leaves a device only by export.** Decision deferred by
-  JB (17.11.26). Options: Supabase (Postgres + login per coach; needs a
-  Fairtrade account and data-protection sign-off), Google Sheet via Apps
-  Script (quick, weak access control for personal data), Kobo/ODK server,
-  or a Fairtrade-hosted API. Any of them needs consent rules applied
-  (`consent.release*` flags) before upload, and `producer_code` from the
-  roster as the cross-device key.
+- **Sync is upload-only.** No download to a device, no server-side delete
+  when a record is deleted on a device, no per-coop read access.
+  `producer_code` (roster) is the cross-device key; `farmer_id` is not.
 - **Roster is per device.** Each coach imports the CSV; nothing checks that
   two devices hold the same version.
 - **Records list is still a flat list of farmer cards** — fine at current
@@ -147,8 +158,9 @@ Known gaps / deliberately deferred, in rough priority order:
 - **Storage**: Dexie / IndexedDB (`src/lib/storage.ts`), replacing the
   vanilla app's single-`localStorage`-blob approach. One row per household
   instead of one JSON string for the whole collection. Schema is at
-  **v3** (v2 indexed `meta.farmerId`; v3 adds the `roster` table and
-  `meta.unknownFields`; each `.upgrade()` backfills older records).
+  **v4** (v2 indexed `meta.farmerId`; v3 adds the `roster` table and
+  `meta.unknownFields`; v4 adds `syncLog` and `kv` for upload; each
+  `.upgrade()` backfills older records).
   `localStorage` is now used for exactly one thing, the language preference
   (`cocoa_capture_lang`) — a single small string with no growth risk.
   There is **no** localStorage→IndexedDB migration: one existed for the

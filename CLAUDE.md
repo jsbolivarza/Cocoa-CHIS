@@ -72,8 +72,8 @@ Built beyond parity with the vanilla app (new features, not ports):
   tolerant — iOS Safari implements only part of the Storage API, and
   "couldn't ask" must never render as "no".
 
-**Tablet/laptop layout (branch `hub-layout`, 16 Nov 2026, not merged or
-published):** the C hub + money flow direction from `design/shell-options`
+**Tablet/laptop layout (branch `hub-layout`, 16 Nov 2026, merged and
+published 17.11.26):** the C hub + money flow direction from `design/shell-options`
 (HT*). Wide screens (`WIDE_QUERY` in `lib/layout.ts`, min 901 x 521 px)
 get `HouseholdRail.tsx` (step status, per-step summaries from
 `lib/stepSummary.ts`, season chips, money flow; collapses to an icon strip
@@ -88,8 +88,9 @@ stripe on cards and notes; waterfall horizontal. Next: test on a real
 iPad (installed, offline); "Doesn't know" markers and implausible-amount
 warning (data model change); phone pass of the layout.
 
-**Data features (branch `data-features`, off `hub-layout`, 17 Nov 2026, not
-merged or published):**
+**Data features (branch `data-features`, off `hub-layout`, 17 Nov 2026,
+merged into `react-app` and published to `docs/` 17.11.26, with the
+Supabase config baked in):**
 - **"Doesn't know" marker** on every number field (`NumberField` in
   `fields.tsx`, a "?" toggle). Marked paths live in `meta.unknownFields`;
   the value stays `""`, so `calc.ts` is unchanged and counts it as 0.

@@ -121,7 +121,9 @@ merged or published):**
   Power BI), Python and R examples. ⚠️ Building `docs/` with `.env.local`
   present bakes the server into the published app.
 - Next: try on device; check the roster format with a real coop list;
-  create the Supabase project and test an upload end to end;
+  Supabase project `rvpwquzuknwcntzosqlr` created and an upload from
+  the dev server confirmed by JB (17.11.26); next connect Python/Power BI
+  with the analyst login;
   data-protection sign-off before any real household goes up.
 
 Known gaps / deliberately deferred, in rough priority order:

@@ -1,0 +1,122 @@
+---
+title: "Cocoa households: load the Supabase tables"
+output:
+  html_document:
+    toc: true
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+```
+
+This notebook connects to Supabase as the read-only `analyst` login and
+loads every table the app's data feeds into R:
+
+- `households_flat`: one row per household and season, the same columns as
+  the app's CSV export (inputs and every calculated result). Each household
+  and season is counted once (latest upload, see `supabase/schema.sql`).
+- `raw_*`: one table per repeating part of the questionnaire (plots, cocoa
+  sales by month, inputs, labour by month, spending, "Doesn't know"
+  answers). Join to `households_flat` on `household_id`.
+- `households_duplicates`: uploads set aside because a newer record exists
+  for the same coop, member code and season.
+
+**Before knitting:** the connection is read from `Documents\.Renviron`
+(`PGHOST`, `PGPORT`, `PGDATABASE`, `PGUSER`, `PGPASSWORD`), never from this
+file. In Supabase, `schema.sql` and then `raw_views.sql` must have been run
+(19.11.26 version or later). Packages, once:
+`install.packages(c("DBI", "RPostgres", "rmarkdown"))`.
+
+## Connection check
+
+```{r connection}
+library(DBI)
+stopifnot("PGUSER is empty: check Documents/.Renviron and restart R" = nzchar(Sys.getenv("PGUSER")))
+Sys.getenv(c("PGHOST", "PGDATABASE", "PGUSER"))
+```
+
+## Load the tables
+
+`load_all()` comes from `export_raw.R` (same folder): it lists the views on
+the server, loads `households_flat` and every `raw_*` view, and adds a
+`*_label` column next to each answer code, from `codebook/options.csv`.
+
+```{r load}
+source("export_raw.R")
+tables <- load_all(labels = TRUE)
+
+con <- dbConnect(RPostgres::Postgres(), sslmode = "require")
+tables$households_duplicates <- tryCatch(
+  dbGetQuery(con, "select * from public.households_duplicates"),
+  error = function(e) {
+    message("households_duplicates not found: run the 19.11.26 schema.sql in Supabase. Until then households_flat may count a household twice.")
+    data.frame()
+  }
+)
+dbDisconnect(con)
+
+# Every table as its own data frame in the session: flat, raw_cocoa_sales, ...
+invisible(list2env(tables, envir = globalenv()))
+flat <- households_flat
+```
+
+## What was loaded
+
+```{r overview}
+overview <- data.frame(
+  table   = names(tables),
+  rows    = vapply(tables, nrow, integer(1)),
+  columns = vapply(tables, ncol, integer(1)),
+  row.names = NULL
+)
+knitr::kable(overview)
+```
+
+## Households by coop and season
+
+```{r by-coop}
+by_coop <- aggregate(
+  household_id ~ coop_name + season, data = flat, FUN = length
+)
+names(by_coop)[3] <- "households"
+knitr::kable(by_coop[order(by_coop$coop_name, by_coop$season), ], row.names = FALSE)
+```
+
+## Duplicates set aside
+
+```{r duplicates}
+if (ncol(households_duplicates) == 0) {
+  cat("Not available yet: run the 19.11.26 schema.sql in Supabase.\n")
+} else if (nrow(households_duplicates)) {
+  knitr::kable(households_duplicates)
+} else {
+  cat("No duplicates: every coop + member code + season has one upload.\n")
+}
+```
+
+## Check: cocoa sales from the raw rows match the app's totals
+
+```{r check}
+sales <- raw_cocoa_sales
+sales$revenue <- sales$volume * sales$price
+from_raw <- aggregate(revenue ~ household_id, data = sales, FUN = sum, na.rm = TRUE, na.action = na.pass)
+cmp <- merge(flat[, c("household_id", "total_cocoa_sales_revenue")], from_raw, by = "household_id", all.x = TRUE)
+cmp$revenue[is.na(cmp$revenue)] <- 0
+cat(sum(abs(cmp$total_cocoa_sales_revenue - cmp$revenue) < 0.01, na.rm = TRUE), "of", nrow(cmp),
+    "households match the app's cocoa sales total.\n")
+```
+
+## Optional: write every table to CSV
+
+Set `out_dir` to a folder to get one CSV per table.
+
+```{r csv}
+out_dir <- ""  # e.g. "C:/Users/<you>/Documents/cocoa_export"
+if (nzchar(out_dir)) {
+  dir.create(out_dir, showWarnings = FALSE, recursive = TRUE)
+  for (n in names(tables)) {
+    write.csv(tables[[n]], file.path(out_dir, paste0(n, ".csv")), row.names = FALSE, fileEncoding = "UTF-8")
+  }
+  cat("Written to", normalizePath(out_dir), "\n")
+}
+```

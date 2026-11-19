@@ -357,7 +357,9 @@ roster, Supabase upload; 0.3.0 = tablet/phone list screens, brand row,
 phone Results (both 17.11.26); 0.4.0 = "Download my households" (17.11.26); 0.4.1 = waterfall amounts
 under the labels, not floating over the bars; 0.4.2 = waterfall bars drawn
 on iPad; 0.4.3 = Import JSON keeps ids, upload skips other coaches'
-households (all 19.11.26).
+households; 0.4.4 = calculated CSV/summary columns rounded (2 decimals,
+`pct_*` shares 4; typed values as entered) (all 19.11.26). Rows uploaded
+before 0.4.4 keep their long decimals until re-uploaded.
 
 `git add -A` matters: Vite fingerprints filenames, so every build *deletes*
 the previous `assets/index-*.js` and adds a new one. A plain `git add docs`

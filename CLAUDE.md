@@ -200,8 +200,13 @@ Next: Fairtrade logo file; phone pass of the household screens (H1–H9).
   the right-click menu, so re-add the field in Power BI and never regenerate
   that page.json; KPI cards = one classic card with container title (label)
   and live subtitle (context line), not stacked visuals.
-- Next: JB's screenshots of the 5 group pages; enter benchmark values;
-  push `b344076` and this note (not pushed).
+- Next: JB's screenshots of the 5 group pages; enter benchmark values.
+
+**iPad test (19.11.26):** install, Supabase sign-in and Download fine.
+Results waterfall values overlapped on iPad (absolutely positioned, so
+they never widened their column); fixed in 0.4.1. Next: rest of the iPad
+checklist (layout in both orientations, offline reopen, Upload), then
+the phone pass of H1–H9.
 
 Known gaps / deliberately deferred, in rough priority order:
 - **Sync is manual, upload + "Download my households" (0.4.0,
@@ -334,7 +339,8 @@ date, both in `vite.config.ts`'s `define`), and uploads record it as
 so coaches couldn't tell builds apart. Patch (0.3.1) for fixes, minor
 (0.4.0) for new features. History: 0.2.0 = hub layout, "Doesn't know",
 roster, Supabase upload; 0.3.0 = tablet/phone list screens, brand row,
-phone Results (both 17.11.26); 0.4.0 = "Download my households" (17.11.26).
+phone Results (both 17.11.26); 0.4.0 = "Download my households" (17.11.26); 0.4.1 = waterfall amounts
+under the labels, not floating over the bars (19.11.26).
 
 `git add -A` matters: Vite fingerprints filenames, so every build *deletes*
 the previous `assets/index-*.js` and adds a new one. A plain `git add docs`

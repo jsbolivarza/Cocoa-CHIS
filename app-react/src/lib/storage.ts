@@ -374,12 +374,25 @@ function csvEscape(v: unknown): string {
 
 /** One flattened row per household, mirroring the spirit of the workbook's
  *  own "dataset" tab: every input field plus every calculated result. */
+function roundTo(value: unknown, decimals: number): unknown {
+  if (typeof value !== "number" || !Number.isFinite(value)) return value;
+  const f = 10 ** decimals;
+  return Math.round((value + Number.EPSILON * Math.sign(value)) * f) / f;
+}
+
 export function csvRowForRecord(record: HouseholdRecord): [string, unknown][] {
   const results = calcResults(record);
   const p = record.profile;
   const c = record.consent;
   const cols: [string, unknown][] = [];
   const push = (label: string, value: unknown) => cols.push([label, value]);
+  // Calculated columns are rounded (19.11.26): ratios such as cost per kg
+  // or return on labour, and sums of decimal inputs (0.1 + 0.2), otherwise
+  // reach the CSV and the server with 12+ decimals. Shares (pct_*, 0-1)
+  // keep 4 decimals, everything else 2, the same as the app's own display.
+  // Values the coach typed are exported as entered.
+  const pushCalc = (label: string, value: unknown) =>
+    push(label, roundTo(value, label.startsWith("pct_") ? 4 : 2));
 
   push("household_id", record.meta.id);
   // farmer_id links one farmer's seasons on this device only; producer_code
@@ -404,68 +417,68 @@ export function csvRowForRecord(record: HouseholdRecord): [string, unknown][] {
   push("farmgate_price_mid", p.farmgatePriceMid);
   push("fp_distributed", p.fpDistributed);
   push("other_diff_distributed", p.otherDiffDistributed);
-  push("total_cocoa_only_area", results.profile.cocoaOnly);
-  push("total_intercropped_cocoa_area", results.profile.cocoaIntercropped);
-  push("total_cocoa_area", results.profile.totalCocoaArea);
-  push("total_cultivated_area", results.profile.totalCultArea);
+  pushCalc("total_cocoa_only_area", results.profile.cocoaOnly);
+  pushCalc("total_intercropped_cocoa_area", results.profile.cocoaIntercropped);
+  pushCalc("total_cocoa_area", results.profile.totalCocoaArea);
+  pushCalc("total_cultivated_area", results.profile.totalCultArea);
   push("fallow_land", p.fallowLand);
-  push("total_farm_area_farmer", results.profile.totalFarmAreaFarmer);
-  push("pct_cocoa_area_sharecropped", results.profile.pctCocoaSharecropped);
-  push("pct_farm_area_sharecropped", results.profile.pctFarmSharecropped);
-  push("hh_members_working_farm", results.profile.workingCount);
-  push("hh_fte_working_farm", results.profile.fte);
-  push("hh_total_members", results.profile.totalMembers);
-  push("hh_working_age_members", results.profile.workingAge);
+  pushCalc("total_farm_area_farmer", results.profile.totalFarmAreaFarmer);
+  pushCalc("pct_cocoa_area_sharecropped", results.profile.pctCocoaSharecropped);
+  pushCalc("pct_farm_area_sharecropped", results.profile.pctFarmSharecropped);
+  pushCalc("hh_members_working_farm", results.profile.workingCount);
+  pushCalc("hh_fte_working_farm", results.profile.fte);
+  pushCalc("hh_total_members", results.profile.totalMembers);
+  pushCalc("hh_working_age_members", results.profile.workingAge);
 
-  push("total_cocoa_volume_sold_kg", results.revenues.cocoa.totalVolume);
-  push("avg_cocoa_price_per_kg", results.revenues.cocoa.avgPrice);
-  push("total_cocoa_sales_revenue", results.revenues.cocoa.totalRevenue);
-  push("total_other_cocoa_income", results.revenues.cocoaOtherIncome);
-  push("total_cocoa_revenue", results.revenues.totalCocoaRevenue);
-  push("total_coffee_revenue", results.revenues.totalCoffeeRevenue);
-  push("total_other_cash_crop_revenue", results.revenues.otherCashCropRevenue);
-  push("total_staple_food_value", results.revenues.stapleValue);
-  push("total_other_food_value", results.revenues.otherFoodValue);
-  push("total_livestock_value", results.revenues.livestockValue);
-  push("total_other_farm_income", results.revenues.otherIncome);
-  push("total_farm_revenue", results.totalRevenueFarm);
+  pushCalc("total_cocoa_volume_sold_kg", results.revenues.cocoa.totalVolume);
+  pushCalc("avg_cocoa_price_per_kg", results.revenues.cocoa.avgPrice);
+  pushCalc("total_cocoa_sales_revenue", results.revenues.cocoa.totalRevenue);
+  pushCalc("total_other_cocoa_income", results.revenues.cocoaOtherIncome);
+  pushCalc("total_cocoa_revenue", results.revenues.totalCocoaRevenue);
+  pushCalc("total_coffee_revenue", results.revenues.totalCoffeeRevenue);
+  pushCalc("total_other_cash_crop_revenue", results.revenues.otherCashCropRevenue);
+  pushCalc("total_staple_food_value", results.revenues.stapleValue);
+  pushCalc("total_other_food_value", results.revenues.otherFoodValue);
+  pushCalc("total_livestock_value", results.revenues.livestockValue);
+  pushCalc("total_other_farm_income", results.revenues.otherIncome);
+  pushCalc("total_farm_revenue", results.totalRevenueFarm);
 
-  push("total_agri_input_cost", results.costs.inputs.total);
-  push("total_agri_input_cost_cocoa", results.costs.inputs.totalCocoa);
-  push("total_subsidized_input_value", results.costs.inputs.subsidyTotal);
-  push("total_tools_cost", results.costs.tools.total);
-  push("total_tools_depreciated_cost", results.costs.tools.totalDepreciated);
-  push("total_tools_depreciated_cost_cocoa", results.costs.tools.totalDepreciatedCocoa);
-  push("total_other_cost", results.costs.other.total);
-  push("total_other_cost_cocoa", results.costs.other.totalCocoa);
-  push("total_sharecrop_payment_cost", results.costs.sharecrop.total);
-  push("total_sharecrop_payment_cost_cocoa", results.costs.sharecrop.totalCocoa);
-  push("total_inkind_cocoa_volume_to_sharecroppers", results.costs.sharecrop.inKindCocoaVolume);
-  push("total_farm_cost", results.totalCostFarm);
-  push("total_cocoa_cost", results.totalCostCocoa);
+  pushCalc("total_agri_input_cost", results.costs.inputs.total);
+  pushCalc("total_agri_input_cost_cocoa", results.costs.inputs.totalCocoa);
+  pushCalc("total_subsidized_input_value", results.costs.inputs.subsidyTotal);
+  pushCalc("total_tools_cost", results.costs.tools.total);
+  pushCalc("total_tools_depreciated_cost", results.costs.tools.totalDepreciated);
+  pushCalc("total_tools_depreciated_cost_cocoa", results.costs.tools.totalDepreciatedCocoa);
+  pushCalc("total_other_cost", results.costs.other.total);
+  pushCalc("total_other_cost_cocoa", results.costs.other.totalCocoa);
+  pushCalc("total_sharecrop_payment_cost", results.costs.sharecrop.total);
+  pushCalc("total_sharecrop_payment_cost_cocoa", results.costs.sharecrop.totalCocoa);
+  pushCalc("total_inkind_cocoa_volume_to_sharecroppers", results.costs.sharecrop.inKindCocoaVolume);
+  pushCalc("total_farm_cost", results.totalCostFarm);
+  pushCalc("total_cocoa_cost", results.totalCostCocoa);
 
-  push("total_household_labour_days", results.labour.totalHhDays);
-  push("total_household_labour_days_cocoa", results.labour.totalHhDaysCocoa);
-  push("total_hired_labour_days", results.labour.totalHiredDays);
-  push("total_hired_labour_days_cocoa", results.labour.totalHiredDaysCocoa);
-  push("avg_daily_wage", results.labour.avgDailyWage);
-  push("total_labour_cost", results.labour.totalLabourCost);
-  push("total_labour_cost_cocoa", results.labour.totalLabourCostCocoa);
-  push("total_subsidized_labour_value", results.labour.subsidizedLabour);
+  pushCalc("total_household_labour_days", results.labour.totalHhDays);
+  pushCalc("total_household_labour_days_cocoa", results.labour.totalHhDaysCocoa);
+  pushCalc("total_hired_labour_days", results.labour.totalHiredDays);
+  pushCalc("total_hired_labour_days_cocoa", results.labour.totalHiredDaysCocoa);
+  pushCalc("avg_daily_wage", results.labour.avgDailyWage);
+  pushCalc("total_labour_cost", results.labour.totalLabourCost);
+  pushCalc("total_labour_cost_cocoa", results.labour.totalLabourCostCocoa);
+  pushCalc("total_subsidized_labour_value", results.labour.subsidizedLabour);
 
-  push("net_farm_income", results.profitFarm);
-  push("net_cocoa_income", results.profitCocoa);
-  push("cocoa_yield_per_area_unit", results.cocoaYieldPerArea);
-  push("cost_of_cocoa_production_per_area_unit", results.costOfProductionPerArea);
-  push("cost_of_cocoa_production_per_kg", results.costOfProductionPerKg);
-  push("return_on_labour_farm", results.returnOnLabourFarm);
-  push("return_on_labour_cocoa", results.returnOnLabourCocoa);
+  pushCalc("net_farm_income", results.profitFarm);
+  pushCalc("net_cocoa_income", results.profitCocoa);
+  pushCalc("cocoa_yield_per_area_unit", results.cocoaYieldPerArea);
+  pushCalc("cost_of_cocoa_production_per_area_unit", results.costOfProductionPerArea);
+  pushCalc("cost_of_cocoa_production_per_kg", results.costOfProductionPerKg);
+  pushCalc("return_on_labour_farm", results.returnOnLabourFarm);
+  pushCalc("return_on_labour_cocoa", results.returnOnLabourCocoa);
 
-  push("hh_expenditure_food", results.expenditures.food);
-  push("hh_expenditure_education", results.expenditures.education);
-  push("hh_expenditure_healthcare", results.expenditures.healthcare);
-  push("hh_expenditure_other", results.expenditures.other);
-  push("hh_expenditure_total", results.expenditures.total);
+  pushCalc("hh_expenditure_food", results.expenditures.food);
+  pushCalc("hh_expenditure_education", results.expenditures.education);
+  pushCalc("hh_expenditure_healthcare", results.expenditures.healthcare);
+  pushCalc("hh_expenditure_other", results.expenditures.other);
+  pushCalc("hh_expenditure_total", results.expenditures.total);
 
   push("consent_respondent_name", c.respondentName);
   push("consent_date", c.date);

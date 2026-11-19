@@ -190,8 +190,8 @@ button.wf-row { cursor: pointer; }
   display: flex; flex-direction: column; gap: 8px; min-width: 0; padding: 0 2px 4px; border: 0; background: none;
   font: inherit; color: inherit; border-radius: 8px;
 }
-button.wf-col { cursor: pointer; }
-@media (hover: hover) { button.wf-col:hover { background: #f3f5f9; } }
+.wf-col.is-link { cursor: pointer; }
+@media (hover: hover) { .wf-col.is-link:hover { background: #f3f5f9; } }
 .wf-col:focus-visible { outline: 3px solid var(--sky); outline-offset: 2px; }
 .wf-plot { position: relative; height: 240px; margin-top: 8px; border-bottom: 1px solid #c9ced8; }
 .wf-zero { position: absolute; left: 0; right: 0; bottom: var(--z); border-top: 1px dashed #9aa3b5; }

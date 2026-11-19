@@ -97,8 +97,15 @@ export function MoneyWaterfall({ res }: { res: Results }) {
                 <span className={`wf-num num${r.kind === "total" || r.kind === "net" ? " is-strong" : ""}`}>{value}</span>
               </>
             );
+            // A div with role="button", not a <button>: iPad Safari did not
+            // draw the absolutely positioned bar inside a <button> (19.11.26).
+            const go = () => switchTab(r.tab!);
             return r.tab ? (
-              <button key={r.labelKey} type="button" className="wf-col" title={`${label}: ${value}`} onClick={() => switchTab(r.tab!)}>{col}</button>
+              <div
+                key={r.labelKey} role="button" tabIndex={0} className="wf-col is-link" title={`${label}: ${value}`}
+                onClick={go}
+                onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } }}
+              >{col}</div>
             ) : (
               <div key={r.labelKey} className="wf-col" title={`${label}: ${value}`}>{col}</div>
             );

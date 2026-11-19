@@ -57,7 +57,7 @@ def main():
                    m->>'month' as month,
                    nullif(m->>'volume', '')::numeric as volume,
                    nullif(m->>'price', '')::numeric as price
-            from public.households h,
+            from public.households_current h,
                  jsonb_array_elements(h.record->'revenues'->'cocoaSales') as m
             """
         ),

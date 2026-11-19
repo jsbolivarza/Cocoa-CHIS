@@ -103,7 +103,7 @@ create or replace view public.${v.name} with (security_invoker = true) as
 select ${ID_COLS},
   t.row_no::int as row_no,
 ${[...colSql, ...extra].join(",\n")}
-from public.households h,
+from public.households_current h,
   jsonb_array_elements(coalesce(h.record #> '${jsonPath}', '[]'::jsonb)) with ordinality as t(r, row_no)${where};
 grant select on public.${v.name} to analyst;
 `;
@@ -114,6 +114,8 @@ const header = `-- raw_views.sql: one typed view per repeating table in a househ
 -- analysis/tools/run.mjs from the app's data model; do not edit by hand.
 -- Run in Supabase: SQL Editor > New query > paste > Run. Safe to re-run.
 -- Requires schema.sql and the analyst role (end of schema.sql) first.
+-- Views read households_current: one row per coop + member code + season,
+-- the most recently saved upload (see schema.sql).
 --
 -- Every view starts with household_id (= households.id = households_flat.
 -- household_id), farmer_id, producer_code, season, coop_name, so it joins
@@ -129,6 +131,7 @@ exception when others then
   return null;
 end $$;
 grant execute on function public.to_num(text) to analyst;
+grant select on public.households_current, public.households_duplicates to analyst;
 
 `;
 
@@ -138,7 +141,7 @@ select ${ID_COLS},
   c.category,
   q.quarter,
   public.to_num(h.record->'expenditures'->c.category->>q.quarter) as amount
-from public.households h,
+from public.households_current h,
   unnest(array['food','education','healthcare','other']) as c(category),
   unnest(array['q1','q2','q3','q4']) as q(quarter);
 grant select on public.raw_expenditures to analyst;
@@ -149,7 +152,7 @@ create or replace view public.raw_unknown_answers with (security_invoker = true)
 select ${ID_COLS},
   u.path as field_path,
   split_part(u.path, '.', 1) as step
-from public.households h,
+from public.households_current h,
   jsonb_array_elements_text(coalesce(h.record->'meta'->'unknownFields', '[]'::jsonb)) as u(path);
 grant select on public.raw_unknown_answers to analyst;
 `;

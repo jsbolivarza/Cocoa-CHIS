@@ -87,9 +87,21 @@ export function SettingsScreen() {
       alert("Could not read this file.");
       return;
     }
-    const ids = await importRecords(parsed);
-    if (ids.length === 1) openRecord(ids[0]);
-    else goToList();
+    const r = await importRecords(parsed);
+    if (r.stored.length === 1 && r.unchanged + r.keptLocal === 0) {
+      openRecord(r.stored[0].meta.id);
+      return;
+    }
+    // Several records, or some skipped: say what happened, so importing the
+    // same file twice visibly adds nothing instead of silently doing nothing.
+    const parts = [
+      `${t("sync_dl_added", lang)} ${r.added}`,
+      `${t("sync_dl_updated", lang)} ${r.updated}`,
+      `${t("sync_dl_unchanged", lang)} ${r.unchanged}`,
+    ];
+    if (r.keptLocal) parts.push(`${t("sync_dl_kept_local", lang)} ${r.keptLocal}`);
+    alert(parts.join("\n"));
+    goToList();
   };
 
   return (

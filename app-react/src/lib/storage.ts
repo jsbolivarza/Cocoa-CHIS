@@ -181,24 +181,44 @@ export async function mergeServerRecords(
   return result;
 }
 
-/** Every parsed record gets a fresh id on import, even if it already had
- *  one — matches the vanilla app's behavior, so importing the same export
- *  twice creates two records rather than silently overwriting. */
-export async function importRecords(parsed: unknown): Promise<HouseholdRecord[]> {
+/** Imports a JSON export. Ids are KEPT, like mergeServerRecords(): until
+ *  19.11.26 every import got a fresh id (the vanilla app's behaviour), so
+ *  importing the same file twice, or on two devices, and uploading put the
+ *  same household on the server twice. Now a record whose id is already on
+ *  this device is the same household: the most recently saved version wins,
+ *  and an older or identical copy in the file is skipped. Only a record
+ *  with no id (very old export) gets a new one. Unlike a download, nothing
+ *  is logged as uploaded: the file may hold edits the server never saw. */
+export async function importRecords(
+  parsed: unknown,
+  local: Record<string, HouseholdRecord>
+): Promise<MergeResult> {
   const list = (Array.isArray(parsed) ? parsed : [parsed]) as HouseholdRecord[];
-  const imported: HouseholdRecord[] = [];
+  const result: MergeResult = { stored: [], added: 0, updated: 0, unchanged: 0, keptLocal: 0 };
+  const seen: Record<string, HouseholdRecord> = { ...local };
   list.forEach((r) => {
     if (!r || !r.meta) return;
-    r.meta.id = generateRecordId();
+    if (!r.meta.id) r.meta.id = generateRecordId();
     // Same backfills as the upgrades above. A file exported before farmerId
     // existed has none, and every such record would otherwise share
     // `undefined` and be grouped as one farmer's seasons.
     if (!r.meta.farmerId) r.meta.farmerId = r.meta.id;
     normalizeRecord(r);
-    imported.push(r);
+    const mine = seen[r.meta.id];
+    const theirs = r.meta.updatedAt || "";
+    if (!mine) result.added++;
+    else if (theirs > (mine.meta.updatedAt || "")) result.updated++;
+    else {
+      if (theirs === mine.meta.updatedAt) result.unchanged++;
+      else result.keptLocal++;
+      return;
+    }
+    if (mine && result.stored.includes(mine)) result.stored.splice(result.stored.indexOf(mine), 1);
+    seen[r.meta.id] = r;
+    result.stored.push(r);
   });
-  if (imported.length) await db.households.bulkPut(imported);
-  return imported;
+  if (result.stored.length) await db.households.bulkPut(result.stored);
+  return result;
 }
 
 /* Producer roster (see roster.ts for the file format). Stored on this

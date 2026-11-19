@@ -172,38 +172,80 @@ function toRow(r: HouseholdRecord) {
 
 const BATCH = 50;
 
-/** Upserts the given records; returns how many reached the server. */
-export async function uploadRecords(records: HouseholdRecord[]): Promise<number> {
+export interface UploadResult {
+  sent: number;
+  /** Already on the server as another coach's upload (row-level security
+   *  refuses the update). Happens when a coach imports a JSON file that
+   *  another coach exported: since 19.11.26 import keeps record ids, so the
+   *  household is not duplicated, but only its first uploader can change it.
+   *  These stay pending on this device. */
+  notOwn: number;
+}
+
+async function postRows(records: HouseholdRecord[]): Promise<Response> {
+  const token = await accessToken();
+  let res: Response;
+  try {
+    res = await fetch(`${URL_BASE}/rest/v1/households?on_conflict=id`, {
+      method: "POST",
+      headers: {
+        apikey: ANON_KEY,
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+        Prefer: "resolution=merge-duplicates,return=minimal",
+      },
+      body: JSON.stringify(records.map(toRow)),
+    });
+  } catch {
+    throw new SyncError("offline");
+  }
+  if (res.status === 401) {
+    await saveSession(null);
+    throw new SyncError("not_signed_in");
+  }
+  return res;
+}
+
+async function logUploaded(records: HouseholdRecord[]): Promise<void> {
+  const now = new Date().toISOString();
+  await db.syncLog.bulkPut(records.map((r) => ({ id: r.meta.id, uploadedUpdatedAt: r.meta.updatedAt, uploadedAt: now })));
+}
+
+/** PostgREST answers a row-level security refusal with 403 / code 42501. */
+async function isNotOwn(res: Response): Promise<{ notOwn: boolean; body: string }> {
+  const body = await res.text();
+  return { notOwn: res.status === 403 || body.includes("42501"), body };
+}
+
+/** Upserts the given records in batches. A batch refused because some of
+ *  its rows belong to another coach is retried one record at a time, so one
+ *  such household never blocks the rest. */
+export async function uploadRecords(records: HouseholdRecord[]): Promise<UploadResult> {
   if (!syncConfigured()) throw new SyncError("not_configured");
-  let done = 0;
+  const result: UploadResult = { sent: 0, notOwn: 0 };
   for (let i = 0; i < records.length; i += BATCH) {
     const batch = records.slice(i, i + BATCH);
-    const token = await accessToken();
-    let res: Response;
-    try {
-      res = await fetch(`${URL_BASE}/rest/v1/households?on_conflict=id`, {
-        method: "POST",
-        headers: {
-          apikey: ANON_KEY,
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-          Prefer: "resolution=merge-duplicates,return=minimal",
-        },
-        body: JSON.stringify(batch.map(toRow)),
-      });
-    } catch {
-      throw new SyncError("offline");
+    const res = await postRows(batch);
+    if (res.ok) {
+      await logUploaded(batch);
+      result.sent += batch.length;
+      continue;
     }
-    if (res.status === 401) {
-      await saveSession(null);
-      throw new SyncError("not_signed_in");
+    const first = await isNotOwn(res);
+    if (!first.notOwn) throw new SyncError("server", first.body);
+    for (const r of batch) {
+      const one = batch.length === 1 ? res : await postRows([r]);
+      if (one.ok) {
+        await logUploaded([r]);
+        result.sent++;
+        continue;
+      }
+      const check = one === res ? first : await isNotOwn(one);
+      if (!check.notOwn) throw new SyncError("server", check.body);
+      result.notOwn++;
     }
-    if (!res.ok) throw new SyncError("server", await res.text());
-    const now = new Date().toISOString();
-    await db.syncLog.bulkPut(batch.map((r) => ({ id: r.meta.id, uploadedUpdatedAt: r.meta.updatedAt, uploadedAt: now })));
-    done += batch.length;
   }
-  return done;
+  return result;
 }
 
 const PAGE = 200;

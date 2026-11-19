@@ -248,6 +248,7 @@ export const STR: Record<string, StrEntry> = {
   sync_signed_in_as: { en: "Signed in as", fr: "Connecté en tant que", es: "Sesión iniciada como" },
   sync_pending: { en: "Ready to upload", fr: "Prêts à envoyer", es: "Listos para enviar" },
   sync_uploaded: { en: "Uploaded, no changes since", fr: "Envoyés, sans modification depuis", es: "Enviados, sin cambios desde entonces" },
+  sync_not_own: { en: "Not sent, already uploaded by another coach:", fr: "Non envoyés, déjà envoyés par un autre coach :", es: "No enviados, ya enviados por otro coach:" },
   sync_no_consent: { en: "Not sent (no release to Fairtrade International)", fr: "Non envoyés (pas d'accord pour Fairtrade International)", es: "No enviados (sin autorización para Fairtrade International)" },
   sync_last: { en: "Last upload", fr: "Dernier envoi", es: "Último envío" },
   sync_upload: { en: "Upload now", fr: "Envoyer maintenant", es: "Enviar ahora" },

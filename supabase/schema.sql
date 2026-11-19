@@ -10,6 +10,9 @@
 --                           exactly the columns of the app's CSV export, one
 --                           row per household. This is what Python, R and
 --                           Power BI should read (see analysis/README.md).
+--                           Reads households_current (below), so a household
+--                           uploaded twice is counted once.
+--   public.households_duplicates  what households_current set aside, to check.
 --
 -- The flat view's column list is generated from csvRowForRecord() in
 -- app-react/src/lib/storage.ts. If a CSV column is added there, add it here
@@ -63,6 +66,53 @@ create policy coach_update on public.households for update to authenticated
 drop policy if exists coach_select_own on public.households;
 create policy coach_select_own on public.households for select to authenticated
   using (coach_user = auth.uid());
+
+-- One row per household and season (19.11.26). The same farmer's season can
+-- reach the server twice under two record ids: an export imported twice
+-- (before app 0.4.3, import gave every record a new id), or two coaches
+-- capturing the same farmer. Key: coop + member code + season, case and
+-- spaces ignored; of each group, the most recently saved record is kept.
+-- A record without a member code is never merged with another one.
+-- Nothing is deleted: households still holds every upload.
+create or replace view public.households_current
+with (security_invoker = true) as
+select distinct on (
+  upper(btrim(coalesce(h.coop_name, ''))),
+  coalesce(nullif(upper(btrim(h.producer_code)), ''), h.id),
+  coalesce(h.season, '')
+) h.*
+from public.households h
+order by
+  upper(btrim(coalesce(h.coop_name, ''))),
+  coalesce(nullif(upper(btrim(h.producer_code)), ''), h.id),
+  coalesce(h.season, ''),
+  h.record_updated_at desc,
+  h.uploaded_at desc;
+
+-- The uploads households_current set aside, next to the one it kept, so a
+-- coordinator can check them and delete the extra rows if wanted.
+create or replace view public.households_duplicates
+with (security_invoker = true) as
+select h.id as household_id, h.coop_name, h.producer_code, h.season,
+  h.record->'profile'->>'producerName' as producer_name, h.coach_name,
+  h.record_updated_at, h.uploaded_at,
+  c.id as kept_household_id
+from public.households h
+join public.households_current c
+  on upper(btrim(coalesce(c.coop_name, ''))) = upper(btrim(coalesce(h.coop_name, '')))
+ and upper(btrim(c.producer_code)) = upper(btrim(h.producer_code))
+ and coalesce(c.season, '') = coalesce(h.season, '')
+where nullif(btrim(h.producer_code), '') is not null
+  and h.id <> c.id;
+
+-- The views run as the reader (security_invoker), so the analyst needs to
+-- read households_current for households_flat to work. Skipped on a fresh
+-- project where the analyst role (end of this file) does not exist yet.
+do $$ begin
+  if exists (select 1 from pg_roles where rolname = 'analyst') then
+    grant select on public.households_current, public.households_duplicates to analyst;
+  end if;
+end $$;
 
 create or replace view public.households_flat
 with (security_invoker = true) as
@@ -157,7 +207,7 @@ select
   nullif(h.summary->>'unknown_field_count', '')::numeric as unknown_field_count,
   h.summary->>'unknown_fields' as unknown_fields,
   h.summary->>'record_updated_at' as record_updated_at
-from public.households h;
+from public.households_current h;
 
 -- ---------------------------------------------------------------------------
 -- Read-only login for analysis tools (Python, R, Power BI).
@@ -169,4 +219,5 @@ from public.households h;
 -- create role analyst with login password 'CHANGE-ME';
 -- grant usage on schema public to analyst;
 -- grant select on public.households, public.households_flat to analyst;
+-- grant select on public.households_current, public.households_duplicates to analyst;
 -- create policy analyst_read on public.households for select to analyst using (true);

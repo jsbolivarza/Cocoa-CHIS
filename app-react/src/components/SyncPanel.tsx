@@ -63,8 +63,8 @@ export function SyncPanel() {
     setBusy(true);
     setMsg(null);
     try {
-      const n = await uploadRecords(status.pending);
-      setMsg(`${t("sync_done", lang)} ${n}`);
+      const r = await uploadRecords(status.pending);
+      setMsg(`${t("sync_done", lang)} ${r.sent}` + (r.notOwn ? ` · ${t("sync_not_own", lang)} ${r.notOwn}` : ""));
     } catch (err) {
       setMsg(errorText(err));
     } finally {

@@ -72,7 +72,8 @@ interface AppState {
   goToList: () => void;
   deleteRecordById: (id: string) => Promise<void>;
   clearAll: () => Promise<void>;
-  importRecords: (parsed: unknown) => Promise<string[]>;
+  /** Imports a JSON export; ids kept, most recent version wins. */
+  importRecords: (parsed: unknown) => Promise<storage.MergeResult>;
   /** Merges households downloaded from the server (most recent wins). */
   mergeDownloaded: (serverRecords: HouseholdRecord[]) => Promise<storage.MergeResult>;
   switchTab: (tab: string) => void;
@@ -202,22 +203,22 @@ export const useAppStore = create<AppState>((set, get) => ({
   },
 
   // Ported from the import-file-input "change" handler in docs/js/app.js.
-  // Returns the imported ids so the caller can decide where to land: open
-  // the record directly for a single-record import, otherwise stay on the
-  // list (same call either way — the vanilla app doesn't switch listTab
-  // for this either).
+  // Returns the merge counts; the caller opens the record directly for a
+  // single-record import, otherwise stays on the list.
   importRecords: async (parsed) => {
-    const imported = await storage.importRecords(parsed);
-    if (imported.length) {
+    const result = await storage.importRecords(parsed, get().records);
+    if (result.stored.length) {
       set((s) => {
         const records = { ...s.records };
-        imported.forEach((r) => {
+        result.stored.forEach((r) => {
           records[r.meta.id] = r;
         });
-        return { records };
+        // Same as mergeDownloaded: never leave an older version open.
+        const open = s.currentRecordId ? records[s.currentRecordId] : null;
+        return open ? { records, record: open } : { records };
       });
     }
-    return imported.map((r) => r.meta.id);
+    return result;
   },
 
   mergeDownloaded: async (serverRecords) => {

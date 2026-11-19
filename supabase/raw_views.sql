@@ -3,6 +3,8 @@
 -- analysis/tools/run.mjs from the app's data model; do not edit by hand.
 -- Run in Supabase: SQL Editor > New query > paste > Run. Safe to re-run.
 -- Requires schema.sql and the analyst role (end of schema.sql) first.
+-- Views read households_current: one row per coop + member code + season,
+-- the most recently saved upload (see schema.sql).
 --
 -- Every view starts with household_id (= households.id = households_flat.
 -- household_id), farmer_id, producer_code, season, coop_name, so it joins
@@ -18,6 +20,7 @@ exception when others then
   return null;
 end $$;
 grant execute on function public.to_num(text) to analyst;
+grant select on public.households_current, public.households_duplicates to analyst;
 
 -- Land plots.
 create or replace view public.raw_plots with (security_invoker = true) as
@@ -30,7 +33,7 @@ select h.id as household_id, h.farmer_id, h.producer_code, h.season, h.coop_name
   nullif(t.r->>'landArrangement', '') as land_arrangement,
   nullif(t.r->>'observation', '') as observation,
   nullif(t.r->>'treeAge', '') as tree_age
-from public.households h,
+from public.households_current h,
   jsonb_array_elements(coalesce(h.record #> '{profile,plots}', '[]'::jsonb)) with ordinality as t(r, row_no)
 where exists (select 1 from jsonb_each_text(t.r) kv where kv.value not in ('', 'false'));
 grant select on public.raw_plots to analyst;
@@ -46,7 +49,7 @@ select h.id as household_id, h.farmer_id, h.producer_code, h.season, h.coop_name
   nullif(t.r->>'occupation', '') as occupation,
   nullif(t.r->>'otherOccupation', '') as other_occupation,
   public.to_num(t.r->>'pctTime') as pct_time
-from public.households h,
+from public.households_current h,
   jsonb_array_elements(coalesce(h.record #> '{profile,householdWorking}', '[]'::jsonb)) with ordinality as t(r, row_no)
 where exists (select 1 from jsonb_each_text(t.r) kv where kv.value not in ('', 'false'));
 grant select on public.raw_household_working to analyst;
@@ -61,7 +64,7 @@ select h.id as household_id, h.farmer_id, h.producer_code, h.season, h.coop_name
   nullif(t.r->>'gender', '') as gender,
   nullif(t.r->>'occupation', '') as occupation,
   nullif(t.r->>'contributesIncome', '') as contributes_income
-from public.households h,
+from public.households_current h,
   jsonb_array_elements(coalesce(h.record #> '{profile,householdNotWorking}', '[]'::jsonb)) with ordinality as t(r, row_no)
 where exists (select 1 from jsonb_each_text(t.r) kv where kv.value not in ('', 'false'));
 grant select on public.raw_household_not_working to analyst;
@@ -74,7 +77,7 @@ select h.id as household_id, h.farmer_id, h.producer_code, h.season, h.coop_name
   public.to_num(t.r->>'volume') as volume,
   public.to_num(t.r->>'price') as price,
   array_position(array['oct','nov','dec','jan','feb','mar','apr','may','jun','jul','aug','sep'], t.r->>'month') as month_no
-from public.households h,
+from public.households_current h,
   jsonb_array_elements(coalesce(h.record #> '{revenues,cocoaSales}', '[]'::jsonb)) with ordinality as t(r, row_no);
 grant select on public.raw_cocoa_sales to analyst;
 
@@ -84,7 +87,7 @@ select h.id as household_id, h.farmer_id, h.producer_code, h.season, h.coop_name
   t.row_no::int as row_no,
   nullif(t.r->>'type', '') as type,
   public.to_num(t.r->>'amount') as amount
-from public.households h,
+from public.households_current h,
   jsonb_array_elements(coalesce(h.record #> '{revenues,cocoaOtherIncome}', '[]'::jsonb)) with ordinality as t(r, row_no)
 where exists (select 1 from jsonb_each_text(t.r) kv where kv.value not in ('', 'false'));
 grant select on public.raw_cocoa_other_income to analyst;
@@ -98,7 +101,7 @@ select h.id as household_id, h.farmer_id, h.producer_code, h.season, h.coop_name
   public.to_num(t.r->>'price') as price,
   array_position(array['oct','nov','dec','jan','feb','mar','apr','may','jun','jul','aug','sep'], t.r->>'month') as month_no,
   coalesce((h.record->'revenues'->'has'->>'coffee')::boolean, false) as included_in_totals
-from public.households h,
+from public.households_current h,
   jsonb_array_elements(coalesce(h.record #> '{revenues,coffeeSales}', '[]'::jsonb)) with ordinality as t(r, row_no);
 grant select on public.raw_coffee_sales to analyst;
 
@@ -109,7 +112,7 @@ select h.id as household_id, h.farmer_id, h.producer_code, h.season, h.coop_name
   nullif(t.r->>'type', '') as type,
   public.to_num(t.r->>'amount') as amount,
   coalesce((h.record->'revenues'->'has'->>'coffee')::boolean, false) as included_in_totals
-from public.households h,
+from public.households_current h,
   jsonb_array_elements(coalesce(h.record #> '{revenues,coffeeOtherIncome}', '[]'::jsonb)) with ordinality as t(r, row_no)
 where exists (select 1 from jsonb_each_text(t.r) kv where kv.value not in ('', 'false'));
 grant select on public.raw_coffee_other_income to analyst;
@@ -127,7 +130,7 @@ select h.id as household_id, h.farmer_id, h.producer_code, h.season, h.coop_name
   public.to_num(t.r->>'totalVolumeSold') as total_volume_sold,
   public.to_num(t.r->>'totalRevenueOverride') as total_revenue_override,
   coalesce((h.record->'revenues'->'has'->>'otherCashCrops')::boolean, false) as included_in_totals
-from public.households h,
+from public.households_current h,
   jsonb_array_elements(coalesce(h.record #> '{revenues,otherCashCrops}', '[]'::jsonb)) with ordinality as t(r, row_no)
 where exists (select 1 from jsonb_each_text(t.r) kv where kv.value not in ('', 'false'));
 grant select on public.raw_other_cash_crops to analyst;
@@ -145,7 +148,7 @@ select h.id as household_id, h.farmer_id, h.producer_code, h.season, h.coop_name
   public.to_num(t.r->>'qtyConsumed') as qty_consumed,
   public.to_num(t.r->>'qtySold') as qty_sold,
   coalesce((h.record->'revenues'->'has'->>'stapleCrops')::boolean, false) as included_in_totals
-from public.households h,
+from public.households_current h,
   jsonb_array_elements(coalesce(h.record #> '{revenues,stapleCrops}', '[]'::jsonb)) with ordinality as t(r, row_no)
 where exists (select 1 from jsonb_each_text(t.r) kv where kv.value not in ('', 'false'));
 grant select on public.raw_staple_crops to analyst;
@@ -160,7 +163,7 @@ select h.id as household_id, h.farmer_id, h.producer_code, h.season, h.coop_name
   public.to_num(t.r->>'totalQtyProduced') as total_qty_produced,
   public.to_num(t.r->>'totalMarketValue') as total_market_value,
   coalesce((h.record->'revenues'->'has'->>'otherFoodCrops')::boolean, false) as included_in_totals
-from public.households h,
+from public.households_current h,
   jsonb_array_elements(coalesce(h.record #> '{revenues,otherFoodCrops}', '[]'::jsonb)) with ordinality as t(r, row_no)
 where exists (select 1 from jsonb_each_text(t.r) kv where kv.value not in ('', 'false'));
 grant select on public.raw_other_food_crops to analyst;
@@ -175,7 +178,7 @@ select h.id as household_id, h.farmer_id, h.producer_code, h.season, h.coop_name
   public.to_num(t.r->>'totalQtyProduced') as total_qty_produced,
   public.to_num(t.r->>'totalMarketValue') as total_market_value,
   coalesce((h.record->'revenues'->'has'->>'livestock')::boolean, false) as included_in_totals
-from public.households h,
+from public.households_current h,
   jsonb_array_elements(coalesce(h.record #> '{revenues,livestock}', '[]'::jsonb)) with ordinality as t(r, row_no)
 where exists (select 1 from jsonb_each_text(t.r) kv where kv.value not in ('', 'false'));
 grant select on public.raw_livestock to analyst;
@@ -190,7 +193,7 @@ select h.id as household_id, h.farmer_id, h.producer_code, h.season, h.coop_name
   public.to_num(t.r->>'avgPrice') as avg_price,
   public.to_num(t.r->>'revenueOverride') as revenue_override,
   coalesce((h.record->'revenues'->'has'->>'otherIncome')::boolean, false) as included_in_totals
-from public.households h,
+from public.households_current h,
   jsonb_array_elements(coalesce(h.record #> '{revenues,otherIncome}', '[]'::jsonb)) with ordinality as t(r, row_no)
 where exists (select 1 from jsonb_each_text(t.r) kv where kv.value not in ('', 'false'));
 grant select on public.raw_other_income to analyst;
@@ -205,7 +208,7 @@ select h.id as household_id, h.farmer_id, h.producer_code, h.season, h.coop_name
   public.to_num(t.r->>'totalCost') as total_cost,
   nullif(t.r->>'usedForCocoa', '') as used_for_cocoa,
   public.to_num(t.r->>'subsidyValue') as subsidy_value
-from public.households h,
+from public.households_current h,
   jsonb_array_elements(coalesce(h.record #> '{costs,agriInputs}', '[]'::jsonb)) with ordinality as t(r, row_no)
 where exists (select 1 from jsonb_each_text(t.r) kv where kv.value not in ('', 'false'));
 grant select on public.raw_agri_inputs to analyst;
@@ -221,7 +224,7 @@ select h.id as household_id, h.farmer_id, h.producer_code, h.season, h.coop_name
   public.to_num(t.r->>'depreciatedCost') as depreciated_cost,
   nullif(t.r->>'usedForCocoa', '') as used_for_cocoa,
   public.to_num(t.r->>'subsidyValue') as subsidy_value
-from public.households h,
+from public.households_current h,
   jsonb_array_elements(coalesce(h.record #> '{costs,tools}', '[]'::jsonb)) with ordinality as t(r, row_no)
 where exists (select 1 from jsonb_each_text(t.r) kv where kv.value not in ('', 'false'));
 grant select on public.raw_tools to analyst;
@@ -235,7 +238,7 @@ select h.id as household_id, h.farmer_id, h.producer_code, h.season, h.coop_name
   public.to_num(t.r->>'totalCost') as total_cost,
   nullif(t.r->>'usedForCocoa', '') as used_for_cocoa,
   public.to_num(t.r->>'subsidyValue') as subsidy_value
-from public.households h,
+from public.households_current h,
   jsonb_array_elements(coalesce(h.record #> '{costs,otherCosts}', '[]'::jsonb)) with ordinality as t(r, row_no)
 where exists (select 1 from jsonb_each_text(t.r) kv where kv.value not in ('', 'false'));
 grant select on public.raw_other_costs to analyst;
@@ -249,7 +252,7 @@ select h.id as household_id, h.farmer_id, h.producer_code, h.season, h.coop_name
   public.to_num(t.r->>'cocoaVolumeInKind') as cocoa_volume_in_kind,
   public.to_num(t.r->>'costOrValue') as cost_or_value,
   nullif(t.r->>'cocoaShare', '') as cocoa_share
-from public.households h,
+from public.households_current h,
   jsonb_array_elements(coalesce(h.record #> '{costs,sharecropPayments}', '[]'::jsonb)) with ordinality as t(r, row_no)
 where exists (select 1 from jsonb_each_text(t.r) kv where kv.value not in ('', 'false'));
 grant select on public.raw_sharecrop_payments to analyst;
@@ -269,7 +272,7 @@ select h.id as household_id, h.farmer_id, h.producer_code, h.season, h.coop_name
   public.to_num(t.r->>'serviceCost') as service_cost,
   public.to_num(t.r->>'subsidizedLabour') as subsidized_labour,
   array_position(array['oct','nov','dec','jan','feb','mar','apr','may','jun','jul','aug','sep'], t.r->>'month') as month_no
-from public.households h,
+from public.households_current h,
   jsonb_array_elements(coalesce(h.record #> '{labour}', '[]'::jsonb)) with ordinality as t(r, row_no);
 grant select on public.raw_labour to analyst;
 
@@ -279,7 +282,7 @@ select h.id as household_id, h.farmer_id, h.producer_code, h.season, h.coop_name
   c.category,
   q.quarter,
   public.to_num(h.record->'expenditures'->c.category->>q.quarter) as amount
-from public.households h,
+from public.households_current h,
   unnest(array['food','education','healthcare','other']) as c(category),
   unnest(array['q1','q2','q3','q4']) as q(quarter);
 grant select on public.raw_expenditures to analyst;
@@ -290,6 +293,6 @@ create or replace view public.raw_unknown_answers with (security_invoker = true)
 select h.id as household_id, h.farmer_id, h.producer_code, h.season, h.coop_name,
   u.path as field_path,
   split_part(u.path, '.', 1) as step
-from public.households h,
+from public.households_current h,
   jsonb_array_elements_text(coalesce(h.record->'meta'->'unknownFields', '[]'::jsonb)) as u(path);
 grant select on public.raw_unknown_answers to analyst;

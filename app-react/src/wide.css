@@ -193,7 +193,7 @@ button.wf-row { cursor: pointer; }
 button.wf-col { cursor: pointer; }
 @media (hover: hover) { button.wf-col:hover { background: #f3f5f9; } }
 .wf-col:focus-visible { outline: 3px solid var(--sky); outline-offset: 2px; }
-.wf-plot { position: relative; height: 240px; margin-top: 22px; border-bottom: 1px solid #c9ced8; }
+.wf-plot { position: relative; height: 240px; margin-top: 8px; border-bottom: 1px solid #c9ced8; }
 .wf-zero { position: absolute; left: 0; right: 0; bottom: var(--z); border-top: 1px dashed #9aa3b5; }
 .wf-bar {
   position: absolute; left: 50%; transform: translateX(-50%); width: min(70%, 56px); border-radius: 4px;
@@ -203,10 +203,6 @@ button.wf-col { cursor: pointer; }
 .wf-bar.is-out { background: #e2663a; }
 .wf-bar.is-total, .wf-bar.is-net { background: #4a62a8; }
 .wf-bar.is-neg { background: var(--flower); }
-.wf-value {
-  position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); margin-bottom: 4px;
-  font-size: 13px; font-weight: 600; color: var(--hh-ink, #0e1733); white-space: nowrap;
-}
 .wf-label { font-size: 12px; line-height: 1.25; text-align: center; color: var(--hh-ink, #0e1733); overflow-wrap: normal; }
 .wf-label.is-strong { font-weight: 700; color: var(--night); }
 
@@ -317,8 +313,10 @@ button.wf-col { cursor: pointer; }
 .hh-rail.is-compact .hh-rail-brand .brand-ft { display: none; }
 .hh-rail.is-compact .hh-rail-brand .brand { justify-content: center; }
 
-/* Waterfall value under each label: only used in the phone layout below. */
-.wf-num { display: none; }
+/* Amount under each label, in the flow, so a long amount widens its own
+   column instead of spilling over its neighbours (iPad, 19.11.26). */
+.wf-num { margin-top: auto; font-size: 12px; font-weight: 600; text-align: center; color: var(--hh-ink, #0e1733); white-space: nowrap; }
+.wf-num.is-strong { font-weight: 700; color: var(--night); }
 .res-unit { display: none; }
 
 /* Phone: the waterfall reads top to bottom (label and amount, then a
@@ -333,11 +331,10 @@ button.wf-col { cursor: pointer; }
     gap: 4px 12px; padding: 6px 4px; text-align: left;
   }
   .wf-label { grid-area: label; text-align: left; font-size: 14px; }
-  .wf-num { display: block; grid-area: num; font-size: 14px; font-weight: 600; color: var(--hh-ink, #0e1733); white-space: nowrap; }
+  .wf-num { display: block; grid-area: num; margin-top: 0; text-align: right; font-size: 14px; font-weight: 600; color: var(--hh-ink, #0e1733); white-space: nowrap; }
   .wf-num.is-strong { font-weight: 700; color: var(--night); }
   .wf-plot { grid-area: plot; height: 12px; margin-top: 0; border-bottom: 0; background: #f3f5f9; border-radius: 4px; }
   .wf-bar { left: var(--s); width: var(--len); bottom: 0; height: 100%; transform: none; }
-  .wf-value { display: none; }
   .wf-zero { left: var(--z); right: auto; top: 0; bottom: 0; border-top: 0; border-left: 1px dashed #9aa3b5; }
 
   .table-wrap:has(> .results-table) { overflow: visible; border: 0; }

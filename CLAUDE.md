@@ -204,7 +204,10 @@ Next: Fairtrade logo file; phone pass of the household screens (H1–H9).
 
 **iPad test (19.11.26):** install, Supabase sign-in and Download fine.
 Results waterfall values overlapped on iPad (absolutely positioned, so
-they never widened their column); fixed in 0.4.1. Next: rest of the iPad
+they never widened their column); fixed in 0.4.1. iPad Safari then showed
+no bars in the tappable columns: an absolutely positioned bar inside a
+`<button>` is not drawn there (desktop Chrome's iPad mode does draw it, so
+it can't catch this). Columns are now `div role="button"` (0.4.2). Next: rest of the iPad
 checklist (layout in both orientations, offline reopen, Upload), then
 the phone pass of H1–H9.
 
@@ -340,7 +343,8 @@ so coaches couldn't tell builds apart. Patch (0.3.1) for fixes, minor
 (0.4.0) for new features. History: 0.2.0 = hub layout, "Doesn't know",
 roster, Supabase upload; 0.3.0 = tablet/phone list screens, brand row,
 phone Results (both 17.11.26); 0.4.0 = "Download my households" (17.11.26); 0.4.1 = waterfall amounts
-under the labels, not floating over the bars (19.11.26).
+under the labels, not floating over the bars; 0.4.2 = waterfall bars drawn
+on iPad (both 19.11.26).
 
 `git add -A` matters: Vite fingerprints filenames, so every build *deletes*
 the previous `assets/index-*.js` and adds a new one. A plain `git add docs`

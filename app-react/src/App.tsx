@@ -37,15 +37,15 @@ import "./theme-quiet.css";
 import "./theme-grouped.css";
 import "./font-exo.css";
 
-// Colour scheme previews, read once from the URL (navigation never changes
-// it): ?theme=quiet = theme-quiet.css; ?theme=grouped = quiet plus the
-// grouped layout from the GitHub-app screenshots (theme-grouped.css).
-const previewParams = new URLSearchParams(window.location.search);
-const themeParam = previewParams.get("theme");
-// ?font=exo: headings in Exo too, one font family (font-exo.css).
-if (previewParams.get("font") === "exo") document.body.classList.add("font-exo");
-if (themeParam === "quiet" || themeParam === "grouped") document.body.classList.add("theme-quiet");
-if (themeParam === "grouped") document.body.classList.add("theme-grouped");
+// Look (JB 20.11.26): the grouped scheme with Exo only is the default.
+// It is layered as body classes over the original stylesheets:
+// theme-quiet.css (neutral colours) + theme-grouped.css (grey page, white
+// groups, pill controls, floating tab bar) + font-exo.css (headings in Exo).
+// ?theme=classic in the URL shows the original look, for comparison only;
+// it is read once and navigation never changes the URL.
+if (new URLSearchParams(window.location.search).get("theme") !== "classic") {
+  document.body.classList.add("theme-quiet", "theme-grouped", "font-exo");
+}
 
 export default function App() {
   const loaded = useAppStore((s) => s.loaded);

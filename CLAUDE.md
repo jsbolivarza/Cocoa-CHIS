@@ -254,15 +254,17 @@ into one card; short step names on the collapsed rail (84 px); Labour month
 column sticky; "Delete all data" moved to an outlined section at the end of
 Settings; Results opens on the KPI tiles; required-fields note hidden on
 Results; translated import error. Review archive in `.impeccable/critique/`.
-Colour preview (not decided): `src/theme-quiet.css`, only active with
-`?theme=quiet` in the URL (white headers and rails, grey hairlines, navy the
-only filled colour, status dots instead of tinted boxes). Second preview
-`?theme=grouped` (`src/theme-grouped.css`, layered on quiet): patterns
-adapted from JB's GitHub-app phone screenshots (grey page, white rounded
+**Default look since 20.11.26 (JB): "grouped" + Exo only.** App.tsx adds
+body classes `theme-quiet theme-grouped font-exo`; `?theme=classic` in the
+URL shows the original look (comparison only). The three files layer over
+style.css/wide.css rather than replacing them: `src/theme-quiet.css` (white
+headers and rails, grey hairlines, navy the only filled colour, status dots
+instead of tinted boxes, no navy header), `src/theme-grouped.css` (patterns
+adapted from JB's GitHub-app phone screenshots: grey page, white rounded
 groups, step rows with coloured tiles + inset dividers + chevrons, pill
-buttons/chips, floating pill tab bar on phones). `?font=exo`
-(`src/font-exo.css`, combinable with either theme) sets headings in Exo 700
-instead of Alegreya Sans, one font family. Grouped also moves the list
+buttons/chips, floating pill tab bar), `src/font-exo.css` (headings in Exo
+700 instead of Alegreya Sans). Folding them into the base tokens is a later
+cleanup. Grouped also moves the list
 menu (Records/Compare/Export/Settings) on tablet/laptop into the phone's
 floating pill bar, centred at the bottom. For every theme: the Records
 header and table now share one centred column (max 1320 px) and a "Last

@@ -1,5 +1,5 @@
-/* theme-grouped.css — PREVIEW, not decided. Layered on top of
-   theme-quiet.css (?theme=grouped sets both classes).
+/* theme-grouped.css — the default look since 20.11.26. Layered on top of
+   theme-quiet.css (App.tsx sets both classes; ?theme=classic turns them off).
    Patterns taken from JB's GitHub-app screenshots (20.11.26), adapted, not
    copied: a light grey page with white rounded groups, big section titles
    outside the groups, list rows with a small coloured tile, inset dividers

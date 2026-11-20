@@ -1,5 +1,5 @@
-/* font-exo.css — PREVIEW, not decided. ?font=exo (combinable with any
-   ?theme=) sets headings in Exo too, so the app uses one font family.
+/* font-exo.css — default since 20.11.26 (?theme=classic turns it off).
+   Sets headings in Exo too, so the app uses one font family.
    Exo is bundled up to 700, so headings use 700 rather than a synthetic
    800; size and tighter tracking carry the hierarchy instead. */
 

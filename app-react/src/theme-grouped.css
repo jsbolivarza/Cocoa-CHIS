@@ -12,6 +12,11 @@ body.theme-grouped {
   --hh-page: var(--g-page); --hh-rail-bg: var(--g-page); --bg: var(--g-page);
   background: var(--g-page);
 }
+/* The grey page must reach the bottom of the screen: on a short phone page
+   the area below the footer showed the white html background. */
+html:has(body.theme-grouped) { background: #f2f3f5; }
+body.theme-grouped { min-height: 100vh; }
+body.theme-grouped footer.app-footer { background: transparent; }
 body.theme-grouped .ls-shell, body.theme-grouped .hh-shell, body.theme-grouped .hh-main,
 body.theme-grouped .ls-main { background: var(--g-page); }
 

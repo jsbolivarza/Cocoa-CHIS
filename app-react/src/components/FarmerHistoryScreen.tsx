@@ -29,6 +29,10 @@ export function FarmerHistoryScreen() {
   const lang = useAppStore((s) => s.currentLang);
   const historyFarmerId = useAppStore((s) => s.historyFarmerId);
   const goToList = useAppStore((s) => s.goToList);
+  const openRecord = useAppStore((s) => s.openRecord);
+  const currentTab = useAppStore((s) => s.currentTab);
+  // openFarmerHistory() leaves the open household in the store.
+  const fromRecord = useAppStore((s) => s.record);
 
   if (!historyFarmerId) return null;
   const list = Object.values(records)
@@ -54,14 +58,23 @@ export function FarmerHistoryScreen() {
   return (
     <div className="panel">
       <div className="table-actions">
+        {/* Opened from inside a household (hub card, phone header chip):
+            go back to that household first; My records stays as the
+            second way out. From the Records list there is no household. */}
+        {fromRecord && (
+          <button type="button" className="btn btn-secondary" onClick={() => openRecord(fromRecord.meta.id, currentTab)}>
+            &#8592; {t("btn_back_household", lang)}
+          </button>
+        )}
         <button type="button" className="btn" onClick={goToList}>
-          &#8592; {t("btn_my_records", lang)}
+          {fromRecord ? "" : "← "}
+          {t("btn_my_records", lang)}
         </button>
       </div>
       <h3>{t("farmer_history_heading", lang)}</h3>
       <p className="section-help">{t("farmer_history_help", lang)}</p>
       {mixedUnits && <p className="warn-note">{t("farmer_history_mixed_currency", lang)}</p>}
-      <CompareChart list={list} mixedUnits={mixedUnits} lang={lang} />
+      <CompareChart list={list} mixedUnits={mixedUnits} lang={lang} barLabel={seasonLabel} />
       <div className="table-wrap compare-table-wrap">
         <table className="data-table results-table compare-table">
           <thead>

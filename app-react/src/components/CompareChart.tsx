@@ -7,7 +7,9 @@ import { t, type Lang } from "../lib/i18n";
 import { fmt } from "../lib/format";
 import type { CompareSummary } from "../lib/compare";
 
-export function CompareChart({ list, mixedUnits, lang }: { list: CompareSummary[]; mixedUnits: boolean; lang: Lang }) {
+/** `barLabel` names each bar: the producer on Compare (one bar per household),
+ *  the season on Farmer history (every bar is the same farmer). */
+export function CompareChart({ list, mixedUnits, lang, barLabel }: { list: CompareSummary[]; mixedUnits: boolean; lang: Lang; barLabel?: (s: CompareSummary) => string }) {
   // Bars drawn across currencies are meaningless: 600 XOF and 10 GHS on one
   // scale flattens every GHS bar to nothing. The warning above the table
   // says to filter instead.
@@ -49,7 +51,7 @@ export function CompareChart({ list, mixedUnits, lang }: { list: CompareSummary[
           return (
             <div className="cmp-bar-row" key={s.id}>
               <div className="cmp-bar-head">
-                <span className="cmp-bar-name">{s.producer || t("unnamed_household", lang)}</span>
+                <span className="cmp-bar-name">{barLabel ? barLabel(s) : s.producer || t("unnamed_household", lang)}</span>
                 <span className={`cmp-bar-val ${negative ? "negative" : "positive"}`}>{fmt(s.gap)}</span>
               </div>
               <div className="cmp-bar-track">

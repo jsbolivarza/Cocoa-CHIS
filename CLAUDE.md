@@ -306,8 +306,10 @@ number field (preview, revert = delete that block in theme-quiet.css). JB to cho
 fold it into the tokens and drop the URL switch. Also proposed (not built): validation rules in three
 layers (block / warn-and-confirm / server flags) and the gaps that break
 farmer tracking (blank season merges seasons in `households_current`, free-
-text coop name in the server key, no upload history). Next: check the card
-in the browser with a two-season farmer, then publish as 0.5.0.
+text coop name in the server key, no upload history). **Published as 0.5.0
+(20.11.26)**, branch `ui-review-previews` merged and deleted. Next: JB tests
+on real devices (phone, iPad both orientations, laptop); then the
+validation proposal file (see memory) and the open review items.
 
 Known gaps / deliberately deferred, in rough priority order:
 - **Sync is manual, upload + "Download my households" (0.4.0,
@@ -445,7 +447,10 @@ under the labels, not floating over the bars; 0.4.2 = waterfall bars drawn
 on iPad; 0.4.3 = Import JSON keeps ids, upload skips other coaches'
 households; 0.4.4 = calculated CSV/summary columns rounded (2 decimals,
 `pct_*` shares 4; typed values as entered) (all 19.11.26). Rows uploaded
-before 0.4.4 keep their long decimals until re-uploaded.
+before 0.4.4 keep their long decimals until re-uploaded. 0.5.0 = grouped
+look + Exo default, season compare card, design-review fixes, upright-iPad
+tablet shell, IMS area check, wrapped table dropdowns, Farmer history
+cards, animations, Settings blocks (20.11.26).
 
 `git add -A` matters: Vite fingerprints filenames, so every build *deletes*
 the previous `assets/index-*.js` and adds a new one. A plain `git add docs`

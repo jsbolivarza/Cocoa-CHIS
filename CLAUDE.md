@@ -136,8 +136,11 @@ Supabase config baked in):**
   `households_flat` via the analyst login (session pooler; Windows needed
   the Supabase CA cert, see `analysis/README.md`). End-to-end test done
   17.11.26: 50 generated test households (34 farmers, 4 coops, 2 seasons)
-  imported, uploaded, shown in Power BI after Refresh. **Supabase holds 59
-  test rows (50 generated + JB's 9); delete them before real data**
+  imported, uploaded, shown in Power BI after Refresh. Clean-slate test
+  20.11.26 (0.5.2): Supabase emptied, all devices "Delete all data", then
+  50 generated (laptop import) + iPad demo + phone manual uploaded, and
+  "Download my households" consolidated them on the iPad without problems.
+  **Supabase now holds those test rows; delete them before real data**
   (`delete from public.households;`). Generated test data must use the
   app's option keys (`hectare`, not `ha`). Import JSON re-ids records, so
   importing and uploading the same households twice duplicates them on

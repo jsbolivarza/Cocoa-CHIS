@@ -209,6 +209,26 @@ main { max-width: 1400px; margin: 0 auto; padding: 26px 32px; }
 .check input { width: 20px; height: 20px; accent-color: var(--tangerine); }
 
 .table-wrap { overflow-x: auto; margin-top: 10px; border: 1px solid var(--border); border-radius: 10px; }
+/* Hidden columns: the edge where the table continues fades out (classes set
+   by lib/scrollCue.ts), so it's obvious there is more to the side even where
+   the scrollbar is hidden (iPad Safari) or blends in. */
+.table-wrap.more-right { -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 56px), rgba(0,0,0,.15)); mask-image: linear-gradient(to right, #000 calc(100% - 56px), rgba(0,0,0,.15)); }
+.table-wrap.more-left { -webkit-mask-image: linear-gradient(to left, #000 calc(100% - 56px), rgba(0,0,0,.15)); mask-image: linear-gradient(to left, #000 calc(100% - 56px), rgba(0,0,0,.15)); }
+.table-wrap.more-left.more-right {
+  -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,.15), #000 56px, #000 calc(100% - 56px), rgba(0,0,0,.15));
+  mask-image: linear-gradient(to right, rgba(0,0,0,.15), #000 56px, #000 calc(100% - 56px), rgba(0,0,0,.15));
+}
+/* Labour keeps its month column fixed on the left, so only fade the right. */
+.table-wrap.more-left:has(> .labour-table) { -webkit-mask-image: none; mask-image: none; }
+.table-wrap.more-left.more-right:has(> .labour-table) {
+  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 56px), rgba(0,0,0,.15));
+  mask-image: linear-gradient(to right, #000 calc(100% - 56px), rgba(0,0,0,.15));
+}
+/* A scrollbar you can see and grab, where the browser lets us style it */
+.table-wrap { scrollbar-color: #7b8394 #e6e8ec; scrollbar-width: auto; }
+.table-wrap::-webkit-scrollbar { height: 12px; }
+.table-wrap::-webkit-scrollbar-track { background: #e6e8ec; border-radius: 999px; }
+.table-wrap::-webkit-scrollbar-thumb { background: #7b8394; border-radius: 999px; border: 2px solid #e6e8ec; }
 table.data-table { border-collapse: collapse; width: 100%; min-width: 640px; }
 table.data-table th, table.data-table td { border-bottom: 1px solid var(--border); padding: 7px 9px; text-align: left; vertical-align: middle; }
 table.data-table thead th { background: var(--card-alt); color: var(--text-light); font-weight: 600; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; position: sticky; top: 0; }

@@ -94,6 +94,21 @@ body.theme-quiet .season-note, body.theme-quiet .panel h4 {
 }
 body.theme-quiet .panel h4 { color: var(--q-ink); font-size: 1.05rem; }
 
+/* ---------- compact "Doesn't know" button (preview) ----------
+   The "?" sits inside the number field instead of beside it, and number
+   fields in tables get narrower (areas, ages and days need few digits).
+   Saves about 45 px per number column, so the plots and household tables
+   fit on a landscape tablet without scrolling. Same button, same states. */
+body.theme-quiet .num-wrap { position: relative; gap: 0; }
+body.theme-quiet .num-wrap .field { padding-right: 40px; }
+body.theme-quiet .dk-btn {
+  position: absolute; right: 5px; top: 50%; transform: translateY(-50%);
+  min-width: 32px; width: 32px; min-height: 32px; height: 32px; padding: 0;
+  border: 0; border-radius: 8px; background: var(--q-soft); color: var(--q-muted);
+}
+body.theme-quiet .num-wrap.is-unknown .dk-btn { background: var(--eggplant); color: #fff; }
+body.theme-quiet table.data-table td .num-wrap .field { min-width: 92px; }
+
 /* ---------- summary callouts (stat strips + KPI tiles) ----------
    On a white panel a white box with a hairline all but disappeared. They
    now sit on a soft grey fill, labels are readable sentences (13 px, not

@@ -26,6 +26,7 @@ import { HubScreen } from "./components/HubScreen";
 import { ListShell, ListHeader } from "./components/ListShell";
 import { useMediaQuery } from "./lib/useMediaQuery";
 import { WIDE_QUERY, ROOMY_QUERY, NARROW_WIDE_QUERY } from "./lib/layout";
+import { startScrollCue } from "./lib/scrollCue";
 
 // Steps whose tables need the width: on a tablet the rail collapses to an
 // icon strip while they are open (design/shell-options HT3 to HT6).
@@ -69,6 +70,9 @@ export default function App() {
   useEffect(() => {
     init();
   }, [init]);
+
+  // Fade the edge of any table that has hidden columns (lib/scrollCue.ts).
+  useEffect(() => startScrollCue(), []);
 
   // Ported from the body.classList.toggle("screen-list"/"screen-editor")
   // calls in docs/js/app.js. CSS uses these (.screen-list .editor-only,

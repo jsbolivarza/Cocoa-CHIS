@@ -93,15 +93,21 @@ interface SelectFieldProps {
   lang: Lang;
   optionsKey?: string | null;
   staticOptions?: string[];
+  /** Inside a table cell: show the chosen option as wrapping text. */
+  wrap?: boolean;
 }
 
-export function SelectField({ path, value, lang, optionsKey, staticOptions }: SelectFieldProps) {
+export function SelectField({ path, value, lang, optionsKey, staticOptions, wrap }: SelectFieldProps) {
   const updateField = useUpdateField();
   const options = staticOptions
     ? staticOptions.map((k) => ({ key: k, label: t(k, lang) }))
     : opt(optionsKey || "", lang);
-  return (
-    <select className="field field-select" value={value ?? ""} onChange={(e) => updateField(path, e.target.value)}>
+  const select = (
+    <select
+      className={`field field-select${wrap ? " select-overlay" : ""}`}
+      value={value ?? ""}
+      onChange={(e) => updateField(path, e.target.value)}
+    >
       <option value="">{t("select_placeholder", lang)}</option>
       {options.map((o) => (
         <option key={o.key} value={o.key}>
@@ -109,5 +115,19 @@ export function SelectField({ path, value, lang, optionsKey, staticOptions }: Se
         </option>
       ))}
     </select>
+  );
+  if (!wrap) return select;
+  // A dropdown can only show its choice on one line, so long options in
+  // narrow table columns were cut to "cocoa int…". Here the choice is shown
+  // as text that wraps onto two lines, and the real dropdown sits invisibly
+  // on top of it: tapping still opens the device's own list, unchanged.
+  const chosen = options.find((o) => o.key === value);
+  return (
+    <span className="select-wrap">
+      <span className={`field select-face${chosen ? "" : " is-empty"}`} aria-hidden="true">
+        {chosen ? chosen.label : t("select_placeholder", lang)}
+      </span>
+      {select}
+    </span>
   );
 }

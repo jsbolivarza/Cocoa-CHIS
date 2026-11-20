@@ -16,7 +16,7 @@ function ColField({ basePath, col, row, lang }: { basePath: string; col: TableCo
   if (col.type === "index") return null;
   if (col.type === "select") {
     return (
-      <SelectField path={path} value={String(value ?? "")} lang={lang} optionsKey={col.optionsKey ?? null} staticOptions={col.staticOptions} />
+      <SelectField path={path} value={String(value ?? "")} lang={lang} optionsKey={col.optionsKey ?? null} staticOptions={col.staticOptions} wrap />
     );
   }
   if (col.type === "number") {

@@ -233,12 +233,24 @@ table.data-table { border-collapse: collapse; width: 100%; min-width: 640px; }
 table.data-table th, table.data-table td { border-bottom: 1px solid var(--border); padding: 7px 9px; text-align: left; vertical-align: middle; }
 table.data-table thead th { background: var(--card-alt); color: var(--text-light); font-weight: 600; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; position: sticky; top: 0; }
 table.data-table td .field { min-width: 110px; }
-/* Tablet/laptop tables: a picklist sizes its column to its longest option
-   ("cocoa intercropped", "land owner with sharecropper") instead of being
-   squeezed to "cocoa int…", where cocoa and cocoa intercropped look alike.
-   The table already scrolls sideways, so nothing else gets cramped. Phones
-   stack table rows as cards (.stack-wrap), where full width is right. */
-body.layout-wide table.data-table td select.field { width: auto; min-width: 100%; }
+/* Table dropdowns (SelectField wrap): the chosen option is shown as text that
+   wraps onto two lines ("land owner with / sharecropper") instead of being
+   cut to "cocoa int…" or widening the column; the real dropdown lies
+   invisibly on top, so tapping opens the device's own list as before. */
+.select-wrap { position: relative; display: block; min-width: 170px; }
+.select-face {
+  display: flex; align-items: center; min-height: 42px; padding: 6px 30px 6px 10px;
+  line-height: 1.2; font-size: 15px; white-space: normal; overflow-wrap: break-word; hyphens: manual; text-align: left;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%235b6270' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 10px center;
+}
+.select-face.is-empty { color: var(--text-light); }
+table.data-table td .select-wrap .select-overlay,
+.select-overlay {
+  position: absolute; inset: 0; width: 100%; height: 100%; min-width: 0; margin: 0;
+  opacity: 0; cursor: pointer;
+}
+.select-wrap:focus-within .select-face { border-color: var(--tangerine); box-shadow: 0 0 0 3px var(--tangerine-tint); }
 table.data-table .idx-cell { color: var(--text-light); font-weight: 600; white-space: nowrap; }
 .idx-full { display: none; }
 table.data-table .computed-cell { font-weight: 700; color: var(--night); background: var(--tangerine-tint); white-space: nowrap; font-variant-numeric: tabular-nums; }

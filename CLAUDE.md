@@ -279,8 +279,11 @@ the plots (JB: coaches watch them change while typing, no long text); the
 two % boxes became notes on their area boxes; the cocoa-area and
 farm-area tiles show "IMS x · ±n %" with the amber "check with farmer" chip
 above 10 % (both measured) / 25 % (any estimate). Display only, nothing
-saved; first piece of the area rule in the validation proposal. Tablet/
-laptop table picklists size to their longest option (all themes); quiet/
+saved; first piece of the area rule in the validation proposal. Table
+dropdowns (`SelectField wrap`, all themes) show the chosen option as text
+wrapping onto two lines with the real select invisible on top, so the
+device's own list still opens (JB rejected buttons and a split Labour
+table, 20.11.26); quiet/
 grouped field labels, table headers and h4s in sentence case. Tables that
 scroll sideways fade the edge with hidden columns (`lib/scrollCue.ts`, all
 themes) and get a visible scrollbar; quiet/grouped put the "?" inside the

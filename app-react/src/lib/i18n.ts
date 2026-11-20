@@ -227,6 +227,7 @@ export const STR: Record<string, StrEntry> = {
   step_short_results: { en: "Results", fr: "Résultats", es: "Result." },
   import_read_error: { en: "This file could not be read. Choose a JSON file exported from Cocoa Capture.", fr: "Ce fichier n'a pas pu être lu. Choisissez un fichier JSON exporté depuis Cocoa Capture.", es: "No se pudo leer este archivo. Elija un archivo JSON exportado desde Cocoa Capture." },
   record_lang_title: { en: "Captured in", fr: "Saisi en", es: "Capturado en" },
+  sc_no_change: { en: "no change", fr: "sans changement", es: "sin cambio" },
   btn_back_household: { en: "Back to household", fr: "Retour au ménage", es: "Volver al hogar" },
   settings_danger_heading: { en: "Delete data", fr: "Supprimer les données", es: "Eliminar datos" },
   hub_units_differ: { en: "Units or currency differ from that season, so no change is calculated for those rows.", fr: "Les unités ou la devise diffèrent de cette saison : aucune variation n'est calculée pour ces lignes.", es: "Las unidades o la moneda difieren de esa temporada, por lo que no se calcula el cambio en esas filas." },

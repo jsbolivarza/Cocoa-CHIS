@@ -1007,3 +1007,16 @@ header.app-header.ph-head .brand { margin: 0; }
 
 .bottom-nav-btn { font-family: "Exo", "Segoe UI", sans-serif; font-size: 13px; font-weight: 500; color: #4b5563; }
 .bottom-nav-btn.active { font-weight: 700; }
+
+/* ---------- Farmer history on phones: one callout per figure ---------- */
+.sc-season { margin: 4px 0 8px; font-weight: 700; color: var(--night); }
+.season-callouts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 0 0 8px; }
+.season-callout { background: var(--card-alt); border-radius: 14px; padding: 12px 14px; display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.sc-label { font-size: 13px; color: var(--text-light); line-height: 1.25; }
+.sc-value { font-size: 20px; font-weight: 700; color: var(--text); font-variant-numeric: tabular-nums; line-height: 1.15; overflow-wrap: anywhere; }
+.sc-value small { font-size: 12px; font-weight: 500; color: var(--text-light); }
+.sc-value.negative { color: #b42318; }
+.sc-prev { font-size: 12px; color: var(--text-light); font-variant-numeric: tabular-nums; }
+.sc-change { font-size: 13px; font-weight: 600; color: var(--text); font-variant-numeric: tabular-nums; margin-top: 2px; }
+.sc-change .check-chip { font-size: 12px; }
+.sc-flat { color: var(--text-light); font-weight: 500; }

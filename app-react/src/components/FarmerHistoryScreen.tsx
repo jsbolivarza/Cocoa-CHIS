@@ -11,6 +11,89 @@ import { compareSummary, type CompareSummary } from "../lib/compare";
 import { fmt } from "../lib/format";
 import { formatUpdatedAt } from "../lib/recordProgress";
 import { CompareChart } from "./CompareChart";
+import { useMediaQuery } from "../lib/useMediaQuery";
+import { WIDE_QUERY } from "../lib/layout";
+import type { Lang } from "../lib/i18n";
+
+/* ---------- phone: one callout per figure instead of chart + table ----------
+   On a phone the question is "what changed since last season?", which the
+   bar chart (built for comparing many households) didn't answer and the
+   wide table couldn't show. Each card: the newest season large, earlier
+   seasons below, the change, and the amber "check with farmer" chip for a
+   jump worth confirming (placeholder limits, as on the overview card). */
+type Pick = (s: CompareSummary) => number | null | undefined;
+interface Fig {
+  key: string;
+  labelKey: string;
+  pick: Pick;
+  unit: (s: CompareSummary) => string;
+  /** Money that can be negative: show the difference, not a %. */
+  absolute?: boolean;
+  checkAt: number;
+  /** Not comparable across currencies / area units. */
+  unitBound: boolean;
+}
+const FIGS: Fig[] = [
+  { key: "net", labelKey: "cmp_net_farm", pick: (s) => s.netFarm, unit: (s) => s.currency, absolute: true, checkAt: 0.5, unitBound: true },
+  { key: "gap", labelKey: "cmp_gap", pick: (s) => s.gap, unit: (s) => s.currency, absolute: true, checkAt: 0.5, unitBound: true },
+  { key: "yield", labelKey: "cmp_yield", pick: (s) => s.yieldPerArea, unit: (s) => `${s.volumeUnit}/${s.areaUnit}`, checkAt: 0.25, unitBound: true },
+  { key: "price", labelKey: "cmp_price_per_kg", pick: (s) => s.pricePerKg, unit: (s) => `${s.currency}/${s.volumeUnit}`, checkAt: 0.25, unitBound: true },
+  { key: "cost", labelKey: "cmp_cost_per_kg", pick: (s) => s.costPerKg, unit: (s) => `${s.currency}/${s.volumeUnit}`, checkAt: 0.25, unitBound: true },
+  { key: "margin", labelKey: "cmp_margin_per_kg", pick: (s) => s.marginPerKg, unit: (s) => `${s.currency}/${s.volumeUnit}`, absolute: true, checkAt: 0.5, unitBound: true },
+  { key: "area", labelKey: "cmp_cocoa_area", pick: (s) => s.cocoaArea, unit: (s) => s.areaUnit, checkAt: 0.25, unitBound: true },
+  { key: "spend", labelKey: "cmp_expenditure", pick: (s) => s.expenditure, unit: (s) => s.currency, checkAt: 0.5, unitBound: true },
+  { key: "person", labelKey: "cmp_per_person", pick: (s) => s.perPerson, unit: (s) => s.currency, absolute: true, checkAt: 0.5, unitBound: true },
+  { key: "days", labelKey: "cmp_labour_days", pick: (s) => s.labourDays, unit: () => "", checkAt: 0.5, unitBound: false },
+];
+
+const ok = (v: number | null | undefined): v is number => v != null && isFinite(v);
+
+function SeasonCallouts({ list, lang, label }: { list: CompareSummary[]; lang: Lang; label: (s: CompareSummary) => string }) {
+  const cur = list[list.length - 1];
+  const prev = list.length > 1 ? list[list.length - 2] : null;
+  const earlier = list.slice(0, -1);
+  const sameUnits = !!prev && prev.currency === cur.currency && prev.areaUnit === cur.areaUnit && prev.volumeUnit === cur.volumeUnit;
+  return (
+    <div className="season-callouts">
+      {FIGS.map((f) => {
+        const v = f.pick(cur);
+        const p = prev ? f.pick(prev) : null;
+        const comparable = ok(v) && ok(p) && (!f.unitBound || sameUnits);
+        let change = "";
+        let check = false;
+        if (comparable) {
+          const d = v - p;
+          const share = p !== 0 ? d / Math.abs(p) : null;
+          const same = f.absolute || share == null ? d === 0 : Math.round(share * 100) === 0;
+          if (same) change = t("sc_no_change", lang);
+          else if (f.absolute || share == null) change = `${d > 0 ? "+" : "−"}${fmt(Math.abs(d))}`;
+          else change = `${share > 0 ? "+" : "−"}${Math.abs(Math.round(share * 100))} %`;
+          check = share != null && Math.abs(share) >= f.checkAt;
+        }
+        const unit = f.unit(cur);
+        return (
+          <div key={f.key} className="season-callout">
+            <div className="sc-label">{t(f.labelKey, lang)}</div>
+            <div className={`sc-value${ok(v) && v < 0 ? " negative" : ""}`}>
+              {cell(v)}
+              {unit && ok(v) ? <small> {unit}</small> : null}
+            </div>
+            {earlier.length > 0 && (
+              <div className="sc-prev">
+                {earlier.map((s) => `${label(s)}: ${cell(f.pick(s))}`).join(" · ")}
+              </div>
+            )}
+            {change && (
+              <div className="sc-change">
+                {check ? <span className="check-chip">{change} · {t("hub_check", lang)}</span> : <span className={change === t("sc_no_change", lang) ? "sc-flat" : undefined}>{change}</span>}
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
 
 function cell(v: number | null | undefined): string {
   return v == null || !isFinite(v) ? "—" : fmt(v);
@@ -28,6 +111,7 @@ export function FarmerHistoryScreen() {
   const records = useAppStore((s) => s.records);
   const lang = useAppStore((s) => s.currentLang);
   const historyFarmerId = useAppStore((s) => s.historyFarmerId);
+  const wide = useMediaQuery(WIDE_QUERY);
   const goToList = useAppStore((s) => s.goToList);
   const openRecord = useAppStore((s) => s.openRecord);
   const currentTab = useAppStore((s) => s.currentTab);
@@ -38,7 +122,9 @@ export function FarmerHistoryScreen() {
   const list = Object.values(records)
     .filter((r) => r.meta.farmerId === historyFarmerId)
     .map(compareSummary)
-    .sort((a, b) => a.createdAt.localeCompare(b.createdAt));
+    // Season order ("2024/2025" < "2025/2026"), not capture order: a season
+    // entered late must not show up as the newest. Unlabelled ones by date.
+    .sort((a, b) => (a.season && b.season ? a.season.localeCompare(b.season) : a.createdAt.localeCompare(b.createdAt)));
   if (!list.length) return null;
 
   // Money and per-area figures across different currencies or area units
@@ -74,8 +160,14 @@ export function FarmerHistoryScreen() {
       <h3>{t("farmer_history_heading", lang)}</h3>
       <p className="section-help">{t("farmer_history_help", lang)}</p>
       {mixedUnits && <p className="warn-note">{t("farmer_history_mixed_currency", lang)}</p>}
-      <CompareChart list={list} mixedUnits={mixedUnits} lang={lang} barLabel={seasonLabel} />
-      <div className="table-wrap compare-table-wrap">
+      {!wide && list.length > 0 && (
+        <>
+          <p className="sc-season">{seasonLabel(list[list.length - 1])}</p>
+          <SeasonCallouts list={list} lang={lang} label={seasonLabel} />
+        </>
+      )}
+      {wide && <CompareChart list={list} mixedUnits={mixedUnits} lang={lang} barLabel={seasonLabel} />}
+      {wide && <div className="table-wrap compare-table-wrap">
         <table className="data-table results-table compare-table">
           <thead>
             <tr>
@@ -121,7 +213,7 @@ export function FarmerHistoryScreen() {
             )}
           </tbody>
         </table>
-      </div>
+      </div>}
     </div>
   );
 }

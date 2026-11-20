@@ -12,7 +12,7 @@ import { fmt, fmtUnit } from "../lib/format";
 import { formatUpdatedAt } from "../lib/recordProgress";
 import { CompareChart } from "./CompareChart";
 import { useMediaQuery } from "../lib/useMediaQuery";
-import { WIDE_QUERY } from "../lib/layout";
+import { WIDE_QUERY, NARROW_WIDE_QUERY } from "../lib/layout";
 import type { Lang } from "../lib/i18n";
 
 /* ---------- phone: one callout per figure instead of chart + table ----------
@@ -83,16 +83,15 @@ function SeasonCallouts({ list, lang, label }: { list: CompareSummary[]; lang: L
               {ok(v) ? fmtUnit(v, unit, cur.currency) : "—"}
               {unit && ok(v) ? <small> {unit}</small> : null}
             </div>
+            {/* One quiet line: earlier season(s), then the change. */}
             {earlier.length > 0 && (
               <div className="sc-prev">
                 {earlier.map((s) => `${label(s)}: ${ok(f.pick(s)) ? fmtUnit(f.pick(s), f.unit(s), s.currency) : "—"}`).join(" · ")}
+                {change && <span className="sc-sep"> · </span>}
+                {change && <span className={`sc-change${change === t("sc_no_change", lang) ? " sc-flat" : ""}`}>{change}</span>}
               </div>
             )}
-            {change && (
-              <div className="sc-change">
-                {check ? <span className="check-chip">{change} · {t("hub_check", lang)}</span> : <span className={change === t("sc_no_change", lang) ? "sc-flat" : undefined}>{change}</span>}
-              </div>
-            )}
+            {check && <div className="sc-check">{t("hub_check", lang)}</div>}
           </div>
         );
       })}
@@ -117,6 +116,10 @@ export function FarmerHistoryScreen() {
   const lang = useAppStore((s) => s.currentLang);
   const historyFarmerId = useAppStore((s) => s.historyFarmerId);
   const wide = useMediaQuery(WIDE_QUERY);
+  // Cards on phones and upright tablets (the table scrolled sideways there and
+  // left half the screen empty); chart + table only from 1024 px.
+  const narrow = useMediaQuery(NARROW_WIDE_QUERY);
+  const cards = !wide || narrow;
   const goToList = useAppStore((s) => s.goToList);
   const openRecord = useAppStore((s) => s.openRecord);
   const currentTab = useAppStore((s) => s.currentTab);
@@ -148,20 +151,24 @@ export function FarmerHistoryScreen() {
 
   return (
     <div className="panel">
-      <div className="table-actions">
-        {/* Opened from inside a household (hub card, phone header chip):
-            go back to that household first; My records stays as the
-            second way out. From the Records list there is no household. */}
+      {/* Light link row instead of two heavy pills: the way back on the left
+          (to the household it was opened from, else to My records), My
+          records on the right as the second way out. */}
+      <nav className="hist-nav">
+        <button
+          type="button"
+          className="hist-link is-back"
+          onClick={() => (fromRecord ? openRecord(fromRecord.meta.id, currentTab) : goToList())}
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6" /></svg>
+          {t(fromRecord ? "btn_back_household" : "btn_my_records", lang)}
+        </button>
         {fromRecord && (
-          <button type="button" className="btn btn-secondary" onClick={() => openRecord(fromRecord.meta.id, currentTab)}>
-            &#8592; {t("btn_back_household", lang)}
+          <button type="button" className="hist-link" onClick={goToList}>
+            {t("btn_my_records", lang)}
           </button>
         )}
-        <button type="button" className="btn" onClick={goToList}>
-          {fromRecord ? "" : "← "}
-          {t("btn_my_records", lang)}
-        </button>
-      </div>
+      </nav>
       {/* Which farmer this is (the page title already says "Farmer history"). */}
       {list.length > 0 && (
         <p className="history-farmer">
@@ -171,14 +178,14 @@ export function FarmerHistoryScreen() {
       )}
       <p className="section-help">{t("farmer_history_help", lang)}</p>
       {mixedUnits && <p className="warn-note">{t("farmer_history_mixed_currency", lang)}</p>}
-      {!wide && list.length > 0 && (
+      {cards && list.length > 0 && (
         <>
           <p className="sc-season">{seasonLabel(list[list.length - 1])}</p>
           <SeasonCallouts list={list} lang={lang} label={seasonLabel} />
         </>
       )}
-      {wide && <CompareChart list={list} mixedUnits={mixedUnits} lang={lang} barLabel={seasonLabel} />}
-      {wide && <div className="table-wrap compare-table-wrap">
+      {!cards && <CompareChart list={list} mixedUnits={mixedUnits} lang={lang} barLabel={seasonLabel} />}
+      {!cards && <div className="table-wrap compare-table-wrap">
         <table className="data-table results-table compare-table">
           <thead>
             <tr>

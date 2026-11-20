@@ -112,6 +112,10 @@ export function SettingsScreen() {
       <h3>{t("settings_heading", lang)}</h3>
       <p className="section-help">{t("settings_help", lang)}</p>
 
+      {/* Each topic is its own block: a plain list on phones, white cards
+          packed in two columns on tablet/laptop (no big empty areas). */}
+      <div className="settings-blocks">
+      <section className="settings-block">
       <h4>{t("settings_language", lang)}</h4>
       {/* Three equal segments with each language's own name (a coach who
           landed in the wrong language still recognises theirs), instead
@@ -130,7 +134,9 @@ export function SettingsScreen() {
           </button>
         ))}
       </div>
+      </section>
 
+      <section className="settings-block">
       <h4>{t("settings_data", lang)}</h4>
       <div className="stacked-actions">
         <button type="button" className="btn" onClick={() => fileInputRef.current?.click()}>
@@ -144,7 +150,9 @@ export function SettingsScreen() {
           onChange={handleImportChange}
         />
       </div>
+      </section>
 
+      <section className="settings-block">
       <h4>{t("roster_heading", lang)}</h4>
       <p className="section-help">{t("roster_help", lang)}</p>
       <p className="field-hint">{t("roster_format", lang)}</p>
@@ -169,11 +177,17 @@ export function SettingsScreen() {
           </button>
         )}
       </div>
+      </section>
 
-      <SyncPanel />
+      <section className="settings-block">
+        <SyncPanel />
+      </section>
 
-      <StorageDiagnostics />
+      <section className="settings-block">
+        <StorageDiagnostics />
+      </section>
 
+      <section className="settings-block">
       <h4>{t("settings_about", lang)}</h4>
       <p className="field-hint">
         {t("settings_version", lang)} {__APP_VERSION__} · {t("settings_built", lang)} {__APP_BUILT__}
@@ -187,13 +201,16 @@ export function SettingsScreen() {
       {/* Kept apart at the end of the page, outlined rather than filled, so
           it can't be mis-tapped for Import JSON on a tablet outdoors. The
           confirm dialog stays as the second guard. */}
-      <section className="danger-zone">
+      </section>
+
+      <section className="settings-block danger-zone">
         <h4>{t("settings_danger_heading", lang)}</h4>
         <p className="field-hint">{t("settings_delete_note", lang)}</p>
         <button type="button" className="btn btn-danger-outline" onClick={handleDeleteAll}>
           {t("btn_delete_all", lang)}
         </button>
       </section>
+      </div>
     </div>
   );
 }

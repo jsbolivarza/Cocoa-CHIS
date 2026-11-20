@@ -52,7 +52,9 @@ export function ListShell({ children }: { children: ReactNode }) {
 /** Large title row shared by the list screens: title, an optional line of
  *  context, and the device-save status on the right. `children` go in a
  *  second row (Records puts its search and "New household" there). */
-export function ListHeader({ title, sub, children }: { title: string; sub?: string; children?: ReactNode }) {
+/** `titleHidden`: the screen's own card already carries the same heading
+ *  (Compare), so the big title is kept for screen readers only. */
+export function ListHeader({ title, sub, children, titleHidden }: { title: string; sub?: string; children?: ReactNode; titleHidden?: boolean }) {
   const lang = useAppStore((s) => s.currentLang);
   const online = useOnline();
   return (
@@ -61,7 +63,7 @@ export function ListHeader({ title, sub, children }: { title: string; sub?: stri
         <div className="ls-head-block">
           <Brand />
           <div className="ls-head-titles">
-            <h1>{title}</h1>
+            <h1 className={titleHidden ? "visually-hidden" : undefined}>{title}</h1>
             {sub && <span className="ls-head-sub">{sub}</span>}
           </div>
         </div>

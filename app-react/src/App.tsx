@@ -125,7 +125,9 @@ export default function App() {
             <RecordsScreen />
           ) : (
             <>
-              <ListHeader title={t(wideListTitleKey, currentLang)} />
+              {/* Compare: the card above the table says "Compare households"
+                  already; the big title repeated it (JB 20.11.26). */}
+              <ListHeader title={t(wideListTitleKey, currentLang)} titleHidden={screen === "list" && listTab === "compare"} />
               <div className="ls-content">
                 {screen === "history" && <FarmerHistoryScreen />}
                 {screen === "list" && listTab === "compare" && <CompareScreen />}

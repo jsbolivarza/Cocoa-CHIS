@@ -62,12 +62,12 @@ body.theme-grouped .hh-step.is-attention .hh-step-dot,
 body.theme-grouped .hh-step.is-results .hh-step-dot {
   width: 32px; height: 32px; border-radius: 9px; border: 0; color: #fff; font-weight: 700;
 }
-body.theme-grouped .hh-steps > .hh-step:nth-child(1) .hh-step-dot { background: #6b7a90; }
-body.theme-grouped .hh-steps > .hh-step:nth-child(2) .hh-step-dot { background: #3f8f5a; }
+body.theme-grouped .hh-steps > .hh-step:nth-child(1) .hh-step-dot { background: #5b6880; }
+body.theme-grouped .hh-steps > .hh-step:nth-child(2) .hh-step-dot { background: #2f7a48; }
 body.theme-grouped .hh-steps > .hh-step:nth-child(3) .hh-step-dot { background: #3d6fd6; }
-body.theme-grouped .hh-steps > .hh-step:nth-child(4) .hh-step-dot { background: #c96a2b; }
+body.theme-grouped .hh-steps > .hh-step:nth-child(4) .hh-step-dot { background: #a8541c; }
 body.theme-grouped .hh-steps > .hh-step:nth-child(5) .hh-step-dot { background: #8257c9; }
-body.theme-grouped .hh-steps > .hh-step:nth-child(6) .hh-step-dot { background: #1f8a8a; }
+body.theme-grouped .hh-steps > .hh-step:nth-child(6) .hh-step-dot { background: #16706f; }
 body.theme-grouped .hh-steps > .hh-step:nth-child(7) .hh-step-dot { background: #1f2430; }
 /* Status beside the label: amber dot = has data, not marked complete */
 body.theme-grouped .hh-step.is-attention .hh-step-label::after {

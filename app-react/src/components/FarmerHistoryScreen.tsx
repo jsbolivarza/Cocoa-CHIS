@@ -8,7 +8,7 @@
 import { useAppStore } from "../store/appStore";
 import { t } from "../lib/i18n";
 import { compareSummary, type CompareSummary } from "../lib/compare";
-import { fmt } from "../lib/format";
+import { fmt, fmtUnit } from "../lib/format";
 import { formatUpdatedAt } from "../lib/recordProgress";
 import { CompareChart } from "./CompareChart";
 import { useMediaQuery } from "../lib/useMediaQuery";
@@ -34,6 +34,11 @@ interface Fig {
   unitBound: boolean;
 }
 const FIGS: Fig[] = [
+  // The overview's season card shows volume, farmgate price and IMS area too;
+  // without them both screens told different stories (design review 20.11.26).
+  { key: "volume", labelKey: "cocoa_volume_produced", pick: (s) => s.volumeProduced, unit: (s) => s.volumeUnit, checkAt: 0.25, unitBound: true },
+  { key: "farmgate", labelKey: "farmgate_price_main", pick: (s) => s.farmgatePrice, unit: (s) => `${s.currency}/${s.volumeUnit}`, checkAt: 0.25, unitBound: true },
+  { key: "areaIms", labelKey: "cocoa_area_ims", pick: (s) => s.cocoaAreaIms, unit: (s) => s.areaUnit, checkAt: 0.25, unitBound: true },
   { key: "net", labelKey: "cmp_net_farm", pick: (s) => s.netFarm, unit: (s) => s.currency, absolute: true, checkAt: 0.5, unitBound: true },
   { key: "gap", labelKey: "cmp_gap", pick: (s) => s.gap, unit: (s) => s.currency, absolute: true, checkAt: 0.5, unitBound: true },
   { key: "yield", labelKey: "cmp_yield", pick: (s) => s.yieldPerArea, unit: (s) => `${s.volumeUnit}/${s.areaUnit}`, checkAt: 0.25, unitBound: true },
@@ -66,7 +71,7 @@ function SeasonCallouts({ list, lang, label }: { list: CompareSummary[]; lang: L
           const share = p !== 0 ? d / Math.abs(p) : null;
           const same = f.absolute || share == null ? d === 0 : Math.round(share * 100) === 0;
           if (same) change = t("sc_no_change", lang);
-          else if (f.absolute || share == null) change = `${d > 0 ? "+" : "−"}${fmt(Math.abs(d))}`;
+          else if (f.absolute || share == null) change = `${d > 0 ? "+" : "−"}${fmtUnit(Math.abs(d), f.unit(cur), cur.currency)}`;
           else change = `${share > 0 ? "+" : "−"}${Math.abs(Math.round(share * 100))} %`;
           check = share != null && Math.abs(share) >= f.checkAt;
         }
@@ -75,12 +80,12 @@ function SeasonCallouts({ list, lang, label }: { list: CompareSummary[]; lang: L
           <div key={f.key} className="season-callout">
             <div className="sc-label">{t(f.labelKey, lang)}</div>
             <div className={`sc-value${ok(v) && v < 0 ? " negative" : ""}`}>
-              {cell(v)}
+              {ok(v) ? fmtUnit(v, unit, cur.currency) : "—"}
               {unit && ok(v) ? <small> {unit}</small> : null}
             </div>
             {earlier.length > 0 && (
               <div className="sc-prev">
-                {earlier.map((s) => `${label(s)}: ${cell(f.pick(s))}`).join(" · ")}
+                {earlier.map((s) => `${label(s)}: ${ok(f.pick(s)) ? fmtUnit(f.pick(s), f.unit(s), s.currency) : "—"}`).join(" · ")}
               </div>
             )}
             {change && (
@@ -157,7 +162,13 @@ export function FarmerHistoryScreen() {
           {t("btn_my_records", lang)}
         </button>
       </div>
-      <h3>{t("farmer_history_heading", lang)}</h3>
+      {/* Which farmer this is (the page title already says "Farmer history"). */}
+      {list.length > 0 && (
+        <p className="history-farmer">
+          <strong>{list[list.length - 1].producer || t("unnamed_household", lang)}</strong>
+          {[list[list.length - 1].producerCode, list[list.length - 1].coop, list[list.length - 1].village].filter(Boolean).join(" · ")}
+        </p>
+      )}
       <p className="section-help">{t("farmer_history_help", lang)}</p>
       {mixedUnits && <p className="warn-note">{t("farmer_history_mixed_currency", lang)}</p>}
       {!wide && list.length > 0 && (

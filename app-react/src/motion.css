@@ -40,18 +40,18 @@ body.theme-grouped .bottom-nav-btn.active svg { animation: nav-pop 0.42s var(--e
 .ls-main, .list-main { animation: screen-in 0.22s var(--ease-out) both; }
 
 /* 2. Live money flow in the rail: bars slide to their new length. */
-.hh-bar > span { transition: width 0.45s var(--ease-out), margin-left 0.45s var(--ease-out); }
+.hh-bar > span { width: 100%; transform-origin: left center; transition: transform 0.45s var(--ease-out); }
+.hh-bar > .hh-bar-out { transform-origin: right center; }
 
 /* 3. Results: the waterfall builds once when Results opens, left to right
    (revenues rise, costs drop from the running total, profit lands last),
-   and glides when switching Whole farm / Cocoa only. Tablet/laptop only;
+   Tablet/laptop only;
    phones draw it as plain horizontal bars. */
 @keyframes wf-rise { from { clip-path: inset(100% 0 0 0 round 4px); } to { clip-path: inset(0 0 0 0 round 4px); } }
 @keyframes wf-drop { from { clip-path: inset(0 0 100% 0 round 4px); } to { clip-path: inset(0 0 0 0 round 4px); } }
 body.layout-wide .wf-bar {
   animation: wf-rise 0.55s var(--ease-out) both;
   animation-delay: calc(var(--i, 0) * 70ms);
-  transition: bottom 0.4s var(--ease-out), height 0.4s var(--ease-out);
 }
 body.layout-wide .wf-bar.is-out { animation-name: wf-drop; }
 

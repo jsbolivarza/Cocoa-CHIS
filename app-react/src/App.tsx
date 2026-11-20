@@ -72,6 +72,17 @@ export default function App() {
     init();
   }, [init]);
 
+  // Phone step strip: keep the current step in view. On Labour or Results it
+  // used to sit off-screen, so nobody (nor phone support) could see where
+  // the coach was. Horizontal only: the page itself must not jump.
+  useEffect(() => {
+    if (wide || screen !== "editor") return;
+    const active = document.querySelector<HTMLElement>("#tab-nav .nav-btn.active");
+    const strip = active?.parentElement;
+    if (!active || !strip) return;
+    strip.scrollTo({ left: active.offsetLeft - (strip.clientWidth - active.offsetWidth) / 2, behavior: "smooth" });
+  }, [wide, screen, currentTab]);
+
   // Fade the edge of any table that has hidden columns (lib/scrollCue.ts).
   useEffect(() => startScrollCue(), []);
 

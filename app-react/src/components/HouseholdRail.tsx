@@ -32,7 +32,12 @@ function useOnline(): boolean {
 function clock(iso: string | null): string {
   if (!iso) return "";
   const d = new Date(iso);
-  return isNaN(d.getTime()) ? "" : d.toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" });
+  if (isNaN(d.getTime())) return "";
+  const time = d.toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" });
+  // A record last saved days ago must not read like "today at 16:04".
+  return d.toDateString() === new Date().toDateString()
+    ? time
+    : `${d.toLocaleDateString(undefined, { day: "numeric", month: "short" })} ${time}`;
 }
 
 function initials(name: string): string {
@@ -93,7 +98,8 @@ export function HouseholdRail({ compact }: { compact: boolean }) {
   const fout = res.totalCostFarm;
   const net = res.profitFarm;
   const scale = Math.max(fin, fout, 1);
-  const pct = (v: number) => `${Math.max(0, Math.min(100, (v / scale) * 100))}%`;
+  // Bars are full width and scaled (motion.css animates transform, not width).
+  const frac = (v: number) => Math.max(0, Math.min(1, v / scale));
   const allDone = open.length === 0;
 
   return (
@@ -198,13 +204,13 @@ export function HouseholdRail({ compact }: { compact: boolean }) {
           <span className="hh-flow-title">{t(allDone ? "flow_heading" : "flow_heading_so_far", lang)}</span>
           <div className="hh-flow-grid">
             <span>{t("flow_in", lang)}</span>
-            <span className="hh-bar"><span className="hh-bar-in" style={{ width: pct(fin) }} /></span>
+            <span className="hh-bar"><span className="hh-bar-in" style={{ transform: `scaleX(${frac(fin)})` }} /></span>
             <span className="num">+{fmt(fin)}</span>
             <span>{t("flow_out", lang)}</span>
-            <span className="hh-bar"><span className="hh-bar-out" style={{ width: pct(fout), marginLeft: `calc(100% - ${pct(fout)})` }} /></span>
+            <span className="hh-bar"><span className="hh-bar-out" style={{ transform: `scaleX(${frac(fout)})` }} /></span>
             <span className="num">{fout > 0 ? `−${fmt(fout)}` : "—"}</span>
             <span className="hh-flow-net">{t("flow_net", lang)}</span>
-            <span className="hh-bar"><span className={net < 0 ? "hh-bar-neg" : "hh-bar-net"} style={{ width: pct(Math.abs(net)) }} /></span>
+            <span className="hh-bar"><span className={net < 0 ? "hh-bar-neg" : "hh-bar-net"} style={{ transform: `scaleX(${frac(Math.abs(net))})` }} /></span>
             <span className="num hh-flow-net">{fmt(net)}</span>
           </div>
           <span className="hh-flow-note">{record.meta.currencyUnit} · {t("flow_note", lang)}</span>

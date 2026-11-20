@@ -4,7 +4,7 @@
 import { useAppStore } from "../store/appStore";
 import { t, type Lang } from "../lib/i18n";
 import { calcResults } from "../lib/calc";
-import { fmt } from "../lib/format";
+import { fmtUnit } from "../lib/format";
 import { KpiCard } from "./Kpi";
 import { MoneyWaterfall } from "./MoneyWaterfall";
 import { incompleteSteps } from "../lib/stepSummary";
@@ -25,11 +25,12 @@ function ResultsRow({
   unit: string;
   total?: boolean;
 }) {
+  const currency = useAppStore((s) => s.record?.meta.currencyUnit);
   return (
     <tr className={total ? "total-row" : undefined}>
       <td>{t(labelKey, lang)}</td>
-      <td className="num" data-label={t("col_whole_farm", lang)}>{farmVal == null ? "" : <>{fmt(farmVal)}<span className="res-unit"> {unit}</span></>}</td>
-      <td className="num" data-label={t("col_cocoa_only", lang)}>{cocoaVal == null ? "" : <>{fmt(cocoaVal)}<span className="res-unit"> {unit}</span></>}</td>
+      <td className="num" data-label={t("col_whole_farm", lang)}>{farmVal == null ? "" : <>{fmtUnit(farmVal, unit, currency)}<span className="res-unit"> {unit}</span></>}</td>
+      <td className="num" data-label={t("col_cocoa_only", lang)}>{cocoaVal == null ? "" : <>{fmtUnit(cocoaVal, unit, currency)}<span className="res-unit"> {unit}</span></>}</td>
       <td className="res-unit-col">{unit}</td>
     </tr>
   );
@@ -55,7 +56,8 @@ export function ResultsTab() {
 
   return (
     <div className="panel">
-      <h3>{t("results_heading", lang)}</h3>
+      {/* h2: the step title above is the h1 (no skipped heading level). */}
+      <h2 className="panel-heading">{t("results_heading", lang)}</h2>
       <p className="section-help">{t("results_help", lang)}</p>
 
       {/* Headline cards first: the figures anyone asks for, so the screen

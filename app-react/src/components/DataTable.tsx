@@ -14,6 +14,11 @@ function ColField({ basePath, col, row, lang }: { basePath: string; col: TableCo
   const path = `${basePath}.${col.key}`;
   const value = row[col.key];
   if (col.type === "index") return null;
+  // Shown as not applicable (but never hidden if a value is already there,
+  // so no data disappears) when the plot's crop isn't "other crop".
+  if (col.key === "otherCropName" && row.crop !== "other_crop" && (value === "" || value == null)) {
+    return <span className="field na-cell" aria-label={t(col.labelKey, lang)}>—</span>;
+  }
   if (col.type === "select") {
     return (
       <SelectField path={path} value={String(value ?? "")} lang={lang} optionsKey={col.optionsKey ?? null} staticOptions={col.staticOptions} wrap />

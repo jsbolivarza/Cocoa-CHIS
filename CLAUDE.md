@@ -269,7 +269,15 @@ main-menu pill slides to the chosen section (icon pop, screen fades in);
 callouts deliberately static (JB: moving totals are noise); rail money-flow bars slide;
 Results waterfall builds left to right on opening (tablet/laptop); check
 draws on Mark as complete; steps fade in. All off with
-prefers-reduced-motion. Grouped also moves the list
+prefers-reduced-motion. Second design review (20.11.26): 26/40 again but
+run-1 P1s gone; fixed after it: Farmer history names the farmer and shows
+volume/farmgate price/IMS area like the hub card; phone step strip scrolls
+to the current step; money displayed in whole units (`fmtUnit` in
+format.ts, display only); rail tile colours darkened to 4.5:1; rail save
+time shows the date when not today; "If other crop" shown n/a on non-other
+plots (unless filled); Results panel title is an h2. Still open from it:
+wide tables scroll on iPad (optional columns into a per-row detail), "?"
+noise in tables, Settings button hierarchy. Grouped also moves the list
 menu (Records/Compare/Export/Settings) on tablet/laptop into the phone's
 floating pill bar, centred at the bottom. For every theme: the Records
 header and table now share one centred column (max 1320 px) and a "Last

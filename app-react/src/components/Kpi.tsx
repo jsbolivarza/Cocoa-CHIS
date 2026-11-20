@@ -4,7 +4,8 @@
 
 import type { ReactNode } from "react";
 import { t, type Lang } from "../lib/i18n";
-import { fmt } from "../lib/format";
+import { fmtUnit } from "../lib/format";
+import { useAppStore } from "../store/appStore";
 
 interface ValueProps {
   labelKey: string;
@@ -24,11 +25,12 @@ function isNegative(value: unknown): boolean {
  *  Everything else belongs in a StatBox strip: if every number gets a card,
  *  none of them reads as more important than the others. */
 export function KpiCard({ accent, labelKey, value, lang, unit, note }: ValueProps & { accent: string }) {
+  const currency = useAppStore((s) => s.record?.meta.currencyUnit);
   return (
     <div className={`kpi-card ${accent}`}>
       <div className="kpi-label">{t(labelKey, lang)}</div>
       <div className={`kpi-value${isNegative(value) ? " negative" : ""}`}>
-        {fmt(value)}
+        {fmtUnit(value, unit, currency)}
         {unit ? <small> {unit}</small> : null}
       </div>
       {note ? <div className="kpi-note">{note}</div> : null}
@@ -37,11 +39,12 @@ export function KpiCard({ accent, labelKey, value, lang, unit, note }: ValueProp
 }
 
 export function StatBox({ labelKey, value, lang, unit, note }: ValueProps) {
+  const currency = useAppStore((s) => s.record?.meta.currencyUnit);
   return (
     <div className="stat-box">
       <div className="stat-label">{t(labelKey, lang)}</div>
       <div className={`stat-value${isNegative(value) ? " negative" : ""}`}>
-        {fmt(value)}
+        {fmtUnit(value, unit, currency)}
         {unit ? " " + unit : ""}
         {note ? <span className="stat-note"> · {note}</span> : null}
       </div>

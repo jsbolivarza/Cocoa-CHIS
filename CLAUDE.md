@@ -458,7 +458,9 @@ warning: same coop required, member internal code decides, name-only match
 only when a code is missing, message shows code/village/seasons (20.11.26).
 0.5.2 = brand logo stays beside the app name when the subtitle wraps
 (FR/ES on phones) (20.11.26). 0.5.3 = rail initials centred in their circle
-on iPad Safari, which adds its own button padding (20.11.26).
+on iPad Safari, which adds its own button padding (20.11.26). 0.5.4 =
+Compare shows "Compare households" once (big title visually hidden,
+`ListHeader titleHidden`) (20.11.26).
 
 `git add -A` matters: Vite fingerprints filenames, so every build *deletes*
 the previous `assets/index-*.js` and adds a new one. A plain `git add docs`

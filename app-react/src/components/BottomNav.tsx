@@ -4,6 +4,7 @@
    and shows this instead below the phone breakpoint, so the two bars can
    never stack (see the ".bottom-nav" comment in style.css). */
 
+import type { CSSProperties } from "react";
 import { useAppStore } from "../store/appStore";
 import { t } from "../lib/i18n";
 import { LIST_TABS, LIST_TAB_SHORT_KEY, type ListTab } from "../lib/tabs";
@@ -57,6 +58,8 @@ export function BottomNav() {
 
   return (
     <nav id="bottom-nav" className="bottom-nav">
+      {/* Grey pill that slides to the chosen section (motion.css). */}
+      <span className="nav-pill" aria-hidden="true" style={{ "--i": LIST_TABS.indexOf(listTab) } as CSSProperties} />
       {LIST_TABS.map((tab) => (
         <button
           key={tab}

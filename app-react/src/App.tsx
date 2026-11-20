@@ -140,7 +140,8 @@ export default function App() {
               </button>
             ))}
           </nav>
-          <main>
+          {/* Keyed per section so the new screen fades in (motion.css). */}
+          <main key={listTab} className="list-main">
             {listTab === "records" && <RecordsScreen />}
             {listTab === "compare" && <CompareScreen />}
             {listTab === "export" && <ExportScreen />}

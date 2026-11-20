@@ -5,7 +5,7 @@
    phone's header bar, tab strip and bottom nav; each screen gets the same
    large page header the household screens use. Phones never render this. */
 
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { useAppStore } from "../store/appStore";
 import { t } from "../lib/i18n";
 import { LIST_TABS, LIST_TAB_SHORT_KEY, type ListTab } from "../lib/tabs";
@@ -47,6 +47,8 @@ export function ListShell({ children }: { children: ReactNode }) {
   return (
     <div className="ls-shell">
       <nav className="ls-nav" aria-label={t("app_title", lang)}>
+        {/* Grey pill that slides to the chosen section (motion.css). */}
+        <span className="nav-pill" aria-hidden="true" style={{ "--i": LIST_TABS.indexOf(active) } as CSSProperties} />
         {LIST_TABS.map((tab) => (
           <button
             key={tab}
@@ -65,7 +67,8 @@ export function ListShell({ children }: { children: ReactNode }) {
           </button>
         ))}
       </nav>
-      <div className="ls-main">{children}</div>
+      {/* Keyed per section so the new screen fades in (motion.css). */}
+      <div className="ls-main" key={active}>{children}</div>
     </div>
   );
 }

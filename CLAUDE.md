@@ -265,7 +265,8 @@ groups, step rows with coloured tiles + inset dividers + chevrons, pill
 buttons/chips, floating pill tab bar), `src/font-exo.css` (headings in Exo
 700 instead of Alegreya Sans). Folding them into the base tokens is a later
 cleanup. Animations (20.11.26, `src/motion.css` + `lib/motion.ts`):
-callouts glide to new values and glow once; rail money-flow bars slide;
+main-menu pill slides to the chosen section (icon pop, screen fades in);
+callouts deliberately static (JB: moving totals are noise); rail money-flow bars slide;
 Results waterfall builds left to right on opening (tablet/laptop); check
 draws on Mark as complete; steps fade in. All off with
 prefers-reduced-motion. Grouped also moves the list

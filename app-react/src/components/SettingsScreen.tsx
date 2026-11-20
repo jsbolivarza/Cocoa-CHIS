@@ -108,7 +108,7 @@ export function SettingsScreen() {
   };
 
   return (
-    <div className="panel">
+    <div className="panel settings-panel">
       <h3>{t("settings_heading", lang)}</h3>
       <p className="section-help">{t("settings_help", lang)}</p>
 
@@ -147,6 +147,7 @@ export function SettingsScreen() {
 
       <h4>{t("roster_heading", lang)}</h4>
       <p className="section-help">{t("roster_help", lang)}</p>
+      <p className="field-hint">{t("roster_format", lang)}</p>
       <p className="field-hint">
         {roster.length ? `${t("roster_count", lang)} ${roster.length}` : t("roster_none", lang)}
       </p>

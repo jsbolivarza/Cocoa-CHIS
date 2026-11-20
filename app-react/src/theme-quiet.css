@@ -151,3 +151,27 @@ body.theme-quiet .lang-btn.active, body.theme-quiet .chip.is-on, body.theme-quie
   body.theme-quiet .chip:not(.is-on):hover { border-color: var(--q-accent); color: var(--q-accent); }
 }
 body.theme-quiet .update-bar { background: var(--q-ink); }
+
+/* ---------- quieter "Doesn't know" button (design review 2) ----------
+   A thin outlined "?" instead of a grey chip: about 70 of them on Labour
+   made the grid look busy. Still in every field, still a 28 px target
+   (WCAG 2.2 minimum 24 px); a marked field still turns purple. */
+body.theme-quiet .dk-btn {
+  width: 28px; min-width: 28px; height: 28px; min-height: 28px; border-radius: 999px;
+  background: transparent; border: 1px solid #d5d9e0; color: #6b7280; font-size: 13px;
+}
+body.theme-quiet .num-wrap .field { padding-right: 38px; }
+@media (hover: hover) { body.theme-quiet .dk-btn:hover { border-color: #9aa1ad; color: var(--q-ink); } }
+body.theme-quiet .num-wrap.is-unknown .dk-btn { background: var(--eggplant); border-color: var(--eggplant); color: #fff; }
+
+/* ---------- Settings: one clear main action per section ----------
+   Main actions (Import JSON, Import roster, Sign in, Upload now) are navy;
+   everything else (Clear roster, Check for updates, Download, Sign out,
+   Refresh, Protect data) is outlined, so "press the blue button" is never
+   ambiguous over the phone. On tablet/laptop buttons are as wide as their
+   label instead of 1,000 px bars; phones keep full width. */
+body.theme-quiet .panel.settings-panel .btn-secondary { background: #fff; border: 1.5px solid var(--q-line); color: var(--q-accent); }
+body.theme-quiet .panel.settings-panel .btn:not(.btn-secondary):not(.btn-danger-outline) { background: var(--q-accent); border-color: var(--q-accent); color: #fff; }
+body.theme-quiet .panel.settings-panel .btn:disabled { opacity: 0.5; }
+body.layout-wide .settings-panel .stacked-actions { display: flex; flex-direction: row; flex-wrap: wrap; align-items: center; gap: 10px; }
+body.layout-wide .settings-panel .btn { width: auto; min-width: 200px; padding-left: 22px; padding-right: 22px; }

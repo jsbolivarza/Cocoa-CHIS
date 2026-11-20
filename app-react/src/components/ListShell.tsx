@@ -5,35 +5,13 @@
    phone's header bar, tab strip and bottom nav; each screen gets the same
    large page header the household screens use. Phones never render this. */
 
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { useAppStore } from "../store/appStore";
 import { t } from "../lib/i18n";
 import { LIST_TABS, LIST_TAB_SHORT_KEY, type ListTab } from "../lib/tabs";
 import { useOnline } from "../lib/useOnline";
 import { Brand } from "./Brand";
-
-const ICONS: Record<ListTab, ReactNode> = {
-  records: (
-    <>
-      <path d="M4 4h16v16H4z" />
-      <path d="M8 9h8M8 13h8M8 17h5" />
-    </>
-  ),
-  compare: <path d="M5 20V10M12 20V4M19 20v-7" />,
-  export: (
-    <>
-      <path d="M12 3v12" />
-      <path d="M8 11l4 4 4-4" />
-      <path d="M4 17v3h16v-3" />
-    </>
-  ),
-  settings: (
-    <>
-      <circle cx="12" cy="12" r="3" />
-      <path d="M12 2v3M12 19v3M2 12h3M19 12h3" />
-    </>
-  ),
-};
+import { NavIcon } from "./NavIcon";
 
 export function ListShell({ children }: { children: ReactNode }) {
   const lang = useAppStore((s) => s.currentLang);
@@ -47,6 +25,8 @@ export function ListShell({ children }: { children: ReactNode }) {
   return (
     <div className="ls-shell">
       <nav className="ls-nav" aria-label={t("app_title", lang)}>
+        {/* Grey pill that slides to the chosen section (motion.css). */}
+        <span className="nav-pill" aria-hidden="true" style={{ "--i": LIST_TABS.indexOf(active) } as CSSProperties} />
         {LIST_TABS.map((tab) => (
           <button
             key={tab}
@@ -58,14 +38,13 @@ export function ListShell({ children }: { children: ReactNode }) {
               switchListTab(tab);
             }}
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              {ICONS[tab]}
-            </svg>
+            <NavIcon tab={tab} />
             {t(LIST_TAB_SHORT_KEY[tab], lang)}
           </button>
         ))}
       </nav>
-      <div className="ls-main">{children}</div>
+      {/* Keyed per section so the new screen fades in (motion.css). */}
+      <div className="ls-main" key={active}>{children}</div>
     </div>
   );
 }

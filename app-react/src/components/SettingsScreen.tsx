@@ -10,6 +10,9 @@ import { StorageDiagnostics } from "./StorageDiagnostics";
 import { SyncPanel } from "./SyncPanel";
 import { t, type Lang } from "../lib/i18n";
 
+/** Each language named in itself, never translated. */
+const LANGUAGE_NAMES: Record<Lang, string> = { en: "English", fr: "Français", es: "Español" };
+
 export function SettingsScreen() {
   const lang = useAppStore((s) => s.currentLang);
   const setLang = useAppStore((s) => s.setLang);
@@ -84,7 +87,7 @@ export function SettingsScreen() {
     try {
       parsed = await parseImportFile(file);
     } catch {
-      alert("Could not read this file.");
+      alert(t("import_read_error", lang));
       return;
     }
     const r = await importRecords(parsed);
@@ -105,24 +108,35 @@ export function SettingsScreen() {
   };
 
   return (
-    <div className="panel">
+    <div className="panel settings-panel">
       <h3>{t("settings_heading", lang)}</h3>
       <p className="section-help">{t("settings_help", lang)}</p>
 
+      {/* Each topic is its own block: a plain list on phones, white cards
+          packed in two columns on tablet/laptop (no big empty areas). */}
+      <div className="settings-blocks">
+      <section className="settings-block">
       <h4>{t("settings_language", lang)}</h4>
-      <div className="lang-switch">
+      {/* Three equal segments with each language's own name (a coach who
+          landed in the wrong language still recognises theirs), instead
+          of EN / FR / ES squeezed to the left of a full-width bar. */}
+      <div className="lang-switch lang-switch-settings" role="group" aria-label={t("settings_language", lang)}>
         {(["en", "fr", "es"] as Lang[]).map((code) => (
           <button
             key={code}
             type="button"
+            lang={code}
+            aria-pressed={code === lang}
             className={`lang-btn ${code === lang ? "active" : ""}`}
             onClick={() => setLang(code)}
           >
-            {code.toUpperCase()}
+            {LANGUAGE_NAMES[code]}
           </button>
         ))}
       </div>
+      </section>
 
+      <section className="settings-block">
       <h4>{t("settings_data", lang)}</h4>
       <div className="stacked-actions">
         <button type="button" className="btn" onClick={() => fileInputRef.current?.click()}>
@@ -135,14 +149,13 @@ export function SettingsScreen() {
           style={{ display: "none" }}
           onChange={handleImportChange}
         />
-        <button type="button" className="btn btn-danger" onClick={handleDeleteAll}>
-          {t("btn_delete_all", lang)}
-        </button>
       </div>
-      <p className="field-hint">{t("settings_delete_note", lang)}</p>
+      </section>
 
+      <section className="settings-block">
       <h4>{t("roster_heading", lang)}</h4>
       <p className="section-help">{t("roster_help", lang)}</p>
+      <p className="field-hint">{t("roster_format", lang)}</p>
       <p className="field-hint">
         {roster.length ? `${t("roster_count", lang)} ${roster.length}` : t("roster_none", lang)}
       </p>
@@ -164,11 +177,17 @@ export function SettingsScreen() {
           </button>
         )}
       </div>
+      </section>
 
-      <SyncPanel />
+      <section className="settings-block">
+        <SyncPanel />
+      </section>
 
-      <StorageDiagnostics />
+      <section className="settings-block">
+        <StorageDiagnostics />
+      </section>
 
+      <section className="settings-block">
       <h4>{t("settings_about", lang)}</h4>
       <p className="field-hint">
         {t("settings_version", lang)} {__APP_VERSION__} · {t("settings_built", lang)} {__APP_BUILT__}
@@ -177,6 +196,20 @@ export function SettingsScreen() {
         <button type="button" className="btn btn-secondary" onClick={handleCheckUpdate}>
           {updateLabel ?? t("btn_check_update", lang)}
         </button>
+      </div>
+
+      {/* Kept apart at the end of the page, outlined rather than filled, so
+          it can't be mis-tapped for Import JSON on a tablet outdoors. The
+          confirm dialog stays as the second guard. */}
+      </section>
+
+      <section className="settings-block danger-zone">
+        <h4>{t("settings_danger_heading", lang)}</h4>
+        <p className="field-hint">{t("settings_delete_note", lang)}</p>
+        <button type="button" className="btn btn-danger-outline" onClick={handleDeleteAll}>
+          {t("btn_delete_all", lang)}
+        </button>
+      </section>
       </div>
     </div>
   );

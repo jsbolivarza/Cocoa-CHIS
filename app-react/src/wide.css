@@ -29,7 +29,7 @@ body.layout-wide input, body.layout-wide select, body.layout-wide textarea { fon
   flex: none; width: 320px; position: sticky; top: 0; height: 100vh; overflow-y: auto;
   display: flex; flex-direction: column; background: var(--hh-rail-bg); border-right: 1px solid #dfe3ea;
 }
-.hh-rail.is-compact { width: 76px; }
+.hh-rail.is-compact { width: 84px; }
 .hh-rail-head { background: var(--night); color: #fff; padding: 4px 18px 16px; display: flex; flex-direction: column; gap: 8px; }
 .hh-rail.is-compact .hh-rail-head { padding: 4px 0 14px; align-items: center; }
 .hh-rail-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
@@ -68,7 +68,17 @@ body.layout-wide input, body.layout-wide select, body.layout-wide textarea { fon
   border-radius: 12px; background: #fff; border: 1px solid var(--hh-line); font: inherit; text-align: left;
   cursor: pointer; width: 100%; color: var(--night);
 }
-.hh-rail.is-compact .hh-step { justify-content: center; padding: 8px 0; }
+.hh-rail.is-compact .hh-step { justify-content: center; padding: 8px 0 6px; flex-direction: column; gap: 4px; }
+.hh-step-short {
+  font-size: 11px; font-weight: 600; line-height: 1.15; text-align: center; color: var(--hh-ink);
+  max-width: 100%; overflow-wrap: anywhere; padding: 0 2px;
+}
+/* Labour on a tablet: the month column stays put while the grid scrolls,
+   so a coach scrolling to "Other services" still knows which row is which. */
+.labour-table th:first-child, .labour-table td:first-child {
+  position: sticky; left: 0; z-index: 1; background: #fff; box-shadow: 1px 0 0 var(--hh-line);
+}
+.labour-table thead th:first-child { z-index: 2; background: var(--card-alt); }
 .hh-step.is-current { background: var(--hh-sky-tint); border: 1.5px solid var(--sky); }
 .hh-step.is-attention { background: var(--hh-amber-tint); border: 1.5px solid var(--hh-amber); }
 .hh-step.is-results { border: 1.5px solid var(--night); }
@@ -115,6 +125,13 @@ body.layout-wide input, body.layout-wide select, body.layout-wide textarea { fon
 .page-head-titles { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
 .page-head h1 { margin: 0; font-weight: 800; font-size: 30px; line-height: 1.1; color: var(--night); }
 .page-head-sub { font-size: 15px; color: var(--hh-muted); }
+/* Upright tablet: the title takes the full width and the step bar moves
+   under it, instead of squeezing the title onto three lines. */
+@media (max-width: 1023px) {
+  .page-head { flex-wrap: wrap; }
+  .page-head-titles { flex: 1 1 100%; }
+  .page-head h1, body.theme-grouped .page-head h1 { font-size: 26px; }
+}
 .hub-progress { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 4px; width: 220px; flex: none; }
 .hub-progress span { height: 8px; border-radius: 999px; background: #dfe3ea; }
 .hub-progress .is-done { background: var(--hh-in); }
@@ -131,7 +148,17 @@ body.layout-wide input, body.layout-wide select, body.layout-wide textarea { fon
 .hub-card h2 { margin: 0; font-weight: 800; font-size: 21px; color: var(--night); }
 .hub-card p { margin: 0; font-size: 15px; }
 .hub-card.is-current { background: var(--hh-sky-tint); border: 1.5px solid var(--sky); color: var(--hh-sky-ink); }
-.hub-card.is-done { background: var(--mint-tint); border: 1.5px solid var(--mint-dark); }
+.hub-card.is-done { background: var(--mint-tint); border: 1.5px solid var(--mint-dark); grid-column: 1 / -1; }
+/* "What now" card: full width, next step on the left, its button on the right */
+.hub-next { grid-column: 1 / -1; }
+.hub-next-main { display: flex; align-items: center; justify-content: space-between; gap: 16px 24px; width: 100%; flex-wrap: wrap; }
+.hub-next-main h2 { margin-bottom: 4px; }
+.hub-next-open {
+  display: flex; align-items: center; gap: 8px 14px; flex-wrap: wrap; width: 100%;
+  padding-top: 12px; border-top: 1px solid rgba(0, 81, 122, 0.18); font-size: 15px;
+}
+.hub-btn.is-quiet { min-height: 44px; padding: 0 16px; font-size: 15px; background: #fff; border: 1.5px solid #9fc3d6; color: var(--hh-sky-ink); }
+@media (hover: hover) { .hub-btn.is-quiet:hover { border-color: var(--night); color: var(--night); } }
 .hub-card.is-attention { background: var(--hh-amber-tint); border: 1.5px solid var(--hh-amber); color: var(--hh-amber-ink); }
 .hub-btn {
   min-height: 48px; padding: 0 22px; border-radius: 12px; font: inherit; font-weight: 600; font-size: 16px;
@@ -149,6 +176,37 @@ body.layout-wide input, body.layout-wide select, body.layout-wide textarea { fon
 .hub-kv > div:last-child { border-bottom: 0; }
 .hub-kv dt, .hub-kv dd { margin: 0; }
 .hub-kv dd { text-align: right; }
+/* Season comparison: a full-width table, both seasons in the same ink;
+   only a change worth checking gets colour (the shared amber). */
+.hub-seasons { grid-column: 1 / -1; }
+.hub-card-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; width: 100%; flex-wrap: wrap; }
+.hub-link {
+  display: inline-flex; align-items: center; gap: 2px;
+  background: none; border: 0; padding: 6px 0; min-height: 44px; cursor: pointer;
+  font: inherit; font-size: 15px; font-weight: 700; color: var(--night);
+  text-decoration: underline; text-underline-offset: 3px;
+}
+.hub-link:focus-visible { outline: 2px solid var(--night); outline-offset: 2px; border-radius: 4px; }
+.season-table { width: 100%; border-collapse: collapse; font-size: 15px; color: var(--hh-ink); }
+.season-table th, .season-table td { padding: 10px 12px; border-bottom: 1px solid #eef0f4; text-align: left; vertical-align: middle; }
+.season-table tbody tr:last-child th, .season-table tbody tr:last-child td { border-bottom: 0; }
+.season-table thead th { font-size: 13px; font-weight: 700; color: var(--hh-muted); border-bottom: 1.5px solid var(--hh-line); padding-top: 0; }
+.season-table thead th.is-current { color: var(--night); }
+.season-table .num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.season-table td.is-current { font-weight: 700; }
+.season-table tbody th { font-weight: 600; padding-left: 0; }
+.season-table thead th:first-child { padding-left: 0; }
+.season-table td:last-child, .season-table th:last-child { padding-right: 0; }
+.season-unit { display: block; font-size: 13px; font-weight: 400; color: var(--hh-muted); }
+.season-change { font-weight: 600; }
+.season-flat { color: var(--hh-muted); }
+.season-check {
+  display: inline-flex; align-items: baseline; gap: 6px; flex-wrap: wrap; justify-content: flex-end;
+  padding: 3px 10px; border-radius: 999px; white-space: normal;
+  background: var(--hh-amber-tint); border: 1.5px solid var(--hh-amber); color: var(--hh-amber-ink);
+}
+.season-check span { font-size: 13px; font-weight: 600; }
+.hub-note { font-size: 14px; color: var(--hh-muted); margin: 0; }
 .is-muted { color: var(--hh-muted, #4b5563); }
 
 /* Results: warning and waterfall, every width */
@@ -156,6 +214,7 @@ body.layout-wide input, body.layout-wide select, body.layout-wide textarea { fon
   background: #fffaeb; border: 1.5px solid #f0b429; color: #5c3a00; border-radius: 12px;
   padding: 12px 16px; margin: 0 0 16px; font-size: 0.95rem;
 }
+.results-warning.is-compact { padding: 8px 14px; margin-bottom: 10px; font-size: 0.9rem; border-width: 1px; border-radius: 10px; }
 .waterfall-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 18px; align-items: start; margin-bottom: 20px; }
 .wf-card { border: 1px solid #e4e7ec; border-radius: 16px; padding: 18px; display: flex; flex-direction: column; gap: 2px; background: #fff; }
 .wf-card h2 { margin: 0 0 8px; font-size: 1.3rem; color: var(--night); }
@@ -254,6 +313,15 @@ button.wf-row { cursor: pointer; }
 .ls-primary:focus-visible { outline: 3px solid var(--sky); outline-offset: 2px; }
 
 .ls-content { padding: 0 32px 32px; max-width: 1240px; width: 100%; box-sizing: border-box; }
+/* Header and content share one centred column, so a laptop shows the list
+   in the middle instead of a full-width header over a left-hugging table
+   with an empty strip on the right. */
+.ls-head, .ls-content { max-width: 1320px; width: 100%; margin-left: auto; margin-right: auto; box-sizing: border-box; }
+.ls-updated { display: none; }
+@media (min-width: 1280px) {
+  .ls-table .ls-row { grid-template-columns: minmax(0, 2fr) 100px minmax(0, 1.2fr) minmax(0, 2.2fr) 150px 44px; }
+  .ls-updated { display: block; color: var(--hh-muted); font-size: 14px; white-space: nowrap; }
+}
 .ls-content > .panel { background: #fff; border: 1px solid var(--hh-line); border-radius: 16px; }
 /* The page header already carries the title. */
 .ls-content > .panel > h3:first-of-type { display: none; }
@@ -359,3 +427,9 @@ button.wf-row { cursor: pointer; }
   .results-table .res-unit { display: inline; font-size: 12px; color: var(--text-light, #6b7268); }
   table.data-table.results-table td.res-unit-col { display: none; }
 }
+
+/* Rail header, one item per line: back link, name + details, save status,
+   seasons. "My records" never wraps; the status is a quiet single line. */
+.hh-rail-back { white-space: nowrap; justify-content: flex-start; }
+.hh-rail.is-compact .hh-rail-back { justify-content: center; }
+.hh-rail-head > .hh-rail-status { margin: -2px 0 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }

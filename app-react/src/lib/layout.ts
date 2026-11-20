@@ -6,10 +6,16 @@
    answer the question. */
 export const PHONE_QUERY = "(max-width: 720px), (max-height: 520px) and (orientation: landscape)";
 
-/** Tablet and laptop: the household rail and hub layout. The exact
- *  complement of PHONE_QUERY plus the 900px rail breakpoint in style.css,
- *  so every device gets exactly one of the two shells. */
-export const WIDE_QUERY = "(min-width: 901px) and (min-height: 521px)";
+/** Tablet and laptop: the household rail and hub layout. Starts at 744px so
+ *  an iPad held upright (744 mini, 768–834 others) keeps the tablet shell:
+ *  at 901px, turning the iPad dropped it into the phone shell, which has no
+ *  household overview (20.11.26). 721–743px wide still gets the phone shell;
+ *  the old 900px rules in style.css only style that shell's elements. */
+export const WIDE_QUERY = "(min-width: 744px) and (min-height: 521px)";
+
+/** Upright tablet: too narrow for the full 320px rail beside a form, so
+ *  every step except the overview uses the collapsed rail. */
+export const NARROW_WIDE_QUERY = "(max-width: 1023px)";
 
 /** Wide enough to keep the full rail beside a wide table (laptop). Below
  *  this, steps with wide tables collapse the rail to an icon strip. */

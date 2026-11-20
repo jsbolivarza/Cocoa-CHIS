@@ -23,16 +23,19 @@ export function StepFooter() {
   return (
     <div className="step-footer">
       <div className="step-footer-actions">
-        <button
-          type="button"
-          className={`btn btn-complete ${isDone ? "is-done" : ""}`}
-          onClick={() => toggleStepComplete(currentTab)}
-        >
-          <span className="step-icon" aria-hidden="true">
-            <StepIcon state={isDone ? "complete" : "empty"} />
-          </span>
-          {t(isDone ? "step_marked_complete" : "step_mark_complete", currentLang)}
-        </button>
+        {/* Results is read-only, so there is nothing there to mark complete. */}
+        {currentTab !== "results" && (
+          <button
+            type="button"
+            className={`btn btn-complete ${isDone ? "is-done" : ""}`}
+            onClick={() => toggleStepComplete(currentTab)}
+          >
+            <span className="step-icon" aria-hidden="true">
+              <StepIcon state={isDone ? "complete" : "empty"} />
+            </span>
+            {t(isDone ? "step_marked_complete" : "step_mark_complete", currentLang)}
+          </button>
+        )}
         {idx > 0 && (
           <button type="button" className="btn" onClick={() => switchTab(TABS[idx - 1])}>
             {t("step_back", currentLang)}

@@ -1,0 +1,76 @@
+/* motion.css
+   The app's few animations, each with a job (JB 20.11.26: desktop/iPad
+   first). Only transform/opacity/clip-path/width, which stay
+   smooth on cheap Android phones; nothing delays input; all of it stops
+   for anyone with "reduce motion" switched on (bottom of this file). */
+
+:root { --ease-out: cubic-bezier(0.22, 1, 0.36, 1); }
+
+/* 1. Main menu (Records / Compare / Export / Settings): the grey pill slides
+   to the chosen section, its icon gives a small pop, and the new screen
+   fades in (ListShell / App.tsx key the content per section). Callouts are
+   deliberately NOT animated: totals change with every keystroke and moving
+   numbers became noise over a long day (JB 20.11.26). */
+.nav-pill { display: none; }
+body.theme-grouped .nav-pill {
+  display: block; position: absolute; z-index: 0; top: 6px; bottom: 6px; left: 6px;
+  border-radius: 999px; background: var(--g-pill);
+  transition: transform 0.38s var(--ease-out);
+}
+body.theme-grouped .ls-nav-btn, body.theme-grouped .bottom-nav-btn { position: relative; z-index: 1; }
+body.theme-grouped .ls-nav-btn[aria-current="page"], body.theme-grouped .bottom-nav-btn.active { background: transparent; }
+/* Tablet/laptop bar: four equal 104px slots, 4px apart */
+body.theme-grouped .ls-nav { display: grid; grid-template-columns: repeat(4, 104px); gap: 4px; }
+body.theme-grouped .ls-nav .nav-pill { width: 104px; transform: translateX(calc(var(--i, 0) * 108px)); }
+@media (hover: hover) { body.theme-grouped .ls-nav-btn[aria-current="page"]:hover { background: transparent; } }
+/* Phone bar: four equal slots across the bar */
+body.theme-grouped .bottom-nav .nav-pill { width: calc((100% - 12px) / 4); transform: translateX(calc(var(--i, 0) * 100%)); }
+/* Like a phone tab bar: icons and labels black at rest; the chosen one turns
+   blue (a brighter tone of the Fairtrade navy, which on the grey pill read
+   as black) with a bolder stroke, and pops as it lands. */
+body.theme-grouped .ls-nav-btn, body.theme-grouped .bottom-nav-btn { color: #1f2430; }
+body.theme-grouped .ls-nav-btn[aria-current="page"],
+body.theme-grouped .bottom-nav-btn.active { color: #1f5fd6; font-weight: 700; }
+body.theme-grouped .ls-nav-btn[aria-current="page"] svg,
+body.theme-grouped .bottom-nav-btn.active svg { stroke-width: 2.3; }
+@keyframes nav-pop { 0% { transform: scale(0.8); } 55% { transform: scale(1.25); } 100% { transform: none; } }
+body.theme-grouped .ls-nav-btn[aria-current="page"] svg,
+body.theme-grouped .bottom-nav-btn.active svg { animation: nav-pop 0.42s var(--ease-out); }
+@keyframes screen-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.ls-main, .list-main { animation: screen-in 0.22s var(--ease-out) both; }
+
+/* 2. Live money flow in the rail: bars slide to their new length. */
+.hh-bar > span { width: 100%; transform-origin: left center; transition: transform 0.45s var(--ease-out); }
+.hh-bar > .hh-bar-out { transform-origin: right center; }
+
+/* 3. Results: the waterfall builds once when Results opens, left to right
+   (revenues rise, costs drop from the running total, profit lands last),
+   Tablet/laptop only;
+   phones draw it as plain horizontal bars. */
+@keyframes wf-rise { from { clip-path: inset(100% 0 0 0 round 4px); } to { clip-path: inset(0 0 0 0 round 4px); } }
+@keyframes wf-drop { from { clip-path: inset(0 0 100% 0 round 4px); } to { clip-path: inset(0 0 0 0 round 4px); } }
+body.layout-wide .wf-bar {
+  animation: wf-rise 0.55s var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * 70ms);
+}
+body.layout-wide .wf-bar.is-out { animation-name: wf-drop; }
+
+/* 4. Small confirmations */
+/* Mark as complete: the check in the rail tile draws itself. */
+@keyframes check-draw { from { stroke-dashoffset: 24; } to { stroke-dashoffset: 0; } }
+.hh-step.is-done .hh-step-dot svg path { stroke-dasharray: 24; animation: check-draw 0.4s var(--ease-out) both; }
+/* Bottom bar / list menu: the grey pill fades onto the tapped section. */
+.ls-nav-btn, .bottom-nav-btn { transition: background-color 0.2s var(--ease-out), color 0.2s var(--ease-out); }
+/* Switching steps on tablet/laptop: the new step fades in quickly. App.tsx
+   re-keys .hh-content per step, which restarts this. */
+@keyframes step-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+body.layout-wide .hh-content, body.layout-wide .hub { animation: step-in 0.18s var(--ease-out) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  body.theme-grouped .ls-nav-btn[aria-current="page"] svg, body.theme-grouped .bottom-nav-btn.active svg,
+  .ls-main, .list-main, body.layout-wide .wf-bar,
+  .hh-step.is-done .hh-step-dot svg path, body.layout-wide .hh-content, body.layout-wide .hub {
+    animation: none !important;
+  }
+  .hh-bar > span, body.layout-wide .wf-bar, .ls-nav-btn, .bottom-nav-btn, .nav-pill { transition: none !important; }
+}

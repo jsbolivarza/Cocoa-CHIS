@@ -24,12 +24,14 @@ export function stepState(record: HouseholdRecord, tab: string): StepState {
 }
 
 /** How many of the steps this record has been explicitly marked complete on.
- *  Ported from recordProgress() in docs/js/app.js. `total` tracks TABS.length,
- *  so it reads honestly low (e.g. "0 of 1") until more tabs are rebuilt —
- *  not a bug, just where the migration is. */
+ *  Counts the six capture steps only: Results is read-only, can't be marked
+ *  and must not count. The hub, Records tags and the phone header all read
+ *  this one number, so a coach never sees "0 of 6" and "0 of 7" side by side. */
 export function recordProgress(record: HouseholdRecord) {
-  const done = Array.isArray(record.meta.completedSteps) ? record.meta.completedSteps.length : 0;
-  const total = TABS.length;
+  const steps: string[] = TABS.filter((tab) => tab !== "results");
+  const marked = Array.isArray(record.meta.completedSteps) ? record.meta.completedSteps : [];
+  const done = steps.filter((tab) => marked.includes(tab)).length;
+  const total = steps.length;
   return { done, total, pct: total ? Math.round((done / total) * 100) : 0 };
 }
 

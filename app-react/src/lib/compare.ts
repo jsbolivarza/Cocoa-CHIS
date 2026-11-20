@@ -39,7 +39,14 @@ export interface CompareSummary {
   gap: number;
   /** Net farm income spread across everyone it has to support. */
   perPerson: number | null;
+  producerCode: string;
+  /** Typed on Profile, as on the overview's season card; null if blank. */
+  volumeProduced: number | null;
+  farmgatePrice: number | null;
+  cocoaAreaIms: number | null;
 }
+
+const typed = (v: unknown): number | null => (v === "" || v == null ? null : Number(v));
 
 export function compareSummary(rec: HouseholdRecord): CompareSummary {
   const r = calcResults(rec);
@@ -72,5 +79,9 @@ export function compareSummary(rec: HouseholdRecord): CompareSummary {
     marginPerKg: price == null || costKg == null ? null : price - costKg,
     gap: r.profitFarm - (r.expenditures.total || 0),
     perPerson: members > 0 ? r.profitFarm / members : null,
+    producerCode: rec.profile.producerCode,
+    volumeProduced: typed(rec.profile.cocoaVolumeProduced),
+    farmgatePrice: typed(rec.profile.farmgatePriceMain),
+    cocoaAreaIms: typed(rec.profile.cocoaAreaIms),
   };
 }

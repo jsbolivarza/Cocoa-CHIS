@@ -1,0 +1,146 @@
+/* theme-grouped.css — the default look since 20.11.26. Layered on top of
+   theme-quiet.css (App.tsx sets both classes; ?theme=classic turns them off).
+   Patterns taken from JB's GitHub-app screenshots (20.11.26), adapted, not
+   copied: a light grey page with white rounded groups, big section titles
+   outside the groups, list rows with a small coloured tile, inset dividers
+   and a chevron, pill-shaped controls, a floating pill tab bar, and one
+   accent colour (Fairtrade navy, not GitHub blue). Tile colours name the
+   step (identity); status stays in the check, the amber dot and the text. */
+
+body.theme-grouped {
+  --g-page: #f2f3f5; --g-card: #ffffff; --g-pill: #e9ebef; --g-r: 18px;
+  --hh-page: var(--g-page); --hh-rail-bg: var(--g-page); --bg: var(--g-page);
+  background: var(--g-page);
+}
+/* The grey page must reach the bottom of the screen: on a short phone page
+   the area below the footer showed the white html background. */
+html:has(body.theme-grouped) { background: #f2f3f5; }
+body.theme-grouped { min-height: 100vh; }
+body.theme-grouped footer.app-footer { background: transparent; }
+body.theme-grouped .ls-shell, body.theme-grouped .hh-shell, body.theme-grouped .hh-main,
+body.theme-grouped .ls-main { background: var(--g-page); }
+
+/* ---------- groups: white, rounded, no borders on the grey page ---------- */
+body.theme-grouped .panel,
+body.theme-grouped .hub-card,
+body.theme-grouped .wf-card,
+body.theme-grouped .ls-table,
+body.theme-grouped .ph-card,
+body.theme-grouped .hh-flow {
+  background: var(--g-card); border: 0; border-radius: var(--g-r); box-shadow: none;
+}
+body.theme-grouped .hub-card.is-done { border: 0; }
+body.theme-grouped .page-head { background: var(--g-page); border-bottom: 0; }
+body.theme-grouped .page-head h1 { font-size: 32px; }
+
+/* ---------- household steps: one white group, tiles, chevrons ---------- */
+body.theme-grouped .hh-rail { border-right: 0; }
+body.theme-grouped .hh-rail-head { background: var(--g-page); border-bottom: 0; }
+body.theme-grouped .hh-steps {
+  margin: 4px 12px 12px; padding: 4px 0; gap: 0;
+  background: var(--g-card); border-radius: var(--g-r);
+}
+body.theme-grouped .hh-step,
+body.theme-grouped .hh-step.is-attention,
+body.theme-grouped .hh-step.is-results,
+body.theme-grouped .hh-step.is-current {
+  position: relative; border: 0; border-radius: 0; background-color: transparent; box-shadow: none;
+  padding: 10px 34px 10px 14px; min-height: 60px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23a0a6b1' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 6l6 6-6 6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 12px center;
+}
+/* Inset divider: starts after the tile, like the screenshots */
+body.theme-grouped .hh-step + .hh-step::before {
+  content: ""; position: absolute; top: 0; left: 60px; right: 0; height: 1px; background: #e6e8ec;
+}
+body.theme-grouped .hh-step.is-selected { background-color: var(--g-pill); }
+body.theme-grouped .hh-step.is-selected .hh-step-label { color: var(--q-accent); font-weight: 700; }
+body.theme-grouped .hh-step-dot,
+body.theme-grouped .hh-step.is-done .hh-step-dot,
+body.theme-grouped .hh-step.is-current .hh-step-dot,
+body.theme-grouped .hh-step.is-attention .hh-step-dot,
+body.theme-grouped .hh-step.is-results .hh-step-dot {
+  width: 32px; height: 32px; border-radius: 9px; border: 0; color: #fff; font-weight: 700;
+}
+body.theme-grouped .hh-steps > .hh-step:nth-child(1) .hh-step-dot { background: #5b6880; }
+body.theme-grouped .hh-steps > .hh-step:nth-child(2) .hh-step-dot { background: #2f7a48; }
+body.theme-grouped .hh-steps > .hh-step:nth-child(3) .hh-step-dot { background: #3d6fd6; }
+body.theme-grouped .hh-steps > .hh-step:nth-child(4) .hh-step-dot { background: #a8541c; }
+body.theme-grouped .hh-steps > .hh-step:nth-child(5) .hh-step-dot { background: #8257c9; }
+body.theme-grouped .hh-steps > .hh-step:nth-child(6) .hh-step-dot { background: #16706f; }
+body.theme-grouped .hh-steps > .hh-step:nth-child(7) .hh-step-dot { background: #1f2430; }
+/* Status beside the label: amber dot = has data, not marked complete */
+body.theme-grouped .hh-step.is-attention .hh-step-label::after {
+  content: ""; display: inline-block; width: 8px; height: 8px; margin-left: 8px; vertical-align: middle;
+  border-radius: 999px; background: var(--q-amber);
+}
+body.theme-grouped .hh-step-label { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+body.theme-grouped .hh-step.is-done .hh-step-label { color: var(--q-ink); }
+body.theme-grouped .hh-step.is-done .hh-step-sub { color: var(--q-done); }
+body.theme-grouped .hh-rail.is-compact .hh-steps { margin: 4px 6px; }
+body.theme-grouped .hh-rail.is-compact .hh-step { padding: 8px 0 6px; background-image: none; min-height: 0; }
+body.theme-grouped .hh-rail.is-compact .hh-step + .hh-step::before { left: 10px; right: 10px; }
+body.theme-grouped .hh-flow { margin: 0 12px 12px; }
+
+/* ---------- pills: buttons, chips, seasons, search ---------- */
+body.theme-grouped .btn,
+body.theme-grouped .hub-btn,
+body.theme-grouped .ls-primary,
+body.theme-grouped .hh-season,
+body.theme-grouped .ls-tag { border-radius: 999px; }
+body.theme-grouped .hub-btn.is-quiet,
+body.theme-grouped .btn:not(.btn-secondary):not(.btn-danger):not(.btn-danger-outline) {
+  background: var(--g-page); border: 1px solid #dfe2e7; color: var(--q-ink);
+}
+body.theme-grouped .ls-search input, body.theme-grouped .ph-search input { border-radius: 999px; background: var(--g-card); }
+body.theme-grouped .field { border-radius: 12px; }
+body.theme-grouped .ls-tag { background: var(--g-page); border-color: transparent; }
+
+/* ---------- list menu (tablet/laptop): the phone's floating pill bar,
+   centred at the bottom, instead of the 96 px side menu ---------- */
+body.theme-grouped .ls-nav {
+  position: fixed; left: 50%; right: auto; top: auto; bottom: 18px; transform: translateX(-50%);
+  width: auto; height: auto; z-index: 40;
+  flex-direction: row; gap: 4px; padding: 6px;
+  border-radius: 999px; border: 1px solid #e3e5ea;
+  background: rgba(255, 255, 255, 0.94); box-shadow: 0 8px 24px rgba(20, 24, 32, 0.10);
+}
+body.theme-grouped .ls-nav-btn {
+  min-width: 104px; min-height: 56px; padding: 6px 14px; border-radius: 999px; color: var(--q-ink);
+}
+body.theme-grouped .ls-nav-btn:hover { background: var(--g-page); color: var(--q-ink); }
+body.theme-grouped .ls-nav-btn[aria-current="page"] { background: var(--g-pill); color: var(--q-accent); }
+/* Room under the last row so the bar never covers it */
+body.theme-grouped .ls-main { padding-bottom: 96px; }
+
+/* ---------- phone ---------- */
+body.theme-grouped header.app-header { background: var(--g-page); border-bottom: 0; }
+body.theme-grouped .bar-back, body.theme-grouped .menu-toggle {
+  width: 42px; height: 42px; padding: 0; border-radius: 999px;
+  background: var(--g-card); border: 1px solid #e3e5ea;
+}
+body.theme-grouped .ph-records { gap: 12px; }
+body.theme-grouped .ph-new { border-radius: var(--g-r); background: var(--g-card); border-style: solid; border-color: #dfe2e7; }
+@media (max-width: 900px) {
+  body.theme-grouped nav#tab-nav { border-bottom: 0; gap: 8px; padding: 6px 14px 10px; background: var(--g-page); scrollbar-width: none; }
+  body.theme-grouped nav#tab-nav::-webkit-scrollbar { display: none; }
+  body.theme-grouped .nav-btn .step-icon { color: var(--q-muted); }
+  body.theme-grouped .nav-btn.step-complete .step-icon { color: var(--q-done); }
+  body.theme-grouped .nav-btn {
+    border: 1px solid #dfe2e7; border-radius: 999px; background: var(--g-card);
+    padding: 8px 14px; white-space: nowrap;
+  }
+  body.theme-grouped .nav-btn.active { background: var(--q-accent); border-color: var(--q-accent); color: #fff; }
+  body.theme-grouped .nav-btn.active .step-icon { color: #fff; }
+}
+@media (max-width: 720px), (max-height: 520px) and (orientation: landscape) {
+  /* Floating pill tab bar */
+  body.theme-grouped .bottom-nav {
+    left: 14px; right: 14px; bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+    padding: 6px; border-radius: 999px; border: 1px solid #e3e5ea;
+    background: rgba(255, 255, 255, 0.94); box-shadow: 0 8px 24px rgba(20, 24, 32, 0.10);
+  }
+  body.theme-grouped .bottom-nav-btn { border-radius: 999px; min-height: 52px; padding: 6px 2px; color: var(--q-ink); }
+  body.theme-grouped .bottom-nav-btn.active { background: var(--g-pill); color: var(--q-accent); }
+  body.theme-grouped.screen-list { padding-bottom: 96px; }
+}

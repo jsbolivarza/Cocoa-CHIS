@@ -1,0 +1,220 @@
+/* theme-quiet.css — part of the default look (with theme-grouped.css and
+   font-exo.css, JB 20.11.26); ?theme=classic turns it off.
+   A calmer colour scheme in the spirit of neutral mobile apps: white
+   surfaces, grey hairlines instead of filled boxes, one accent (Fairtrade
+   navy) for actions and "you are here", and colour only where it carries
+   status (green done, amber has-data-not-marked, red delete). Applies only
+   with body.theme-quiet, set from ?theme=quiet in the URL (App.tsx), so the
+   standard look is untouched and both can be compared side by side. */
+
+body.theme-quiet {
+  --q-ink: #1f2430; --q-muted: #5b6270; --q-line: #e3e6eb; --q-soft: #f4f5f7;
+  --q-accent: #001b6e; --q-done: #1a7f45; --q-amber: #c98a00;
+  --hh-page: #ffffff; --hh-rail-bg: #fbfbfc; --hh-line: var(--q-line);
+  --hh-sky-tint: var(--q-soft); --hh-sky-ink: var(--q-ink);
+  --card-alt: #f6f7f8; --border: var(--q-line); --text-light: var(--q-muted);
+  --tangerine-tint: #f6f7f8;
+}
+
+/* ---------- headers: white instead of navy ---------- */
+body.theme-quiet .hh-rail-head,
+body.theme-quiet header.app-header {
+  background: #fff; color: var(--q-ink); border-bottom: 1px solid var(--q-line); box-shadow: none;
+}
+body.theme-quiet .hh-rail-back, body.theme-quiet .hh-rail-name { color: var(--q-ink); }
+body.theme-quiet .hh-rail-status, body.theme-quiet .hh-rail-sub, body.theme-quiet .ph-status { color: var(--q-muted); }
+body.theme-quiet .brand-dark .brand-name { color: var(--q-ink); }
+body.theme-quiet .brand-dark .brand-tag { color: var(--q-muted); }
+body.theme-quiet .hh-dot.is-online, body.theme-quiet .ph-status-dot { background: var(--q-done); }
+body.theme-quiet .hh-rail-avatar { background: var(--q-soft); color: var(--q-ink); border: 1px solid var(--q-line); }
+body.theme-quiet .hh-season { color: var(--q-ink); border-color: var(--q-line); }
+body.theme-quiet .hh-season.is-current { background: var(--q-accent); border-color: var(--q-accent); color: #fff; }
+
+body.theme-quiet .bar-product, body.theme-quiet .bar-sub { color: var(--q-muted); }
+body.theme-quiet .bar-context, body.theme-quiet .ph-title-row h1 { color: var(--q-ink); }
+body.theme-quiet .bar-back, body.theme-quiet .menu-toggle { background: var(--q-soft); color: var(--q-ink); }
+body.theme-quiet header.app-header .bar-chip { background: var(--q-soft); color: var(--q-accent); }
+body.theme-quiet header.app-header .search-bar,
+body.theme-quiet .ph-search input { background: var(--q-soft); border: 1px solid var(--q-line); color: var(--q-ink); }
+body.theme-quiet header.app-header .search-field input { color: var(--q-ink); }
+body.theme-quiet header.app-header .search-field input::placeholder { color: var(--q-muted); }
+body.theme-quiet header.app-header .lang-switch { background: var(--q-soft); }
+body.theme-quiet header.app-header .lang-btn { color: var(--q-muted); }
+body.theme-quiet header.app-header .lang-btn.active { background: var(--q-accent); color: #fff; }
+body.theme-quiet header.app-header .app-menu { border-top-color: var(--q-line); }
+body.theme-quiet header.app-header .app-menu .btn { background: #fff; border-color: var(--q-line); color: var(--q-ink); }
+
+/* ---------- list menu (tablet): white rail, grey "you are here" ---------- */
+body.theme-quiet .ls-nav { background: #fff; border-right: 1px solid var(--q-line); }
+body.theme-quiet .ls-nav-btn { color: var(--q-muted); }
+body.theme-quiet .ls-nav-btn:hover { color: var(--q-ink); background: var(--q-soft); }
+body.theme-quiet .ls-nav-btn[aria-current="page"] { background: var(--q-soft); color: var(--q-accent); }
+body.theme-quiet .ls-tag { background: #fff; border: 1px solid var(--q-line); color: var(--q-ink); }
+body.theme-quiet .ls-tag.is-current { background: var(--q-soft); color: var(--q-ink); }
+
+/* ---------- household steps: a plain list, status as a small dot ---------- */
+body.theme-quiet .hh-steps { gap: 2px; }
+body.theme-quiet .hh-step,
+body.theme-quiet .hh-step.is-attention,
+body.theme-quiet .hh-step.is-results { background: transparent; border: 1px solid transparent; }
+body.theme-quiet .hh-step.is-current,
+body.theme-quiet .hh-step.is-selected { background: var(--q-soft); border-color: var(--q-line); box-shadow: none; }
+body.theme-quiet .hh-step.is-selected .hh-step-label { color: var(--q-accent); font-weight: 700; }
+body.theme-quiet .hh-step-dot { background: #fff; border-color: var(--q-line); color: var(--q-muted); }
+body.theme-quiet .hh-step.is-done .hh-step-dot { background: var(--q-done); border-color: var(--q-done); color: #fff; }
+body.theme-quiet .hh-step.is-current .hh-step-dot { background: var(--q-accent); border-color: var(--q-accent); color: #fff; }
+body.theme-quiet .hh-step.is-attention .hh-step-dot { background: #fff; border: 2px solid var(--q-amber); color: #7a5300; }
+body.theme-quiet .hh-step.is-results .hh-step-dot { background: var(--q-ink); border-color: var(--q-ink); color: #fff; }
+body.theme-quiet .hh-step.is-attention .hh-step-sub, body.theme-quiet .hh-step-sub.is-warn { color: #7a5300; }
+body.theme-quiet .hh-step.is-current .hh-step-sub { color: var(--q-muted); }
+body.theme-quiet .hub-progress .is-attention { background: var(--q-amber); opacity: 0.55; }
+body.theme-quiet .hub-progress .is-current { background: var(--q-accent); }
+
+/* ---------- cards: hairlines, no tinted fills ---------- */
+body.theme-quiet .hub-card, body.theme-quiet .wf-card { border: 1px solid var(--q-line); border-radius: 12px; box-shadow: none; }
+body.theme-quiet .hub-card.is-current { background: #fff; color: var(--q-ink); border-color: var(--q-line); }
+body.theme-quiet .hub-card.is-done { background: #fff; border-color: var(--q-done); }
+body.theme-quiet .hub-next-open { border-top-color: var(--q-line); }
+body.theme-quiet .hub-btn.is-quiet { border-color: var(--q-line); color: var(--q-ink); }
+body.theme-quiet .page-head { border-bottom: 1px solid var(--q-line); }
+body.theme-quiet .panel { box-shadow: none; border-color: var(--q-line); }
+
+/* ---------- field labels and table headers: sentences, not tiny capitals ----------
+   Long labels ("Minor food crops grown for domestic consumption") were
+   10–12 px grey capitals, slow to read and longer still in FR/ES. Optional
+   fields stay lighter than required ones, but readable. */
+body.theme-quiet .form-grid label {
+  font-size: 14px; font-weight: 600; text-transform: none; letter-spacing: normal; color: var(--q-ink);
+}
+body.theme-quiet .form-grid label.optional { color: var(--q-muted); font-weight: 500; }
+body.theme-quiet table.data-table thead th {
+  font-size: 13px; text-transform: none; letter-spacing: normal; color: var(--q-muted);
+}
+body.theme-quiet .season-note, body.theme-quiet .panel h4 {
+  text-transform: none; letter-spacing: normal;
+}
+body.theme-quiet .panel h4 { color: var(--q-ink); font-size: 1.05rem; }
+
+/* ---------- compact "Doesn't know" button (preview) ----------
+   The "?" sits inside the number field instead of beside it, and number
+   fields in tables get narrower (areas, ages and days need few digits).
+   Saves about 45 px per number column, so the plots and household tables
+   fit on a landscape tablet without scrolling. Same button, same states. */
+body.theme-quiet .num-wrap { position: relative; gap: 0; }
+body.theme-quiet .num-wrap .field { padding-right: 40px; }
+body.theme-quiet .dk-btn {
+  position: absolute; right: 5px; top: 50%; transform: translateY(-50%);
+  min-width: 32px; width: 32px; min-height: 32px; height: 32px; padding: 0;
+  border: 0; border-radius: 8px; background: var(--q-soft); color: var(--q-muted);
+}
+body.theme-quiet .num-wrap.is-unknown .dk-btn { background: var(--eggplant); color: #fff; }
+/* Numbers get priority over long picklists: room for 6–7 digits beside the "?". */
+body.theme-quiet table.data-table td .num-wrap .field { min-width: 118px; }
+
+/* ---------- summary callouts (stat strips + KPI tiles) ----------
+   On a white panel a white box with a hairline all but disappeared. They
+   now sit on a soft grey fill, labels are readable sentences (13 px, not
+   10 px capitals) and values are a step bigger, so a coach can read the
+   totals back to the farmer at a glance. */
+body.theme-quiet .stat-row {
+  background: var(--q-soft); border: 0; box-shadow: none; border-radius: 14px;
+  padding: 14px 20px; gap: 12px 32px;
+}
+body.theme-quiet .stat-label,
+body.theme-quiet .kpi-label {
+  font-size: 13px; text-transform: none; letter-spacing: normal; font-weight: 500; color: var(--q-muted);
+}
+body.theme-quiet .stat-value { font-size: 18px; font-weight: 700; color: var(--q-ink); margin-top: 2px; font-family: "Exo", "Segoe UI", sans-serif; }
+body.theme-quiet .kpi-value { color: var(--q-ink); }
+body.theme-quiet .stat-value.negative, body.theme-quiet .kpi-value.negative { color: #b42318; }
+
+/* ---------- results: one dark tile becomes a plain one ---------- */
+body.theme-quiet .kpi-card { background: var(--q-soft); border: 0; box-shadow: none; border-radius: 14px; }
+/* The headline figure (profit / total spending) keeps a navy tint so it
+   still leads, without the old solid navy block. */
+body.theme-quiet .kpi-card.night { background: #e7ebf5; border: 0; box-shadow: none; border-radius: 14px; }
+body.theme-quiet .kpi-card.night .kpi-value { color: var(--q-accent); }
+body.theme-quiet .kpi-card.night .kpi-label { color: var(--q-muted); }
+body.theme-quiet .kpi-card.night .kpi-value small,
+body.theme-quiet .kpi-card.night .kpi-note { color: var(--q-muted); }
+body.theme-quiet .results-table .group-row td,
+body.theme-quiet table.data-table.results-table tr.group-row td { background: var(--q-soft); color: var(--q-ink); }
+body.theme-quiet .results-table .total-row td { background: #fff; border-top: 1.5px solid var(--q-ink); }
+
+/* ---------- controls: navy is the only filled colour ---------- */
+body.theme-quiet .btn-secondary { background: var(--q-accent); border-color: var(--q-accent); color: #fff; }
+body.theme-quiet .lang-btn.active, body.theme-quiet .chip.is-on, body.theme-quiet .month-chip.is-on { background: var(--q-accent); border-color: var(--q-accent); color: #fff; }
+/* Income source chips: the standard look tints them purple; here "on" is the
+   same navy pill with white text as every other selected control. Hover
+   (pointers only, see style.css) uses navy instead of purple too. */
+@media (hover: hover) {
+  body.theme-quiet .chip:not(.is-on):hover { border-color: var(--q-accent); color: var(--q-accent); }
+}
+body.theme-quiet .update-bar { background: var(--q-ink); }
+
+/* ---------- quieter "Doesn't know" button (design review 2) ----------
+   A thin outlined "?" instead of a grey chip: about 70 of them on Labour
+   made the grid look busy. Still in every field, still a 28 px target
+   (WCAG 2.2 minimum 24 px); a marked field still turns purple. */
+body.theme-quiet .dk-btn {
+  width: 28px; min-width: 28px; height: 28px; min-height: 28px; border-radius: 999px;
+  background: transparent; border: 1px solid #d5d9e0; color: #6b7280; font-size: 13px;
+}
+body.theme-quiet .num-wrap .field { padding-right: 38px; }
+@media (hover: hover) { body.theme-quiet .dk-btn:hover { border-color: #9aa1ad; color: var(--q-ink); } }
+body.theme-quiet .num-wrap.is-unknown .dk-btn { background: var(--eggplant); border-color: var(--eggplant); color: #fff; }
+
+/* ---------- Settings: one clear main action per section ----------
+   Main actions (Import JSON, Import roster, Sign in, Upload now) are navy;
+   everything else (Clear roster, Check for updates, Download, Sign out,
+   Refresh, Protect data) is outlined, so "press the blue button" is never
+   ambiguous over the phone. On tablet/laptop buttons are as wide as their
+   label instead of 1,000 px bars; phones keep full width. */
+body.theme-quiet .panel.settings-panel .btn-secondary { background: #fff; border: 1.5px solid var(--q-line); color: var(--q-accent); }
+body.theme-quiet .panel.settings-panel .btn:not(.btn-secondary):not(.btn-danger-outline) { background: var(--q-accent); border-color: var(--q-accent); color: #fff; }
+body.theme-quiet .panel.settings-panel .btn:disabled { opacity: 0.5; }
+body.layout-wide .settings-panel .stacked-actions { display: flex; flex-direction: row; flex-wrap: wrap; align-items: center; gap: 10px; }
+body.layout-wide .settings-panel .btn { width: auto; min-width: 200px; padding-left: 22px; padding-right: 22px; }
+
+/* ---------- Settings on tablet/laptop: packed blocks, no empty areas ----------
+   Each topic is a white card; cards flow into two balanced columns (CSS
+   columns pack them like a masonry wall). Phones keep the plain list. */
+body.layout-wide .ls-content > .panel.settings-panel { background: transparent; border: 0; padding: 0; box-shadow: none; }
+body.layout-wide .settings-blocks { columns: 2 340px; column-gap: 16px; }
+body.layout-wide .settings-block {
+  break-inside: avoid; -webkit-column-break-inside: avoid; display: block;
+  background: #fff; border-radius: 18px; padding: 16px 20px 18px; margin: 0 0 16px;
+}
+body.layout-wide .settings-block > h4:first-child,
+body.layout-wide .settings-block > :first-child > h4:first-child { margin-top: 0; }
+body.layout-wide .settings-block.danger-zone { margin-top: 0; border-top: 0; box-shadow: inset 0 0 0 1.5px #f3c2cf; }
+body.layout-wide .settings-panel > .section-help { margin: 0 0 14px; }
+
+/* ---------- Farmer history: light link row, calmer cards ---------- */
+.hist-nav { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin: -4px 0 6px; }
+.hist-link {
+  display: inline-flex; align-items: center; gap: 4px; min-height: 44px; padding: 0; border: 0; background: none;
+  font: 600 15px "Exo", "Segoe UI", sans-serif; color: var(--q-accent, #001b6e); cursor: pointer;
+}
+.hist-link:not(.is-back) { color: var(--q-muted, #5b6270); font-weight: 500; text-decoration: underline; text-underline-offset: 3px; }
+.hist-link:focus-visible { outline: 2px solid var(--q-accent, #001b6e); outline-offset: 2px; border-radius: 4px; }
+.sc-prev .sc-change { display: inline; font-size: 12px; font-weight: 700; color: var(--text); margin: 0; }
+.sc-prev .sc-change.sc-flat { font-weight: 500; color: var(--text-light); }
+.sc-check { display: flex; align-items: center; gap: 6px; margin-top: 4px; font-size: 12px; font-weight: 600; color: #7a5300; line-height: 1.25; }
+.sc-check::before { content: ""; flex: none; width: 8px; height: 8px; border-radius: 999px; background: #f0b429; }
+.season-callout { gap: 2px; }
+.sc-value { font-size: 19px; }
+@media (min-width: 600px) { .season-callouts { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; } }
+
+/* ---------- Results on phones: totals as one clean row ----------
+   The per-cell top border made each half of a total row carry its own line,
+   like a small table inside the card. One line across the row instead. */
+@media (max-width: 720px), (max-height: 520px) and (orientation: landscape) {
+  body.theme-quiet table.data-table.results-table tr.total-row { background: #fff; border-top: 1.5px solid var(--q-ink); }
+  body.theme-quiet table.data-table.results-table tr.total-row td { border-top: 0; background: none; }
+}
+/* Phones (two narrow cards per row): the change gets its own line. */
+@media (max-width: 599px) {
+  .sc-prev .sc-sep { display: none; }
+  .sc-prev .sc-change { display: block; margin-top: 2px; font-size: 13px; }
+}

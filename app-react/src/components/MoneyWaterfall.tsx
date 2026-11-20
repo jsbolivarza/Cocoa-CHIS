@@ -90,7 +90,7 @@ export function MoneyWaterfall({ res }: { res: Results }) {
                   {lo < 0 && <span className="wf-zero" style={{ "--z": `${y(0)}%` } as React.CSSProperties} />}
                   <span
                     className={`wf-bar is-${kind}`}
-                    style={{ "--s": `${y(a)}%`, "--len": `${Math.max(0.6, y(b) - y(a))}%` } as React.CSSProperties}
+                    style={{ "--s": `${y(a)}%`, "--len": `${Math.max(0.6, y(b) - y(a))}%`, "--i": i } as React.CSSProperties}
                   />
                 </span>
                 <span className={`wf-label${r.kind === "total" || r.kind === "net" ? " is-strong" : ""}`}>{label}</span>

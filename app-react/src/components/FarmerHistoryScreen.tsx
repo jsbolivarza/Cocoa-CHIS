@@ -8,9 +8,96 @@
 import { useAppStore } from "../store/appStore";
 import { t } from "../lib/i18n";
 import { compareSummary, type CompareSummary } from "../lib/compare";
-import { fmt } from "../lib/format";
+import { fmt, fmtUnit } from "../lib/format";
 import { formatUpdatedAt } from "../lib/recordProgress";
 import { CompareChart } from "./CompareChart";
+import { useMediaQuery } from "../lib/useMediaQuery";
+import { WIDE_QUERY, NARROW_WIDE_QUERY } from "../lib/layout";
+import type { Lang } from "../lib/i18n";
+
+/* ---------- phone: one callout per figure instead of chart + table ----------
+   On a phone the question is "what changed since last season?", which the
+   bar chart (built for comparing many households) didn't answer and the
+   wide table couldn't show. Each card: the newest season large, earlier
+   seasons below, the change, and the amber "check with farmer" chip for a
+   jump worth confirming (placeholder limits, as on the overview card). */
+type Pick = (s: CompareSummary) => number | null | undefined;
+interface Fig {
+  key: string;
+  labelKey: string;
+  pick: Pick;
+  unit: (s: CompareSummary) => string;
+  /** Money that can be negative: show the difference, not a %. */
+  absolute?: boolean;
+  checkAt: number;
+  /** Not comparable across currencies / area units. */
+  unitBound: boolean;
+}
+const FIGS: Fig[] = [
+  // The overview's season card shows volume, farmgate price and IMS area too;
+  // without them both screens told different stories (design review 20.11.26).
+  { key: "volume", labelKey: "cocoa_volume_produced", pick: (s) => s.volumeProduced, unit: (s) => s.volumeUnit, checkAt: 0.25, unitBound: true },
+  { key: "farmgate", labelKey: "farmgate_price_main", pick: (s) => s.farmgatePrice, unit: (s) => `${s.currency}/${s.volumeUnit}`, checkAt: 0.25, unitBound: true },
+  { key: "areaIms", labelKey: "cocoa_area_ims", pick: (s) => s.cocoaAreaIms, unit: (s) => s.areaUnit, checkAt: 0.25, unitBound: true },
+  { key: "net", labelKey: "cmp_net_farm", pick: (s) => s.netFarm, unit: (s) => s.currency, absolute: true, checkAt: 0.5, unitBound: true },
+  { key: "gap", labelKey: "cmp_gap", pick: (s) => s.gap, unit: (s) => s.currency, absolute: true, checkAt: 0.5, unitBound: true },
+  { key: "yield", labelKey: "cmp_yield", pick: (s) => s.yieldPerArea, unit: (s) => `${s.volumeUnit}/${s.areaUnit}`, checkAt: 0.25, unitBound: true },
+  { key: "price", labelKey: "cmp_price_per_kg", pick: (s) => s.pricePerKg, unit: (s) => `${s.currency}/${s.volumeUnit}`, checkAt: 0.25, unitBound: true },
+  { key: "cost", labelKey: "cmp_cost_per_kg", pick: (s) => s.costPerKg, unit: (s) => `${s.currency}/${s.volumeUnit}`, checkAt: 0.25, unitBound: true },
+  { key: "margin", labelKey: "cmp_margin_per_kg", pick: (s) => s.marginPerKg, unit: (s) => `${s.currency}/${s.volumeUnit}`, absolute: true, checkAt: 0.5, unitBound: true },
+  { key: "area", labelKey: "cmp_cocoa_area", pick: (s) => s.cocoaArea, unit: (s) => s.areaUnit, checkAt: 0.25, unitBound: true },
+  { key: "spend", labelKey: "cmp_expenditure", pick: (s) => s.expenditure, unit: (s) => s.currency, checkAt: 0.5, unitBound: true },
+  { key: "person", labelKey: "cmp_per_person", pick: (s) => s.perPerson, unit: (s) => s.currency, absolute: true, checkAt: 0.5, unitBound: true },
+  { key: "days", labelKey: "cmp_labour_days", pick: (s) => s.labourDays, unit: () => "", checkAt: 0.5, unitBound: false },
+];
+
+const ok = (v: number | null | undefined): v is number => v != null && isFinite(v);
+
+function SeasonCallouts({ list, lang, label }: { list: CompareSummary[]; lang: Lang; label: (s: CompareSummary) => string }) {
+  const cur = list[list.length - 1];
+  const prev = list.length > 1 ? list[list.length - 2] : null;
+  const earlier = list.slice(0, -1);
+  const sameUnits = !!prev && prev.currency === cur.currency && prev.areaUnit === cur.areaUnit && prev.volumeUnit === cur.volumeUnit;
+  return (
+    <div className="season-callouts">
+      {FIGS.map((f) => {
+        const v = f.pick(cur);
+        const p = prev ? f.pick(prev) : null;
+        const comparable = ok(v) && ok(p) && (!f.unitBound || sameUnits);
+        let change = "";
+        let check = false;
+        if (comparable) {
+          const d = v - p;
+          const share = p !== 0 ? d / Math.abs(p) : null;
+          const same = f.absolute || share == null ? d === 0 : Math.round(share * 100) === 0;
+          if (same) change = t("sc_no_change", lang);
+          else if (f.absolute || share == null) change = `${d > 0 ? "+" : "−"}${fmtUnit(Math.abs(d), f.unit(cur), cur.currency)}`;
+          else change = `${share > 0 ? "+" : "−"}${Math.abs(Math.round(share * 100))} %`;
+          check = share != null && Math.abs(share) >= f.checkAt;
+        }
+        const unit = f.unit(cur);
+        return (
+          <div key={f.key} className="season-callout">
+            <div className="sc-label">{t(f.labelKey, lang)}</div>
+            <div className={`sc-value${ok(v) && v < 0 ? " negative" : ""}`}>
+              {ok(v) ? fmtUnit(v, unit, cur.currency) : "—"}
+              {unit && ok(v) ? <small> {unit}</small> : null}
+            </div>
+            {/* One quiet line: earlier season(s), then the change. */}
+            {earlier.length > 0 && (
+              <div className="sc-prev">
+                {earlier.map((s) => `${label(s)}: ${ok(f.pick(s)) ? fmtUnit(f.pick(s), f.unit(s), s.currency) : "—"}`).join(" · ")}
+                {change && <span className="sc-sep"> · </span>}
+                {change && <span className={`sc-change${change === t("sc_no_change", lang) ? " sc-flat" : ""}`}>{change}</span>}
+              </div>
+            )}
+            {check && <div className="sc-check">{t("hub_check", lang)}</div>}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
 
 function cell(v: number | null | undefined): string {
   return v == null || !isFinite(v) ? "—" : fmt(v);
@@ -28,13 +115,24 @@ export function FarmerHistoryScreen() {
   const records = useAppStore((s) => s.records);
   const lang = useAppStore((s) => s.currentLang);
   const historyFarmerId = useAppStore((s) => s.historyFarmerId);
+  const wide = useMediaQuery(WIDE_QUERY);
+  // Cards on phones and upright tablets (the table scrolled sideways there and
+  // left half the screen empty); chart + table only from 1024 px.
+  const narrow = useMediaQuery(NARROW_WIDE_QUERY);
+  const cards = !wide || narrow;
   const goToList = useAppStore((s) => s.goToList);
+  const openRecord = useAppStore((s) => s.openRecord);
+  const currentTab = useAppStore((s) => s.currentTab);
+  // openFarmerHistory() leaves the open household in the store.
+  const fromRecord = useAppStore((s) => s.record);
 
   if (!historyFarmerId) return null;
   const list = Object.values(records)
     .filter((r) => r.meta.farmerId === historyFarmerId)
     .map(compareSummary)
-    .sort((a, b) => a.createdAt.localeCompare(b.createdAt));
+    // Season order ("2024/2025" < "2025/2026"), not capture order: a season
+    // entered late must not show up as the newest. Unlabelled ones by date.
+    .sort((a, b) => (a.season && b.season ? a.season.localeCompare(b.season) : a.createdAt.localeCompare(b.createdAt)));
   if (!list.length) return null;
 
   // Money and per-area figures across different currencies or area units
@@ -53,16 +151,41 @@ export function FarmerHistoryScreen() {
 
   return (
     <div className="panel">
-      <div className="table-actions">
-        <button type="button" className="btn" onClick={goToList}>
-          &#8592; {t("btn_my_records", lang)}
+      {/* Light link row instead of two heavy pills: the way back on the left
+          (to the household it was opened from, else to My records), My
+          records on the right as the second way out. */}
+      <nav className="hist-nav">
+        <button
+          type="button"
+          className="hist-link is-back"
+          onClick={() => (fromRecord ? openRecord(fromRecord.meta.id, currentTab) : goToList())}
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6" /></svg>
+          {t(fromRecord ? "btn_back_household" : "btn_my_records", lang)}
         </button>
-      </div>
-      <h3>{t("farmer_history_heading", lang)}</h3>
+        {fromRecord && (
+          <button type="button" className="hist-link" onClick={goToList}>
+            {t("btn_my_records", lang)}
+          </button>
+        )}
+      </nav>
+      {/* Which farmer this is (the page title already says "Farmer history"). */}
+      {list.length > 0 && (
+        <p className="history-farmer">
+          <strong>{list[list.length - 1].producer || t("unnamed_household", lang)}</strong>
+          {[list[list.length - 1].producerCode, list[list.length - 1].coop, list[list.length - 1].village].filter(Boolean).join(" · ")}
+        </p>
+      )}
       <p className="section-help">{t("farmer_history_help", lang)}</p>
       {mixedUnits && <p className="warn-note">{t("farmer_history_mixed_currency", lang)}</p>}
-      <CompareChart list={list} mixedUnits={mixedUnits} lang={lang} />
-      <div className="table-wrap compare-table-wrap">
+      {cards && list.length > 0 && (
+        <>
+          <p className="sc-season">{seasonLabel(list[list.length - 1])}</p>
+          <SeasonCallouts list={list} lang={lang} label={seasonLabel} />
+        </>
+      )}
+      {!cards && <CompareChart list={list} mixedUnits={mixedUnits} lang={lang} barLabel={seasonLabel} />}
+      {!cards && <div className="table-wrap compare-table-wrap">
         <table className="data-table results-table compare-table">
           <thead>
             <tr>
@@ -108,7 +231,7 @@ export function FarmerHistoryScreen() {
             )}
           </tbody>
         </table>
-      </div>
+      </div>}
     </div>
   );
 }

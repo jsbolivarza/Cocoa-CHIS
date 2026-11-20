@@ -5,7 +5,7 @@ max_score: 40
 na_heuristics: 
 p0_count: 2
 p1_count: 2
-target_identity: "file:C:\\Users\\JonnathanBolivar\\PycharmProjects\\PythonProject\\Cocoa-CHIS\\design\\shell-options"
+target_identity: "file:design/shell-options"
 timestamp: 2026-10-07T09-00-53Z
 slug: design-shell-options
 ---

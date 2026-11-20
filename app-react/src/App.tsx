@@ -25,13 +25,28 @@ import { HouseholdRail } from "./components/HouseholdRail";
 import { HubScreen } from "./components/HubScreen";
 import { ListShell, ListHeader } from "./components/ListShell";
 import { useMediaQuery } from "./lib/useMediaQuery";
-import { WIDE_QUERY, ROOMY_QUERY } from "./lib/layout";
+import { WIDE_QUERY, ROOMY_QUERY, NARROW_WIDE_QUERY } from "./lib/layout";
+import { startScrollCue } from "./lib/scrollCue";
 
 // Steps whose tables need the width: on a tablet the rail collapses to an
 // icon strip while they are open (design/shell-options HT3 to HT6).
 const WIDE_TABLE_TABS = ["profile", "revenues", "costs", "labour"];
 import "./style.css";
 import "./wide.css";
+import "./theme-quiet.css";
+import "./theme-grouped.css";
+import "./font-exo.css";
+import "./motion.css";
+
+// Look (JB 20.11.26): the grouped scheme with Exo only is the default.
+// It is layered as body classes over the original stylesheets:
+// theme-quiet.css (neutral colours) + theme-grouped.css (grey page, white
+// groups, pill controls, floating tab bar) + font-exo.css (headings in Exo).
+// ?theme=classic in the URL shows the original look, for comparison only;
+// it is read once and navigation never changes the URL.
+if (new URLSearchParams(window.location.search).get("theme") !== "classic") {
+  document.body.classList.add("theme-quiet", "theme-grouped", "font-exo");
+}
 
 export default function App() {
   const loaded = useAppStore((s) => s.loaded);
@@ -45,6 +60,7 @@ export default function App() {
   const record = useAppStore((s) => s.record);
   const wide = useMediaQuery(WIDE_QUERY);
   const roomy = useMediaQuery(ROOMY_QUERY);
+  const narrowWide = useMediaQuery(NARROW_WIDE_QUERY);
 
   // The hub only exists in the wide layout; a tablet turned or resized
   // down to phone width falls back to the first step instead of a blank page.
@@ -55,6 +71,20 @@ export default function App() {
   useEffect(() => {
     init();
   }, [init]);
+
+  // Phone step strip: keep the current step in view. On Labour or Results it
+  // used to sit off-screen, so nobody (nor phone support) could see where
+  // the coach was. Horizontal only: the page itself must not jump.
+  useEffect(() => {
+    if (wide || screen !== "editor") return;
+    const active = document.querySelector<HTMLElement>("#tab-nav .nav-btn.active");
+    const strip = active?.parentElement;
+    if (!active || !strip) return;
+    strip.scrollTo({ left: active.offsetLeft - (strip.clientWidth - active.offsetWidth) / 2, behavior: "smooth" });
+  }, [wide, screen, currentTab]);
+
+  // Fade the edge of any table that has hidden columns (lib/scrollCue.ts).
+  useEffect(() => startScrollCue(), []);
 
   // Ported from the body.classList.toggle("screen-list"/"screen-editor")
   // calls in docs/js/app.js. CSS uses these (.screen-list .editor-only,
@@ -121,7 +151,8 @@ export default function App() {
               </button>
             ))}
           </nav>
-          <main>
+          {/* Keyed per section so the new screen fades in (motion.css). */}
+          <main key={listTab} className="list-main">
             {listTab === "records" && <RecordsScreen />}
             {listTab === "compare" && <CompareScreen />}
             {listTab === "export" && <ExportScreen />}
@@ -133,7 +164,11 @@ export default function App() {
 
       {wideEditor && record && (
         <div className="hh-shell">
-          <HouseholdRail compact={!roomy && WIDE_TABLE_TABS.includes(currentTab)} />
+          <HouseholdRail
+            compact={
+              (narrowWide && currentTab !== "hub") || (!roomy && WIDE_TABLE_TABS.includes(currentTab))
+            }
+          />
           <div className="hh-main">
             {currentTab === "hub" ? (
               <HubScreen />
@@ -152,8 +187,9 @@ export default function App() {
                     {t("hub_back_overview", currentLang)}
                   </button>
                 </header>
-                <div className="hh-content">
-                  <p className="required-hint">{t("required_hint", currentLang)}</p>
+                {/* Keyed per step so the new step fades in (motion.css). */}
+                <div className="hh-content" key={currentTab}>
+                  {currentTab !== "results" && <p className="required-hint">{t("required_hint", currentLang)}</p>}
                   <div id="tab-content">
                     {tabContent}
                     <StepFooter />
@@ -191,7 +227,7 @@ export default function App() {
             })}
           </nav>
           <main>
-            <p className="required-hint">{t("required_hint", currentLang)}</p>
+            {currentTab !== "results" && <p className="required-hint">{t("required_hint", currentLang)}</p>}
             <div id="tab-content">
               {tabContent}
               <StepFooter />

@@ -49,10 +49,10 @@ function LabourRowFields({ idx, row, lang }: { idx: number; row: LabourRow; lang
         <NumberField path={`labour.${idx}.dailyWage`} value={row.dailyWage} />
       </td>
       <td data-label={t("col_other_service", lang)}>
-        <SelectField path={`labour.${idx}.otherService`} value={row.otherService} lang={lang} optionsKey="labour_service_type" />
+        <SelectField path={`labour.${idx}.otherService`} value={row.otherService} lang={lang} optionsKey="labour_service_type" wrap />
       </td>
       <td data-label={t("col_service_used_for", lang)}>
-        <SelectField path={`labour.${idx}.serviceUsedFor`} value={row.serviceUsedFor} lang={lang} staticOptions={["cocoa", "non_cocoa"]} />
+        <SelectField path={`labour.${idx}.serviceUsedFor`} value={row.serviceUsedFor} lang={lang} staticOptions={["cocoa", "non_cocoa"]} wrap />
       </td>
       <td data-label={t("col_service_cost", lang)}>
         <NumberField path={`labour.${idx}.serviceCost`} value={row.serviceCost} />
@@ -70,7 +70,7 @@ function LabourRowFields({ idx, row, lang }: { idx: number; row: LabourRow; lang
 function LabourGrid({ rows, lang }: { rows: LabourRow[]; lang: Lang }) {
   return (
     <div className="table-wrap">
-      <table className="data-table">
+      <table className="data-table labour-table">
         <thead>
           <tr>
             <th>{t("col_month", lang)}</th>

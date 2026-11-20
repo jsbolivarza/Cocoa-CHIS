@@ -159,7 +159,9 @@ main { max-width: 1400px; margin: 0 auto; padding: 26px 32px; }
 .panel h3:first-of-type { margin-top: 0; }
 .panel h4 { color: var(--eggplant); margin-top: 20px; margin-bottom: 8px; text-transform: uppercase; letter-spacing: .3px; font-size: 0.95rem; }
 .section-help, .field-hint { color: var(--text-light); font-size: 0.85rem; font-family: "Exo", "Segoe UI", sans-serif; }
-.field-hint { display: block; margin-top: 3px; }
+/* Hints sit inside .form-grid labels, which are uppercase and bold; a hint
+   must read as a sentence, quieter than its label, not louder. */
+.field-hint { display: block; margin-top: 3px; text-transform: none; font-weight: 400; letter-spacing: normal; }
 
 .consent-text p { margin: 0 0 10px; white-space: pre-line; }
 
@@ -207,10 +209,48 @@ main { max-width: 1400px; margin: 0 auto; padding: 26px 32px; }
 .check input { width: 20px; height: 20px; accent-color: var(--tangerine); }
 
 .table-wrap { overflow-x: auto; margin-top: 10px; border: 1px solid var(--border); border-radius: 10px; }
+/* Hidden columns: the edge where the table continues fades out (classes set
+   by lib/scrollCue.ts), so it's obvious there is more to the side even where
+   the scrollbar is hidden (iPad Safari) or blends in. */
+.table-wrap.more-right { -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 56px), rgba(0,0,0,.15)); mask-image: linear-gradient(to right, #000 calc(100% - 56px), rgba(0,0,0,.15)); }
+.table-wrap.more-left { -webkit-mask-image: linear-gradient(to left, #000 calc(100% - 56px), rgba(0,0,0,.15)); mask-image: linear-gradient(to left, #000 calc(100% - 56px), rgba(0,0,0,.15)); }
+.table-wrap.more-left.more-right {
+  -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,.15), #000 56px, #000 calc(100% - 56px), rgba(0,0,0,.15));
+  mask-image: linear-gradient(to right, rgba(0,0,0,.15), #000 56px, #000 calc(100% - 56px), rgba(0,0,0,.15));
+}
+/* Labour keeps its month column fixed on the left, so only fade the right. */
+.table-wrap.more-left:has(> .labour-table) { -webkit-mask-image: none; mask-image: none; }
+.table-wrap.more-left.more-right:has(> .labour-table) {
+  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 56px), rgba(0,0,0,.15));
+  mask-image: linear-gradient(to right, #000 calc(100% - 56px), rgba(0,0,0,.15));
+}
+/* A scrollbar you can see and grab, where the browser lets us style it */
+.table-wrap { scrollbar-color: #7b8394 #e6e8ec; scrollbar-width: auto; }
+.table-wrap::-webkit-scrollbar { height: 12px; }
+.table-wrap::-webkit-scrollbar-track { background: #e6e8ec; border-radius: 999px; }
+.table-wrap::-webkit-scrollbar-thumb { background: #7b8394; border-radius: 999px; border: 2px solid #e6e8ec; }
 table.data-table { border-collapse: collapse; width: 100%; min-width: 640px; }
 table.data-table th, table.data-table td { border-bottom: 1px solid var(--border); padding: 7px 9px; text-align: left; vertical-align: middle; }
 table.data-table thead th { background: var(--card-alt); color: var(--text-light); font-weight: 600; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; position: sticky; top: 0; }
 table.data-table td .field { min-width: 110px; }
+/* Table dropdowns (SelectField wrap): the chosen option is shown as text that
+   wraps onto two lines ("land owner with / sharecropper") instead of being
+   cut to "cocoa int…" or widening the column; the real dropdown lies
+   invisibly on top, so tapping opens the device's own list as before. */
+.select-wrap { position: relative; display: block; min-width: 150px; }
+.select-face {
+  display: flex; align-items: center; min-height: 42px; padding: 6px 30px 6px 10px;
+  line-height: 1.2; font-size: 15px; white-space: normal; overflow-wrap: break-word; hyphens: manual; text-align: left;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%235b6270' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 10px center;
+}
+.select-face.is-empty { color: var(--text-light); }
+table.data-table td .select-wrap .select-overlay,
+.select-overlay {
+  position: absolute; inset: 0; width: 100%; height: 100%; min-width: 0; margin: 0;
+  opacity: 0; cursor: pointer;
+}
+.select-wrap:focus-within .select-face { border-color: var(--tangerine); box-shadow: 0 0 0 3px var(--tangerine-tint); }
 table.data-table .idx-cell { color: var(--text-light); font-weight: 600; white-space: nowrap; }
 .idx-full { display: none; }
 table.data-table .computed-cell { font-weight: 700; color: var(--night); background: var(--tangerine-tint); white-space: nowrap; font-variant-numeric: tabular-nums; }
@@ -248,12 +288,23 @@ table.data-table .computed-cell { font-weight: 700; color: var(--night); backgro
 .kpi-card.night .kpi-label { color: rgba(255,255,255,.7); }
 .kpi-card.night .kpi-value { color: #fff; }
 .kpi-card.night .kpi-value small { color: rgba(255,255,255,.7); }
+.kpi-card.night .kpi-note { color: rgba(255,255,255,.85); }
 .kpi-value.negative { color: var(--flower); }
 
 .stat-row {
   background: var(--card); border: 1px solid var(--border); border-radius: 12px;
   box-shadow: 0 1px 3px rgba(30,30,30,.06); padding: 12px 18px; margin: 0 0 16px;
-  display: flex; gap: 24px; flex-wrap: wrap;
+  /* Even columns instead of a wrapping flex row: on a laptop the boxes
+     spread across the width, and when they wrap they stay in columns
+     rather than leaving one box stranded on a second line. */
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px 24px;
+}
+.stat-note { font-weight: 500; color: var(--text-light); }
+.kpi-note { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; margin-top: 6px; font-size: 13px; color: var(--text-light); }
+/* Amber "check with farmer": the same shared amber as "needs attention". */
+.check-chip {
+  display: inline-block; padding: 2px 9px; border-radius: 999px; font-size: 12px; font-weight: 600;
+  background: #fffaeb; border: 1.5px solid #f0b429; color: #5c3a00;
 }
 .stat-box { min-width: 100px; }
 .stat-label {
@@ -363,6 +414,11 @@ footer.app-footer { text-align: center; color: var(--text-light); font-size: 0.7
 .modal-actions { display: flex; gap: 10px; justify-content: flex-end; }
 .btn-danger { background: var(--flower); border-color: var(--flower); color: #fff; }
 .btn-danger:hover { background: #e03a63; }
+.danger-zone { margin-top: 36px; padding-top: 4px; border-top: 2px solid var(--border); }
+.danger-zone h4 { color: #a3123a; }
+.danger-zone .field-hint { margin-bottom: 10px; }
+.btn-danger-outline { background: #fff; border: 1.5px solid #c2185b; color: #a3123a; }
+@media (hover: hover) { .btn-danger-outline:hover { background: #fdeef3; } }
 
 @media (max-width: 720px), (max-height: 520px) and (orientation: landscape) {
   .form-grid, .form-grid-3, .form-grid-4 { grid-template-columns: 1fr 1fr; }
@@ -410,7 +466,7 @@ footer.app-footer { text-align: center; color: var(--text-light); font-size: 0.7
 .record-card:focus-visible { outline: 2px solid var(--tangerine); outline-offset: 2px; }
 .lang-tag {
   display: inline-block; margin-left: 7px; padding: 1px 6px; border-radius: 20px;
-  background: var(--sky-tint); color: #0b5f7a; font-size: 0.62rem;
+  background: var(--sky-tint); color: #0b5f7a; font-size: 0.72rem;
   font-weight: 700; letter-spacing: 0.04em; vertical-align: middle;
 }
 .record-progress {
@@ -935,7 +991,7 @@ header.app-header.ph-head .brand { margin: 0; }
   min-height: 52px; border-radius: 14px; border: 1.5px dashed var(--night); background: transparent; color: var(--night);
   font: inherit; font-weight: 600; font-size: 16px; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer;
 }
-.ph-count { margin: 0; font-size: 14px; color: #4b5563; padding: 4px 2px 0; }
+.ph-count { margin: 0; font-size: 14px; color: #4b5563; padding: 4px 4px 0; }
 .ph-card {
   display: flex; flex-direction: column; gap: 10px; background: #fff; border: 1px solid #e4e7ec; border-radius: 16px;
   padding: 12px 8px 12px 16px; cursor: pointer; position: relative;
@@ -951,3 +1007,52 @@ header.app-header.ph-head .brand { margin: 0; }
 
 .bottom-nav-btn { font-family: "Exo", "Segoe UI", sans-serif; font-size: 13px; font-weight: 500; color: #4b5563; }
 .bottom-nav-btn.active { font-weight: 700; }
+
+/* ---------- Farmer history on phones: one callout per figure ---------- */
+.sc-season { margin: 4px 0 8px; font-weight: 700; color: var(--night); }
+.season-callouts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 0 0 8px; }
+.season-callout { background: var(--card-alt); border-radius: 14px; padding: 12px 14px; display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.sc-label { font-size: 13px; color: var(--text-light); line-height: 1.25; }
+.sc-value { font-size: 20px; font-weight: 700; color: var(--text); font-variant-numeric: tabular-nums; line-height: 1.15; overflow-wrap: anywhere; }
+.sc-value small { font-size: 12px; font-weight: 500; color: var(--text-light); }
+.sc-value.negative { color: #b42318; }
+.sc-prev { font-size: 12px; color: var(--text-light); font-variant-numeric: tabular-nums; }
+.sc-change { font-size: 13px; font-weight: 600; color: var(--text); font-variant-numeric: tabular-nums; margin-top: 2px; }
+.sc-change .check-chip { font-size: 12px; }
+.sc-flat { color: var(--text-light); font-weight: 500; }
+
+/* Settings language picker: three equal segments with full names. */
+.lang-switch-settings { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); max-width: 420px; }
+.lang-switch-settings .lang-btn { min-height: 40px; font-size: 0.95rem; }
+
+/* Number fields: no spin arrows. They are useless on touch screens and took
+   about 15 px from the digits, so "2000" showed as "20(" in narrow columns. */
+input.field-num::-webkit-outer-spin-button,
+input.field-num::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+input.field-num { -moz-appearance: textfield; appearance: textfield; }
+/* Results panel title is an h2 (the step title is the h1); same look as h3. */
+.panel h2.panel-heading { font-size: 1.17em; color: var(--night); border-bottom: 2px solid var(--border); padding-bottom: 8px; margin: 0 0 12px; font-weight: 700; }
+.history-farmer { margin: 4px 0 10px; font-size: 15px; color: var(--text-light); }
+.history-farmer strong { display: block; font-size: 20px; color: var(--text); }
+.na-cell { display: flex; align-items: center; color: var(--text-light); background: var(--card-alt); }
+
+/* Per-row "More" detail for optional columns (DataTable, tablet/laptop). */
+table.data-table td.col-more, table.data-table th.col-more { white-space: nowrap; width: 1%; }
+.more-btn {
+  min-height: 40px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--border);
+  background: #fff; color: var(--night); font: 600 13px "Exo", "Segoe UI", sans-serif; cursor: pointer; white-space: nowrap;
+}
+.more-btn[aria-expanded="true"] { background: var(--card-alt); }
+.more-filled { color: #1a7f45; }
+tr.has-detail-open > td { border-bottom-color: transparent; }
+tr.detail-row > td { background: var(--card-alt); padding: 10px 14px 14px; }
+.row-detail { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px 16px; }
+.row-detail-field { display: flex; flex-direction: column; gap: 4px; font-size: 13px; font-weight: 600; color: var(--text-light); }
+
+/* Callout strips never strand one box: 4 boxes = 4 across, or 2 × 2 when
+   narrower; 6 boxes = 3 × 2. Other counts keep the auto grid. */
+.stat-row:has(> .stat-box:nth-child(4):last-child) { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.stat-row:has(> .stat-box:nth-child(6):last-child) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 1023px) {
+  .stat-row:has(> .stat-box:nth-child(4):last-child) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}

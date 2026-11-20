@@ -237,7 +237,7 @@ table.data-table td .field { min-width: 110px; }
    wraps onto two lines ("land owner with / sharecropper") instead of being
    cut to "cocoa int…" or widening the column; the real dropdown lies
    invisibly on top, so tapping opens the device's own list as before. */
-.select-wrap { position: relative; display: block; min-width: 170px; }
+.select-wrap { position: relative; display: block; min-width: 150px; }
 .select-face {
   display: flex; align-items: center; min-height: 42px; padding: 6px 30px 6px 10px;
   line-height: 1.2; font-size: 15px; white-space: normal; overflow-wrap: break-word; hyphens: manual; text-align: left;
@@ -1020,3 +1020,13 @@ header.app-header.ph-head .brand { margin: 0; }
 .sc-change { font-size: 13px; font-weight: 600; color: var(--text); font-variant-numeric: tabular-nums; margin-top: 2px; }
 .sc-change .check-chip { font-size: 12px; }
 .sc-flat { color: var(--text-light); font-weight: 500; }
+
+/* Settings language picker: three equal segments with full names. */
+.lang-switch-settings { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); max-width: 420px; }
+.lang-switch-settings .lang-btn { min-height: 40px; font-size: 0.95rem; }
+
+/* Number fields: no spin arrows. They are useless on touch screens and took
+   about 15 px from the digits, so "2000" showed as "20(" in narrow columns. */
+input.field-num::-webkit-outer-spin-button,
+input.field-num::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+input.field-num { -moz-appearance: textfield; appearance: textfield; }

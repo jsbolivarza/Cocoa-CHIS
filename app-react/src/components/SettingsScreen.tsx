@@ -10,6 +10,9 @@ import { StorageDiagnostics } from "./StorageDiagnostics";
 import { SyncPanel } from "./SyncPanel";
 import { t, type Lang } from "../lib/i18n";
 
+/** Each language named in itself, never translated. */
+const LANGUAGE_NAMES: Record<Lang, string> = { en: "English", fr: "Français", es: "Español" };
+
 export function SettingsScreen() {
   const lang = useAppStore((s) => s.currentLang);
   const setLang = useAppStore((s) => s.setLang);
@@ -110,15 +113,20 @@ export function SettingsScreen() {
       <p className="section-help">{t("settings_help", lang)}</p>
 
       <h4>{t("settings_language", lang)}</h4>
-      <div className="lang-switch">
+      {/* Three equal segments with each language's own name (a coach who
+          landed in the wrong language still recognises theirs), instead
+          of EN / FR / ES squeezed to the left of a full-width bar. */}
+      <div className="lang-switch lang-switch-settings" role="group" aria-label={t("settings_language", lang)}>
         {(["en", "fr", "es"] as Lang[]).map((code) => (
           <button
             key={code}
             type="button"
+            lang={code}
+            aria-pressed={code === lang}
             className={`lang-btn ${code === lang ? "active" : ""}`}
             onClick={() => setLang(code)}
           >
-            {code.toUpperCase()}
+            {LANGUAGE_NAMES[code]}
           </button>
         ))}
       </div>

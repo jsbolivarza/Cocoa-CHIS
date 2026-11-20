@@ -108,7 +108,8 @@ body.theme-quiet .dk-btn {
   border: 0; border-radius: 8px; background: var(--q-soft); color: var(--q-muted);
 }
 body.theme-quiet .num-wrap.is-unknown .dk-btn { background: var(--eggplant); color: #fff; }
-body.theme-quiet table.data-table td .num-wrap .field { min-width: 92px; }
+/* Numbers get priority over long picklists: room for 6–7 digits beside the "?". */
+body.theme-quiet table.data-table td .num-wrap .field { min-width: 118px; }
 
 /* ---------- summary callouts (stat strips + KPI tiles) ----------
    On a white panel a white box with a hairline all but disappeared. They

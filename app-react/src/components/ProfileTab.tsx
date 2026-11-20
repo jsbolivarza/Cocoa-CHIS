@@ -109,10 +109,22 @@ export function ProfileTab() {
     <div className="panel">
       {showDuplicateWarning && (
         <div className="warn-note">
+          {/* Strong = same member code in the same coop; possible = same name
+              in the same coop with a code missing. Always shows what tells
+              people apart (code, village, seasons) so the coach can compare
+              with the farmer in front of them before linking. */}
+          <p>{t(duplicate.kind === "strong" ? "duplicate_strong" : "duplicate_possible", lang)}</p>
           <p>
-            {t("duplicate_warning", lang)}{" "}
             <strong>{duplicate.producerName || t("unnamed_household", lang)}</strong>
-            {duplicate.coopName ? ` · ${duplicate.coopName}` : ""}
+            {[
+              duplicate.producerCode ? `${t("duplicate_code_label", lang)} ${duplicate.producerCode}` : t("duplicate_no_code", lang),
+              duplicate.coopName,
+              duplicate.village,
+              duplicate.seasons.length ? `${t("duplicate_seasons", lang)} ${duplicate.seasons.join(", ")}` : "",
+            ]
+              .filter(Boolean)
+              .map((bit) => ` · ${bit}`)
+              .join("")}
           </p>
           <div className="table-actions">
             <button type="button" className="btn btn-secondary" onClick={() => linkToExistingFarmer(duplicate.farmerId)}>

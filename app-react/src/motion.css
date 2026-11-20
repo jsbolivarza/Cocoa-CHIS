@@ -25,9 +25,17 @@ body.theme-grouped .ls-nav .nav-pill { width: 104px; transform: translateX(calc(
 @media (hover: hover) { body.theme-grouped .ls-nav-btn[aria-current="page"]:hover { background: transparent; } }
 /* Phone bar: four equal slots across the bar */
 body.theme-grouped .bottom-nav .nav-pill { width: calc((100% - 12px) / 4); transform: translateX(calc(var(--i, 0) * 100%)); }
-@keyframes nav-pop { 0% { transform: scale(0.85); } 60% { transform: scale(1.1); } 100% { transform: none; } }
+/* Like a phone tab bar: icons and labels black at rest; the chosen one turns
+   blue (a brighter tone of the Fairtrade navy, which on the grey pill read
+   as black) with a bolder stroke, and pops as it lands. */
+body.theme-grouped .ls-nav-btn, body.theme-grouped .bottom-nav-btn { color: #1f2430; }
+body.theme-grouped .ls-nav-btn[aria-current="page"],
+body.theme-grouped .bottom-nav-btn.active { color: #1f5fd6; font-weight: 700; }
 body.theme-grouped .ls-nav-btn[aria-current="page"] svg,
-body.theme-grouped .bottom-nav-btn.active svg { animation: nav-pop 0.35s var(--ease-out); }
+body.theme-grouped .bottom-nav-btn.active svg { stroke-width: 2.3; }
+@keyframes nav-pop { 0% { transform: scale(0.8); } 55% { transform: scale(1.25); } 100% { transform: none; } }
+body.theme-grouped .ls-nav-btn[aria-current="page"] svg,
+body.theme-grouped .bottom-nav-btn.active svg { animation: nav-pop 0.42s var(--ease-out); }
 @keyframes screen-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 .ls-main, .list-main { animation: screen-in 0.22s var(--ease-out) both; }
 

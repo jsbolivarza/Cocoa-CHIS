@@ -1,0 +1,120 @@
+/* theme-quiet.css — PREVIEW, not decided.
+   A calmer colour scheme in the spirit of neutral mobile apps: white
+   surfaces, grey hairlines instead of filled boxes, one accent (Fairtrade
+   navy) for actions and "you are here", and colour only where it carries
+   status (green done, amber has-data-not-marked, red delete). Applies only
+   with body.theme-quiet, set from ?theme=quiet in the URL (App.tsx), so the
+   standard look is untouched and both can be compared side by side. */
+
+body.theme-quiet {
+  --q-ink: #1f2430; --q-muted: #5b6270; --q-line: #e3e6eb; --q-soft: #f4f5f7;
+  --q-accent: #001b6e; --q-done: #1a7f45; --q-amber: #c98a00;
+  --hh-page: #ffffff; --hh-rail-bg: #fbfbfc; --hh-line: var(--q-line);
+  --hh-sky-tint: var(--q-soft); --hh-sky-ink: var(--q-ink);
+  --card-alt: #f6f7f8; --border: var(--q-line); --text-light: var(--q-muted);
+  --tangerine-tint: #f6f7f8;
+}
+
+/* ---------- headers: white instead of navy ---------- */
+body.theme-quiet .hh-rail-head,
+body.theme-quiet header.app-header {
+  background: #fff; color: var(--q-ink); border-bottom: 1px solid var(--q-line); box-shadow: none;
+}
+body.theme-quiet .hh-rail-back, body.theme-quiet .hh-rail-name { color: var(--q-ink); }
+body.theme-quiet .hh-rail-status, body.theme-quiet .hh-rail-sub, body.theme-quiet .ph-status { color: var(--q-muted); }
+body.theme-quiet .brand-dark .brand-name { color: var(--q-ink); }
+body.theme-quiet .brand-dark .brand-tag { color: var(--q-muted); }
+body.theme-quiet .hh-dot.is-online, body.theme-quiet .ph-status-dot { background: var(--q-done); }
+body.theme-quiet .hh-rail-avatar { background: var(--q-soft); color: var(--q-ink); border: 1px solid var(--q-line); }
+body.theme-quiet .hh-season { color: var(--q-ink); border-color: var(--q-line); }
+body.theme-quiet .hh-season.is-current { background: var(--q-accent); border-color: var(--q-accent); color: #fff; }
+
+body.theme-quiet .bar-product, body.theme-quiet .bar-sub { color: var(--q-muted); }
+body.theme-quiet .bar-context, body.theme-quiet .ph-title-row h1 { color: var(--q-ink); }
+body.theme-quiet .bar-back, body.theme-quiet .menu-toggle { background: var(--q-soft); color: var(--q-ink); }
+body.theme-quiet header.app-header .bar-chip { background: var(--q-soft); color: var(--q-accent); }
+body.theme-quiet header.app-header .search-bar,
+body.theme-quiet .ph-search input { background: var(--q-soft); border: 1px solid var(--q-line); color: var(--q-ink); }
+body.theme-quiet header.app-header .search-field input { color: var(--q-ink); }
+body.theme-quiet header.app-header .search-field input::placeholder { color: var(--q-muted); }
+body.theme-quiet header.app-header .lang-switch { background: var(--q-soft); }
+body.theme-quiet header.app-header .lang-btn { color: var(--q-muted); }
+body.theme-quiet header.app-header .lang-btn.active { background: var(--q-accent); color: #fff; }
+body.theme-quiet header.app-header .app-menu { border-top-color: var(--q-line); }
+body.theme-quiet header.app-header .app-menu .btn { background: #fff; border-color: var(--q-line); color: var(--q-ink); }
+
+/* ---------- list menu (tablet): white rail, grey "you are here" ---------- */
+body.theme-quiet .ls-nav { background: #fff; border-right: 1px solid var(--q-line); }
+body.theme-quiet .ls-nav-btn { color: var(--q-muted); }
+body.theme-quiet .ls-nav-btn:hover { color: var(--q-ink); background: var(--q-soft); }
+body.theme-quiet .ls-nav-btn[aria-current="page"] { background: var(--q-soft); color: var(--q-accent); }
+body.theme-quiet .ls-tag { background: #fff; border: 1px solid var(--q-line); color: var(--q-ink); }
+body.theme-quiet .ls-tag.is-current { background: var(--q-soft); color: var(--q-ink); }
+
+/* ---------- household steps: a plain list, status as a small dot ---------- */
+body.theme-quiet .hh-steps { gap: 2px; }
+body.theme-quiet .hh-step,
+body.theme-quiet .hh-step.is-attention,
+body.theme-quiet .hh-step.is-results { background: transparent; border: 1px solid transparent; }
+body.theme-quiet .hh-step.is-current,
+body.theme-quiet .hh-step.is-selected { background: var(--q-soft); border-color: var(--q-line); box-shadow: none; }
+body.theme-quiet .hh-step.is-selected .hh-step-label { color: var(--q-accent); font-weight: 700; }
+body.theme-quiet .hh-step-dot { background: #fff; border-color: var(--q-line); color: var(--q-muted); }
+body.theme-quiet .hh-step.is-done .hh-step-dot { background: var(--q-done); border-color: var(--q-done); color: #fff; }
+body.theme-quiet .hh-step.is-current .hh-step-dot { background: var(--q-accent); border-color: var(--q-accent); color: #fff; }
+body.theme-quiet .hh-step.is-attention .hh-step-dot { background: #fff; border: 2px solid var(--q-amber); color: #7a5300; }
+body.theme-quiet .hh-step.is-results .hh-step-dot { background: var(--q-ink); border-color: var(--q-ink); color: #fff; }
+body.theme-quiet .hh-step.is-attention .hh-step-sub, body.theme-quiet .hh-step-sub.is-warn { color: #7a5300; }
+body.theme-quiet .hh-step.is-current .hh-step-sub { color: var(--q-muted); }
+body.theme-quiet .hub-progress .is-attention { background: var(--q-amber); opacity: 0.55; }
+body.theme-quiet .hub-progress .is-current { background: var(--q-accent); }
+
+/* ---------- cards: hairlines, no tinted fills ---------- */
+body.theme-quiet .hub-card, body.theme-quiet .wf-card { border: 1px solid var(--q-line); border-radius: 12px; box-shadow: none; }
+body.theme-quiet .hub-card.is-current { background: #fff; color: var(--q-ink); border-color: var(--q-line); }
+body.theme-quiet .hub-card.is-done { background: #fff; border-color: var(--q-done); }
+body.theme-quiet .hub-next-open { border-top-color: var(--q-line); }
+body.theme-quiet .hub-btn.is-quiet { border-color: var(--q-line); color: var(--q-ink); }
+body.theme-quiet .page-head { border-bottom: 1px solid var(--q-line); }
+body.theme-quiet .panel { box-shadow: none; border-color: var(--q-line); }
+
+/* ---------- summary callouts (stat strips + KPI tiles) ----------
+   On a white panel a white box with a hairline all but disappeared. They
+   now sit on a soft grey fill, labels are readable sentences (13 px, not
+   10 px capitals) and values are a step bigger, so a coach can read the
+   totals back to the farmer at a glance. */
+body.theme-quiet .stat-row {
+  background: var(--q-soft); border: 0; box-shadow: none; border-radius: 14px;
+  padding: 14px 20px; gap: 12px 32px;
+}
+body.theme-quiet .stat-label,
+body.theme-quiet .kpi-label {
+  font-size: 13px; text-transform: none; letter-spacing: normal; font-weight: 500; color: var(--q-muted);
+}
+body.theme-quiet .stat-value { font-size: 18px; font-weight: 700; color: var(--q-ink); margin-top: 2px; font-family: "Exo", "Segoe UI", sans-serif; }
+body.theme-quiet .kpi-value { color: var(--q-ink); }
+body.theme-quiet .stat-value.negative, body.theme-quiet .kpi-value.negative { color: #b42318; }
+
+/* ---------- results: one dark tile becomes a plain one ---------- */
+body.theme-quiet .kpi-card { background: var(--q-soft); border: 0; box-shadow: none; border-radius: 14px; }
+/* The headline figure (profit / total spending) keeps a navy tint so it
+   still leads, without the old solid navy block. */
+body.theme-quiet .kpi-card.night { background: #e7ebf5; border: 0; box-shadow: none; border-radius: 14px; }
+body.theme-quiet .kpi-card.night .kpi-value { color: var(--q-accent); }
+body.theme-quiet .kpi-card.night .kpi-label { color: var(--q-muted); }
+body.theme-quiet .kpi-card.night .kpi-value small,
+body.theme-quiet .kpi-card.night .kpi-note { color: var(--q-muted); }
+body.theme-quiet .results-table .group-row td,
+body.theme-quiet table.data-table.results-table tr.group-row td { background: var(--q-soft); color: var(--q-ink); }
+body.theme-quiet .results-table .total-row td { background: #fff; border-top: 1.5px solid var(--q-ink); }
+
+/* ---------- controls: navy is the only filled colour ---------- */
+body.theme-quiet .btn-secondary { background: var(--q-accent); border-color: var(--q-accent); color: #fff; }
+body.theme-quiet .lang-btn.active, body.theme-quiet .chip.is-on, body.theme-quiet .month-chip.is-on { background: var(--q-accent); border-color: var(--q-accent); color: #fff; }
+/* Income source chips: the standard look tints them purple; here "on" is the
+   same navy pill with white text as every other selected control. Hover
+   (pointers only, see style.css) uses navy instead of purple too. */
+@media (hover: hover) {
+  body.theme-quiet .chip:not(.is-on):hover { border-color: var(--q-accent); color: var(--q-accent); }
+}
+body.theme-quiet .update-bar { background: var(--q-ink); }

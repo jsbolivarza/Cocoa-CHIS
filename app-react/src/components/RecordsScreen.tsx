@@ -18,7 +18,7 @@
 import { useState } from "react";
 import { useAppStore } from "../store/appStore";
 import { summarizeRecords, normalizeSearch, recordMatchesSearch, exportJson, exportCsv, type RecordSummary } from "../lib/storage";
-import { recordProgress } from "../lib/recordProgress";
+import { recordProgress, formatUpdatedAt } from "../lib/recordProgress";
 import { t } from "../lib/i18n";
 import { useMediaQuery } from "../lib/useMediaQuery";
 import { WIDE_QUERY } from "../lib/layout";
@@ -150,6 +150,7 @@ export function RecordsScreen() {
                 <span role="columnheader">{t("ls_col_code", lang)}</span>
                 <span role="columnheader">{t("ls_col_place", lang)}</span>
                 <span role="columnheader">{t("ls_col_seasons", lang)}</span>
+                <span role="columnheader" className="ls-updated">{t("col_updated", lang)}</span>
                 <span role="columnheader" />
               </div>
               {groups.map((seasons) => {
@@ -172,11 +173,11 @@ export function RecordsScreen() {
                     <span role="cell" className="ls-farmer">
                       {r.producerName || t("unnamed_household", lang)}
                       {r.language && r.language.toUpperCase() !== lang.toUpperCase() && (
-                        <span className="lang-tag">{r.language.toUpperCase()}</span>
+                        <span className="lang-tag" title={`${t("record_lang_title", lang)} ${r.language.toUpperCase()}`}>{r.language.toUpperCase()}</span>
                       )}
                     </span>
                     <span role="cell" className="num">{r.producerCode || "—"}</span>
-                    <span role="cell" className="ls-place">
+                    <span role="cell" className="ls-place" title={[r.village, r.coopName].filter(Boolean).join(" · ") || undefined}>
                       {[r.village, r.coopName].filter(Boolean).join(" · ") || "—"}
                     </span>
                     <span role="cell" className="ls-tags">
@@ -198,6 +199,10 @@ export function RecordsScreen() {
                           </button>
                         );
                       })}
+                    </span>
+                    {/* Laptop widths only (wide.css): when this farmer was last edited, any season. */}
+                    <span role="cell" className="ls-updated">
+                      {formatUpdatedAt(seasons.reduce((a, s) => (s.updatedAt > a ? s.updatedAt : a), ""))}
                     </span>
                     <span role="cell" className="ls-menu-cell">
                       <button
@@ -291,7 +296,7 @@ export function RecordsScreen() {
                 <span className="ph-card-name">
                   {r.producerName || t("unnamed_household", lang)}
                   {r.language && r.language.toUpperCase() !== lang.toUpperCase() && (
-                    <span className="lang-tag">{r.language.toUpperCase()}</span>
+                    <span className="lang-tag" title={`${t("record_lang_title", lang)} ${r.language.toUpperCase()}`}>{r.language.toUpperCase()}</span>
                   )}
                 </span>
                 <span className="ph-card-sub">{place || t("unnamed_coop", lang)}</span>

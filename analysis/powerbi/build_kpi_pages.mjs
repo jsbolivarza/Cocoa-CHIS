@@ -3,8 +3,10 @@
 // Rebuilds only the pages listed; other pages and the semantic model are untouched.
 import fs from "node:fs";
 import path from "node:path";
+import os from "node:os";
 
-const RP = "C:/Users/JonnathanBolivar/Desktop/Cocoa prototype dashboard.Report";
+// The Power BI project on the Desktop of whoever runs this (no username in the repo).
+const RP = path.join(os.homedir(), "Desktop", "Cocoa prototype dashboard.Report");
 const E = "public households_flat";
 const C = { navy: "#001B6E", lime: "#D4FF47", grey: "#6B7280", grey7: "#3A4256", line: "#E4E7EC", line2: "#C9CDD6", soft: "#F8F9FB",
   cyan: "#0FC0FC", purple: "#7B1DAB", stone: "#9CA399", mint: "#09C9A8", orange: "#FF8000", pink: "#FF4571", navy5: "#4A63AE",

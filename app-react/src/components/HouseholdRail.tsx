@@ -162,6 +162,9 @@ export function HouseholdRail({ compact }: { compact: boolean }) {
               <span className="hh-step-dot" aria-hidden="true">
                 {s.state === "complete" ? <CheckIcon /> : s.tab === "consent" ? "C" : i}
               </span>
+              {/* Collapsed rail: a short name under each number, so nobody
+                  has to remember (or say over the phone) "tap the 3". */}
+              {compact && <span className="hh-step-short" aria-hidden="true">{t(`step_short_${s.tab}`, lang)}</span>}
               {!compact && (
                 <span className="hh-step-text">
                   <span className="hh-step-label">{s.label}</span>
@@ -180,6 +183,7 @@ export function HouseholdRail({ compact }: { compact: boolean }) {
           onClick={() => switchTab("results")}
         >
           <span className="hh-step-dot" aria-hidden="true">6</span>
+          {compact && <span className="hh-step-short" aria-hidden="true">{t("step_short_results", lang)}</span>}
           {!compact && (
             <span className="hh-step-text">
               <span className="hh-step-label">{t("tab_results", lang)}</span>

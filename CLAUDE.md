@@ -223,6 +223,69 @@ lists what was set aside; nothing deleted. JB to re-run `schema.sql`, then
 `raw_views.sql`. Open: blocking a second capture of the same farmer and
 season at upload (option B) needs a decision on which record wins.
 
+**Data review roles (proposal, 19.11.26, not built; open questions go to
+DSU):** coach (capture, own uploads); FTA reviewer (reads all coaches'
+households, downloads them for assessment, may also correct them in the
+app after verifying by phone with the coach, presses a "Reviewed" mark like
+the step completion marks); FI analyst (cleaning layer on top of raw, never
+overwrites it); admin (JB, full access). Layers: raw base (version history
+keeps the first upload), review status (separate from the record, "changed
+since review" if edited after), updated base feeding Power BI. Because
+results come from `calc.ts`, corrections to inputs must be made in the app
+or need a server-side recalculation. Open for DSU: may the reviewer edit
+every field; does a later edit reset "Reviewed"; FI corrections as a log
+(recommended) or cleaned tables from R; Power BI reviewed-only or all with
+a filter. Today RLS lets only the uploading coach update a row, so reviewer
+edits need a new policy and must not change `coach_user`.
+
+**Since last season card (20.11.26, not published):** `SeasonCompareCard.tsx`
+on the hub (wide layout only): cocoa produced, yield, farmgate price, cocoa
+area and net farm income beside the same `farmerId`'s previous season label,
+grey ▲/▼ %, "so far" on income until all steps are complete, no % where
+units or currency differ; "See all seasons" opens `FarmerHistoryScreen`.
+Text only so the money flow stays the one chart (JB). Layout only, no
+record-format change. After a design review (JB found grey ▲/▼ unfriendly)
+it became a full-width table (previous | current | change, plain "+18 %",
+amber "check with farmer" chip from ±25 % / ±50 % income, placeholder
+limits). Same pass: one step count everywhere (`recordProgress` = 6 capture
+steps; Results can't be marked; phone header shows done count, not
+position); field hints no longer uppercase; Resume + Needs attention merged
+into one card; short step names on the collapsed rail (84 px); Labour month
+column sticky; "Delete all data" moved to an outlined section at the end of
+Settings; Results opens on the KPI tiles; required-fields note hidden on
+Results; translated import error. Review archive in `.impeccable/critique/`.
+Colour preview (not decided): `src/theme-quiet.css`, only active with
+`?theme=quiet` in the URL (white headers and rails, grey hairlines, navy the
+only filled colour, status dots instead of tinted boxes). Second preview
+`?theme=grouped` (`src/theme-grouped.css`, layered on quiet): patterns
+adapted from JB's GitHub-app phone screenshots (grey page, white rounded
+groups, step rows with coloured tiles + inset dividers + chevrons, pill
+buttons/chips, floating pill tab bar on phones). `?font=exo`
+(`src/font-exo.css`, combinable with either theme) sets headings in Exo 700
+instead of Alegreya Sans, one font family. Grouped also moves the list
+menu (Records/Compare/Export/Settings) on tablet/laptop into the phone's
+floating pill bar, centred at the bottom. For every theme: the Records
+header and table now share one centred column (max 1320 px) and a "Last
+updated" column appears from 1280 px. `WIDE_QUERY` lowered from 901 to
+744 px wide (20.11.26) so an upright iPad keeps the tablet shell (hub,
+rail, floating bar); upright (< 1024 px) every step but the hub uses the
+collapsed rail (`NARROW_WIDE_QUERY`). Quiet/grouped callouts: stat strips
+and KPI tiles on a soft grey fill, 13 px sentence-case labels, 18 px values,
+headline tile (profit / total spending) navy-tinted; all callouts kept (some,
+e.g. subsidized labour, appear nowhere else). All themes: `.stat-row` is
+an even grid (no stranded box when it wraps); `KpiCard`/`StatBox` take an
+optional one-line `note`. Profile → Farm distribution: callouts stay above
+the plots (JB: coaches watch them change while typing, no long text); the
+two % boxes became notes on their area boxes; the cocoa-area and
+farm-area tiles show "IMS x · ±n %" with the amber "check with farmer" chip
+above 10 % (both measured) / 25 % (any estimate). Display only, nothing
+saved; first piece of the area rule in the validation proposal. JB to choose; if kept,
+fold it into the tokens and drop the URL switch. Also proposed (not built): validation rules in three
+layers (block / warn-and-confirm / server flags) and the gaps that break
+farmer tracking (blank season merges seasons in `households_current`, free-
+text coop name in the server key, no upload history). Next: check the card
+in the browser with a two-season farmer, then publish as 0.5.0.
+
 Known gaps / deliberately deferred, in rough priority order:
 - **Sync is manual, upload + "Download my households" (0.4.0,
   17.11.26).** Download (`sync.ts` `downloadRecords()`,

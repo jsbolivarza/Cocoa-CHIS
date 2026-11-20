@@ -25,13 +25,26 @@ import { HouseholdRail } from "./components/HouseholdRail";
 import { HubScreen } from "./components/HubScreen";
 import { ListShell, ListHeader } from "./components/ListShell";
 import { useMediaQuery } from "./lib/useMediaQuery";
-import { WIDE_QUERY, ROOMY_QUERY } from "./lib/layout";
+import { WIDE_QUERY, ROOMY_QUERY, NARROW_WIDE_QUERY } from "./lib/layout";
 
 // Steps whose tables need the width: on a tablet the rail collapses to an
 // icon strip while they are open (design/shell-options HT3 to HT6).
 const WIDE_TABLE_TABS = ["profile", "revenues", "costs", "labour"];
 import "./style.css";
 import "./wide.css";
+import "./theme-quiet.css";
+import "./theme-grouped.css";
+import "./font-exo.css";
+
+// Colour scheme previews, read once from the URL (navigation never changes
+// it): ?theme=quiet = theme-quiet.css; ?theme=grouped = quiet plus the
+// grouped layout from the GitHub-app screenshots (theme-grouped.css).
+const previewParams = new URLSearchParams(window.location.search);
+const themeParam = previewParams.get("theme");
+// ?font=exo: headings in Exo too, one font family (font-exo.css).
+if (previewParams.get("font") === "exo") document.body.classList.add("font-exo");
+if (themeParam === "quiet" || themeParam === "grouped") document.body.classList.add("theme-quiet");
+if (themeParam === "grouped") document.body.classList.add("theme-grouped");
 
 export default function App() {
   const loaded = useAppStore((s) => s.loaded);
@@ -45,6 +58,7 @@ export default function App() {
   const record = useAppStore((s) => s.record);
   const wide = useMediaQuery(WIDE_QUERY);
   const roomy = useMediaQuery(ROOMY_QUERY);
+  const narrowWide = useMediaQuery(NARROW_WIDE_QUERY);
 
   // The hub only exists in the wide layout; a tablet turned or resized
   // down to phone width falls back to the first step instead of a blank page.
@@ -133,7 +147,11 @@ export default function App() {
 
       {wideEditor && record && (
         <div className="hh-shell">
-          <HouseholdRail compact={!roomy && WIDE_TABLE_TABS.includes(currentTab)} />
+          <HouseholdRail
+            compact={
+              (narrowWide && currentTab !== "hub") || (!roomy && WIDE_TABLE_TABS.includes(currentTab))
+            }
+          />
           <div className="hh-main">
             {currentTab === "hub" ? (
               <HubScreen />
@@ -153,7 +171,7 @@ export default function App() {
                   </button>
                 </header>
                 <div className="hh-content">
-                  <p className="required-hint">{t("required_hint", currentLang)}</p>
+                  {currentTab !== "results" && <p className="required-hint">{t("required_hint", currentLang)}</p>}
                   <div id="tab-content">
                     {tabContent}
                     <StepFooter />
@@ -191,7 +209,7 @@ export default function App() {
             })}
           </nav>
           <main>
-            <p className="required-hint">{t("required_hint", currentLang)}</p>
+            {currentTab !== "results" && <p className="required-hint">{t("required_hint", currentLang)}</p>}
             <div id="tab-content">
               {tabContent}
               <StepFooter />

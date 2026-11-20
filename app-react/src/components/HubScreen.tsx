@@ -12,6 +12,7 @@ import { CAPTURE_TABS, resumeStep } from "../lib/stepSummary";
 import { num } from "../lib/calc";
 import { fmt } from "../lib/format";
 import type { TableRow } from "../lib/dataModel";
+import { SeasonCompareCard } from "./SeasonCompareCard";
 
 const NextIcon = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -66,16 +67,35 @@ export function HubScreen() {
       </header>
 
       <div className="hub-grid">
+        {/* One card for "what now": the next step stands out; other steps
+            that have data but aren't marked complete are a quiet list
+            beneath it, not a second amber card of equal buttons. */}
         {resume ? (
-          <section className="hub-card is-current">
-            <h2>{t(resumeStarted || doneCount ? "hub_resume_heading" : "hub_start_heading", lang)}</h2>
-            <p>
-              {label(resume)} {t(resumeStarted ? "hub_resume_in_progress" : "hub_resume_next", lang)}
-            </p>
-            <button type="button" className="hub-btn is-primary" onClick={() => switchTab(resume)}>
-              {t("hub_resume_btn", lang)}: {label(resume)}
-              <NextIcon />
-            </button>
+          <section className="hub-card is-current hub-next">
+            <div className="hub-next-main">
+              <div>
+                <h2>{t(resumeStarted || doneCount ? "hub_resume_heading" : "hub_start_heading", lang)}</h2>
+                <p>
+                  {label(resume)} {t(resumeStarted ? "hub_resume_in_progress" : "hub_resume_next", lang)}
+                </p>
+              </div>
+              <button type="button" className="hub-btn is-primary" onClick={() => switchTab(resume)}>
+                {t("hub_resume_btn", lang)}: {label(resume)}
+                <NextIcon />
+              </button>
+            </div>
+            {attention.length > 0 && (
+              <div className="hub-next-open">
+                <span>{t("hub_also_open", lang)}</span>
+                <div className="hub-btn-row">
+                  {attention.map((tab) => (
+                    <button key={tab} type="button" className="hub-btn is-quiet" onClick={() => switchTab(tab)}>
+                      {label(tab)}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
           </section>
         ) : (
           <section className="hub-card is-done">
@@ -85,20 +105,6 @@ export function HubScreen() {
               {t("hub_open_results", lang)}
               <NextIcon />
             </button>
-          </section>
-        )}
-
-        {attention.length > 0 && (
-          <section className="hub-card is-attention">
-            <h2>{t("hub_attention_heading", lang)}</h2>
-            <p>{t("hub_attention_text", lang)}</p>
-            <div className="hub-btn-row">
-              {attention.map((tab) => (
-                <button key={tab} type="button" className="hub-btn is-attention" onClick={() => switchTab(tab)}>
-                  {t("hub_open", lang)} {label(tab)}
-                </button>
-              ))}
-            </div>
           </section>
         )}
 
@@ -124,6 +130,8 @@ export function HubScreen() {
             <p className="is-muted">{t("hub_no_members", lang)}</p>
           )}
         </section>
+
+        <SeasonCompareCard record={record} complete={doneCount === CAPTURE_TABS.length} />
       </div>
     </div>
   );

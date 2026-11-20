@@ -84,7 +84,7 @@ export function SettingsScreen() {
     try {
       parsed = await parseImportFile(file);
     } catch {
-      alert("Could not read this file.");
+      alert(t("import_read_error", lang));
       return;
     }
     const r = await importRecords(parsed);
@@ -135,11 +135,7 @@ export function SettingsScreen() {
           style={{ display: "none" }}
           onChange={handleImportChange}
         />
-        <button type="button" className="btn btn-danger" onClick={handleDeleteAll}>
-          {t("btn_delete_all", lang)}
-        </button>
       </div>
-      <p className="field-hint">{t("settings_delete_note", lang)}</p>
 
       <h4>{t("roster_heading", lang)}</h4>
       <p className="section-help">{t("roster_help", lang)}</p>
@@ -178,6 +174,17 @@ export function SettingsScreen() {
           {updateLabel ?? t("btn_check_update", lang)}
         </button>
       </div>
+
+      {/* Kept apart at the end of the page, outlined rather than filled, so
+          it can't be mis-tapped for Import JSON on a tablet outdoors. The
+          confirm dialog stays as the second guard. */}
+      <section className="danger-zone">
+        <h4>{t("settings_danger_heading", lang)}</h4>
+        <p className="field-hint">{t("settings_delete_note", lang)}</p>
+        <button type="button" className="btn btn-danger-outline" onClick={handleDeleteAll}>
+          {t("btn_delete_all", lang)}
+        </button>
+      </section>
     </div>
   );
 }

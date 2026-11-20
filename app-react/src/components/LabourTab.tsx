@@ -70,7 +70,7 @@ function LabourRowFields({ idx, row, lang }: { idx: number; row: LabourRow; lang
 function LabourGrid({ rows, lang }: { rows: LabourRow[]; lang: Lang }) {
   return (
     <div className="table-wrap">
-      <table className="data-table">
+      <table className="data-table labour-table">
         <thead>
           <tr>
             <th>{t("col_month", lang)}</th>

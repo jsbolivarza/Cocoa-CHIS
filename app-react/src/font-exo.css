@@ -1,0 +1,11 @@
+/* font-exo.css — PREVIEW, not decided. ?font=exo (combinable with any
+   ?theme=) sets headings in Exo too, so the app uses one font family.
+   Exo is bundled up to 700, so headings use 700 rather than a synthetic
+   800; size and tighter tracking carry the hierarchy instead. */
+
+body.font-exo :is(h1, h2, h3, h4, .stat-value, .lang-btn.active, .brand-name, .hh-rail-title, .ph-title-row h1) {
+  font-family: "Exo", "Segoe UI", sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+body.font-exo :is(h1, .ph-title-row h1, .hh-rail-title) { letter-spacing: -0.02em; }

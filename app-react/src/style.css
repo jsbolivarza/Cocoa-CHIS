@@ -159,7 +159,9 @@ main { max-width: 1400px; margin: 0 auto; padding: 26px 32px; }
 .panel h3:first-of-type { margin-top: 0; }
 .panel h4 { color: var(--eggplant); margin-top: 20px; margin-bottom: 8px; text-transform: uppercase; letter-spacing: .3px; font-size: 0.95rem; }
 .section-help, .field-hint { color: var(--text-light); font-size: 0.85rem; font-family: "Exo", "Segoe UI", sans-serif; }
-.field-hint { display: block; margin-top: 3px; }
+/* Hints sit inside .form-grid labels, which are uppercase and bold; a hint
+   must read as a sentence, quieter than its label, not louder. */
+.field-hint { display: block; margin-top: 3px; text-transform: none; font-weight: 400; letter-spacing: normal; }
 
 .consent-text p { margin: 0 0 10px; white-space: pre-line; }
 
@@ -248,12 +250,23 @@ table.data-table .computed-cell { font-weight: 700; color: var(--night); backgro
 .kpi-card.night .kpi-label { color: rgba(255,255,255,.7); }
 .kpi-card.night .kpi-value { color: #fff; }
 .kpi-card.night .kpi-value small { color: rgba(255,255,255,.7); }
+.kpi-card.night .kpi-note { color: rgba(255,255,255,.85); }
 .kpi-value.negative { color: var(--flower); }
 
 .stat-row {
   background: var(--card); border: 1px solid var(--border); border-radius: 12px;
   box-shadow: 0 1px 3px rgba(30,30,30,.06); padding: 12px 18px; margin: 0 0 16px;
-  display: flex; gap: 24px; flex-wrap: wrap;
+  /* Even columns instead of a wrapping flex row: on a laptop the boxes
+     spread across the width, and when they wrap they stay in columns
+     rather than leaving one box stranded on a second line. */
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px 24px;
+}
+.stat-note { font-weight: 500; color: var(--text-light); }
+.kpi-note { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; margin-top: 6px; font-size: 13px; color: var(--text-light); }
+/* Amber "check with farmer": the same shared amber as "needs attention". */
+.check-chip {
+  display: inline-block; padding: 2px 9px; border-radius: 999px; font-size: 12px; font-weight: 600;
+  background: #fffaeb; border: 1.5px solid #f0b429; color: #5c3a00;
 }
 .stat-box { min-width: 100px; }
 .stat-label {
@@ -363,6 +376,11 @@ footer.app-footer { text-align: center; color: var(--text-light); font-size: 0.7
 .modal-actions { display: flex; gap: 10px; justify-content: flex-end; }
 .btn-danger { background: var(--flower); border-color: var(--flower); color: #fff; }
 .btn-danger:hover { background: #e03a63; }
+.danger-zone { margin-top: 36px; padding-top: 4px; border-top: 2px solid var(--border); }
+.danger-zone h4 { color: #a3123a; }
+.danger-zone .field-hint { margin-bottom: 10px; }
+.btn-danger-outline { background: #fff; border: 1.5px solid #c2185b; color: #a3123a; }
+@media (hover: hover) { .btn-danger-outline:hover { background: #fdeef3; } }
 
 @media (max-width: 720px), (max-height: 520px) and (orientation: landscape) {
   .form-grid, .form-grid-3, .form-grid-4 { grid-template-columns: 1fr 1fr; }
@@ -410,7 +428,7 @@ footer.app-footer { text-align: center; color: var(--text-light); font-size: 0.7
 .record-card:focus-visible { outline: 2px solid var(--tangerine); outline-offset: 2px; }
 .lang-tag {
   display: inline-block; margin-left: 7px; padding: 1px 6px; border-radius: 20px;
-  background: var(--sky-tint); color: #0b5f7a; font-size: 0.62rem;
+  background: var(--sky-tint); color: #0b5f7a; font-size: 0.72rem;
   font-weight: 700; letter-spacing: 0.04em; vertical-align: middle;
 }
 .record-progress {

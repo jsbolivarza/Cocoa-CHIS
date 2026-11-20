@@ -10,7 +10,8 @@
 
 import { useAppStore } from "../store/appStore";
 import { t } from "../lib/i18n";
-import { TABS, TAB_LABEL_KEY, LIST_TAB_SHORT_KEY } from "../lib/tabs";
+import { TAB_LABEL_KEY, LIST_TAB_SHORT_KEY } from "../lib/tabs";
+import { recordProgress } from "../lib/recordProgress";
 import { useOnline } from "../lib/useOnline";
 import { Brand } from "./Brand";
 
@@ -66,12 +67,14 @@ export function AppBar() {
 
   const seasonsCount = Object.values(records).filter((r) => r.meta.farmerId === record.meta.farmerId).length;
   const context = record.profile.producerName || t("unnamed_household", currentLang);
-  const idx = TABS.indexOf(currentTab as (typeof TABS)[number]) + 1;
+  // Same count as the hub and the Records tags (recordProgress), not the
+  // step's position, which read as "1 of 7" beside a hub saying "0 of 6".
+  const progress = recordProgress(record);
   const bits = [record.profile.coopName, record.profile.village].filter(Boolean);
   const units = [record.meta.currencyUnit, record.meta.areaUnit].filter(Boolean).join(" / ");
   if (units) bits.push(units);
   const sub =
-    `${idx} ${t("record_of_steps", currentLang)} ${TABS.length} · ${t(TAB_LABEL_KEY[currentTab], currentLang)}` +
+    `${t(TAB_LABEL_KEY[currentTab], currentLang)} · ${progress.done} ${t("record_of_steps", currentLang)} ${progress.total} ${t("hub_steps_complete", currentLang)}` +
     (bits.length ? " · " + bits.join(" · ") : "");
 
   return (

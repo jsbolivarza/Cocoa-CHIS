@@ -1,10 +1,11 @@
 /* ProfileTab.tsx
    Ported from renderProfileTab() in docs/js/app.js. */
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { useAppStore } from "../store/appStore";
-import { t } from "../lib/i18n";
-import { calcProfile } from "../lib/calc";
+import { t, type Lang } from "../lib/i18n";
+import { calcProfile, num } from "../lib/calc";
+import { fmt } from "../lib/format";
 import { findPotentialDuplicate } from "../lib/duplicates";
 import { seasonOptionsWithCurrent } from "../lib/seasons";
 import { TextField, NumberField, SelectField } from "./fields";
@@ -52,6 +53,36 @@ function ProducerCodeField({ value }: { value: string }) {
   );
 }
 
+/** Farmer-reported area (sum of plots) against the IMS figure typed above,
+ *  as one short note for the callout: "IMS 2 acre · +150 %", with the
+ *  amber "check with farmer" chip above the limit. Limits from the
+ *  validation proposal (placeholders): 10 % when both sides are measured,
+ *  25 % when either is estimated. Nothing is blocked or saved. */
+function imsNote(
+  farmer: number,
+  imsRaw: unknown,
+  bothMeasured: boolean,
+  unknown: boolean,
+  unit: string,
+  lang: Lang,
+): ReactNode {
+  if (unknown || imsRaw === "" || imsRaw == null) return null;
+  const ims = num(imsRaw);
+  if (!ims || !farmer) return null;
+  const share = (farmer - ims) / ims;
+  const pct = Math.round(share * 100);
+  const check = Math.abs(share) > (bothMeasured ? 0.1 : 0.25);
+  return (
+    <>
+      <span>
+        IMS {fmt(ims)} {unit}
+        {pct !== 0 ? ` · ${pct > 0 ? "+" : "−"}${Math.abs(pct)} %` : ""}
+      </span>
+      {check && <span className="check-chip">{t("hub_check", lang)}</span>}
+    </>
+  );
+}
+
 export function ProfileTab() {
   const record = useAppStore((s) => s.record);
   const records = useAppStore((s) => s.records);
@@ -63,6 +94,13 @@ export function ProfileTab() {
   const p = record.profile;
   const res = calcProfile(p);
   const area = record.meta.areaUnit;
+  // For the IMS comparison: "measured" only if the IMS figure and every plot
+  // it is compared with were measured; one estimate loosens the limit.
+  const unknown = new Set(record.meta.unknownFields || []);
+  const plotsMeasured = (rows: typeof p.plots) => rows.every((r) => r.area === "" || r.measured === "measured");
+  const cocoaPlots = (p.plots || []).filter((r) => r.crop === "cocoa" || r.crop === "cocoa_intercropped");
+  const cocoaMeasured = p.cocoaAreaImsMeasured === "measured" && plotsMeasured(cocoaPlots);
+  const farmMeasured = p.totalFarmAreaImsMeasured === "measured" && plotsMeasured(p.plots || []);
   const duplicate = findPotentialDuplicate(records, record);
   const showDuplicateWarning = duplicate && duplicate.farmerId !== dismissedFarmerId;
   const codeNotInRoster = roster.length > 0 && p.producerCode.trim() !== "" && !findRosterEntry(roster, p.producerCode);
@@ -195,18 +233,33 @@ export function ProfileTab() {
 
       <h3>{t("farm_distribution_heading", lang)}</h3>
       <p className="section-help">{t("farm_distribution_help", lang)}</p>
+      {/* Callouts stay above the table so the coach sees them change while
+          typing plots. The two area tiles carry the IMS comparison; each
+          sharecropped area carries its own share instead of a second box. */}
       <div className="kpi-grid">
-        <KpiCard accent="night" labelKey="total_cocoa_area" value={res.totalCocoaArea} lang={lang} unit={area} />
+        <KpiCard
+          accent="night"
+          labelKey="total_cocoa_area"
+          value={res.totalCocoaArea}
+          lang={lang}
+          unit={area}
+          note={imsNote(res.totalCocoaArea, p.cocoaAreaIms, cocoaMeasured, unknown.has("profile.cocoaAreaIms"), area, lang)}
+        />
         <KpiCard accent="eggplant" labelKey="total_cult_area" value={res.totalCultArea} lang={lang} unit={area} />
-        <KpiCard accent="mint" labelKey="total_farm_area_farmer" value={res.totalFarmAreaFarmer} lang={lang} unit={area} />
+        <KpiCard
+          accent="mint"
+          labelKey="total_farm_area_farmer"
+          value={res.totalFarmAreaFarmer}
+          lang={lang}
+          unit={area}
+          note={imsNote(res.totalFarmAreaFarmer, p.totalFarmAreaIms, farmMeasured, unknown.has("profile.totalFarmAreaIms"), area, lang)}
+        />
       </div>
       <div className="stat-row">
         <StatBox labelKey="total_cocoa_only_area" value={res.cocoaOnly} lang={lang} unit={area} />
         <StatBox labelKey="total_intercropped_cocoa_area" value={res.cocoaIntercropped} lang={lang} unit={area} />
-        <StatBox labelKey="cocoa_area_sharecropped" value={res.cocoaAreaSharecropped} lang={lang} unit={area} />
-        <StatBox labelKey="pct_cocoa_sharecropped" value={res.pctCocoaSharecropped * 100} lang={lang} unit="%" />
-        <StatBox labelKey="farm_sharecropped" value={res.farmSharecropped} lang={lang} unit={area} />
-        <StatBox labelKey="pct_farm_sharecropped" value={res.pctFarmSharecropped * 100} lang={lang} unit="%" />
+        <StatBox labelKey="cocoa_area_sharecropped" value={res.cocoaAreaSharecropped} lang={lang} unit={area} note={`${fmt(res.pctCocoaSharecropped * 100)} %`} />
+        <StatBox labelKey="farm_sharecropped" value={res.farmSharecropped} lang={lang} unit={area} note={`${fmt(res.pctFarmSharecropped * 100)} %`} />
       </div>
       <DataTable schemaKey="plots" arrPath="profile.plots" />
 

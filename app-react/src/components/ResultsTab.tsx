@@ -58,30 +58,30 @@ export function ResultsTab() {
       <h3>{t("results_heading", lang)}</h3>
       <p className="section-help">{t("results_help", lang)}</p>
 
+      {/* Headline cards first: the figures anyone asks for, so the screen
+          opens on the farm's result, not on a list of what's unfinished. */}
+      <div className="kpi-grid">
+        <KpiCard accent="night" labelKey="res_profit" value={res.profitFarm} lang={lang} unit={cur} />
+        <KpiCard accent="eggplant" labelKey="res_cost_of_production_kg" value={res.costOfProductionPerKg} lang={lang} unit={`${cur}/${vol}`} />
+        <KpiCard accent="mint" labelKey="cmp_price_per_kg" value={res.revenues.cocoa.avgPrice} lang={lang} unit={`${cur}/${vol}`} />
+      </div>
+
       {/* Results open at any time (a coach checks figures mid-interview);
-          the warning says which steps could still change them. */}
+          the note says which steps could still change them. */}
       {open.length > 0 && (
-        <div className="results-warning" role="note">
+        <div className="results-warning is-compact" role="note">
           <strong>{t("results_incomplete", lang)}</strong> {open.map((tab) => t(TAB_LABEL_KEY[tab], lang)).join(", ")}.{" "}
           {t("results_incomplete_help", lang)}
         </div>
       )}
       {unknownByStep.length > 0 && (
-        <div className="results-warning" role="note">
+        <div className="results-warning is-compact" role="note">
           <strong>{t("results_unknown", lang)}</strong>{" "}
           {unknownByStep.map(([tab, n]) => `${t(TAB_LABEL_KEY[tab], lang)} (${n})`).join(", ")}.{" "}
           {t("results_unknown_help", lang)}
         </div>
       )}
       <MoneyWaterfall res={res} />
-
-      {/* Headline cards: the figures anyone asks for first, so they are not
-          buried in a forty-row table while a farmer is sitting across the table. */}
-      <div className="kpi-grid">
-        <KpiCard accent="night" labelKey="res_profit" value={res.profitFarm} lang={lang} unit={cur} />
-        <KpiCard accent="eggplant" labelKey="res_cost_of_production_kg" value={res.costOfProductionPerKg} lang={lang} unit={`${cur}/${vol}`} />
-        <KpiCard accent="mint" labelKey="cmp_price_per_kg" value={res.revenues.cocoa.avgPrice} lang={lang} unit={`${cur}/${vol}`} />
-      </div>
 
       <div className="table-wrap">
         <table className="data-table results-table">

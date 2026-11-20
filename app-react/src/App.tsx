@@ -36,6 +36,7 @@ import "./wide.css";
 import "./theme-quiet.css";
 import "./theme-grouped.css";
 import "./font-exo.css";
+import "./motion.css";
 
 // Look (JB 20.11.26): the grouped scheme with Exo only is the default.
 // It is layered as body classes over the original stylesheets:
@@ -174,7 +175,8 @@ export default function App() {
                     {t("hub_back_overview", currentLang)}
                   </button>
                 </header>
-                <div className="hh-content">
+                {/* Keyed per step so the new step fades in (motion.css). */}
+                <div className="hh-content" key={currentTab}>
                   {currentTab !== "results" && <p className="required-hint">{t("required_hint", currentLang)}</p>}
                   <div id="tab-content">
                     {tabContent}

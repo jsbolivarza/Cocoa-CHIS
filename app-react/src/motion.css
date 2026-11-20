@@ -1,0 +1,52 @@
+/* motion.css
+   The app's few animations, each with a job (JB 20.11.26: desktop/iPad
+   first). Only transform/opacity/clip-path/box-shadow/width, which stay
+   smooth on cheap Android phones; nothing delays input; all of it stops
+   for anyone with "reduce motion" switched on (bottom of this file). */
+
+:root { --ease-out: cubic-bezier(0.22, 1, 0.36, 1); }
+
+/* 1. Callouts react to typing: the changed box glows once (Kpi.tsx re-keys
+   it on each change; the number itself glides in JS, lib/motion.ts). */
+@keyframes callout-glow {
+  0%   { box-shadow: 0 0 0 0 rgba(0, 27, 110, 0); }
+  25%  { box-shadow: 0 0 0 3px rgba(0, 27, 110, 0.22); }
+  100% { box-shadow: 0 0 0 0 rgba(0, 27, 110, 0); }
+}
+.kpi-card.is-pulse { animation: callout-glow 0.9s var(--ease-out); }
+.stat-box.is-pulse { animation: callout-glow 0.9s var(--ease-out); border-radius: 8px; }
+
+/* 2. Live money flow in the rail: bars slide to their new length. */
+.hh-bar > span { transition: width 0.45s var(--ease-out), margin-left 0.45s var(--ease-out); }
+
+/* 3. Results: the waterfall builds once when Results opens, left to right
+   (revenues rise, costs drop from the running total, profit lands last),
+   and glides when switching Whole farm / Cocoa only. Tablet/laptop only;
+   phones draw it as plain horizontal bars. */
+@keyframes wf-rise { from { clip-path: inset(100% 0 0 0 round 4px); } to { clip-path: inset(0 0 0 0 round 4px); } }
+@keyframes wf-drop { from { clip-path: inset(0 0 100% 0 round 4px); } to { clip-path: inset(0 0 0 0 round 4px); } }
+body.layout-wide .wf-bar {
+  animation: wf-rise 0.55s var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * 70ms);
+  transition: bottom 0.4s var(--ease-out), height 0.4s var(--ease-out);
+}
+body.layout-wide .wf-bar.is-out { animation-name: wf-drop; }
+
+/* 4. Small confirmations */
+/* Mark as complete: the check in the rail tile draws itself. */
+@keyframes check-draw { from { stroke-dashoffset: 24; } to { stroke-dashoffset: 0; } }
+.hh-step.is-done .hh-step-dot svg path { stroke-dasharray: 24; animation: check-draw 0.4s var(--ease-out) both; }
+/* Bottom bar / list menu: the grey pill fades onto the tapped section. */
+.ls-nav-btn, .bottom-nav-btn { transition: background-color 0.2s var(--ease-out), color 0.2s var(--ease-out); }
+/* Switching steps on tablet/laptop: the new step fades in quickly. App.tsx
+   re-keys .hh-content per step, which restarts this. */
+@keyframes step-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+body.layout-wide .hh-content, body.layout-wide .hub { animation: step-in 0.18s var(--ease-out) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .kpi-card.is-pulse, .stat-box.is-pulse, body.layout-wide .wf-bar,
+  .hh-step.is-done .hh-step-dot svg path, body.layout-wide .hh-content, body.layout-wide .hub {
+    animation: none !important;
+  }
+  .hh-bar > span, body.layout-wide .wf-bar, .ls-nav-btn, .bottom-nav-btn { transition: none !important; }
+}

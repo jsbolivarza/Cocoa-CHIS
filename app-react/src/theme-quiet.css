@@ -78,6 +78,22 @@ body.theme-quiet .hub-btn.is-quiet { border-color: var(--q-line); color: var(--q
 body.theme-quiet .page-head { border-bottom: 1px solid var(--q-line); }
 body.theme-quiet .panel { box-shadow: none; border-color: var(--q-line); }
 
+/* ---------- field labels and table headers: sentences, not tiny capitals ----------
+   Long labels ("Minor food crops grown for domestic consumption") were
+   10–12 px grey capitals, slow to read and longer still in FR/ES. Optional
+   fields stay lighter than required ones, but readable. */
+body.theme-quiet .form-grid label {
+  font-size: 14px; font-weight: 600; text-transform: none; letter-spacing: normal; color: var(--q-ink);
+}
+body.theme-quiet .form-grid label.optional { color: var(--q-muted); font-weight: 500; }
+body.theme-quiet table.data-table thead th {
+  font-size: 13px; text-transform: none; letter-spacing: normal; color: var(--q-muted);
+}
+body.theme-quiet .season-note, body.theme-quiet .panel h4 {
+  text-transform: none; letter-spacing: normal;
+}
+body.theme-quiet .panel h4 { color: var(--q-ink); font-size: 1.05rem; }
+
 /* ---------- summary callouts (stat strips + KPI tiles) ----------
    On a white panel a white box with a hairline all but disappeared. They
    now sit on a soft grey fill, labels are readable sentences (13 px, not

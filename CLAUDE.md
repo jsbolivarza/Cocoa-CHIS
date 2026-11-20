@@ -279,7 +279,9 @@ the plots (JB: coaches watch them change while typing, no long text); the
 two % boxes became notes on their area boxes; the cocoa-area and
 farm-area tiles show "IMS x · ±n %" with the amber "check with farmer" chip
 above 10 % (both measured) / 25 % (any estimate). Display only, nothing
-saved; first piece of the area rule in the validation proposal. JB to choose; if kept,
+saved; first piece of the area rule in the validation proposal. Tablet/
+laptop table picklists size to their longest option (all themes); quiet/
+grouped field labels, table headers and h4s in sentence case. JB to choose; if kept,
 fold it into the tokens and drop the URL switch. Also proposed (not built): validation rules in three
 layers (block / warn-and-confirm / server flags) and the gaps that break
 farmer tracking (blank season merges seasons in `households_current`, free-

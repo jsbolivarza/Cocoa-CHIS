@@ -213,6 +213,12 @@ table.data-table { border-collapse: collapse; width: 100%; min-width: 640px; }
 table.data-table th, table.data-table td { border-bottom: 1px solid var(--border); padding: 7px 9px; text-align: left; vertical-align: middle; }
 table.data-table thead th { background: var(--card-alt); color: var(--text-light); font-weight: 600; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; position: sticky; top: 0; }
 table.data-table td .field { min-width: 110px; }
+/* Tablet/laptop tables: a picklist sizes its column to its longest option
+   ("cocoa intercropped", "land owner with sharecropper") instead of being
+   squeezed to "cocoa int…", where cocoa and cocoa intercropped look alike.
+   The table already scrolls sideways, so nothing else gets cramped. Phones
+   stack table rows as cards (.stack-wrap), where full width is right. */
+body.layout-wide table.data-table td select.field { width: auto; min-width: 100%; }
 table.data-table .idx-cell { color: var(--text-light); font-weight: 600; white-space: nowrap; }
 .idx-full { display: none; }
 table.data-table .computed-cell { font-weight: 700; color: var(--night); background: var(--tangerine-tint); white-space: nowrap; font-variant-numeric: tabular-nums; }

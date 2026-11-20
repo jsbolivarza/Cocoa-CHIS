@@ -49,9 +49,13 @@ body.layout-wide input, body.layout-wide select, body.layout-wide textarea { fon
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%;
 }
 .hh-rail-sub { font-size: 14px; color: #d9e0f5; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+/* padding 0 + flex centring: iPad Safari gives buttons its own side
+   padding, which pushed the initials to the right of the circle. */
 .hh-rail-avatar {
   width: 44px; height: 44px; border-radius: 999px; border: 0; background: var(--hh-lime); color: var(--night);
   font: inherit; font-weight: 800; font-size: 16px; cursor: pointer;
+  padding: 0; display: inline-flex; align-items: center; justify-content: center; flex: none;
+  line-height: 1; letter-spacing: 0; -webkit-appearance: none; appearance: none;
 }
 .hh-seasons { display: flex; gap: 8px; flex-wrap: wrap; }
 .hh-season {

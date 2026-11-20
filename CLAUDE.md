@@ -453,6 +453,8 @@ tablet shell, IMS area check, wrapped table dropdowns, Farmer history
 cards, animations, Settings blocks (20.11.26). 0.5.1 = duplicate-farmer
 warning: same coop required, member internal code decides, name-only match
 only when a code is missing, message shows code/village/seasons (20.11.26).
+0.5.2 = brand logo stays beside the app name when the subtitle wraps
+(FR/ES on phones) (20.11.26).
 
 `git add -A` matters: Vite fingerprints filenames, so every build *deletes*
 the previous `assets/index-*.js` and adds a new one. A plain `git add docs`

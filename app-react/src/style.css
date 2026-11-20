@@ -950,7 +950,9 @@ table.data-table thead th { z-index: 1; }
    Brand row (Brand.tsx): Fairtrade logo, app icon, "Cocoa Capture".
    Shown on every screen, phone and wide, so coaches always know the app.
 --------------------------------------------------------------------------- */
-.brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
+/* Logo anchored to the top, beside the app name: centred, it slid down
+   whenever the subtitle wrapped to a second line (FR/ES on phones). */
+.brand { display: flex; align-items: flex-start; gap: 10px; min-width: 0; }
 .brand-ft { height: 40px; width: auto; flex: none; }
 .brand-icon { width: 36px; height: 36px; border-radius: 9px; flex: none; }
 .brand-text { display: flex; flex-direction: column; min-width: 0; line-height: 1.15; }

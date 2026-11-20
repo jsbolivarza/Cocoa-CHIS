@@ -1048,16 +1048,6 @@ tr.has-detail-open > td { border-bottom-color: transparent; }
 tr.detail-row > td { background: var(--card-alt); padding: 10px 14px 14px; }
 .row-detail { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px 16px; }
 .row-detail-field { display: flex; flex-direction: column; gap: 4px; font-size: 13px; font-weight: 600; color: var(--text-light); }
-/* Upright tablet (< 1024 px): compact More button under the row number;
-   the right-hand More column is hidden. Landscape and laptop: the reverse. */
-.more-btn-compact { display: none; }
-@media (max-width: 1023px) {
-  table.data-table td.col-more, table.data-table th.col-more { display: none; }
-  .more-btn-compact { display: inline-flex; align-items: center; justify-content: center; margin-top: 6px; min-width: 44px; padding: 0 8px; position: relative; }
-  .more-btn-compact.has-filled::after {
-    content: ""; position: absolute; top: 4px; right: 4px; width: 7px; height: 7px; border-radius: 999px; background: #1a7f45;
-  }
-}
 
 /* Callout strips never strand one box: 4 boxes = 4 across, or 2 × 2 when
    narrower; 6 boxes = 3 × 2. Other counts keep the auto grid. */

@@ -7,7 +7,7 @@
 import { Fragment, useState } from "react";
 import { useAppStore } from "../store/appStore";
 import { useMediaQuery } from "../lib/useMediaQuery";
-import { WIDE_QUERY } from "../lib/layout";
+import { WIDE_QUERY, NARROW_WIDE_QUERY } from "../lib/layout";
 import { t, type Lang } from "../lib/i18n";
 import { getPath } from "../lib/paths";
 import { TABLE_SCHEMAS, type TableColumn, type TableRow } from "../lib/dataModel";
@@ -33,11 +33,12 @@ function ColField({ basePath, col, row, lang }: { basePath: string; col: TableCo
   return <TextField path={path} value={String(value ?? "")} />;
 }
 
-/** Tablet/laptop: tables with more than this many data columns move their
- *  optional columns into a per-row "More" detail, so the essential columns
- *  fit without sideways scrolling (design review 20.11.26). Smaller tables,
- *  and every table on phones (rows are cards there), show all columns.
- *  To undo: set this to Infinity. */
+/** Landscape tablet and laptop (>= 1024 px): tables with more than this many
+ *  data columns and at least two optional ones move the optional columns
+ *  into a per-row "More" detail, so the essential columns fit without
+ *  sideways scrolling (design review 20.11.26). Upright tablets show all
+ *  columns (a compact "+N" button there was unclear, JB 20.11.26), and so do
+ *  phones (rows are cards). To undo entirely: set this to Infinity. */
 const DETAIL_ABOVE = 5;
 
 export function DataTable({ schemaKey, arrPath }: { schemaKey: string; arrPath: string }) {
@@ -50,9 +51,10 @@ export function DataTable({ schemaKey, arrPath }: { schemaKey: string; arrPath: 
   const hasIndex = schema.columns.some((c) => c.type === "index");
   const rowWord = t("row_word", lang);
   const wide = useMediaQuery(WIDE_QUERY);
+  const narrow = useMediaQuery(NARROW_WIDE_QUERY);
   const [open, setOpen] = useState<Set<number>>(new Set());
   const dataCols = schema.columns.filter((c) => c.type !== "index");
-  const useDetail = wide && dataCols.length > DETAIL_ABOVE && dataCols.some((c) => c.optional);
+  const useDetail = wide && !narrow && dataCols.length > DETAIL_ABOVE && dataCols.filter((c) => c.optional).length >= 2;
   const mainCols = useDetail ? schema.columns.filter((c) => !c.optional) : schema.columns;
   const detailCols = useDetail ? dataCols.filter((c) => c.optional) : [];
   const filled = (row: TableRow, col: TableColumn) => row[col.key] !== "" && row[col.key] != null;
@@ -98,19 +100,6 @@ export function DataTable({ schemaKey, arrPath }: { schemaKey: string; arrPath: 
                       <span className="idx-full">
                         {rowWord} {idx + 1}
                       </span>
-                      {/* Upright tablet: the "More" button sits here, under the row
-                          number, because the right-hand end of the row is off-screen. */}
-                      {useDetail && (
-                        <button
-                          type="button"
-                          className={`more-btn more-btn-compact${nFilled > 0 ? " has-filled" : ""}`}
-                          aria-expanded={isOpen}
-                          aria-label={`${detailCols.length} ${t("dt_more", lang)}${nFilled > 0 ? ` · ${nFilled} ${t("dt_filled", lang)}` : ""}`}
-                          onClick={() => toggle(idx)}
-                        >
-                          {isOpen ? "−" : "+"}{detailCols.length}
-                        </button>
-                      )}
                     </td>
                   ) : (
                     <td key={col.key} data-label={col.optional ? `${t(col.labelKey, lang)} · ${t("optional_badge", lang)}` : t(col.labelKey, lang)}>

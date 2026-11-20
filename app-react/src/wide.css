@@ -427,3 +427,9 @@ button.wf-row { cursor: pointer; }
   .results-table .res-unit { display: inline; font-size: 12px; color: var(--text-light, #6b7268); }
   table.data-table.results-table td.res-unit-col { display: none; }
 }
+
+/* Rail header, one item per line: back link, name + details, save status,
+   seasons. "My records" never wraps; the status is a quiet single line. */
+.hh-rail-back { white-space: nowrap; justify-content: flex-start; }
+.hh-rail.is-compact .hh-rail-back { justify-content: center; }
+.hh-rail-head > .hh-rail-status { margin: -2px 0 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }

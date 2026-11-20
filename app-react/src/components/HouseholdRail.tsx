@@ -107,12 +107,6 @@ export function HouseholdRail({ compact }: { compact: boolean }) {
             <BackIcon />
             {!compact && t("btn_my_records", lang)}
           </button>
-          {!compact && (
-            <span className="hh-rail-status" role="status">
-              <span className={`hh-dot${online ? " is-online" : ""}`} aria-hidden="true" />
-              {status}
-            </span>
-          )}
         </div>
         {compact ? (
           <>
@@ -127,6 +121,12 @@ export function HouseholdRail({ compact }: { compact: boolean }) {
               <span className="hh-rail-title">{name}</span>
               {subBits.length > 0 && <span className="hh-rail-sub">{subBits.join(" · ")}</span>}
             </button>
+            {/* Its own line under the name: beside "My records" both wrapped
+                and collided in French and Spanish (20.11.26). */}
+            <span className="hh-rail-status" role="status">
+              <span className={`hh-dot${online ? " is-online" : ""}`} aria-hidden="true" />
+              {status}
+            </span>
             {seasons.length > 0 && (
               <div className="hh-seasons" role="group" aria-label={t("season_label", lang)}>
                 {seasons.map((r) => {

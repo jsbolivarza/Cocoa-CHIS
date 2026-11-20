@@ -450,7 +450,9 @@ households; 0.4.4 = calculated CSV/summary columns rounded (2 decimals,
 before 0.4.4 keep their long decimals until re-uploaded. 0.5.0 = grouped
 look + Exo default, season compare card, design-review fixes, upright-iPad
 tablet shell, IMS area check, wrapped table dropdowns, Farmer history
-cards, animations, Settings blocks (20.11.26).
+cards, animations, Settings blocks (20.11.26). 0.5.1 = duplicate-farmer
+warning: same coop required, member internal code decides, name-only match
+only when a code is missing, message shows code/village/seasons (20.11.26).
 
 `git add -A` matters: Vite fingerprints filenames, so every build *deletes*
 the previous `assets/index-*.js` and adds a new one. A plain `git add docs`

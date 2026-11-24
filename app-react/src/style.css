@@ -41,6 +41,12 @@ header.app-header {
 .btn-secondary { background: var(--tangerine); border-color: var(--tangerine); color: #fff; }
 .btn-secondary:hover { background: #E67300; }
 .btn-icon { border: 1px solid var(--flower); background: #fff; color: var(--flower); border-radius: 6px; width: 32px; height: 32px; cursor: pointer; font-size: 0.9rem; }
+/* iPad Safari adds its own button padding, which pushed the "✕" off-centre
+   (same fix as the rail initials, 0.5.3): no padding, flex-centred glyph. */
+.btn-icon {
+  padding: 0; display: inline-flex; align-items: center; justify-content: center;
+  line-height: 1; -webkit-appearance: none; appearance: none; box-sizing: border-box; flex: none;
+}
 .btn-icon:hover { background: var(--flower-tint); }
 
 .offline-badge { font-size: 0.78rem; color: var(--text-light); padding-top: 6px; }

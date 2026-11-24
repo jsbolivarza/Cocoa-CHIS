@@ -377,6 +377,9 @@ table.data-table .computed-cell { font-weight: 700; color: var(--night); backgro
 }
 table.compare-table { min-width: 1020px; }
 table.compare-table .row-head { font-weight: 600; white-space: nowrap; }
+/* One line per household on tablets too ("CFA / hectare" wrapped and doubled
+   every row); the table scrolls sideways in its own box anyway. */
+table.compare-table td { white-space: nowrap; }
 /* The table scrolls inside a box no taller than the window, so its sideways
    scrollbar is always on screen (it used to sit below the last row, often far
    down the page). Header row, farmer column and average row stay in place. */
@@ -607,7 +610,7 @@ tr.months-more td {
 .cmp-dist-band:focus-visible { outline: 2px solid var(--sky); outline-offset: 1px; }
 .cmp-dist-label { font-size: 0.8rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-variant-numeric: tabular-nums; }
 .cmp-dist-track { position: relative; height: 14px; background: var(--card-alt); border-radius: 4px; overflow: hidden; }
-.cmp-dist-fill { position: absolute; left: 0; top: 0; bottom: 0; background: var(--night); border-radius: 4px; min-width: 2px; }
+.cmp-dist-fill { position: absolute; left: 0; top: 0; bottom: 0; width: var(--share, 0%); background: var(--night); border-radius: 4px; min-width: 2px; }
 .cmp-dist-fill.is-negative { background: var(--flower); }
 .cmp-dist-fill.is-empty { display: none; }
 .cmp-dist-count { font-size: 0.85rem; font-weight: 700; text-align: right; font-variant-numeric: tabular-nums; }
@@ -640,7 +643,6 @@ tr.months-more td {
 .cmp-dist-panel[open] > summary::before { transform: rotate(45deg); }
 .cmp-dist-panel > summary:focus-visible { outline: 2px solid var(--sky); outline-offset: -2px; border-radius: 12px; }
 .cmp-dist.is-panel { padding: 4px 14px 12px; }
-.cmp-dist-panel .cmp-dist.is-panel { max-width: 720px; }
 /* Desktop: distribution beside the table, staying in view while the page scrolls */
 .cmp-desk { display: grid; grid-template-columns: 340px minmax(0, 1fr); gap: 20px; align-items: start; }
 .cmp-side {
@@ -649,6 +651,27 @@ tr.months-more td {
 }
 .cmp-side .cmp-dist.is-panel { padding: 14px; }
 @media (prefers-reduced-motion: reduce) { .cmp-dist-panel > summary::before { transition: none; } }
+/* iPad strip: height is what the table needs, so the bands stand side by
+   side as columns (about 200 px in all) with the value picker, count and
+   median on one line above them. */
+.cmp-dist.is-strip { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 16px; align-items: center; max-width: none; }
+.cmp-dist.is-strip > .cmp-dist-pick { flex-direction: row; align-items: center; gap: 8px; margin: 0; }
+.cmp-dist.is-strip > .cmp-dist-pick .field { width: auto; min-height: 36px; padding: 4px 8px; }
+.cmp-dist.is-strip > .cmp-chart-head { margin: 0; justify-content: flex-end; gap: 16px; }
+.cmp-dist.is-strip > .cmp-dist-bands,
+.cmp-dist.is-strip > .field-hint,
+.cmp-dist.is-strip > .cmp-callout { grid-column: 1 / -1; }
+.cmp-dist.is-strip > .cmp-dist-bands { flex-direction: row; align-items: stretch; gap: 6px; margin-top: 10px; }
+.cmp-dist.is-strip .cmp-dist-band {
+  display: flex; flex-direction: column; align-items: stretch; flex: 1 1 0; min-width: 0;
+  min-height: 0; padding: 4px 2px; gap: 4px;
+}
+.cmp-dist.is-strip .cmp-dist-count { order: 0; text-align: center; font-size: 0.8rem; }
+.cmp-dist.is-strip .cmp-dist-track { order: 1; height: 72px; display: flex; align-items: flex-end; }
+.cmp-dist.is-strip .cmp-dist-fill { position: static; width: 100%; height: var(--share, 0%); min-width: 0; min-height: 2px; border-radius: 4px 4px 0 0; }
+.cmp-dist.is-strip .cmp-dist-fill.is-empty { display: none; }
+.cmp-dist.is-strip .cmp-dist-label { order: 2; text-align: center; font-size: 0.72rem; white-space: normal; line-height: 1.15; }
+.cmp-dist.is-strip > .field-hint { margin-top: 2px; }
 
 /* ---------- phone ---------- */
 @media (max-width: 720px), (max-height: 520px) and (orientation: landscape) {

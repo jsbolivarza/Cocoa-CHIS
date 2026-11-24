@@ -401,7 +401,7 @@ export function CompareScreen() {
     // Sort-follow (JB): the distribution chart shows the number column just sorted
     if (!text) setDistKey(key);
   };
-  const distribution = (variant: "phone" | "panel") => (
+  const distribution = (variant: "phone" | "panel" | "strip") => (
     <CompareDistribution
       list={list}
       columns={COLUMNS.filter((c) => !c.text)}
@@ -429,7 +429,7 @@ export function CompareScreen() {
       {!isPhone && !isDesktop && (
         <details className="cmp-dist-panel" open={distOpen} onToggle={(e) => setDistOpen(e.currentTarget.open)}>
           <summary>{t("dist_panel", lang)}</summary>
-          {distribution("panel")}
+          {distribution("strip")}
         </details>
       )}
       <div className={isDesktop && !isPhone ? "cmp-desk" : undefined}>

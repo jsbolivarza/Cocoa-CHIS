@@ -9,7 +9,7 @@
    household. The LIRP benchmark line is left for when benchmarks can be
    set (JB). */
 
-import { useState } from "react";
+import { useState, type CSSProperties } from "react";
 import { t, type Lang } from "../lib/i18n";
 import { fmt } from "../lib/format";
 import type { CompareSummary } from "../lib/compare";
@@ -84,7 +84,7 @@ function short(n: number): string {
 export function CompareDistribution({
   list, columns, metricKey, onMetric, mixedUnits, lang, onPickBand, onOpen, variant = "phone",
 }: {
-  variant?: "phone" | "panel";
+  variant?: "phone" | "panel" | "strip";
   list: CompareSummary[];
   columns: DistColumn[];
   metricKey: string;
@@ -117,7 +117,7 @@ export function CompareDistribution({
     : `${short(b.lo)} – ${unit(short(b.hi))}`;
 
   return (
-    <div className={variant === "phone" ? "compare-chart cmp-dist" : "cmp-dist is-panel"}>
+    <div className={variant === "phone" ? "compare-chart cmp-dist" : `cmp-dist is-panel${variant === "strip" ? " is-strip" : ""}`}>
       <label className="cmp-dist-pick">
         <span>{t("dist_value", lang)}</span>
         <select className="field" value={col.key} onChange={(e) => { onMetric(e.target.value); setShown(PAGE); }}>
@@ -151,7 +151,7 @@ export function CompareDistribution({
                 >
                   <span className="cmp-dist-label">{bandLabel(b)}</span>
                   <span className="cmp-dist-track">
-                    <span className={`cmp-dist-fill${negative ? " is-negative" : ""}${b.count ? "" : " is-empty"}`} style={{ width: `${(b.count / maxCount) * 100}%` }} />
+                    <span className={`cmp-dist-fill${negative ? " is-negative" : ""}${b.count ? "" : " is-empty"}`} style={{ "--share": `${(b.count / maxCount) * 100}%` } as CSSProperties} />
                   </span>
                   <span className="cmp-dist-count">{b.count}</span>
                 </button>

@@ -28,6 +28,14 @@ export interface CompareSummary {
   pricePerKg: number;
   cocoaRevenue: number;
   netCocoa: number;
+  /** Cocoa volume as the yield uses it: sold + paid in kind to sharecroppers
+   *  (LIRP "total cocoa volume", A). */
+  cocoaVolume: number;
+  /** Total cocoa cost of production (LIRP B). */
+  cocoaCost: number;
+  /** Household labour days on cocoa as % of all household labour days
+   *  (the LIRP labour share); null without household days. */
+  labourShare: number | null;
   netFarm: number;
   expenditure: number;
   members: number;
@@ -71,6 +79,9 @@ export function compareSummary(rec: HouseholdRecord): CompareSummary {
     pricePerKg: price,
     cocoaRevenue: r.revenues.totalCocoaRevenue,
     netCocoa: r.profitCocoa,
+    cocoaVolume: r.cocoaVolumeForYield,
+    cocoaCost: r.totalCostCocoa,
+    labourShare: r.labour.totalHhDays ? (100 * r.labour.totalHhDaysCocoa) / r.labour.totalHhDays : null,
     netFarm: r.profitFarm,
     expenditure: r.expenditures.total,
     members,

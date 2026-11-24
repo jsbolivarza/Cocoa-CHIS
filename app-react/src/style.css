@@ -377,7 +377,43 @@ table.data-table .computed-cell { font-weight: 700; color: var(--night); backgro
 }
 table.compare-table { min-width: 1020px; }
 table.compare-table .row-head { font-weight: 600; white-space: nowrap; }
+/* The table scrolls inside a box no taller than the window, so its sideways
+   scrollbar is always on screen (it used to sit below the last row, often far
+   down the page). Header row, farmer column and average row stay in place. */
+.compare-table-wrap { max-height: calc(100vh - 140px); max-height: calc(100dvh - 140px); overflow: auto; }
+table.compare-table thead th { z-index: 2; }
+table.compare-table th:first-child, table.compare-table td:first-child {
+  position: sticky; left: 0; z-index: 1; background: #fff; box-shadow: 1px 0 0 var(--border);
+}
+table.compare-table thead th:first-child { z-index: 3; background: var(--card-alt); }
+table.compare-table .total-row td { position: sticky; bottom: 0; z-index: 1; }
+table.compare-table .total-row td:first-child { z-index: 2; }
+/* Farmer column fixed on the left, so only fade the right edge */
+.table-wrap.more-left:has(> .compare-table) { -webkit-mask-image: none; mask-image: none; }
+.table-wrap.more-left.more-right:has(> .compare-table) {
+  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 56px), rgba(0,0,0,.15));
+  mask-image: linear-gradient(to right, #000 calc(100% - 56px), rgba(0,0,0,.15));
+}
+/* Farmer name opens the household */
+table.compare-table .cmp-open {
+  padding: 0; border: 0; background: none; cursor: pointer;
+  font: inherit; font-weight: 600; color: var(--night); text-align: left;
+  text-decoration: underline; text-decoration-color: rgba(0,0,0,.25); text-underline-offset: 3px;
+}
+table.compare-table .cmp-open:hover { text-decoration-color: currentColor; }
+table.compare-table .cmp-open:focus-visible { outline: 2px solid var(--sky); outline-offset: 2px; border-radius: 4px; }
 table.compare-table td.negative { color: var(--flower); font-weight: 700; }
+/* Sortable headers: the whole label is the button; the arrow is faint until
+   that column is the one sorted. */
+table.compare-table .sort-btn {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 0; border: 0; background: none; cursor: pointer;
+  font: inherit; color: inherit; text-align: inherit;
+}
+table.compare-table th.num .sort-btn { justify-content: flex-end; width: 100%; }
+table.compare-table .sort-icon { font-size: 0.75em; opacity: 0.35; }
+table.compare-table .sort-btn.is-on .sort-icon { opacity: 1; }
+table.compare-table .sort-btn:focus-visible { outline: 2px solid var(--sky); outline-offset: 2px; border-radius: 4px; }
 table.compare-table .total-row td {
   background: var(--night); color: #fff; font-weight: 700;
   border-top: 2px solid var(--tangerine);
@@ -671,6 +707,29 @@ header.app-header .search-bar .btn {
   color: var(--text-light); cursor: pointer; min-height: 0; height: auto;
 }
 .filter-chip-label { pointer-events: none; }
+/* Value filter, once a column is picked: column, condition, amount and ×
+   in one navy pill, like an active chip; the selects stay visible here
+   because each part can be changed on its own. */
+.value-filter {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: var(--night); border: 1px solid var(--night); border-radius: 22px;
+  padding: 3px 6px 3px 10px; font-size: 0.8rem; color: #fff;
+}
+.value-filter select, .value-filter input {
+  font: inherit; font-size: 0.8rem; font-weight: 600; color: #fff;
+  background: rgba(255,255,255,.12); border: 0; border-radius: 14px;
+  padding: 3px 8px; min-height: 0; height: auto; cursor: pointer;
+}
+.value-filter option { color: var(--text); background: #fff; }
+.value-filter input { width: 7em; cursor: text; }
+.value-filter input::placeholder { color: rgba(255,255,255,.6); }
+.value-filter select:focus-visible, .value-filter input:focus-visible, .value-filter .vf-clear:focus-visible {
+  outline: 2px solid var(--sky); outline-offset: 1px;
+}
+.value-filter .vf-clear {
+  border: 0; background: none; color: #fff; font-size: 0.95rem; line-height: 1;
+  padding: 2px 4px; cursor: pointer; border-radius: 50%;
+}
 .filter-count { font-size: 0.75rem; color: var(--text-light); margin-left: auto; }
 
 @media (max-width: 720px), (max-height: 520px) and (orientation: landscape) {

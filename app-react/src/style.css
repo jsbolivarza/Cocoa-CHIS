@@ -626,6 +626,29 @@ tr.months-more td {
 .cmp-dist-val { font-weight: 600; font-variant-numeric: tabular-nums; flex: none; color: var(--night); }
 .cmp-dist-val.negative { color: var(--flower); }
 .cmp-dist-more { width: 100%; margin-top: 10px; }
+/* iPad: distribution as a collapsible panel above the table */
+.cmp-dist-panel { border: 1px solid var(--border); border-radius: 12px; margin: 4px 0 12px; background: #fff; }
+.cmp-dist-panel > summary {
+  display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px;
+  font-weight: 700; color: var(--night); cursor: pointer; list-style: none;
+}
+.cmp-dist-panel > summary::-webkit-details-marker { display: none; }
+.cmp-dist-panel > summary::before {
+  content: ""; width: 8px; height: 8px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
+  transform: rotate(-45deg); transition: transform 0.15s;
+}
+.cmp-dist-panel[open] > summary::before { transform: rotate(45deg); }
+.cmp-dist-panel > summary:focus-visible { outline: 2px solid var(--sky); outline-offset: -2px; border-radius: 12px; }
+.cmp-dist.is-panel { padding: 4px 14px 12px; }
+.cmp-dist-panel .cmp-dist.is-panel { max-width: 720px; }
+/* Desktop: distribution beside the table, staying in view while the page scrolls */
+.cmp-desk { display: grid; grid-template-columns: 340px minmax(0, 1fr); gap: 20px; align-items: start; }
+.cmp-side {
+  position: sticky; top: 16px; max-height: calc(100vh - 32px); overflow: auto;
+  border: 1px solid var(--border); border-radius: 12px; background: #fff; margin-top: 10px;
+}
+.cmp-side .cmp-dist.is-panel { padding: 14px; }
+@media (prefers-reduced-motion: reduce) { .cmp-dist-panel > summary::before { transition: none; } }
 
 /* ---------- phone ---------- */
 @media (max-width: 720px), (max-height: 520px) and (orientation: landscape) {

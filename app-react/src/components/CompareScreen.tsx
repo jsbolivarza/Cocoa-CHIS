@@ -7,6 +7,8 @@ import { t, type Lang } from "../lib/i18n";
 import { compareSummary, type CompareSummary } from "../lib/compare";
 import { fmt } from "../lib/format";
 import { CompareDistribution } from "./CompareDistribution";
+import { useMediaQuery } from "../lib/useMediaQuery";
+import { DESKTOP_QUERY, PHONE_QUERY } from "../lib/layout";
 
 interface Filters {
   coop: string;
@@ -258,11 +260,12 @@ function FilterChip({
 
 /* Filters and sorting survive opening a household from the table and
    coming back (the screen unmounts in between); kept for this session only. */
-const kept: { filters: Filters; sort: SortState | null; valueFilters: ValueFilter[]; distKey: string } = {
+const kept: { filters: Filters; sort: SortState | null; valueFilters: ValueFilter[]; distKey: string; distOpen: boolean } = {
   filters: EMPTY_FILTERS,
   sort: null,
   valueFilters: [],
-  distKey: "cmp_net_cocoa", // phone distribution chart starts on net cocoa income (JB)
+  distKey: "cmp_net_cocoa", // distribution chart starts on net cocoa income (JB)
+  distOpen: false, // iPad: distribution panel closed until opened (kept for the session)
 };
 
 export function CompareScreen() {
@@ -275,12 +278,16 @@ export function CompareScreen() {
   // income below the LIRP income share AND cocoa volume below its threshold).
   const [valueFilters, setValueFilters] = useState<ValueFilter[]>(kept.valueFilters);
   const [distKey, setDistKey] = useState<string>(kept.distKey);
+  const [distOpen, setDistOpen] = useState<boolean>(kept.distOpen);
+  const isPhone = useMediaQuery(PHONE_QUERY);
+  const isDesktop = useMediaQuery(DESKTOP_QUERY);
   useEffect(() => {
     kept.filters = filters;
     kept.sort = sort;
     kept.valueFilters = valueFilters;
     kept.distKey = distKey;
-  }, [filters, sort, valueFilters, distKey]);
+    kept.distOpen = distOpen;
+  }, [filters, sort, valueFilters, distKey, distOpen]);
   // A tapped band replaces an earlier band (or range) on the same value,
   // so tapping another band moves the selection instead of narrowing to none.
   const pickBand = (key: string, lo: number | null, hi: number | null) =>
@@ -389,8 +396,24 @@ export function CompareScreen() {
     suppressed ? "—" : cell(avg(pick));
 
   const sorted = sortList(list, sort);
-  const toggleSort = (key: string, text?: boolean) =>
+  const toggleSort = (key: string, text?: boolean) => {
     setSort((cur) => (cur && cur.key === key ? { key, desc: !cur.desc } : { key, desc: !text }));
+    // Sort-follow (JB): the distribution chart shows the number column just sorted
+    if (!text) setDistKey(key);
+  };
+  const distribution = (variant: "phone" | "panel") => (
+    <CompareDistribution
+      list={list}
+      columns={COLUMNS.filter((c) => !c.text)}
+      metricKey={distKey}
+      onMetric={setDistKey}
+      mixedUnits={mixedUnits}
+      lang={lang}
+      onPickBand={pickBand}
+      onOpen={openRecord}
+      variant={variant}
+    />
+  );
 
   return (
     <div className="panel">
@@ -400,16 +423,17 @@ export function CompareScreen() {
       </div>
       {filterBar}
       {mixedUnits && <p className="warn-note">{t("compare_mixed_currency", lang)}</p>}
-      <CompareDistribution
-        list={list}
-        columns={COLUMNS.filter((c) => !c.text)}
-        metricKey={distKey}
-        onMetric={setDistKey}
-        mixedUnits={mixedUnits}
-        lang={lang}
-        onPickBand={pickBand}
-        onOpen={openRecord}
-      />
+      {/* Phone: the chart and its list are the whole view (table hidden).
+          iPad: collapsible panel above the table. Desktop: side panel. */}
+      {isPhone && distribution("phone")}
+      {!isPhone && !isDesktop && (
+        <details className="cmp-dist-panel" open={distOpen} onToggle={(e) => setDistOpen(e.currentTarget.open)}>
+          <summary>{t("dist_panel", lang)}</summary>
+          {distribution("panel")}
+        </details>
+      )}
+      <div className={isDesktop && !isPhone ? "cmp-desk" : undefined}>
+      {isDesktop && !isPhone && <aside className="cmp-side">{distribution("panel")}</aside>}
       <div className="table-wrap compare-table-wrap" ref={wrapRef}>
         <table className="data-table results-table compare-table">
           <thead>
@@ -484,6 +508,7 @@ export function CompareScreen() {
             </tr>
           </tbody>
         </table>
+      </div>
       </div>
       <p className="section-help wide-only">{t("cmp_gap_help", lang)}</p>
     </div>

@@ -21,6 +21,11 @@ export interface DistColumn {
 
 /** Values that mean the same in any currency or area unit. */
 const UNIT_FREE = new Set(["cmp_labour_share", "cmp_labour_days"]);
+/** Money values: the header names the currency only for these. */
+const MONEY = new Set([
+  "cmp_cost_per_kg", "cmp_cocoa_cost", "cmp_price_per_kg", "cmp_margin_per_kg",
+  "cmp_net_cocoa", "cmp_net_farm", "cmp_expenditure", "cmp_gap", "cmp_per_person",
+]);
 const PAGE = 20;
 
 interface Band {
@@ -73,9 +78,13 @@ function short(n: number): string {
   return fmt(Math.round(n * 100) / 100);
 }
 
+/** "phone": the whole Compare view on a phone, with the household list.
+ *  "panel": beside (desktop) or above (iPad) the table, which already lists
+ *  the households, so no list; a band tap filters the table. */
 export function CompareDistribution({
-  list, columns, metricKey, onMetric, mixedUnits, lang, onPickBand, onOpen,
+  list, columns, metricKey, onMetric, mixedUnits, lang, onPickBand, onOpen, variant = "phone",
 }: {
+  variant?: "phone" | "panel";
   list: CompareSummary[];
   columns: DistColumn[];
   metricKey: string;
@@ -99,7 +108,7 @@ export function CompareDistribution({
   const bands = values.length && !blocked ? makeBands(values) : [];
   const maxCount = Math.max(1, ...bands.map((b) => b.count));
   const median = values.length ? quantile(values, 0.5) : null;
-  const currency = !pct && !UNIT_FREE.has(col.key) ? list[0]?.currency : "";
+  const currency = MONEY.has(col.key) ? list[0]?.currency : "";
 
   const bandLabel = (b: Band) =>
     b.lo === null ? `${t("dist_below", lang)} ${unit(short(b.hi as number))}`
@@ -108,7 +117,7 @@ export function CompareDistribution({
     : `${short(b.lo)} – ${unit(short(b.hi))}`;
 
   return (
-    <div className="compare-chart cmp-dist">
+    <div className={variant === "phone" ? "compare-chart cmp-dist" : "cmp-dist is-panel"}>
       <label className="cmp-dist-pick">
         <span>{t("dist_value", lang)}</span>
         <select className="field" value={col.key} onChange={(e) => { onMetric(e.target.value); setShown(PAGE); }}>
@@ -149,8 +158,9 @@ export function CompareDistribution({
               );
             })}
           </div>
-          <p className="field-hint">{t("dist_tap_hint", lang)}</p>
-
+          <p className="field-hint">{t(variant === "phone" ? "dist_tap_hint" : "dist_tap_hint_table", lang)}</p>
+          {variant === "phone" && (
+          <>
           <h4 className="cmp-dist-list-title">{t("dist_list_title", lang)}</h4>
           <ol className="cmp-dist-list">
             {rows.slice(0, shown).map(({ s, v }) => (
@@ -166,6 +176,8 @@ export function CompareDistribution({
             <button type="button" className="btn cmp-dist-more" onClick={() => setShown(shown + PAGE)}>
               {t("dist_show_more", lang)} ({shown} / {rows.length})
             </button>
+          )}
+          </>
           )}
         </>
       )}

@@ -20,3 +20,8 @@ export const NARROW_WIDE_QUERY = "(max-width: 1023px)";
 /** Wide enough to keep the full rail beside a wide table (laptop). Below
  *  this, steps with wide tables collapse the rail to an icon strip. */
 export const ROOMY_QUERY = "(min-width: 1366px)";
+
+/** Laptop or desktop: wide and a mouse/trackpad. iPads report a touch
+ *  pointer, so they never match, even landscape or with a keyboard case.
+ *  Same condition as desktop.css. */
+export const DESKTOP_QUERY = "(min-width: 1280px) and (hover: hover) and (pointer: fine)";

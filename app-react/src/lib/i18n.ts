@@ -145,6 +145,8 @@ export const STR: Record<string, StrEntry> = {
   vf_equal: { en: "is equal to", fr: "est égal à", es: "es igual a" },
   vf_between: { en: "is between", fr: "est entre", es: "está entre" },
   dist_value: { en: "Value shown", fr: "Valeur affichée", es: "Valor mostrado" },
+  dist_panel: { en: "Distribution", fr: "Répartition", es: "Distribución" },
+  dist_tap_hint_table: { en: "Tap a band to filter the table to it. Sorting a number column shows that column here.", fr: "Touchez une tranche pour filtrer le tableau. Trier une colonne de chiffres l'affiche ici.", es: "Toque una franja para filtrar la tabla. Ordenar una columna numérica la muestra aquí." },
   dist_households: { en: "households", fr: "ménages", es: "hogares" },
   dist_median: { en: "Median", fr: "Médiane", es: "Mediana" },
   dist_below: { en: "below", fr: "moins de", es: "menos de" },

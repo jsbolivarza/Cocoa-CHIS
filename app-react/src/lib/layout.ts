@@ -25,3 +25,7 @@ export const ROOMY_QUERY = "(min-width: 1366px)";
  *  pointer, so they never match, even landscape or with a keyboard case.
  *  Same condition as desktop.css. */
 export const DESKTOP_QUERY = "(min-width: 1280px) and (hover: hover) and (pointer: fine)";
+
+/** Room for a side panel beside a wide table: landscape iPad and up.
+ *  An upright iPad (820-834 px) stays below it. */
+export const SIDE_PANEL_QUERY = "(min-width: 1024px)";

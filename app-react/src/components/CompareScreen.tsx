@@ -8,7 +8,7 @@ import { compareSummary, type CompareSummary } from "../lib/compare";
 import { fmt } from "../lib/format";
 import { CompareDistribution } from "./CompareDistribution";
 import { useMediaQuery } from "../lib/useMediaQuery";
-import { DESKTOP_QUERY, PHONE_QUERY } from "../lib/layout";
+import { PHONE_QUERY, SIDE_PANEL_QUERY } from "../lib/layout";
 
 interface Filters {
   coop: string;
@@ -280,7 +280,9 @@ export function CompareScreen() {
   const [distKey, setDistKey] = useState<string>(kept.distKey);
   const [distOpen, setDistOpen] = useState<boolean>(kept.distOpen);
   const isPhone = useMediaQuery(PHONE_QUERY);
-  const isDesktop = useMediaQuery(DESKTOP_QUERY);
+  // Landscape iPad and laptop: chart in a side panel beside the table (JB);
+  // upright iPad: collapsible strip above it (too narrow for both side by side).
+  const hasSide = useMediaQuery(SIDE_PANEL_QUERY);
   useEffect(() => {
     kept.filters = filters;
     kept.sort = sort;
@@ -426,14 +428,14 @@ export function CompareScreen() {
       {/* Phone: the chart and its list are the whole view (table hidden).
           iPad: collapsible panel above the table. Desktop: side panel. */}
       {isPhone && distribution("phone")}
-      {!isPhone && !isDesktop && (
+      {!isPhone && !hasSide && (
         <details className="cmp-dist-panel" open={distOpen} onToggle={(e) => setDistOpen(e.currentTarget.open)}>
           <summary>{t("dist_panel", lang)}</summary>
           {distribution("strip")}
         </details>
       )}
-      <div className={isDesktop && !isPhone ? "cmp-desk" : undefined}>
-      {isDesktop && !isPhone && <aside className="cmp-side">{distribution("panel")}</aside>}
+      <div className={hasSide && !isPhone ? "cmp-desk" : undefined}>
+      {hasSide && !isPhone && <aside className="cmp-side">{distribution("panel")}</aside>}
       <div className="table-wrap compare-table-wrap" ref={wrapRef}>
         <table className="data-table results-table compare-table">
           <thead>

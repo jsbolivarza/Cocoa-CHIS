@@ -643,13 +643,21 @@ tr.months-more td {
 .cmp-dist-panel[open] > summary::before { transform: rotate(45deg); }
 .cmp-dist-panel > summary:focus-visible { outline: 2px solid var(--sky); outline-offset: -2px; border-radius: 12px; }
 .cmp-dist.is-panel { padding: 4px 14px 12px; }
-/* Desktop: distribution beside the table, staying in view while the page scrolls */
-.cmp-desk { display: grid; grid-template-columns: 340px minmax(0, 1fr); gap: 20px; align-items: start; }
+/* Landscape iPad and laptop: distribution beside the table, staying in view
+   while the page scrolls. Narrow and compact first (iPad), roomier on a
+   desktop with a mouse (desktop.css widens it to 340 px). */
+.cmp-desk { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 14px; align-items: start; }
+.cmp-side .cmp-dist-band { grid-template-columns: minmax(0, 6.6em) minmax(0, 1fr) 2.4em; min-height: 32px; gap: 6px; padding: 2px 4px; }
+.cmp-side .cmp-dist-label { font-size: 0.74rem; }
+.cmp-side .cmp-dist-count { font-size: 0.78rem; }
+.cmp-side .cmp-dist-track { height: 12px; }
+.cmp-side .cmp-dist-pick .field { min-height: 38px; padding: 6px 8px; font-size: 0.9rem; }
+.cmp-side .field-hint { font-size: 0.74rem; }
 .cmp-side {
   position: sticky; top: 16px; max-height: calc(100vh - 32px); overflow: auto;
   border: 1px solid var(--border); border-radius: 12px; background: #fff; margin-top: 10px;
 }
-.cmp-side .cmp-dist.is-panel { padding: 14px; }
+.cmp-side .cmp-dist.is-panel { padding: 12px; }
 @media (prefers-reduced-motion: reduce) { .cmp-dist-panel > summary::before { transition: none; } }
 /* iPad strip: height is what the table needs, so the bands stand side by
    side as columns (about 200 px in all) with the value picker, count and

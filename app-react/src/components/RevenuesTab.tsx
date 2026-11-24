@@ -20,6 +20,7 @@ export function RevenuesTab() {
   const r = record.revenues;
   const res = calcRevenues(r);
   const cur = record.meta.currencyUnit;
+  const volUnit = record.meta.volumeUnit || "kg";
   const has = r.has || ({} as RevenueFlags);
   const on = (key: keyof RevenueFlags) => has[key] === true;
 
@@ -41,6 +42,9 @@ export function RevenuesTab() {
       <div className="kpi-grid">
         <KpiCard accent="night" labelKey="total_cocoa_revenue" value={res.totalCocoaRevenue} lang={lang} unit={cur} />
         <KpiCard accent="eggplant" labelKey="total_cocoa_sales" value={res.cocoa.totalRevenue} lang={lang} unit={cur} />
+        {/* Year total volume of the monthly table (the workbook's "totale
+            ventes de cacao par an" line), here rather than as a table row (JB). */}
+        <KpiCard accent="eggplant" labelKey="cocoa_volume_sold_year" value={res.cocoa.totalVolume} lang={lang} unit={volUnit} />
         <KpiCard accent="mint" labelKey="total_other_cocoa_income" value={res.cocoaOtherIncome} lang={lang} unit={cur} />
       </div>
       {strip.length > 0 && (

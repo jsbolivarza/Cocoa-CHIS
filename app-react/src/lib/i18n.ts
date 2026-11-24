@@ -331,6 +331,7 @@ export const STR: Record<string, StrEntry> = {
   roster_not_found: { en: "This code is not in the roster. Check it, or pick from the list.", fr: "Ce code n'est pas dans la liste. Vérifiez-le ou choisissez dans la liste.", es: "Este código no está en la lista. Revíselo o elija de la lista." },
   results_incomplete_help:{ en: "Results may change once these steps are finished.", fr: "Les résultats peuvent changer une fois ces étapes terminées.", es: "Los resultados pueden cambiar cuando se terminen estos pasos." },
   months_more: { en: "more months with no sales", fr: "autres mois sans vente", es: "meses más sin ventas" },
+  cocoa_volume_sold_year: { en: "Cocoa sold (year)", fr: "Cacao vendu (année)", es: "Cacao vendido (año)" },
   months_less: { en: "Show only months with sales", fr: "Afficher seulement les mois avec des ventes", es: "Mostrar solo los meses con ventas" },
   season_note: { en: "Cocoa season, October to September", fr: "Campagne cacaoyère, d'octobre à septembre", es: "Campaña cacaotera, de octubre a septiembre" },
   months_filled_label: { en: "months with labour recorded", fr: "mois avec de la main d'œuvre saisie", es: "meses con mano de obra registrada" },

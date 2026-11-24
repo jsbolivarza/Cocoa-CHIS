@@ -346,6 +346,20 @@ formula (B + C) / A: cocoa volume (= cocoaVolumeForYield, sold + in kind),
 cocoa cost (total), net cocoa income, labour share cocoa (household cocoa
 days / all household days, %, hired days not counted).
 
+**Compare distribution chart (24.11.26, same branch):** replaced the old
+one-bar-per-household chart (unreadable with ~500 households).
+`CompareDistribution.tsx`: how the households on screen spread over one
+value (starts on net cocoa income), one bar per band with round edges, the
+extreme 2 % at each end in open bands; tapping a band adds a "between"
+value filter for exactly that band (`excludeUpper`, so counts match) and the
+chart zooms in. Layouts: phone = whole view, with the household list (20 at
+a time, name opens the household); landscape iPad and laptop
+(`SIDE_PANEL_QUERY`, ≥ 1024 px) = side panel beside the table, same fitted
+height as the table box, bands spread over it; upright iPad = collapsible
+column strip above the table (closed by default, kept for the session).
+Sorting a number column switches the chart to it. Currency shown only for
+money values. LIRP benchmark line left open (JB) until benchmarks can be set.
+
 **Desktop layout (24.11.26, same branch):** `src/desktop.css`, loaded last,
 only for `(min-width: 1280px) and (hover: hover) and (pointer: fine)`, so
 iPads (touch pointer) keep the tablet sizes: no content width cap on record

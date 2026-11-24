@@ -521,7 +521,13 @@ Compare shows "Compare households" once (big title visually hidden,
 lines per month (formatVersion 4); Compare: sort on every column, combined
 value filters, farmer name opens the household, LIRP columns, distribution
 chart (phone view, iPad / laptop side panel); desktop layout for laptops
-with a mouse (24.11.26).
+with a mouse (24.11.26). 0.6.1 = Revenues: "Cocoa sold (year)" callout
+(year total volume, no extra table row, JB); grey callout strips on wide
+screens (≥ 1024 px): full width, centred boxes, darker 1.5 px dividers,
+six boxes on one line from 1280 px; Compare: "Cocoa share of income"
+column (cocoa revenue / total farm revenue incl. food crops and livestock;
+a cash-only variant was offered, not decided); remove-row "✕" centred on
+iPad Safari (24.11.26).
 
 `git add -A` matters: Vite fingerprints filenames, so every build *deletes*
 the previous `assets/index-*.js` and adds a new one. A plain `git add docs`

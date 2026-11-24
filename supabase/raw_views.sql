@@ -257,7 +257,7 @@ from public.households_current h,
 where exists (select 1 from jsonb_each_text(t.r) kv where kv.value not in ('', 'false'));
 grant select on public.raw_sharecrop_payments to analyst;
 
--- One row per month. Hired labour cost = hired_days x daily_wage + service_cost.
+-- One row per month. Hired labour cost = hired_days x daily_wage + service_cost + service_cost2 + service_cost3. A service line counts for cocoa unless its used_for is non_cocoa. Lines 2 and 3 exist from formatVersion 4 (app 0.6.0); blank on older records.
 create or replace view public.raw_labour with (security_invoker = true) as
 select h.id as household_id, h.farmer_id, h.producer_code, h.season, h.coop_name,
   t.row_no::int as row_no,
@@ -270,6 +270,12 @@ select h.id as household_id, h.farmer_id, h.producer_code, h.season, h.coop_name
   nullif(t.r->>'otherService', '') as other_service,
   nullif(t.r->>'serviceUsedFor', '') as service_used_for,
   public.to_num(t.r->>'serviceCost') as service_cost,
+  nullif(t.r->>'otherService2', '') as other_service2,
+  nullif(t.r->>'serviceUsedFor2', '') as service_used_for2,
+  public.to_num(t.r->>'serviceCost2') as service_cost2,
+  nullif(t.r->>'otherService3', '') as other_service3,
+  nullif(t.r->>'serviceUsedFor3', '') as service_used_for3,
+  public.to_num(t.r->>'serviceCost3') as service_cost3,
   public.to_num(t.r->>'subsidizedLabour') as subsidized_labour,
   array_position(array['oct','nov','dec','jan','feb','mar','apr','may','jun','jul','aug','sep'], t.r->>'month') as month_no
 from public.households_current h,

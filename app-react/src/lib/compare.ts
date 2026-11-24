@@ -36,6 +36,11 @@ export interface CompareSummary {
   /** Household labour days on cocoa as % of all household labour days
    *  (the LIRP labour share); null without household days. */
   labourShare: number | null;
+  /** Cocoa revenue (sales + premiums / other cocoa income) as % of total
+   *  farm revenue, which includes the value of food crops and livestock.
+   *  Revenue rather than net income, so a loss cannot push it below 0 or
+   *  above 100 %. null without farm revenue. */
+  cocoaIncomeShare: number | null;
   netFarm: number;
   expenditure: number;
   members: number;
@@ -82,6 +87,7 @@ export function compareSummary(rec: HouseholdRecord): CompareSummary {
     cocoaVolume: r.cocoaVolumeForYield,
     cocoaCost: r.totalCostCocoa,
     labourShare: r.labour.totalHhDays ? (100 * r.labour.totalHhDaysCocoa) / r.labour.totalHhDays : null,
+    cocoaIncomeShare: r.totalRevenueFarm ? (100 * r.totalRevenueCocoa) / r.totalRevenueFarm : null,
     netFarm: r.profitFarm,
     expenditure: r.expenditures.total,
     members,

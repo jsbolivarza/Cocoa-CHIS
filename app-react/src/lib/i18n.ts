@@ -176,6 +176,7 @@ export const STR: Record<string, StrEntry> = {
   cmp_margin_per_kg: { en: "Margin / kg", fr: "Marge / kg", es: "Margen / kg" },
   cmp_net_cocoa: { en: "Net cocoa income", fr: "Revenu net cacao", es: "Ingreso neto cacao" },
   cmp_net_farm: { en: "Net farm income", fr: "Revenu net exploitation", es: "Ingreso neto finca" },
+  cmp_cocoa_income_share: { en: "Cocoa share of income", fr: "Part du cacao dans les revenus", es: "Parte del cacao en los ingresos" },
   cmp_expenditure: { en: "HH expenditure", fr: "Dépenses ménage", es: "Gastos del hogar" },
   cmp_gap: { en: "Income minus expenditure", fr: "Revenu moins dépenses", es: "Ingreso menos gastos" },
   cmp_per_person: { en: "Income per person", fr: "Revenu par personne", es: "Ingreso por persona" },

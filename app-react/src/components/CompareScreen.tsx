@@ -37,6 +37,7 @@ const COLUMNS: { key: string; text?: boolean; value: (s: CompareSummary) => Sort
   { key: "cmp_margin_per_kg", value: (s) => s.marginPerKg },
   { key: "cmp_net_cocoa", value: (s) => s.netCocoa },
   { key: "cmp_net_farm", value: (s) => s.netFarm },
+  { key: "cmp_cocoa_income_share", value: (s) => s.cocoaIncomeShare },
   { key: "cmp_expenditure", value: (s) => s.expenditure },
   { key: "cmp_gap", value: (s) => s.gap },
   { key: "cmp_per_person", value: (s) => s.perPerson },
@@ -487,6 +488,7 @@ export function CompareScreen() {
                 <td className={`num${negClass(s.marginPerKg)}`}>{cell(s.marginPerKg)}</td>
                 <td className={`num${negClass(s.netCocoa)}`}>{cell(s.netCocoa)}</td>
                 <td className={`num${negClass(s.netFarm)}`}>{cell(s.netFarm)}</td>
+                <td className="num">{pctCell(s.cocoaIncomeShare)}</td>
                 <td className="num">{cell(s.expenditure)}</td>
                 <td className={`num${negClass(s.gap)}`}>{cell(s.gap)}</td>
                 <td className={`num${negClass(s.perPerson)}`}>{cell(s.perPerson)}</td>
@@ -510,6 +512,7 @@ export function CompareScreen() {
               <td className="num">{avgCell((s) => s.marginPerKg, mixedUnits)}</td>
               <td className="num">{avgCell((s) => s.netCocoa, mixedUnits)}</td>
               <td className="num">{avgCell((s) => s.netFarm, mixedUnits)}</td>
+              <td className="num">{pctCell(avg((s) => s.cocoaIncomeShare))}</td>
               <td className="num">{avgCell((s) => s.expenditure, mixedUnits)}</td>
               <td className="num">{avgCell((s) => s.gap, mixedUnits)}</td>
               <td className="num">{avgCell((s) => s.perPerson, mixedUnits)}</td>

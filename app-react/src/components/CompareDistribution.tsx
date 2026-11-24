@@ -20,7 +20,9 @@ export interface DistColumn {
 }
 
 /** Values that mean the same in any currency or area unit. */
-const UNIT_FREE = new Set(["cmp_labour_share", "cmp_labour_days"]);
+const UNIT_FREE = new Set(["cmp_labour_share", "cmp_labour_days", "cmp_cocoa_income_share"]);
+/** Percentages: shown with "%". */
+const PERCENT = new Set(["cmp_labour_share", "cmp_cocoa_income_share"]);
 /** Money values: the header names the currency only for these. */
 const MONEY = new Set([
   "cmp_cost_per_kg", "cmp_cocoa_cost", "cmp_price_per_kg", "cmp_margin_per_kg",
@@ -96,7 +98,7 @@ export function CompareDistribution({
 }) {
   const [shown, setShown] = useState(PAGE);
   const col = columns.find((c) => c.key === metricKey) ?? columns[0];
-  const pct = col.key === "cmp_labour_share";
+  const pct = PERCENT.has(col.key);
   const unit = (s: string) => (pct ? `${s} %` : s);
 
   const rows = list

@@ -41,6 +41,12 @@ header.app-header {
 .btn-secondary { background: var(--tangerine); border-color: var(--tangerine); color: #fff; }
 .btn-secondary:hover { background: #E67300; }
 .btn-icon { border: 1px solid var(--flower); background: #fff; color: var(--flower); border-radius: 6px; width: 32px; height: 32px; cursor: pointer; font-size: 0.9rem; }
+/* iPad Safari adds its own button padding, which pushed the "✕" off-centre
+   (same fix as the rail initials, 0.5.3): no padding, flex-centred glyph. */
+.btn-icon {
+  padding: 0; display: inline-flex; align-items: center; justify-content: center;
+  line-height: 1; -webkit-appearance: none; appearance: none; box-sizing: border-box; flex: none;
+}
 .btn-icon:hover { background: var(--flower-tint); }
 
 .offline-badge { font-size: 0.78rem; color: var(--text-light); padding-top: 6px; }
@@ -1224,4 +1230,21 @@ tr.detail-row > td { background: var(--card-alt); padding: 10px 14px 14px; }
 .stat-row:has(> .stat-box:nth-child(6):last-child) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 @media (max-width: 1023px) {
   .stat-row:has(> .stat-box:nth-child(4):last-child) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+/* Wide screens: 6 boxes on one line instead of a tall 3 x 2 block (JB, Revenues) */
+@media (min-width: 1280px) {
+  .stat-row:has(> .stat-box:nth-child(6):last-child) { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+}
+/* Wide screens, every grey strip of totals (all steps): the strip keeps the
+   full width, each box's label and value are centred and a divider separates
+   the boxes, so a value never sits at the far left of a half-empty box (JB).
+   Rows stay apart by the row gap; a six-box strip still wraps 3 x 2 below
+   1280 px, so the first box of its second row has no divider. */
+@media (min-width: 1024px) {
+  .stat-row, body.theme-quiet .stat-row { column-gap: 0; }
+  .stat-row > .stat-box { text-align: center; padding: 0 12px; }
+  .stat-row > .stat-box + .stat-box { border-left: 1.5px solid #b4bac5; }
+}
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .stat-row:has(> .stat-box:nth-child(6):last-child) > .stat-box:nth-child(4) { border-left: 0; }
 }

@@ -730,6 +730,19 @@ header.app-header .search-bar .btn {
   border: 0; background: none; color: #fff; font-size: 0.95rem; line-height: 1;
   padding: 2px 4px; cursor: pointer; border-radius: 50%;
 }
+/* Never wider than the filter bar: the parts wrap instead of running off */
+.value-filter { max-width: 100%; flex-wrap: wrap; box-sizing: border-box; }
+.value-filter .vf-and { color: rgba(255,255,255,.8); }
+/* Phone: the pill takes the full width on two lines, column and × on the
+   first, condition and amount(s) on the second, each part sharing the width. */
+@media (max-width: 720px) {
+  .value-filter { width: 100%; border-radius: 16px; padding: 6px 6px 6px 8px; row-gap: 6px; }
+  .value-filter .vf-col { order: 0; flex: 1 1 calc(100% - 40px); min-width: 0; font-size: 0.9rem; }
+  .value-filter .vf-clear { order: 1; flex: 0 0 auto; font-size: 1.15rem; padding: 4px 8px; }
+  .value-filter .vf-op { order: 2; flex: 1 1 40%; min-width: 0; font-size: 0.9rem; }
+  .value-filter .vf-amount { order: 2; flex: 1 1 22%; width: auto; min-width: 0; font-size: 0.9rem; }
+  .value-filter .vf-and { order: 2; flex: 0 0 auto; }
+}
 .filter-count { font-size: 0.75rem; color: var(--text-light); margin-left: auto; }
 
 @media (max-width: 720px), (max-height: 520px) and (orientation: landscape) {

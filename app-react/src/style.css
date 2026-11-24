@@ -654,7 +654,7 @@ tr.months-more td {
 .cmp-side .cmp-dist-pick .field { min-height: 38px; padding: 6px 8px; font-size: 0.9rem; }
 .cmp-side .field-hint { font-size: 0.74rem; }
 .cmp-side {
-  position: sticky; top: 16px; max-height: calc(100vh - 32px); overflow: auto;
+  overflow: auto; box-sizing: border-box; /* height set with the table box in CompareScreen */
   border: 1px solid var(--border); border-radius: 12px; background: #fff; margin-top: 10px;
 }
 .cmp-side .cmp-dist.is-panel { padding: 12px; }

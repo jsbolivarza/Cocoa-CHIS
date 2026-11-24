@@ -304,14 +304,22 @@ export function CompareScreen() {
   // left below its top edge, so the box's sideways scrollbar is on screen
   // without scrolling the page (and above the floating menu bar of the
   // grouped look). Re-measured after every render and on resize.
+  // With the distribution side panel (landscape iPad, laptop), table box and
+  // panel get the same fixed height, so they start and end on one line (JB);
+  // a short filtered table keeps the height, a long chart scrolls inside.
   const wrapRef = useRef<HTMLDivElement>(null);
+  const sideRef = useRef<HTMLElement>(null);
   useLayoutEffect(() => {
     const fit = () => {
       const el = wrapRef.current;
       if (!el) return;
       const top = el.getBoundingClientRect().top + window.scrollY;
       const reserve = document.body.classList.contains("theme-grouped") ? 112 : 32;
-      el.style.maxHeight = `${Math.max(280, window.innerHeight - top - reserve)}px`;
+      const h = `${Math.max(280, window.innerHeight - top - reserve)}px`;
+      el.style.maxHeight = h;
+      const side = sideRef.current;
+      el.style.height = side ? h : "";
+      if (side) side.style.height = h;
     };
     fit();
     window.addEventListener("resize", fit);
@@ -435,7 +443,7 @@ export function CompareScreen() {
         </details>
       )}
       <div className={hasSide && !isPhone ? "cmp-desk" : undefined}>
-      {hasSide && !isPhone && <aside className="cmp-side">{distribution("panel")}</aside>}
+      {hasSide && !isPhone && <aside className="cmp-side" ref={sideRef}>{distribution("panel")}</aside>}
       <div className="table-wrap compare-table-wrap" ref={wrapRef}>
         <table className="data-table results-table compare-table">
           <thead>

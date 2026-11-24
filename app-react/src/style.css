@@ -594,6 +594,38 @@ tr.months-more td {
   background: var(--card-alt); border-radius: 8px; padding: 10px 12px;
   font-size: 0.75rem; color: var(--text-light); margin: 12px 0 0;
 }
+/* Distribution chart (phone Compare): one bar per band of the chosen value */
+.cmp-dist-pick { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; font-size: 0.8rem; color: var(--text-light); }
+.cmp-dist-pick .field { font-size: 0.95rem; }
+.cmp-dist-bands { display: flex; flex-direction: column; gap: 2px; }
+.cmp-dist-band {
+  display: grid; grid-template-columns: minmax(0, 7.5em) minmax(0, 1fr) 3em; align-items: center; gap: 8px;
+  width: 100%; min-height: 40px; padding: 4px 6px; border: 0; border-radius: 8px;
+  background: none; font: inherit; color: var(--text); text-align: left; cursor: pointer;
+}
+.cmp-dist-band:active { background: var(--card-alt); }
+.cmp-dist-band:focus-visible { outline: 2px solid var(--sky); outline-offset: 1px; }
+.cmp-dist-label { font-size: 0.8rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-variant-numeric: tabular-nums; }
+.cmp-dist-track { position: relative; height: 14px; background: var(--card-alt); border-radius: 4px; overflow: hidden; }
+.cmp-dist-fill { position: absolute; left: 0; top: 0; bottom: 0; background: var(--night); border-radius: 4px; min-width: 2px; }
+.cmp-dist-fill.is-negative { background: var(--flower); }
+.cmp-dist-fill.is-empty { display: none; }
+.cmp-dist-count { font-size: 0.85rem; font-weight: 700; text-align: right; font-variant-numeric: tabular-nums; }
+.cmp-dist-list-title { margin: 18px 0 6px; }
+.cmp-dist-list { list-style: none; margin: 0; padding: 0; }
+.cmp-dist-list li {
+  display: flex; justify-content: space-between; align-items: center; gap: 10px;
+  min-height: 40px; border-bottom: 1px solid var(--border); font-size: 0.9rem;
+}
+.cmp-dist-list .cmp-open {
+  padding: 0; border: 0; background: none; cursor: pointer; font: inherit; font-weight: 600;
+  color: var(--night); text-align: left; text-decoration: underline;
+  text-decoration-color: rgba(0,0,0,.25); text-underline-offset: 3px;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0;
+}
+.cmp-dist-val { font-weight: 600; font-variant-numeric: tabular-nums; flex: none; color: var(--night); }
+.cmp-dist-val.negative { color: var(--flower); }
+.cmp-dist-more { width: 100%; margin-top: 10px; }
 
 /* ---------- phone ---------- */
 @media (max-width: 720px), (max-height: 520px) and (orientation: landscape) {

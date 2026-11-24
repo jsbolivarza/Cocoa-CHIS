@@ -6,7 +6,7 @@ import { useAppStore } from "../store/appStore";
 import { t, type Lang } from "../lib/i18n";
 import { compareSummary, type CompareSummary } from "../lib/compare";
 import { fmt } from "../lib/format";
-import { CompareChart } from "./CompareChart";
+import { CompareDistribution } from "./CompareDistribution";
 
 interface Filters {
   coop: string;
@@ -54,6 +54,9 @@ interface ValueFilter {
   amount: string;
   /** Upper end, for "between" only. */
   amount2?: string;
+  /** Set by tapping a band of the distribution chart: the upper end is the
+   *  next band's lower edge, so it is excluded and the counts match. */
+  excludeUpper?: boolean;
 }
 const VALUE_OPS: { op: ValueOp; labelKey: string }[] = [
   { op: "below", labelKey: "vf_below" },
@@ -83,7 +86,7 @@ function passesValueFilter(s: CompareSummary, vf: ValueFilter | null): boolean {
       const to = parseAmount(vf.amount2 ?? "");
       const lo = isFinite(amount) && isFinite(to) ? Math.min(amount, to) : amount;
       const hi = isFinite(amount) && isFinite(to) ? Math.max(amount, to) : to;
-      return (!isFinite(lo) || v >= lo) && (!isFinite(hi) || v <= hi);
+      return (!isFinite(lo) || v >= lo) && (!isFinite(hi) || (vf.excludeUpper ? v < hi : v <= hi));
     }
   }
 }
@@ -156,7 +159,7 @@ function ValueFilterControl({ lang, value, onChange }: { lang: Lang; value: Valu
             aria-label={t("vf_to", lang)}
             placeholder={t("vf_to", lang)}
             value={value.amount2 ?? ""}
-            onChange={(e) => onChange({ ...value, amount2: e.target.value })}
+            onChange={(e) => onChange({ ...value, amount2: e.target.value, excludeUpper: false })}
           />
         </>
       )}
@@ -255,10 +258,11 @@ function FilterChip({
 
 /* Filters and sorting survive opening a household from the table and
    coming back (the screen unmounts in between); kept for this session only. */
-const kept: { filters: Filters; sort: SortState | null; valueFilters: ValueFilter[] } = {
+const kept: { filters: Filters; sort: SortState | null; valueFilters: ValueFilter[]; distKey: string } = {
   filters: EMPTY_FILTERS,
   sort: null,
   valueFilters: [],
+  distKey: "cmp_net_cocoa", // phone distribution chart starts on net cocoa income (JB)
 };
 
 export function CompareScreen() {
@@ -270,11 +274,20 @@ export function CompareScreen() {
   // Value filters: any number of conditions, all must hold (e.g. net cocoa
   // income below the LIRP income share AND cocoa volume below its threshold).
   const [valueFilters, setValueFilters] = useState<ValueFilter[]>(kept.valueFilters);
+  const [distKey, setDistKey] = useState<string>(kept.distKey);
   useEffect(() => {
     kept.filters = filters;
     kept.sort = sort;
     kept.valueFilters = valueFilters;
-  }, [filters, sort, valueFilters]);
+    kept.distKey = distKey;
+  }, [filters, sort, valueFilters, distKey]);
+  // A tapped band replaces an earlier band (or range) on the same value,
+  // so tapping another band moves the selection instead of narrowing to none.
+  const pickBand = (key: string, lo: number | null, hi: number | null) =>
+    setValueFilters([
+      ...valueFilters.filter((f) => !(f.key === key && f.op === "between")),
+      { key, op: "between", amount: lo === null ? "" : String(lo), amount2: hi === null ? "" : String(hi), excludeUpper: true },
+    ]);
   const changeValueFilter = (i: number, next: ValueFilter | null) =>
     setValueFilters(next ? valueFilters.map((f, j) => (j === i ? next : f)) : valueFilters.filter((_, j) => j !== i));
 
@@ -387,7 +400,16 @@ export function CompareScreen() {
       </div>
       {filterBar}
       {mixedUnits && <p className="warn-note">{t("compare_mixed_currency", lang)}</p>}
-      <CompareChart list={list} mixedUnits={mixedUnits} lang={lang} />
+      <CompareDistribution
+        list={list}
+        columns={COLUMNS.filter((c) => !c.text)}
+        metricKey={distKey}
+        onMetric={setDistKey}
+        mixedUnits={mixedUnits}
+        lang={lang}
+        onPickBand={pickBand}
+        onOpen={openRecord}
+      />
       <div className="table-wrap compare-table-wrap" ref={wrapRef}>
         <table className="data-table results-table compare-table">
           <thead>

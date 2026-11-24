@@ -1229,3 +1229,12 @@ tr.detail-row > td { background: var(--card-alt); padding: 10px 14px 14px; }
 @media (min-width: 1280px) {
   .stat-row:has(> .stat-box:nth-child(6):last-child) { grid-template-columns: repeat(6, minmax(0, 1fr)); }
 }
+/* Wide screens, strips of 1-3 boxes (Costs blocks; Revenues with few income
+   sources): the strip keeps the full width and the boxes share it, but each
+   box's label and value are centred, with a thin divider between boxes, so
+   a value no longer sits at the far left of a half-empty box (JB). */
+@media (min-width: 1024px) {
+  .stat-row:not(:has(> .stat-box:nth-child(4))) { gap: 0; }
+  .stat-row:not(:has(> .stat-box:nth-child(4))) > .stat-box { text-align: center; padding: 0 12px; }
+  .stat-row:not(:has(> .stat-box:nth-child(4))) > .stat-box + .stat-box { border-left: 1px solid var(--border); }
+}

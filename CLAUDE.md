@@ -314,6 +314,47 @@ text coop name in the server key, no upload history). **Published as 0.5.0
 on real devices (phone, iPad both orientations, laptop); then the
 validation proposal file (see memory) and the open review items.
 
+**Labour: three service lines per month (24.11.26, branch
+`labour-service-lines`, not merged, not published):** the workbook has three
+"autres services" lines per month (K = E*G + J+J+J), the app had one. Data
+model change (JB): `LabourRow` gains `otherService2/3`, `serviceUsedFor2/3`,
+`serviceCost2/3` (`LABOUR_SERVICE_LINES` in dataModel.ts), `formatVersion`
+4, `normalizeRecord()` backfills "" (no Dexie bump needed, it runs on load
+and import). calc.ts: `monthServiceCost()` sums the lines, a line counts
+for cocoa unless "non_cocoa" (= workbook J42). Note: the workbook's own J41
+is SUM(J5:J38) in every template, so it leaves out September's lines 2–3;
+the app counts them (cocoa labour cost can be higher than the workbook's).
+Labour tab: line 2 opens once line 1 has a cost, line 3 once line 2 has
+one (JB: a service without a price adds nothing); grid shows extra rows
+under the month with month / days / cost cells spanning them, phone shows
+"Service n" blocks. New option `community_labour_exchange` (fr "groupement",
+in the workbook's list, missing in the app). Codebook and `raw_views.sql`
+regenerated: JB to re-run `raw_views.sql` in Supabase after publishing. CSV
+export unchanged (totals only).
+
+**Compare table (24.11.26, same branch, layout only):** every column sorts
+(numbers highest first, text A–Z, blanks last); value filters, as many as
+needed and all applied together (one number column each: is below / is
+above / is between / is equal to; "equal" at the precision typed, amounts
+accept "2 203 567" or "2,203,567"; JB dropped "is negative / positive" as
+duplicates of below / above 0); the farmer name opens the household, and
+filters, value filters and sort are kept for the session. The table scrolls
+in its own box whose height is fitted to the window (JS in CompareScreen),
+so the sideways scrollbar is on screen above the grouped floating bar;
+header row, farmer column and average row are sticky. Columns for the LIRP
+formula (B + C) / A: cocoa volume (= cocoaVolumeForYield, sold + in kind),
+cocoa cost (total), net cocoa income, labour share cocoa (household cocoa
+days / all household days, %, hired days not counted).
+
+**Desktop layout (24.11.26, same branch):** `src/desktop.css`, loaded last,
+only for `(min-width: 1280px) and (hover: hover) and (pointer: fine)`, so
+iPads (touch pointer) keep the tablet sizes: no content width cap on record
+steps, hub and list screens; fields, dropdowns and buttons about 34 px
+instead of 42–48 px; denser table rows; Compare rows on one line. Checked in
+headless Chrome (CDP, fake households) at 1920 × 1080: the whole Labour table
+and all Compare columns fit. Next: JB checks the Labour tab and Compare on
+laptop, iPad (both orientations) and phone, then merge and publish as 0.6.0.
+
 Known gaps / deliberately deferred, in rough priority order:
 - **Sync is manual, upload + "Download my households" (0.4.0,
   17.11.26).** Download (`sync.ts` `downloadRecords()`,

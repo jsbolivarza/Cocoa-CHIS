@@ -112,10 +112,16 @@ raw_labour,hh_days_cocoa,numeric,Household labour days on cocoa,,
 raw_labour,hired_days,numeric,Hired labour days,,
 raw_labour,hired_days_cocoa,numeric,Hired labour days on cocoa,,
 raw_labour,daily_wage,numeric,Daily wage,,
-raw_labour,other_service,text,Other hired service,labour_service_type,
-raw_labour,service_used_for,text,Service used for,static,
-raw_labour,service_cost,numeric,Service cost,,
+raw_labour,other_service,text,Other hired service (line 1),labour_service_type,
+raw_labour,service_used_for,text,Service used for (line 1),static,
+raw_labour,service_cost,numeric,Service cost (line 1),,
+raw_labour,other_service2,text,Other hired service (line 2),labour_service_type,
+raw_labour,service_used_for2,text,Service used for (line 2),static,
+raw_labour,service_cost2,numeric,Service cost (line 2),,
+raw_labour,other_service3,text,Other hired service (line 3),labour_service_type,
+raw_labour,service_used_for3,text,Service used for (line 3),static,
+raw_labour,service_cost3,numeric,Service cost (line 3),,
 raw_labour,subsidized_labour,numeric,Subsidized labour value,,
-raw_labour,*,,,,One row per month. Hired labour cost = hired_days x daily_wage + service_cost.
+raw_labour,*,,,,One row per month. Hired labour cost = hired_days x daily_wage + service_cost + service_cost2 + service_cost3. A service line counts for cocoa unless its used_for is non_cocoa. Lines 2 and 3 exist from formatVersion 4 (app 0.6.0); blank on older records.
 raw_expenditures,amount,numeric,Amount spent,,category: food/education/healthcare/other; quarter: q1-q4
 raw_unknown_answers,field_path,text,"Field answered ""Doesn't know""",,"Record path, e.g. costs.agriInputs.1.totalCost (row index from 0)"

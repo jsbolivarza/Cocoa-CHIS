@@ -37,6 +37,7 @@ import "./theme-quiet.css";
 import "./theme-grouped.css";
 import "./font-exo.css";
 import "./motion.css";
+import "./desktop.css";
 
 // Look (JB 20.11.26): the grouped scheme with Exo only is the default.
 // It is layered as body classes over the original stylesheets:

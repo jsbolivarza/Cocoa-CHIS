@@ -7,6 +7,7 @@
    data and returns plain numbers — no DOM, no side effects. */
 
 import { OPTIONS } from "./i18n";
+import { LABOUR_SERVICE_LINES } from "./dataModel";
 import type {
   ProfileData, RevenuesData, CostsData, LabourRow, ExpendituresData,
   ExpenditureCategory, HouseholdRecord, MonthSalesRow, TableRow,
@@ -205,6 +206,11 @@ export function calcCosts(costs: CostsData) {
 }
 
 /* ---------- 4.labour ---------- */
+/** Sum of the month's three service fees. */
+export function monthServiceCost(row: LabourRow): number {
+  return LABOUR_SERVICE_LINES.reduce((s, line) => s + num(row[line.cost]), 0);
+}
+
 export function calcLabour(rows: LabourRow[]) {
   const totalHhDays = sum(rows, (r) => r.hhDays);
   const totalHhDaysCocoa = sum(rows, (r) => r.hhDaysCocoa);
@@ -214,11 +220,15 @@ export function calcLabour(rows: LabourRow[]) {
   const weightedWageNumerator = sum(rows, (r) => num(r.hiredDays) * num(r.dailyWage));
   const avgDailyWage = totalHiredDays ? weightedWageNumerator / totalHiredDays : 0;
 
-  const otherServiceTotal = sum(rows, (r) => r.serviceCost);
-  const otherServiceCocoa = sum(rows.filter((r) => r.serviceUsedFor !== "non_cocoa"), (r) => r.serviceCost);
+  // Three service lines per month (workbook J, rows n..n+2). A line counts
+  // for cocoa unless marked non-cocoa: J42 = J41 - SUMIF(I, "non-cacao", J).
+  const otherServiceTotal = sum(rows, monthServiceCost);
+  const otherServiceCocoa = sum(rows, (r) =>
+    LABOUR_SERVICE_LINES.reduce((s, line) => (r[line.usedFor] === "non_cocoa" ? s : s + num(r[line.cost])), 0)
+  );
 
-  // per-row labour cost = hiredDays * dailyWage + serviceCost (matches K = E*G + J formulas)
-  const rowLabourCost = (r: LabourRow) => num(r.hiredDays) * num(r.dailyWage) + num(r.serviceCost);
+  // per-row labour cost = hiredDays * dailyWage + services (matches K = E*G + J+J+J formulas)
+  const rowLabourCost = (r: LabourRow) => num(r.hiredDays) * num(r.dailyWage) + monthServiceCost(r);
   const totalLabourCost = sum(rows, rowLabourCost);
 
   const hiredCocoaWageCost = sum(rows, (r) => num(r.hiredDaysCocoa) * num(r.dailyWage));

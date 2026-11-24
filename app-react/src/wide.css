@@ -79,7 +79,9 @@ body.layout-wide input, body.layout-wide select, body.layout-wide textarea { fon
 }
 /* Labour on a tablet: the month column stays put while the grid scrolls,
    so a coach scrolling to "Other services" still knows which row is which. */
-.labour-table th:first-child, .labour-table td:first-child {
+/* td.idx-cell, not td:first-child: rows for service lines 2 and 3 start
+   with a service cell (the month cell spans them). */
+.labour-table th:first-child, .labour-table td.idx-cell {
   position: sticky; left: 0; z-index: 1; background: #fff; box-shadow: 1px 0 0 var(--hh-line);
 }
 .labour-table thead th:first-child { z-index: 2; background: var(--card-alt); }

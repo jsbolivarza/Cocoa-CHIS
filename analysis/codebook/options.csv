@@ -142,6 +142,7 @@ labour_service_type,desuckering_sanitary_pruning,removing suckers + sanitary pru
 labour_service_type,fertilizer_application,fertilizer application,épandage d'engrais,aplicación de fertilizante,
 labour_service_type,organic_fertilizer_making,making organic fertilizer,fabrication d'engrais organique,elaboración de fertilizante orgánico,
 labour_service_type,biopesticide_making,making biological pesticides,fabrication de pesticides biologiques,elaboración de pesticidas biológicos,
+labour_service_type,community_labour_exchange,community labour exchange (groupement),groupement,intercambio comunitario de mano de obra,
 labour_service_type,harvesting,harvesting,récolte,cosecha,
 labour_service_type,sanitary_harvesting,sanitary harvesting,récolte sanitaire,cosecha sanitaria,
 labour_service_type,catering_workers,food for workers,restauration pour les travailleurs,alimentación para los trabajadores,

@@ -1,0 +1,38 @@
+/* desktop.css — laptops and desktops only.
+   The wide layout was sized for a landscape iPad: content capped at about
+   1240 px and controls at finger size (42-48 px). On a desktop with a mouse
+   that left a third of the screen empty while the Labour and Compare tables
+   scrolled sideways, and table dropdowns wrapped onto three lines.
+
+   Applies only with a fine pointer that can hover AND at least 1280 px wide,
+   so iPads (touch pointer, even landscape or with a keyboard case) keep the
+   tablet sizes. Loaded after the theme files, so it wins over them. */
+
+@media (min-width: 1280px) and (hover: hover) and (pointer: fine) {
+  /* 1. Use the screen: no content cap (record steps, hub, list screens) */
+  body.layout-wide .hh-content,
+  body.layout-wide .hub-grid,
+  body.layout-wide .ls-content,
+  body.layout-wide .ls-head { max-width: none; }
+
+  /* 2. Compact controls: mouse-sized, not finger-sized */
+  body.layout-wide .field { min-height: 34px; padding: 6px 8px; font-size: 14px; }
+  body.layout-wide .dk-btn { min-height: 34px; }
+  body.theme-quiet.layout-wide .dk-btn { width: 24px; min-width: 24px; height: 24px; min-height: 24px; font-size: 12px; }
+  body.theme-quiet.layout-wide .num-wrap .field { padding-right: 32px; }
+  body.theme-quiet.layout-wide table.data-table td .num-wrap .field { min-width: 96px; }
+  body.layout-wide .select-face { min-height: 34px; padding: 4px 26px 4px 8px; font-size: 14px; background-position: right 8px center; }
+  /* Room for the longer labels ("alimentation pour les travailleurs") on one or two lines */
+  body.layout-wide table.data-table td .select-wrap { min-width: 200px; }
+  body.layout-wide .btn { min-height: 36px; font-size: 0.9rem; }
+
+  /* 3. Denser tables */
+  body.layout-wide table.data-table th,
+  body.layout-wide table.data-table td { padding: 5px 8px; }
+  body.layout-wide table.data-table td .field { min-width: 90px; }
+  /* Compare: one line per household ("CFA / hectare" no longer wraps) */
+  body.layout-wide table.compare-table td { white-space: nowrap; }
+  /* Compare side panel: a little roomier with a mouse and a big screen */
+  .cmp-desk { grid-template-columns: 320px minmax(0, 1fr); gap: 20px; }
+  .cmp-side .cmp-dist-band { grid-template-columns: minmax(0, 7.5em) minmax(0, 1fr) 3em; }
+}

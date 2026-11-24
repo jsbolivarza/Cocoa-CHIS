@@ -215,8 +215,26 @@ export interface LabourRow extends TableRow {
   otherService: string;
   serviceUsedFor: string;
   serviceCost: NumStr;
+  otherService2: string;
+  serviceUsedFor2: string;
+  serviceCost2: NumStr;
+  otherService3: string;
+  serviceUsedFor3: string;
+  serviceCost3: NumStr;
   subsidizedLabour: NumStr;
 }
+
+/** The workbook's labour sheet (4.main d'oeuvre) has three "autres services"
+ *  lines per month, each with its own type, cocoa flag and fee; the month's
+ *  cost is E*G + J+J+J. Line 1 keeps the original field names (formatVersion
+ *  3 had only that line), lines 2 and 3 were added in formatVersion 4. */
+export const LABOUR_SERVICE_LINES = [
+  { type: "otherService", usedFor: "serviceUsedFor", cost: "serviceCost" },
+  { type: "otherService2", usedFor: "serviceUsedFor2", cost: "serviceCost2" },
+  { type: "otherService3", usedFor: "serviceUsedFor3", cost: "serviceCost3" },
+] as const;
+
+export type LabourServiceLine = (typeof LABOUR_SERVICE_LINES)[number];
 
 export function makeEmptyMonthlySales(): MonthSalesRow[] {
   return OPTIONS.months.map((m) => ({ month: m.key, volume: "", price: "" }));
@@ -229,6 +247,8 @@ export function makeEmptyLabourTable(): LabourRow[] {
     hiredDays: "", hiredDaysCocoa: "",
     dailyWage: "",
     otherService: "", serviceUsedFor: "", serviceCost: "",
+    otherService2: "", serviceUsedFor2: "", serviceCost2: "",
+    otherService3: "", serviceUsedFor3: "", serviceCost3: "",
     subsidizedLabour: "",
   }));
 }
@@ -371,7 +391,7 @@ export function emptyRecord(linkTo?: HouseholdRecord): HouseholdRecord {
   return {
     meta: {
       id,
-      formatVersion: 3,
+      formatVersion: 4,
       language: "en",
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
@@ -508,5 +528,15 @@ export function normalizeRecord(record: HouseholdRecord): HouseholdRecord {
   if (!record.meta.farmerId) record.meta.farmerId = record.meta.id;
   if (record.meta.season == null) record.meta.season = "";
   if (!Array.isArray(record.meta.unknownFields)) record.meta.unknownFields = [];
+  // formatVersion 4: service lines 2 and 3 on every labour month.
+  if (Array.isArray(record.labour)) {
+    record.labour.forEach((row) => {
+      LABOUR_SERVICE_LINES.forEach((line) => {
+        if (row[line.type] == null) row[line.type] = "";
+        if (row[line.usedFor] == null) row[line.usedFor] = "";
+        if (row[line.cost] == null) row[line.cost] = "";
+      });
+    });
+  }
   return record;
 }

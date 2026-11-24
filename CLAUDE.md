@@ -314,8 +314,8 @@ text coop name in the server key, no upload history). **Published as 0.5.0
 on real devices (phone, iPad both orientations, laptop); then the
 validation proposal file (see memory) and the open review items.
 
-**Labour: three service lines per month (24.11.26, branch
-`labour-service-lines`, not merged, not published):** the workbook has three
+**Labour: three service lines per month (24.11.26, published in 0.6.0;
+branch `labour-service-lines` merged and deleted):** the workbook has three
 "autres services" lines per month (K = E*G + J+J+J), the app had one. Data
 model change (JB): `LabourRow` gains `otherService2/3`, `serviceUsedFor2/3`,
 `serviceCost2/3` (`LABOUR_SERVICE_LINES` in dataModel.ts), `formatVersion`
@@ -366,8 +366,10 @@ iPads (touch pointer) keep the tablet sizes: no content width cap on record
 steps, hub and list screens; fields, dropdowns and buttons about 34 px
 instead of 42–48 px; denser table rows; Compare rows on one line. Checked in
 headless Chrome (CDP, fake households) at 1920 × 1080: the whole Labour table
-and all Compare columns fit. Next: JB checks the Labour tab and Compare on
-laptop, iPad (both orientations) and phone, then merge and publish as 0.6.0.
+and all Compare columns fit. JB checked laptop, iPad and phone; **published
+as 0.6.0 (24.11.26)**. Next: JB re-runs `supabase/raw_views.sql` in Supabase
+(labour service lines 2–3 in `raw_labour`); devices pick up 0.6.0 via the
+update prompt.
 
 Known gaps / deliberately deferred, in rough priority order:
 - **Sync is manual, upload + "Download my households" (0.4.0,
@@ -515,7 +517,11 @@ only when a code is missing, message shows code/village/seasons (20.11.26).
 (FR/ES on phones) (20.11.26). 0.5.3 = rail initials centred in their circle
 on iPad Safari, which adds its own button padding (20.11.26). 0.5.4 =
 Compare shows "Compare households" once (big title visually hidden,
-`ListHeader titleHidden`) (20.11.26).
+`ListHeader titleHidden`) (20.11.26). 0.6.0 = labour: up to three service
+lines per month (formatVersion 4); Compare: sort on every column, combined
+value filters, farmer name opens the household, LIRP columns, distribution
+chart (phone view, iPad / laptop side panel); desktop layout for laptops
+with a mouse (24.11.26).
 
 `git add -A` matters: Vite fingerprints filenames, so every build *deletes*
 the previous `assets/index-*.js` and adds a new one. A plain `git add docs`
